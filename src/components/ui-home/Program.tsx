@@ -4,22 +4,22 @@ const programs = [
   {
     title: "Bahasa Inggris",
     description: "SD - SMP - SMA/K - UMUM",
-    image: "/english.jpg",
+    image: "/pichome/logo.jpg",
   },
   {
     title: "Komputer/Coding",
     description: "SD - SMP - SMA/K - UMUM",
-    image: "/coding.jpg",
+    image: "/pichome/logo.jpg",
   },
   {
     title: "Calistung",
     description: "Baca Tulis Hitung",
-    image: "/calistung.jpg",
+    image: "/pichome/logo.jpg",
   },
   {
     title: "Matematika",
     description: "SD - SMP - SMA/K",
-    image: "/math.jpg",
+    image: "/pichome/logo.jpg",
   },
 ];
 
@@ -28,8 +28,7 @@ const Program = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Program</h2>
-          <div className="w-24 h-1 bg-red-600 mx-auto"></div>
+          <h2 className="text-3xl font-bold mb-4 text-[#C40503]">Program</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

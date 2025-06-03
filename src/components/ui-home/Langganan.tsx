@@ -24,13 +24,13 @@ const Langganan = () => {
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-3xl font-bold mb-4 text-[#C40503]">
             Biaya Langganan & Fasilitas
           </h2>
           <p className="text-gray-600">
             Temukan paket bimbingan yang tepat untuk kebutuhan belajar Anda!
           </p>
-          <div className="w-24 h-1 bg-red-600 mx-auto mt-4"></div>
+          {/* <div className="w-24 h-1 bg-red-600 mx-auto mt-4"></div> */}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -40,14 +40,14 @@ const Langganan = () => {
               className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-center mb-4">
+                <h3 className="text-2xl font-bold text-center mb-4 text-gray-600">
                   {plan.name}
                 </h3>
-                <div className="text-center mb-6">
+                <div className="text-center mb-6 text-gray-600">
                   <span className="text-4xl font-bold">Rp {plan.price}</span>
                   <span className="text-gray-600">/{plan.duration}</span>
                 </div>
-                <ul className="space-y-4">
+                <ul className="space-y-4 text-gray-600">
                   {plan.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center">
                       <svg
@@ -77,7 +77,7 @@ const Langganan = () => {
 
         {/* Additional Features */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="text-center">
+          <div className="text-center ">
             <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
               <svg
                 className="w-8 h-8 text-red-600"
@@ -93,7 +93,7 @@ const Langganan = () => {
                 ></path>
               </svg>
             </div>
-            <h4 className="font-semibold mb-2">Akses Program Lengkap</h4>
+            <h4 className="font-semibold mb-2 text-gray-600">Akses Program Lengkap</h4>
             <p className="text-sm text-gray-600">
               Optimasi semua program dengan berbagai program
             </p>
@@ -115,7 +115,7 @@ const Langganan = () => {
                 ></path>
               </svg>
             </div>
-            <h4 className="font-semibold mb-2">Modul Up to Date</h4>
+            <h4 className="font-semibold mb-2 text-gray-600">Modul Up to Date</h4>
             <p className="text-sm text-gray-600">
               Materi yang selalu diperbarui
             </p>
@@ -137,7 +137,7 @@ const Langganan = () => {
                 ></path>
               </svg>
             </div>
-            <h4 className="font-semibold mb-2">Konsultasi Gratis</h4>
+            <h4 className="font-semibold mb-2 text-gray-600">Konsultasi Gratis</h4>
             <p className="text-sm text-gray-600">
               Konsultasi dengan pengajar kapan saja
             </p>
@@ -159,7 +159,7 @@ const Langganan = () => {
                 ></path>
               </svg>
             </div>
-            <h4 className="font-semibold mb-2">Wifi</h4>
+            <h4 className="font-semibold mb-2 text-gray-600">Wifi</h4>
             <p className="text-sm text-gray-600">
               Internet cepat untuk belajar online
             </p>
