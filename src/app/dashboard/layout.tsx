@@ -1,12 +1,22 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { 
-  Menu, X, Home, Users, BookOpen, Calendar, Settings, LogOut,
-  LayoutDashboard, GraduationCap, FilePieChart, Bell
-} from 'lucide-react';
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  Menu,
+  X,
+  Home,
+  Users,
+  BookOpen,
+  Calendar,
+  Settings,
+  LogOut,
+  LayoutDashboard,
+  GraduationCap,
+  FilePieChart,
+  Bell,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -25,7 +35,7 @@ const navigation = [
   {
     name: "Overview",
     href: "/dashboard",
-    icon: LayoutDashboard
+    icon: LayoutDashboard,
   },
   {
     name: "Manajemen Pengguna",
@@ -35,7 +45,7 @@ const navigation = [
       { name: "Daftar Pengguna", href: "/dashboard/users" },
       { name: "Tambah Pengguna", href: "/dashboard/users/create" },
       { name: "Role & Permissions", href: "/dashboard/users/roles" },
-    ]
+    ],
   },
   {
     name: "Kursus",
@@ -45,23 +55,23 @@ const navigation = [
       { name: "Daftar Kursus", href: "/dashboard/courses" },
       { name: "Kategori", href: "/dashboard/courses/categories" },
       { name: "Materi", href: "/dashboard/courses/materials" },
-    ]
+    ],
   },
   {
     name: "Jadwal",
     href: "/dashboard/schedule",
-    icon: Calendar
+    icon: Calendar,
   },
   {
     name: "Laporan",
     href: "/dashboard/reports",
-    icon: FilePieChart
+    icon: FilePieChart,
   },
   {
     name: "Pengaturan",
     href: "/dashboard/settings",
-    icon: Settings
-  }
+    icon: Settings,
+  },
 ];
 
 function SidebarContent() {
@@ -70,7 +80,10 @@ function SidebarContent() {
   return (
     <ScrollArea className="flex flex-col h-full">
       <div className="flex h-14 items-center border-b px-6">
-        <Link className="flex items-center gap-2 font-semibold" href="/dashboard">
+        <Link
+          className="flex items-center gap-2 font-semibold"
+          href="/dashboard"
+        >
           <span className="text-xl font-bold">Shine Education</span>
         </Link>
       </div>
@@ -78,7 +91,7 @@ function SidebarContent() {
         <nav className="flex flex-col gap-1">
           {navigation.map((item, index) => {
             const isActive = item.submenu
-              ? item.submenu.some(subitem => pathname === subitem.href)
+              ? item.submenu.some((subitem) => pathname === subitem.href)
               : pathname === item.href;
 
             return (
@@ -87,8 +100,8 @@ function SidebarContent() {
                   href={item.href}
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
-                    isActive 
-                      ? "bg-red-50 text-red-600" 
+                    isActive
+                      ? "bg-red-50 text-red-600"
                       : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                   )}
                 >
@@ -127,12 +140,23 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // TODO: Implement proper logout logic here (clear session, tokens, etc)
+    router.push("/"); // Redirect to landing page
+  };
+
   return (
     <div className="flex min-h-screen">
       {/* Sidebar Mobile */}
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="lg:hidden fixed left-4 top-4 z-40">
+          <Button
+            variant="outline"
+            size="icon"
+            className="lg:hidden fixed left-4 top-4 z-40"
+          >
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
@@ -160,19 +184,24 @@ export default function DashboardLayout({
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Button
+                  variant="ghost"
+                  className="relative h-8 w-8 rounded-full"
+                >
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="/avatars/admin.png" alt="Admin" />
-                    <AvatarFallback>AD</AvatarFallback>
+                    <AvatarImage src="/avatars/admin.png" alt="Superadmin" />
+                    <AvatarFallback>SA</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">Admin</p>
+                    <p className="text-sm font-medium leading-none">
+                      Superadmin
+                    </p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      admin@example.com
+                      superadmin@example.com
                     </p>
                   </div>
                 </DropdownMenuLabel>
@@ -181,7 +210,10 @@ export default function DashboardLayout({
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Pengaturan</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-red-600">
+                <DropdownMenuItem
+                  className="text-red-600 cursor-pointer"
+                  onClick={handleLogout}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Keluar</span>
                 </DropdownMenuItem>
@@ -190,9 +222,7 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        <main className="flex-1 p-6">
-          {children}
-        </main>
+        <main className="flex-1 p-6">{children}</main>
       </div>
     </div>
   );

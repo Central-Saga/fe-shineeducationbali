@@ -1,19 +1,39 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { FiEdit2, FiTrash2, FiUserPlus } from 'react-icons/fi';
+import { useState } from "react";
+import { FiEdit2, FiTrash2, FiUserPlus } from "react-icons/fi";
 
 export default function UsersPage() {
   const [users] = useState([
-    { id: 1, name: 'Budi Santoso', role: 'Murid', email: 'budi@example.com', status: 'Aktif' },
-    { id: 2, name: 'Ani Wijaya', role: 'Staff', email: 'ani@example.com', status: 'Aktif' },
-    { id: 3, name: 'Dewi Putri', role: 'Murid', email: 'dewi@example.com', status: 'Nonaktif' },
+    {
+      id: 1,
+      name: "Budi Santoso",
+      role: "Murid",
+      email: "budi@example.com",
+      status: "Aktif",
+    },
+    {
+      id: 2,
+      name: "Ani Wijaya",
+      role: "Staff",
+      email: "ani@example.com",
+      status: "Aktif",
+    },
+    {
+      id: 3,
+      name: "Dewi Putri",
+      role: "Murid",
+      email: "dewi@example.com",
+      status: "Nonaktif",
+    },
   ]);
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold text-gray-900">Manajemen Pengguna</h1>
+        <h1 className="text-2xl font-semibold text-gray-900">
+          Manajemen Pengguna
+        </h1>
         <button className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
           <FiUserPlus className="mr-2" />
           Tambah Pengguna
@@ -46,7 +66,9 @@ export default function UsersPage() {
             {users.map((user) => (
               <tr key={user.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                  <div className="text-sm font-medium text-gray-900">
+                    {user.name}
+                  </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500">{user.role}</div>
@@ -55,8 +77,14 @@ export default function UsersPage() {
                   <div className="text-sm text-gray-500">{user.email}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                    ${user.status === 'Aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  <span
+                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                    ${
+                      user.status === "Aktif"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
                     {user.status}
                   </span>
                 </td>

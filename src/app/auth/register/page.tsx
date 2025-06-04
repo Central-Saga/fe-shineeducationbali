@@ -1,42 +1,46 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
-type UserRole = 'admin' | 'superadmin' | 'staff' | 'student';
+type UserRole = "admin" | "superadmin" | "staff" | "student";
 
 export default function RegisterPage() {
-  const [role, setRole] = useState<UserRole>('student');
+  const [role, setRole] = useState<UserRole>("student");
   const [formData, setFormData] = useState({
-    namaLengkap: '',
-    email: '',
-    password: '',
-    konfirmasiPassword: '',
-    noTelepon: '',
-    alamat: '',
+    namaLengkap: "",
+    email: "",
+    password: "",
+    konfirmasiPassword: "",
+    noTelepon: "",
+    alamat: "",
   });
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.konfirmasiPassword) {
-      setError('Password dan konfirmasi password tidak cocok');
+      setError("Password dan konfirmasi password tidak cocok");
       return;
     }
 
     // TODO: Implement registration logic
-    console.log('Register attempt for role:', role, formData);
+    console.log("Register attempt for role:", role, formData);
   };
 
   return (
@@ -58,7 +62,10 @@ export default function RegisterPage() {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             <div>
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="role"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Pilih Tipe Akun
               </label>
               <select
@@ -75,7 +82,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="namaLengkap" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="namaLengkap"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Nama Lengkap
               </label>
               <input
@@ -91,7 +101,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <input
@@ -108,7 +121,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="noTelepon" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="noTelepon"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Nomor Telepon
               </label>
               <input
@@ -124,7 +140,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="alamat" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="alamat"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Alamat
               </label>
               <textarea
@@ -140,7 +159,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -156,7 +178,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="konfirmasiPassword" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="konfirmasiPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Konfirmasi Password
               </label>
               <input
@@ -173,9 +198,7 @@ export default function RegisterPage() {
           </div>
 
           {error && (
-            <div className="text-red-500 text-sm text-center">
-              {error}
-            </div>
+            <div className="text-red-500 text-sm text-center">{error}</div>
           )}
 
           <div>
@@ -189,7 +212,10 @@ export default function RegisterPage() {
 
           <div className="text-sm text-center">
             <span className="text-gray-600">Sudah punya akun? </span>
-            <Link href="/auth/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <Link
+              href="/auth/login"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
               Masuk di sini
             </Link>
           </div>

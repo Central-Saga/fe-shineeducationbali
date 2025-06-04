@@ -1,29 +1,37 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
       // Cek apakah email adalah superadmin
-      if (email === 'superadmin@example.com') {
-        if (password === 'password') { // Ganti dengan password yang sebenarnya atau gunakan sistem auth yang aman
+      if (email === "superadmin@example.com") {
+        if (password === "password") {
+          // Ganti dengan password yang sebenarnya atau gunakan sistem auth yang aman
           // Redirect ke dashboard admin
-          router.push('/dashboard');
+          router.push("/dashboard");
           return;
         }
       }
@@ -31,13 +39,13 @@ export default function LoginPage() {
       // Implementasi login untuk user biasa
       // TODO: Implementasikan login dengan backend API
       const response = await loginUser(email, password);
-      
+
       // Redirect berdasarkan role dari response API
       if (response.success) {
-        router.push('/dashboard'); // atau halaman yang sesuai
+        router.push("/dashboard"); // atau halaman yang sesuai
       }
     } catch (err) {
-      setError('Email atau password salah');
+      setError("Email atau password salah");
     }
   };
 
@@ -59,7 +67,9 @@ export default function LoginPage() {
               className="mx-auto"
             />
           </div>
-          <CardTitle className="text-2xl font-bold">Masuk ke Akun Anda</CardTitle>
+          <CardTitle className="text-2xl font-bold">
+            Masuk ke Akun Anda
+          </CardTitle>
           <CardDescription>
             Selamat datang kembali di Shine Education
           </CardDescription>
@@ -90,11 +100,12 @@ export default function LoginPage() {
                 />
               </div>
               {error && (
-                <div className="text-sm text-red-500 text-center">
-                  {error}
-                </div>
+                <div className="text-sm text-red-500 text-center">{error}</div>
               )}
-              <Button type="submit" className="w-full bg-red-600 hover:bg-red-700">
+              <Button
+                type="submit"
+                className="w-full bg-red-600 hover:bg-red-700"
+              >
                 Masuk
               </Button>
             </div>
@@ -102,8 +113,11 @@ export default function LoginPage() {
         </CardContent>
         <CardFooter className="text-center">
           <div className="w-full text-sm text-muted-foreground">
-            Belum punya akun?{' '}
-            <Link href="/auth/register" className="text-red-600 hover:text-red-500 font-medium">
+            Belum punya akun?{" "}
+            <Link
+              href="/auth/register"
+              className="text-red-600 hover:text-red-500 font-medium"
+            >
               Daftar di sini
             </Link>
           </div>
