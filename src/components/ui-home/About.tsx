@@ -5,34 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const About = () => {
-  const [floatingEmojis, setFloatingEmojis] = useState<
-    Array<{
-      id: number;
-      emoji: string;
-      x: number;
-      y: number;
-      scale: number;
-      rotation: number;
-      duration: number;
-    }>
-  >([]);
-
-  useEffect(() => {
-    const educationEmojis = ["🎓", "📚", "✨", "💫", "🌟", "💡"];
-    const newEmojis = Array(6)
-      .fill(null)
-      .map((_, i) => ({
-        id: i,
-        emoji: educationEmojis[i],
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        scale: 0.5 + Math.random() * 0.5,
-        rotation: Math.random() * 360,
-        duration: 3 + Math.random() * 2,
-      }));
-    setFloatingEmojis(newEmojis);
-  }, []);
-
   const listItems = [
     "Meningkatkan prestasi akademik",
     "Mengembangkan potensi diri",
@@ -42,47 +14,6 @@ const About = () => {
 
   return (
     <section className="py-16 relative overflow-hidden">
-      {/* Animated Background */}{" "}
-      <motion.div
-        className="absolute inset-0 bg-[radial-gradient(#C40503_1px,transparent_1px)] [background-size:40px_40px]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.15 }}
-        transition={{ duration: 1 }}
-      />
-      <motion.div
-        className="absolute inset-0 bg-[radial-gradient(#DAA625_1px,transparent_1px)] [background-size:30px_30px]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.1 }}
-        transition={{ duration: 1, delay: 0.5 }}
-      />
-      {/* Floating Emojis */}
-      <AnimatePresence>
-        {floatingEmojis.map((emoji) => (
-          <motion.div
-            key={emoji.id}
-            className="absolute pointer-events-none text-4xl filter drop-shadow-lg"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{
-              opacity: [0.4, 0.8, 0.4],
-              scale: [emoji.scale, emoji.scale * 1.2, emoji.scale],
-              rotate: [0, emoji.rotation, 0],
-              y: [0, -30, 0],
-            }}
-            transition={{
-              duration: emoji.duration,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: emoji.id * 0.2,
-            }}
-            style={{
-              left: `${emoji.x}%`,
-              top: `${emoji.y}%`,
-            }}
-          >
-            {emoji.emoji}
-          </motion.div>
-        ))}
-      </AnimatePresence>
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
