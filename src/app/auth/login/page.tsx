@@ -9,33 +9,78 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import "@/styles/particles.css";
+
+interface Star {
+  id: number;
+  size: "small" | "medium" | "large";
+  left: string;
+  top: string;
+  delay: number;
+  isFloating: boolean;
+}
+
+interface EducationIcon {
+  id: number;
+  icon: string;
+  left: string;
+  top: string;
+  rotation: number;
+}
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [particles, setParticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [stars, setStars] = useState<Star[]>([]);
+  const [educationIcons, setEducationIcons] = useState<EducationIcon[]>([]);
 
   useEffect(() => {
-    // Generate particles data
-    const newParticles = Array(8).fill(null).map((_, i) => ({
-      id: i,
-      width: 10 + Math.random() * 20,
-      height: 10 + Math.random() * 20,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      delay: i * 0.2,
-      duration: Math.random() * 5 + 3,
-      xOffset: Math.random() * 600 - 300,
-      yOffset: Math.random() * 600 - 300,
-      isRed: i % 2 === 0
-    }));
-    setParticles(newParticles);
+    // Generate education icons using available SVGs
+    const icons = ["/file.svg", "/globe.svg", "/window.svg", "/vercel.svg"];
+    const newIcons: EducationIcon[] = Array(12)
+      .fill(null)
+      .map((_, i) => ({
+        id: i,
+        icon: icons[i % icons.length],
+        left: `${Math.random() * 90 + 5}%`, // Memastikan icon tidak terlalu di pinggir
+        top: `${Math.random() * 90 + 5}%`,
+        rotation: Math.random() * 360,
+      }));
+    setEducationIcons(newIcons);
+
+    // Generate stars with different sizes
+    const newStars: Star[] = Array(80)
+      .fill(null)
+      .map((_, i) => {
+        // Weight the sizes to have more small stars
+        const sizeRand = Math.random();
+        const size =
+          sizeRand < 0.6 ? "small" : sizeRand < 0.85 ? "medium" : "large";
+
+        // Create clusters of stars
+        const cluster = Math.floor(i / 20); // 4 clusters
+        const baseX = (cluster % 2) * 50; // 2 columns
+        const baseY = Math.floor(cluster / 2) * 50; // 2 rows
+
+        return {
+          id: i,
+          size: size as "small" | "medium" | "large",
+          left: `${baseX + Math.random() * 50}%`,
+          top: `${baseY + Math.random() * 50}%`,
+          delay: Math.random() * 5,
+          isFloating: Math.random() > 0.4, // More floating stars
+        };
+      });
+    setStars(newStars);
 
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      requestAnimationFrame(() => {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+      });
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -60,226 +105,219 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
-  const springAnimation = {
-    scale: [1, 1.02],
-    rotate: [0, 1],
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 10
-    }
-  };
-
-  const cardVariants = {
-    initial: { y: 20, opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    hover: {
-      scale: 1.02,
-      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
-    }
-  };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-white to-gray-50">
-      {/* Interactive Background */}
-      <div
-        className="absolute inset-0 opacity-40 transition-all duration-300"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(196, 5, 3, 0.15) 0%, transparent 30%),
-            radial-gradient(circle at ${mousePosition.x - 100}px ${mousePosition.y + 100}px, rgba(218, 166, 37, 0.1) 0%, transparent 40%)
-          `
-        }}
-      />      {/* Animated Particles */}
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="particle"
-          initial={{ opacity: 0 }}
-          animate={{
-            x: [0, particle.xOffset],
-            y: [0, particle.yOffset],
-            scale: [0, 1, 0],
-            rotate: [0, 360],
-            opacity: [0, 0.6, 0]
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: particle.delay
-          }}
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-white via-[#fff9f8] to-[#fff5f2]">
+      {/* Background Stars */}
+      {stars.map((star) => (
+        <div
+          key={star.id}
+          className={`star star-${star.size} ${
+            star.isFloating ? "floating" : ""
+          }`}
           style={{
-            width: particle.width,
-            height: particle.height,
-            left: particle.left,
-            top: particle.top,
-            background: particle.isRed ? 
-              'linear-gradient(45deg, rgba(196, 5, 3, 0.2), rgba(196, 5, 3, 0.1))' : 
-              'linear-gradient(45deg, rgba(218, 166, 37, 0.2), rgba(218, 166, 37, 0.1))',
-            borderRadius: '50%',
-            filter: 'blur(8px)'
+            left: star.left,
+            top: star.top,
+            animationDelay: `${star.delay}s`,
           }}
         />
       ))}
 
-      <div className="relative w-full max-w-lg mx-auto px-4">
-        {/* Logo Animation */}
+      {/* Education Icons with bounce effect */}
+      {educationIcons.map((icon) => (
         <motion.div
-          className="text-center mb-8"
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          whileHover={springAnimation}
-          transition={{ type: "spring", stiffness: 300, damping: 10 }}
+          key={icon.id}
+          initial={{ scale: 0, rotate: 0 }}
+          animate={{
+            scale: [0.6, 0.8, 0.6],
+            rotate: [0, icon.rotation, 0],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+            times: [0, 0.5, 1],
+          }}
+          style={{
+            position: "absolute",
+            left: icon.left,
+            top: icon.top,
+            opacity: 0.2,
+            transformOrigin: "center",
+          }}
         >
-          <div className="inline-block relative group">
-            <motion.div
-              animate={{ y: [-10, 10] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
-              whileHover={{ scale: 1.05 }}
-            >
-              <Image
-                src="/pichome/logo.png"
-                alt="Shine Education Logo"
-                width={180}
-                height={180}
-                className="relative z-10"
-              />
-            </motion.div>
-            <div className="absolute -inset-4 bg-gradient-to-r from-[#C40503] to-[#DAA625] opacity-20 blur-xl rounded-full animate-gradient-x group-hover:opacity-30 transition-opacity" />
-          </div>
+          <Image
+            src={icon.icon}
+            alt="Education Icon"
+            width={40}
+            height={40}
+            className="drop-shadow-lg"
+          />
+        </motion.div>
+      ))}
+
+      {/* Cursor Effect */}
+      <motion.div
+        className="pointer-events-none fixed w-[400px] h-[400px] bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5"
+        style={{
+          left: mousePosition.x,
+          top: mousePosition.y,
+          translateX: "-50%",
+          translateY: "-50%",
+          borderRadius: "50%",
+          filter: "blur(50px)",
+        }}
+      />
+
+      <div className="relative w-full max-w-md mx-auto px-4 z-10">
+        {/* Logo with glow effect */}
+        <motion.div
+          className="text-center mb-8 relative"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-full"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{ filter: "blur(20px)" }}
+          />
+          <Image
+            src="/pichome/logo.png"
+            alt="Shine Education Logo"
+            width={200}
+            height={80}
+            className="mx-auto relative z-10"
+          />
         </motion.div>
 
         {/* Login Card */}
         <motion.div
-          variants={cardVariants}
-          initial="initial"
-          animate="animate"
-          whileHover="hover"
-          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          whileHover={{
+            scale: 1.02,
+            transition: { type: "spring", stiffness: 300, damping: 10 },
+          }}
+          style={{ transformOrigin: "center" }}
         >
-          <Card className="relative backdrop-blur-xl bg-white/90 border-0 shadow-2xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5 rounded-lg" />
+          <Card className="bg-white/90 shadow-2xl border-0 backdrop-blur-md relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5" />
 
-            <CardHeader className="relative space-y-1 text-center pb-4">
+            <CardHeader className="space-y-1 text-center relative">
               <motion.h2
-                className="text-2xl font-bold"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+                className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <span className="bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent animate-shine inline-block pb-2">
-                  Masuk ke Akun Anda
-                </span>
+                Masuk ke Akun Anda
               </motion.h2>
-              <p className="text-gray-600">
+              <p className="text-gray-500">
                 Selamat datang kembali di Shine Education
               </p>
             </CardHeader>
 
             <CardContent className="relative">
               <form onSubmit={handleSubmit} className="space-y-4">
-                <motion.div
-                  className="space-y-2"
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
+                <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <div className="relative group">
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{ transformOrigin: "center" }}
+                  >
                     <Input
                       id="email"
                       type="email"
                       placeholder="nama@email.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      className="bg-white/80 backdrop-blur-sm border-gray-200 focus:border-[#C40503] focus:ring-[#C40503] shadow-sm hover:shadow-md transition-all duration-300"
                       required
-                      className="bg-white/50 border-gray-200 focus:border-[#C40503] focus:ring-[#C40503] transition-all duration-300"
                     />
-                    <div className="absolute inset-0 rounded-md bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </div>
 
-                <motion.div
-                  className="space-y-2"
-                  initial={{ x: 20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
+                <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
-                  <div className="relative group">
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{ transformOrigin: "center" }}
+                  >
                     <Input
                       id="password"
                       type="password"
                       placeholder="Masukkan password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      className="bg-white/80 backdrop-blur-sm border-gray-200 focus:border-[#C40503] focus:ring-[#C40503] shadow-sm hover:shadow-md transition-all duration-300"
                       required
-                      className="bg-white/50 border-gray-200 focus:border-[#C40503] focus:ring-[#C40503] transition-all duration-300"
                     />
-                    <div className="absolute inset-0 rounded-md bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </div>
 
                 {error && (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="relative overflow-hidden rounded-md"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-red-50/80 backdrop-blur-sm text-[#C40503] text-sm p-3 rounded-md text-center shadow-sm"
                   >
-                    <div className="absolute inset-0 bg-red-50 animate-pulse" />
-                    <div className="relative text-sm text-[#C40503] text-center p-2">
-                      {error}
-                    </div>
+                    {error}
                   </motion.div>
                 )}
 
-                {/* Enhanced Button Animation */}
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.6 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  style={{ transformOrigin: "center" }}
                 >
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full relative overflow-hidden group"
+                    className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:from-[#b30402] hover:to-[#c99421] text-white shadow-lg hover:shadow-xl hover:translate-y-[-2px] transition-all duration-300"
                   >
-              <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-[#C40503] to-[#DAA625]"
-                      animate={{
-                        opacity: isLoading ? 0.8 : 1,
-                        scale: isLoading ? 1.02 : 1
-                      }}
-                      transition={{ duration: 0.5, repeat: isLoading ? Infinity : 0 }}
-                    />
-                    <span className="relative z-10">
-                      {isLoading ? "Memproses..." : "Masuk"}
-                    </span>
+                    {isLoading ? (
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 1,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                      />
+                    ) : (
+                      "Masuk"
+                    )}
                   </Button>
                 </motion.div>
 
-                <motion.div
-                  className="text-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.7 }}
-                >
-                  <span className="text-gray-500 text-sm">Belum punya akun? </span>
-                  <Link
-                    href="/auth/register"
-                    className="text-sm font-medium relative inline-block group"
+                <div className="text-center text-sm">
+                  <span className="text-gray-500">Belum punya akun? </span>
+                  <motion.div
+                    className="inline-block"
+                    whileHover={{ scale: 1.1 }}
+                    style={{ transformOrigin: "center" }}
                   >
-                    <span className="bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+                    <Link
+                      href="/auth/register"
+                      className="text-[#C40503] hover:text-[#DAA625] font-medium transition-all duration-300"
+                    >
                       Daftar di sini
-                    </span>
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#C40503] to-[#DAA625] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-                  </Link>
-                </motion.div>
+                    </Link>
+                  </motion.div>
+                </div>
               </form>
             </CardContent>
           </Card>
