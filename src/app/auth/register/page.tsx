@@ -3,11 +3,22 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-type UserRole = "admin" | "superadmin" | "staff" | "student";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function RegisterPage() {
-  const [role, setRole] = useState<UserRole>("student");
+  const router = useRouter();
   const [formData, setFormData] = useState({
     namaLengkap: "",
     email: "",
@@ -20,9 +31,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -39,188 +48,145 @@ export default function RegisterPage() {
       return;
     }
 
-    // TODO: Implement registration logic
-    console.log("Register attempt for role:", role, formData);
+    const registrationData = {
+      ...formData,
+      role: "student",
+    };
+
+    try {
+      // TODO: Send registration data to API
+      console.log("Register attempt:", registrationData);
+      router.push("/auth/login");
+    } catch (err) {
+      setError("Terjadi kesalahan saat mendaftar. Silakan coba lagi.");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <Image
-            src="/pichome/logo.png"
-            alt="Shine Education Logo"
-            width={150}
-            height={150}
-            className="mx-auto"
-          />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Daftar Akun Baru
-          </h2>
-        </div>
-
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-4">
-            <div>
-              <label
-                htmlFor="role"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Pilih Tipe Akun
-              </label>
-              <select
-                id="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value as UserRole)}
-                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
-              >
-                <option value="student">Murid</option>
-                <option value="staff">Staff / Pengajar</option>
-                <option value="admin">Admin</option>
-                <option value="superadmin">Super Admin</option>
-              </select>
-            </div>
-
-            <div>
-              <label
-                htmlFor="namaLengkap"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Nama Lengkap
-              </label>
-              <input
+    <div className="min-h-screen flex items-center justify-center bg-[#fafafa] py-12 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <div className="flex justify-center mb-4">
+            <Image
+              src="/pichome/logo.png"
+              alt="Shine Education Logo"
+              width={150}
+              height={150}
+              className="mx-auto"
+            />
+          </div>
+          <CardTitle className="text-3xl font-bold text-center">
+            Daftar Sebagai Murid
+          </CardTitle>
+          <CardDescription className="text-center">
+            Form pendaftaran ini khusus untuk calon murid Shine Education. Untuk
+            Staff/Pengajar silahkan hubungi admin.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="namaLengkap">Nama Lengkap</Label>
+              <Input
                 id="namaLengkap"
                 name="namaLengkap"
                 type="text"
-                required
+                placeholder="Masukkan nama lengkap"
                 value={formData.namaLengkap}
                 onChange={handleChange}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Masukkan nama lengkap"
+                required
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
                 id="email"
                 name="email"
                 type="email"
-                autoComplete="email"
-                required
+                placeholder="Masukkan alamat email"
                 value={formData.email}
                 onChange={handleChange}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Masukkan alamat email"
+                required
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="noTelepon"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Nomor Telepon
-              </label>
-              <input
+            <div className="space-y-2">
+              <Label htmlFor="noTelepon">Nomor Telepon</Label>
+              <Input
                 id="noTelepon"
                 name="noTelepon"
                 type="tel"
-                required
+                placeholder="Masukkan nomor telepon"
                 value={formData.noTelepon}
                 onChange={handleChange}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Masukkan nomor telepon"
+                required
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="alamat"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Alamat
-              </label>
-              <textarea
+            <div className="space-y-2">
+              <Label htmlFor="alamat">Alamat</Label>
+              <Textarea
                 id="alamat"
                 name="alamat"
-                required
+                placeholder="Masukkan alamat lengkap"
                 value={formData.alamat}
                 onChange={handleChange}
-                rows={3}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Masukkan alamat lengkap"
+                required
+                className="min-h-[100px]"
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
                 id="password"
                 name="password"
                 type="password"
-                required
+                placeholder="Masukkan password"
                 value={formData.password}
                 onChange={handleChange}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Masukkan password"
+                required
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="konfirmasiPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Konfirmasi Password
-              </label>
-              <input
+            <div className="space-y-2">
+              <Label htmlFor="konfirmasiPassword">Konfirmasi Password</Label>
+              <Input
                 id="konfirmasiPassword"
                 name="konfirmasiPassword"
                 type="password"
-                required
+                placeholder="Masukkan ulang password"
                 value={formData.konfirmasiPassword}
                 onChange={handleChange}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Masukkan ulang password"
+                required
               />
             </div>
-          </div>
 
-          {error && (
-            <div className="text-red-500 text-sm text-center">{error}</div>
-          )}
+            {error && (
+              <div className="text-[#C40503] text-sm text-center">{error}</div>
+            )}
 
-          <div>
-            <button
+            <Button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full bg-[#C40503] hover:bg-[#C40503]/90"
             >
-              Daftar
-            </button>
-          </div>
-
+              Daftar Sebagai Murid
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex justify-center">
           <div className="text-sm text-center">
-            <span className="text-gray-600">Sudah punya akun? </span>
+            <span className="text-muted-foreground">Sudah punya akun? </span>
             <Link
               href="/auth/login"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+              className="font-medium text-[#C40503] hover:text-[#C40503]/90"
             >
               Masuk di sini
             </Link>
           </div>
-        </form>
-      </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
