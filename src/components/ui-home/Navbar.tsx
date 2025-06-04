@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FiSearch } from "react-icons/fi"; // Pastikan sudah menginstall react-icons
 
 const Navbar = () => {
   return (
@@ -19,6 +20,18 @@ const Navbar = () => {
               />
             </div>
           </Link>
+
+          {/* Search Bar */}
+          <div className="hidden md:flex items-center flex-1 max-w-md mx-4">
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Cari kursus..."
+                className="w-full px-4 py-2 pl-10 pr-4 rounded-full border border-gray-300 focus:outline-none focus:border-red-500"
+              />
+              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            </div>
+          </div>
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
@@ -48,10 +61,21 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* CTA Button */}
-          <button className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors font-medium">
-            Daftar
-          </button>
+          {/* Auth Buttons */}
+          <div className="flex items-center space-x-4">
+            <Link
+              href="/auth/login"
+              className="text-red-600 hover:text-red-700 font-medium"
+            >
+              Masuk
+            </Link>
+            <Link
+              href="/auth/register"
+              className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors font-medium"
+            >
+              Daftar
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
