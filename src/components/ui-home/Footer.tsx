@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#70b6a2] text-gray-300">
+    <footer className="bg-[#e9e9e9] text-black">
       <div className="container mx-auto px-2 py-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
@@ -21,7 +21,7 @@ const Footer = () => {
               pembelajaran yang efektif.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-white">
+              <a href="#" className="hover:text-[#C40503]">
                 <svg
                   className="w-6 h-6"
                   fill="currentColor"
@@ -30,7 +30,7 @@ const Footer = () => {
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
-              <a href="#" className="hover:text-white">
+              <a href="#" className="hover:text-[#C40503]">
                 <svg
                   className="w-6 h-6"
                   fill="currentColor"
@@ -39,7 +39,7 @@ const Footer = () => {
                   <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z" />
                 </svg>
               </a>
-              <a href="#" className="hover:text-white">
+              <a href="#" className="hover:text-[#C40503]">
                 <svg
                   className="w-6 h-6"
                   fill="currentColor"
@@ -53,25 +53,25 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-black font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="hover:text-white">
+                <Link href="/" className="hover:text-[#C40503]">
                   Tentang Kami
                 </Link>
               </li>
               <li>
-                <Link href="/program" className="hover:text-white">
+                <Link href="/program" className="hover:text-[#C40503]">
                   Program
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="hover:text-white">
+                <Link href="/blog" className="hover:text-[#C40503]">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/kontak" className="hover:text-white">
+                <Link href="/kontak" className="hover:text-[#C40503]">
                   Kontak
                 </Link>
               </li>
@@ -80,7 +80,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Contact Info</h3>
+            <h3 className="text-black font-semibold mb-4">Contact Info</h3>
             <ul className="space-y-2">
               <li className="flex items-start space-x-2">
                 <svg
@@ -141,7 +141,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-white mt-12 pt-8 text-center">
+        <div className="border-t border-black mt-12 pt-8 text-center">
           <p className="text-sm">
             © {new Date().getFullYear()} Shine Education. All rights reserved.
           </p>

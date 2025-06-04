@@ -1,170 +1,259 @@
-const plans = [
-  {
-    name: "Paket Bulanan",
-    price: "55.000",
-    duration: "1 Bulan",
-    features: ["Start From IDR 55.000", "Durasi 1 Bulan", "4 kali pertemuan"],
-  },
-  {
-    name: "Paket Cerdas",
-    price: "150.000",
-    duration: "3 Bulan",
-    features: ["Start From IDR 150.000", "Durasi 3 Bulan", "3 mata pelajaran"],
-  },
-  {
-    name: "Paket Triwulanan",
-    price: "165.000",
-    duration: "3 Bulan",
-    features: ["Start From IDR 165.000", "Durasi 3 Bulan", "12 kali pertemuan"],
-  },
-];
+"use client";
+
+import { motion, AnimatePresence } from "framer-motion";
+import { subscriptionPlans, facilities } from "@/data/ui-home/subscription";
+import { useState, useEffect } from "react";
+import type { FloatingEmoji } from "@/types/animation";
 
 const Langganan = () => {
+  const [floatingEmojis, setFloatingEmojis] = useState<FloatingEmoji[]>([]);
+
+  useEffect(() => {
+    const educationEmojis = ["💰", "💎", "🎯", "🎓", "✨", "💫"];
+    const newEmojis: FloatingEmoji[] = Array(6)
+      .fill(null)
+      .map((_, i) => ({
+        id: i,
+        emoji: educationEmojis[i],
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        scale: 0.5 + Math.random() * 0.5,
+        rotation: Math.random() * 360,
+        duration: 3 + Math.random() * 2,
+      }));
+    setFloatingEmojis(newEmojis);
+  }, []);
+
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+    <section className="py-16 relative overflow-hidden">
+      {/* Animated Background */}
+      <motion.div
+        className="absolute inset-0 bg-[radial-gradient(#C40503_1px,transparent_1px)] [background-size:40px_40px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 1 }}
+      />
+      <motion.div
+        className="absolute inset-0 bg-[radial-gradient(#DAA625_1px,transparent_1px)] [background-size:30px_30px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+      />
+
+      {/* Floating Emojis */}
+      <AnimatePresence>
+        {floatingEmojis.map((emoji) => (
+          <motion.div
+            key={emoji.id}
+            className="absolute pointer-events-none text-4xl filter drop-shadow-lg"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: [0.4, 0.8, 0.4],
+              scale: [emoji.scale, emoji.scale * 1.2, emoji.scale],
+              rotate: [0, emoji.rotation, 0],
+              y: [0, -30, 0],
+            }}
+            transition={{
+              duration: emoji.duration,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: emoji.id * 0.2,
+            }}
+            style={{
+              left: `${emoji.x}%`,
+              top: `${emoji.y}%`,
+            }}
+          >
+            {emoji.emoji}
+          </motion.div>
+        ))}
+      </AnimatePresence>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          {" "}
           <h2 className="text-3xl font-bold mb-4 text-[#C40503]">
             Biaya Langganan & Fasilitas
           </h2>
-          <p className="text-gray-600">
-            Temukan paket bimbingan yang tepat untuk kebutuhan belajar Anda!
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Temukan paket langganan yang tepat untuk mendukung tujuan belajar
+            Anda!
           </p>
-          {/* <div className="w-24 h-1 bg-red-600 mx-auto mt-4"></div> */}
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {plans.map((plan, index) => (
-            <div
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {subscriptionPlans.map((plan, index) => (
+            <motion.div
               key={index}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.1,
+                type: "spring",
+                stiffness: 100,
+              }}
+              whileHover={{
+                scale: 1.05,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 10,
+                },
+              }}
+              className="bg-white/80 backdrop-blur-md rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:border-[#DAA625]/30 transition-all duration-300 flex flex-col h-full"
             >
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-center mb-4 text-gray-600">
-                  {plan.name}
-                </h3>
-                <div className="text-center mb-6 text-gray-600">
-                  <span className="text-4xl font-bold">Rp {plan.price}</span>
-                  <span className="text-gray-600">/{plan.duration}</span>
-                </div>
-                <ul className="space-y-4 text-gray-600">
-                  {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center">
-                      <svg
-                        className="w-5 h-5 text-green-500 mr-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+              <div className="p-8 flex flex-col h-full relative">
+                {/* Gradient Background */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5 rounded-xl"
+                  animate={{
+                    opacity: [0.5, 0.8, 0.5],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+
+                <div className="relative z-10 flex flex-col h-full">
+                  <h3 className="text-2xl font-bold text-center mb-4 text-[#C40503]">
+                    {plan.name}
+                  </h3>
+                  <div className="text-center mb-6">
+                    <span className="text-4xl font-bold text-[#C40503]">
+                      Rp {plan.price}
+                    </span>
+                    <span className="text-gray-600">/{plan.duration}</span>
+                  </div>
+                  <ul className="space-y-4 mb-8 flex-grow">
+                    {plan.features.map((feature, idx) => (
+                      <motion.li
+                        key={idx}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{
+                          delay: 0.2 + idx * 0.1,
+                          type: "spring",
+                          stiffness: 100,
+                        }}
+                        className="flex items-center text-gray-600"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M5 13l4 4L19 7"
-                        ></path>
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <button className="w-full mt-8 bg-red-600 text-white py-2 rounded-full hover:bg-red-700 transition-colors">
-                  Pilih Paket
-                </button>
+                        <motion.div
+                          whileHover={{ scale: 1.2, rotate: 180 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <svg
+                            className="w-5 h-5 text-[#DAA625] mr-3 flex-shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </motion.div>
+                        {feature}
+                      </motion.li>
+                    ))}
+                  </ul>
+                  <motion.button
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 10px 20px rgba(196, 5, 3, 0.2)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white py-3 px-6 rounded-full transition-all duration-300 font-semibold shadow-md"
+                  >
+                    Pilih Paket
+                  </motion.button>
+                </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* Additional Features */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="text-center ">
-            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-red-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+        {/* Facilities Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-16"
+        >
+          <h3 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+            Fasilitas yang Anda Dapatkan
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {facilities.map((facility, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 100,
+                }}
+                whileHover={{ scale: 1.05 }}
+                className="text-center relative"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                ></path>
-              </svg>
-            </div>
-            <h4 className="font-semibold mb-2 text-gray-600">Akses Program Lengkap</h4>
-            <p className="text-sm text-gray-600">
-              Optimasi semua program dengan berbagai program
-            </p>
+                <motion.div
+                  className="w-16 h-16 mx-auto mb-4 relative"
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-full blur-xl"
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0.5, 0.8, 0.5],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: index * 0.2,
+                    }}
+                  />
+                  <div className="relative bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10 rounded-full flex items-center justify-center w-full h-full">
+                    <svg
+                      className="w-8 h-8 text-[#C40503]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d={facility.icon}
+                      />
+                    </svg>
+                  </div>
+                </motion.div>
+                <h4 className="font-semibold mb-2 bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+                  {facility.title}
+                </h4>
+                <p className="text-sm text-gray-600">{facility.description}</p>
+              </motion.div>
+            ))}
           </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-red-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                ></path>
-              </svg>
-            </div>
-            <h4 className="font-semibold mb-2 text-gray-600">Modul Up to Date</h4>
-            <p className="text-sm text-gray-600">
-              Materi yang selalu diperbarui
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-red-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                ></path>
-              </svg>
-            </div>
-            <h4 className="font-semibold mb-2 text-gray-600">Konsultasi Gratis</h4>
-            <p className="text-sm text-gray-600">
-              Konsultasi dengan pengajar kapan saja
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-red-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                ></path>
-              </svg>
-            </div>
-            <h4 className="font-semibold mb-2 text-gray-600">Wifi</h4>
-            <p className="text-sm text-gray-600">
-              Internet cepat untuk belajar online
-            </p>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

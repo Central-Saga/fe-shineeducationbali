@@ -4,14 +4,15 @@ import About from "@/components/ui-home/About";
 import Program from "@/components/ui-home/Program";
 import Langganan from "@/components/ui-home/Langganan";
 import Footer from "@/components/ui-home/Footer";
+import BlogHighlight from "@/components/ui-home/BlogHighlight";
 
 export default function Home() {
   return (
     <main>
       <Navbar />
       <HeroSection />
-      <About />
       <Program />
+      <About />
       <Langganan />
       <Footer />
     </main>

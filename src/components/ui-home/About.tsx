@@ -1,51 +1,200 @@
+"use client";
+
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const About = () => {
+  const [floatingEmojis, setFloatingEmojis] = useState<
+    Array<{
+      id: number;
+      emoji: string;
+      x: number;
+      y: number;
+      scale: number;
+      rotation: number;
+      duration: number;
+    }>
+  >([]);
+
+  useEffect(() => {
+    const educationEmojis = ["🎓", "📚", "✨", "💫", "🌟", "💡"];
+    const newEmojis = Array(6)
+      .fill(null)
+      .map((_, i) => ({
+        id: i,
+        emoji: educationEmojis[i],
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        scale: 0.5 + Math.random() * 0.5,
+        rotation: Math.random() * 360,
+        duration: 3 + Math.random() * 2,
+      }));
+    setFloatingEmojis(newEmojis);
+  }, []);
+
+  const listItems = [
+    "Meningkatkan prestasi akademik",
+    "Mengembangkan potensi diri",
+    "Mempersiapkan untuk ujian",
+    "Meningkatkan kemampuan bahasa",
+  ];
+
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl text-[#C40503] font-bold mb-4">Tentang Kami</h2>
-        </div>
+    <section className="py-16 relative overflow-hidden">
+      {/* Animated Background */}{" "}
+      <motion.div
+        className="absolute inset-0 bg-[radial-gradient(#C40503_1px,transparent_1px)] [background-size:40px_40px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.15 }}
+        transition={{ duration: 1 }}
+      />
+      <motion.div
+        className="absolute inset-0 bg-[radial-gradient(#DAA625_1px,transparent_1px)] [background-size:30px_30px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+      />
+      {/* Floating Emojis */}
+      <AnimatePresence>
+        {floatingEmojis.map((emoji) => (
+          <motion.div
+            key={emoji.id}
+            className="absolute pointer-events-none text-4xl filter drop-shadow-lg"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: [0.4, 0.8, 0.4],
+              scale: [emoji.scale, emoji.scale * 1.2, emoji.scale],
+              rotate: [0, emoji.rotation, 0],
+              y: [0, -30, 0],
+            }}
+            transition={{
+              duration: emoji.duration,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: emoji.id * 0.2,
+            }}
+            style={{
+              left: `${emoji.x}%`,
+              top: `${emoji.y}%`,
+            }}
+          >
+            {emoji.emoji}
+          </motion.div>
+        ))}
+      </AnimatePresence>
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          {" "}
+          <h2 className="text-3xl font-bold mb-4 text-[#C40503]">
+            Tentang Kami
+          </h2>
+        </motion.div>
 
         <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="md:w-1/2">
-            <Image
-              src="/pichome/logo.jpg"
-              alt="Students Learning"
-              width={500}
-              height={400}
-              className="rounded-lg shadow-lg"
-            />
-          </div>
+          <motion.div
+            className="md:w-1/2"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, type: "spring" }}
+          >
+            <div className="relative">
+              {" "}
+              <motion.div
+                className="absolute -inset-4 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-lg blur-xl"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+              <Image
+                src="/pichome/logo.jpg"
+                alt="Students Learning"
+                width={500}
+                height={400}
+                className="rounded-lg shadow-lg relative z-10 hover:scale-[1.02] transition-transform duration-300"
+              />
+            </div>
+          </motion.div>
 
-          <div className="md:w-1/2">
-            <h3 className="text-2xl font-semibold mb-4 text-gray-600">Shine Education</h3>
-            <p className="text-gray-600 mb-6">
+          <motion.div
+            className="md:w-1/2"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, type: "spring", delay: 0.2 }}
+          >
+            <motion.h3
+              className="text-2xl font-semibold mb-4 text-[#C40503]"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              Shine Education
+            </motion.h3>
+            <motion.p
+              className="text-gray-600 mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
               Shine Education adalah lembaga pendidikan di Tabanan yang
               mengutamakan kursus dan bimbingan belajar dalam semua jenjang
               pendidikan. Dengan pengajar yang berkualitas dan metode
               pembelajaran yang efektif, kami membantu siswa untuk:
-            </p>
-            <ul className="space-y-3 text-gray-600">
-              <li className="flex items-center ">
-                <span className="w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-                <span>Meningkatkan prestasi akademik</span>
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-red-600 rounded-full mr-2 "></span>
-                <span>Mengembangkan potensi diri</span>
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-                <span>Mempersiapkan untuk ujian</span>
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-                <span>Meningkatkan kemampuan bahasa</span>
-              </li>
-            </ul>
-          </div>
+            </motion.p>
+            <motion.ul
+              className="space-y-3 text-gray-600"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              {listItems.map((item, index) => (
+                <motion.li
+                  key={index}
+                  className="flex items-center"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.6 + index * 0.1,
+                    type: "spring",
+                  }}
+                  whileHover={{ x: 10 }}
+                >
+                  <motion.span
+                    className="w-2 h-2 bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-full mr-2"
+                    animate={{
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: index * 0.2,
+                    }}
+                  />
+                  <span>{item}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
         </div>
       </div>
     </section>
