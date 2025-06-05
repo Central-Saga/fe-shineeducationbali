@@ -28,116 +28,51 @@ const Program = () => {
     <section id="program-section" className="py-16 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: false, margin: "-100px" }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          {" "}
-          <motion.h2
-            className="text-3xl font-bold mb-4 text-[#C40503]"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.6 }}
-          >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#C40503]">
             Program Kami
-          </motion.h2>
-          <motion.p
-            className="text-gray-600 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Temukan program belajar yang sesuai dengan kebutuhan Anda
-          </motion.p>
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Kami menawarkan berbagai program pendidikan yang dirancang untuk
+            memenuhi kebutuhan belajar Anda
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {programItems.map((item, index) => (
+          {programItems.map((program) => (
             <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 50 }}
+              key={program.id}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.1,
-                type: "spring",
-                stiffness: 100,
-              }}
-              whileHover={{
-                scale: 1.03,
-                y: -5,
-                transition: {
-                  duration: 0.2,
-                  ease: "easeOut",
-                },
-              }}
-              whileTap={{ scale: 0.97 }}
-              className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-[#DAA625]/30"
-            >
-              {" "}
-              <motion.div
-                className="w-16 h-16 mx-auto mb-4 relative"
-                whileHover={{
-                  scale: 1.1,
-                  rotate: [0, 10, -10, 0],
-                  transition: {
-                    rotate: {
-                      duration: 0.5,
-                      ease: "easeInOut",
-                    },
-                  },
-                }}
-              >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-yellow-200/30 to-orange-200/30 rounded-full"
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.6, 0.3],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: index * 0.3,
-                  }}
-                />
+              viewport={{ once: false, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: program.id * 0.1 }}              className="group relative overflow-hidden rounded-2xl shadow-lg bg-white h-[358px]"
+            >              
+              <div className="relative w-full h-full">
                 <Image
-                  src={item.icon}
-                  alt={item.title}
-                  width={64}
-                  height={64}
-                  className="relative z-10"
+                  src={program.image}
+                  alt={program.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                  priority
                 />
-              </motion.div>{" "}
-              <h3 className="text-xl font-semibold mb-3 text-center text-[#C40503]">
-                {item.title}
-              </h3>
-              <p className="text-gray-600 text-center">{item.description}</p>
-              <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  x: 5,
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="mt-4 text-[#C40503] font-semibold hover:text-[#DAA625] transition-colors duration-300 flex items-center gap-1 mx-auto"
-              >
-                Pelajari Lebih Lanjut
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  →
-                </motion.span>
-              </motion.button>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300" />
+              </div>              <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <div className="transform translate-y-[60%] group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                  <h3 className="text-2xl font-bold mb-3 text-shadow-sm">{program.title}</h3>
+                  <p className="text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75 line-clamp-2">
+                    {program.description}
+                  </p>
+                  <div className="text-sm font-medium bg-white/20 backdrop-blur-sm inline-block px-4 py-2 rounded-full">
+                    {program.level}
+                  </div>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
