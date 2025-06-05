@@ -4,15 +4,34 @@ import { motion, AnimatePresence } from "framer-motion";
 import { subscriptionPlans, facilities } from "@/data/ui-home/subscription";
 import { useState, useEffect } from "react";
 import type { FloatingEmoji } from "@/types/animation";
+import Confetti from "./Confetti";
 
 const Langganan = () => {
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const element = document.getElementById("langganan-section");
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+        setShowConfetti(isVisible);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <section className="py-16 relative overflow-hidden">
+    <section id="langganan-section" className="py-16 relative overflow-hidden">
+      {showConfetti && <Confetti />}
       <div className="container mx-auto px-4 relative z-10">
+        {" "}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
@@ -25,17 +44,16 @@ const Langganan = () => {
             Anda!
           </p>
         </motion.div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {subscriptionPlans.map((plan, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, margin: "-100px" }}
               transition={{
-                duration: 0.5,
-                delay: index * 0.1,
+                duration: 0.6,
+                delay: 0.2 + index * 0.1,
                 type: "spring",
                 stiffness: 100,
               }}
@@ -79,9 +97,9 @@ const Langganan = () => {
                         key={idx}
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: false, margin: "-100px" }}
                         transition={{
-                          delay: 0.2 + idx * 0.1,
+                          delay: 0.3 + idx * 0.1,
                           type: "spring",
                           stiffness: 100,
                         }}
@@ -124,13 +142,12 @@ const Langganan = () => {
             </motion.div>
           ))}
         </div>
-
         {/* Facilities Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: false, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
           className="mt-16"
         >
           <h3 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
@@ -142,9 +159,9 @@ const Langganan = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, margin: "-100px" }}
                 transition={{
-                  delay: index * 0.1,
+                  delay: 0.4 + index * 0.1,
                   type: "spring",
                   stiffness: 100,
                 }}

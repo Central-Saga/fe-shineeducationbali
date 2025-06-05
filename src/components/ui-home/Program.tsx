@@ -7,13 +7,30 @@ import { useState, useEffect } from "react";
 import type { FloatingEmoji } from "@/types/animation";
 
 const Program = () => {
+  const [showAnimation, setShowAnimation] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const element = document.getElementById("program-section");
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+        setShowAnimation(isVisible);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Check initial state
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <section className="py-16 relative overflow-hidden">
+    <section id="program-section" className="py-16 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
@@ -22,7 +39,7 @@ const Program = () => {
             className="text-3xl font-bold mb-4 text-[#C40503]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.6 }}
           >
             Program Kami
@@ -31,7 +48,7 @@ const Program = () => {
             className="text-gray-600 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             Temukan program belajar yang sesuai dengan kebutuhan Anda
@@ -44,7 +61,7 @@ const Program = () => {
               key={item.id}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{
                 duration: 0.5,
                 delay: index * 0.1,
@@ -52,31 +69,41 @@ const Program = () => {
                 stiffness: 100,
               }}
               whileHover={{
-                scale: 1.05,
+                scale: 1.03,
+                y: -5,
                 transition: {
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 10,
+                  duration: 0.2,
+                  ease: "easeOut",
                 },
               }}
-              className="bg-white/80 backdrop-blur-md rounded-xl p-6 shadow-lg border border-gray-100 hover:border-[#C40503]/20 hover:shadow-[#C40503]/10 transition-all duration-300"
+              whileTap={{ scale: 0.97 }}
+              className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-[#DAA625]/30"
             >
+              {" "}
               <motion.div
                 className="w-16 h-16 mx-auto mb-4 relative"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
+                whileHover={{
+                  scale: 1.1,
+                  rotate: [0, 10, -10, 0],
+                  transition: {
+                    rotate: {
+                      duration: 0.5,
+                      ease: "easeInOut",
+                    },
+                  },
+                }}
               >
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-full blur-xl"
+                  className="absolute inset-0 bg-gradient-to-r from-yellow-200/30 to-orange-200/30 rounded-full"
                   animate={{
                     scale: [1, 1.2, 1],
-                    opacity: [0.5, 0.8, 0.5],
+                    opacity: [0.3, 0.6, 0.3],
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 2,
                     repeat: Infinity,
                     ease: "easeInOut",
-                    delay: index * 0.2,
+                    delay: index * 0.3,
                   }}
                 />
                 <Image

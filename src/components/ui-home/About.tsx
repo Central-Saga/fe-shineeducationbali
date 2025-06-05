@@ -15,26 +15,27 @@ const About = () => {
   return (
     <section className="py-16 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
+        {" "}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
           {" "}
-          <h2 className="text-3xl font-bold mb-4 text-[#C40503]">
+          <h2 className="text-3xl font-bold mb-4 mt-12 text-[#C40503]">
             Tentang Kami
           </h2>
         </motion.div>
-
         <div className="flex flex-col md:flex-row items-center gap-8">
+          {" "}
           <motion.div
             className="md:w-1/2"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, type: "spring" }}
+            viewport={{ once: false, margin: "-100px" }}
+            transition={{ duration: 0.8, type: "spring" }}
           >
             <div className="relative">
               {" "}
@@ -51,28 +52,27 @@ const About = () => {
                 }}
               />
               <Image
-                src="/pichome/logo.jpg"
+                src="/pichome/hero-section.jpg"
                 alt="Students Learning"
                 width={500}
                 height={400}
                 className="rounded-lg shadow-lg relative z-10 hover:scale-[1.02] transition-transform duration-300"
               />
             </div>
-          </motion.div>
-
+          </motion.div>{" "}
           <motion.div
             className="md:w-1/2"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, type: "spring", delay: 0.2 }}
+            viewport={{ once: false, margin: "-100px" }}
+            transition={{ duration: 0.8, type: "spring" }}
           >
             <motion.h3
               className="text-2xl font-semibold mb-4 text-[#C40503]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: false, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
               Shine Education
             </motion.h3>
@@ -80,8 +80,8 @@ const About = () => {
               className="text-gray-600 mb-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: false, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.3 }}
             >
               Shine Education adalah lembaga pendidikan di Tabanan yang
               mengutamakan kursus dan bimbingan belajar dalam semua jenjang
@@ -92,8 +92,8 @@ const About = () => {
               className="space-y-3 text-gray-600"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              viewport={{ once: false, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.4 }}
             >
               {listItems.map((item, index) => (
                 <motion.li
@@ -101,10 +101,10 @@ const About = () => {
                   className="flex items-center"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false, margin: "-100px" }}
                   transition={{
                     duration: 0.5,
-                    delay: 0.6 + index * 0.1,
+                    delay: 0.5 + index * 0.1,
                     type: "spring",
                   }}
                   whileHover={{ x: 10 }}
