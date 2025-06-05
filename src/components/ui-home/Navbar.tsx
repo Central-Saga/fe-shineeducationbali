@@ -5,10 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +60,49 @@ const Navbar = () => {
                   className="h-12 w-auto"
                 />
               </Link>
+            </motion.div>
+
+            {/* Search Bar - Moved to left */}
+            <motion.div
+              className="hidden md:flex items-center relative"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              <div className="relative w-64">
+                <Input
+                  type="text"
+                  placeholder="Cari program..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                  className={`rounded-full transition-all duration-300 pl-4 pr-10 outline-none focus:outline-none
+                    ${isScrolled ? "bg-white/80" : "bg-white/90"}
+                    ${
+                      isSearchFocused
+                        ? "border-2 border-[#C40503]"
+                        : "border border-gray-200 hover:border-gray-300"
+                    }
+                    focus:ring-0 focus:ring-offset-0`}
+                />
+                <svg
+                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${
+                    isSearchFocused ? "text-[#C40503]" : "text-gray-400"
+                  }`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
             </motion.div>
 
             {/* Desktop Navigation */}
@@ -146,6 +193,44 @@ const Navbar = () => {
             className="md:hidden fixed top-20 left-0 right-0 z-40 bg-white/90 backdrop-blur-md shadow-lg"
           >
             <div className="container mx-auto px-4 py-4">
+              {/* Mobile Search */}
+              <div className="mb-4">
+                <div className="relative">
+                  {" "}
+                  <Input
+                    type="text"
+                    placeholder="Cari program..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => setIsSearchFocused(true)}
+                    onBlur={() => setIsSearchFocused(false)}
+                    className={`rounded-full transition-all duration-300 pl-4 pr-10 outline-none focus:outline-none
+                      ${
+                        isSearchFocused
+                          ? "border-2 border-[#C40503]"
+                          : "border border-gray-200 hover:border-gray-300"
+                      }
+                      focus:ring-0 focus:ring-offset-0`}
+                  />
+                  <svg
+                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${
+                      isSearchFocused ? "text-[#C40503]" : "text-gray-400"
+                    }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+
               <div className="flex flex-col gap-4">
                 {navItems.map((item, index) => (
                   <motion.div
