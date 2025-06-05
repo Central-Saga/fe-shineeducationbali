@@ -69,36 +69,51 @@ const LearningBackground = () => {
           style={{
             left: `${obj.x}%`,
             top: `${obj.y}%`,
-            opacity: 0.35, // Meningkatkan opacity agar lebih terlihat
-            filter: "blur(0.5px)", // Menambahkan sedikit blur untuk efek lembut
+            opacity: 0.35,
+            filter: "blur(0.5px)",
           }}
           initial={{
             scale: 0,
             rotate: obj.rotation,
           }}
           animate={{
-            scale: [obj.scale * 0.9, obj.scale * 1.1, obj.scale * 0.9],
-            rotate: [obj.rotation, obj.rotation + 180], // Mengurangi rotasi
-            y: [0, -20, 0], // Mengurangi jarak gerakan
+            scale: [
+              obj.scale * 0.9,
+              obj.scale * 1.1,
+              obj.scale * 0.95,
+              obj.scale * 1.05,
+              obj.scale * 0.9,
+            ],
+            rotate: [
+              obj.rotation,
+              obj.rotation + 45,
+              obj.rotation - 45,
+              obj.rotation + 90,
+              obj.rotation,
+            ],
+            x: [0, 15, -15, 10, 0],
+            y: [0, -10, -20, -5, 0],
           }}
           transition={{
-            duration: 8, // Durasi lebih konsisten dan lebih lambat
+            duration: Math.random() * 5 + 10, // Random duration between 10-15s
             repeat: Infinity,
             ease: "easeInOut",
-            delay: obj.id * 0.5, // Delay yang lebih teratur berdasarkan ID
+            delay: obj.id * 0.3,
+            times: [0, 0.2, 0.5, 0.8, 1],
           }}
         >
           {getEmoji(obj.type)}
         </motion.div>
       ))}
-      {/* Subtle Gradient Background */}{" "}
+      {/* Subtle Gradient Background */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-br from-[#C40503]/10 via-[#DAA625]/10 to-transparent"
         animate={{
-          opacity: [0.2, 0.3, 0.2],
+          opacity: [0.1, 0.3, 0.2, 0.25, 0.1],
+          scale: [1, 1.02, 1.01, 1.03, 1],
         }}
         transition={{
-          duration: 10,
+          duration: 15,
           repeat: Infinity,
           ease: "easeInOut",
         }}
