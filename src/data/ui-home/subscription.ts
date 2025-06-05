@@ -11,6 +11,12 @@ interface Facility {
   icon: string;
 }
 
+interface EducationLevel {
+  level: string;
+  price: string;
+  emoji: string;
+}
+
 export const subscriptionPlans: SubscriptionPlan[] = [
   {
     name: "Paket Bulanan",
@@ -76,4 +82,34 @@ export const facilities: Facility[] = [
       "Akses internet cepat dan gratis untuk mendukung pembelajaran online",
     icon: "M13 10V3L4 14h7v7l9-11h-7z",
   },
+  {
+    title: "Akses Makanan",
+    description:
+      "Nikmati pilihan makanan dan minuman yang lezat untuk mengisi ulang energi Anda.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z", // You'll likely want to change this icon too!
+  },
+  {
+    title: "Modul Pembelajaran",
+    description:
+      "Tersedia modul pembelajaran interaktif untuk mendukung proses belajar Anda.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z", // Change icon
+  },
+  {
+    title: "Ruangan Ber-AC",
+    description:
+      "Belajar dalam kenyamanan optimal dengan ruangan berpendingin udara.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z", // Change icon
+  },
+  {
+    title: "Tempat Nyaman",
+    description: "Suasana tenang dan nyaman untuk belajar dan berdiskusi.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z", // Change icon
+  },
+];
+
+export const educationLevels: EducationLevel[] = [
+  { level: "TK - SD", price: "IDR 100.000", emoji: "🎓" },
+  { level: "SMP", price: "IDR 100.000", emoji: "📚" },
+  { level: "SMA", price: "IDR 125.000", emoji: "🎯" },
+  { level: "UMUM", price: "IDR 200.000", emoji: "✨" },
 ];

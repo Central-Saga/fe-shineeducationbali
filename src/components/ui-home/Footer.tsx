@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#e9e9e9] text-black">
+    <footer className="bg-[#A76545] text-white">
       <div className="container mx-auto px-2 py-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
@@ -53,7 +53,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-black font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/" className="hover:text-[#C40503]">
@@ -80,7 +80,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-black font-semibold mb-4">Contact Info</h3>
+            <h3 className="text-white font-semibold mb-4">Contact Info</h3>
             <ul className="space-y-2">
               <li className="flex items-start space-x-2">
                 <svg
@@ -141,7 +141,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-black mt-12 pt-8 text-center">
+        <div className="border-t border-white mt-12 pt-8 text-center">
           <p className="text-sm">
             © {new Date().getFullYear()} Shine Education. All rights reserved.
           </p>
