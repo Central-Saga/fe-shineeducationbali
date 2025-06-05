@@ -50,8 +50,9 @@ const Program = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: program.id * 0.1 }}              className="group relative overflow-hidden rounded-2xl shadow-lg bg-white h-[358px]"
-            >              
+              transition={{ duration: 0.5, delay: program.id * 0.1 }}
+              className="group relative overflow-hidden rounded-2xl hover:shadow-lg bg-white h-[358px] transition-all duration-300"
+            >
               <div className="relative w-full h-full">
                 <Image
                   src={program.image}
@@ -61,11 +62,14 @@ const Program = () => {
                   className="object-contain transition-transform duration-300 group-hover:scale-105"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300" />
-              </div>              <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="absolute inset-x-0 bottom-0 p-6 text-white opacity-0 group-hover:opacity-100 transition-all duration-300">
                 <div className="transform translate-y-[60%] group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                  <h3 className="text-2xl font-bold mb-3 text-shadow-sm">{program.title}</h3>
-                  <p className="text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75 line-clamp-2">
+                  <h3 className="text-2xl font-bold mb-3 text-shadow-sm">
+                    {program.title}
+                  </h3>
+                  <p className="text-sm mb-4 transition-opacity duration-300 delay-75 line-clamp-2">
                     {program.description}
                   </p>
                   <div className="text-sm font-medium bg-white/20 backdrop-blur-sm inline-block px-4 py-2 rounded-full">
