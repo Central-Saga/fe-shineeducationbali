@@ -1,7 +1,14 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 // Mock data untuk testing
 const mockGrades = [
@@ -50,16 +57,23 @@ export default function GradeView() {
                   <TableCell className="font-medium">{grade.subject}</TableCell>
                   <TableCell>{grade.assignment}</TableCell>
                   <TableCell>
-                    <span className={`font-bold ${
-                      grade.score >= 90 ? "text-green-600" :
-                      grade.score >= 80 ? "text-blue-600" :
-                      grade.score >= 70 ? "text-yellow-600" :
-                      "text-red-600"
-                    }`}>
+                    <span
+                      className={`font-bold ${
+                        grade.score >= 90
+                          ? "text-green-600"
+                          : grade.score >= 80
+                          ? "text-blue-600"
+                          : grade.score >= 70
+                          ? "text-yellow-600"
+                          : "text-red-600"
+                      }`}
+                    >
                       {grade.score}
                     </span>
                   </TableCell>
-                  <TableCell>{new Date(grade.date).toLocaleDateString("id-ID")}</TableCell>
+                  <TableCell>
+                    {new Date(grade.date).toLocaleDateString("id-ID")}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

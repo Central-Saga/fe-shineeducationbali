@@ -12,7 +12,7 @@ export default function StudentOverview() {
   const [studentData, setStudentData] = useState<StudentData | null>(null);
 
   useEffect(() => {
-    const data = localStorage.getItem('pengguna');
+    const data = localStorage.getItem("pengguna");
     if (data) {
       setStudentData(JSON.parse(data));
     }
@@ -29,7 +29,9 @@ export default function StudentOverview() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Enrolled Classes</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Enrolled Classes
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">5</div>
@@ -38,7 +40,9 @@ export default function StudentOverview() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Assignments</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Pending Assignments
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">3</div>
@@ -73,13 +77,17 @@ export default function StudentOverview() {
           <div className="space-y-4">
             <div className="flex items-center">
               <div className="ml-4 space-y-1">
-                <p className="text-sm font-medium leading-none">Math Homework - Chapter 5</p>
+                <p className="text-sm font-medium leading-none">
+                  Math Homework - Chapter 5
+                </p>
                 <p className="text-sm text-muted-foreground">Due in 2 days</p>
               </div>
             </div>
             <div className="flex items-center">
               <div className="ml-4 space-y-1">
-                <p className="text-sm font-medium leading-none">English Essay</p>
+                <p className="text-sm font-medium leading-none">
+                  English Essay
+                </p>
                 <p className="text-sm text-muted-foreground">Due in 5 days</p>
               </div>
             </div>
@@ -103,7 +111,9 @@ export default function StudentOverview() {
             </div>
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <p className="text-sm font-medium leading-none">History Assignment</p>
+                <p className="text-sm font-medium leading-none">
+                  History Assignment
+                </p>
                 <p className="text-sm text-muted-foreground">2 weeks ago</p>
               </div>
               <span className="text-green-600 font-bold">85%</span>
@@ -112,5 +122,5 @@ export default function StudentOverview() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

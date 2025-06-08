@@ -6,7 +6,7 @@ export default function ScheduleView() {
   return (
     <div className="space-y-8">
       <h1 className="text-3xl font-bold">Teaching Schedule</h1>
-      
+
       <div className="grid gap-4">
         {/* Today's Schedule */}
         <Card>
@@ -25,7 +25,7 @@ export default function ScheduleView() {
                   <span className="text-sm text-green-600">In Progress</span>
                 </div>
               </div>
-              
+
               <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
                   <h3 className="font-semibold">Physics - Grade 11</h3>
@@ -50,19 +50,23 @@ export default function ScheduleView() {
               {/* Schedule items would go here */}
               {/* This would typically be populated from an API */}
               <div className="grid gap-4">
-                {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day) => (
-                  <div key={day} className="border-l-4 border-blue-500 pl-4">
-                    <h3 className="font-semibold">{day}</h3>
-                    <div className="mt-2 space-y-2">
-                      <p className="text-sm">
-                        <span className="font-medium">08:00 - 09:30</span> - Mathematics (Grade 10)
-                      </p>
-                      <p className="text-sm">
-                        <span className="font-medium">10:00 - 11:30</span> - Physics (Grade 11)
-                      </p>
+                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
+                  (day) => (
+                    <div key={day} className="border-l-4 border-blue-500 pl-4">
+                      <h3 className="font-semibold">{day}</h3>
+                      <div className="mt-2 space-y-2">
+                        <p className="text-sm">
+                          <span className="font-medium">08:00 - 09:30</span> -
+                          Mathematics (Grade 10)
+                        </p>
+                        <p className="text-sm">
+                          <span className="font-medium">10:00 - 11:30</span> -
+                          Physics (Grade 11)
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             </div>
           </CardContent>

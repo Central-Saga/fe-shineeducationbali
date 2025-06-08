@@ -14,15 +14,15 @@ export default function StudentDashboardLayout({
 
   useEffect(() => {
     // Cek autentikasi
-    const dataPengguna = localStorage.getItem('pengguna');
+    const dataPengguna = localStorage.getItem("pengguna");
     if (!dataPengguna) {
-      router.push('/auth/login');
+      router.push("/auth/login");
       return;
     }
 
     const user = JSON.parse(dataPengguna);
-    if (!user.peran.includes('Student')) {
-      router.push('/auth/login');
+    if (!user.peran.includes("Student")) {
+      router.push("/auth/login");
       return;
     }
 
@@ -43,23 +43,38 @@ export default function StudentDashboardLayout({
               Dashboard Siswa
             </h2>
             <nav className="space-y-2">
-              <a href="/dashboard-student" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-student"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">🏠</span>
                 Beranda
               </a>
-              <a href="/dashboard-student/classes" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-student/classes"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">📚</span>
                 Kelas Saya
               </a>
-              <a href="/dashboard-student/assignments" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-student/assignments"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">✏️</span>
                 Tugas
               </a>
-              <a href="/dashboard-student/grades" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-student/grades"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">📊</span>
                 Nilai
               </a>
-              <a href="/dashboard-student/materials" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-student/materials"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">📖</span>
                 Materi
               </a>

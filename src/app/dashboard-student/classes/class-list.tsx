@@ -52,7 +52,9 @@ export default function ClassList() {
                       style={{ width: `${classItem.progress}%` }}
                     />
                   </div>
-                  <p className="text-sm text-right mt-1">{classItem.progress}%</p>
+                  <p className="text-sm text-right mt-1">
+                    {classItem.progress}%
+                  </p>
                 </div>
                 <Button className="w-full">View Details</Button>
               </div>

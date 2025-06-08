@@ -2,7 +2,14 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function AssignmentList() {
   return (
@@ -59,20 +66,20 @@ export default function AssignmentList() {
                   subject: "Mathematics",
                   title: "Calculus Exercise Set 3",
                   dueDate: "2025-06-10",
-                  status: "Pending"
+                  status: "Pending",
                 },
                 {
                   subject: "Physics",
                   title: "Lab Report - Wave Motion",
                   dueDate: "2025-06-12",
-                  status: "Pending"
+                  status: "Pending",
                 },
                 {
                   subject: "English",
                   title: "Essay - Modern Literature",
                   dueDate: "2025-06-15",
-                  status: "Not Started"
-                }
+                  status: "Not Started",
+                },
               ].map((assignment, index) => (
                 <TableRow key={index}>
                   <TableCell>{assignment.subject}</TableCell>
@@ -123,14 +130,14 @@ export default function AssignmentList() {
                   subject: "Mathematics",
                   title: "Algebra Quiz",
                   submittedDate: "2025-06-01",
-                  grade: "95/100"
+                  grade: "95/100",
                 },
                 {
                   subject: "Physics",
                   title: "Forces Lab Report",
                   submittedDate: "2025-05-28",
-                  grade: "88/100"
-                }
+                  grade: "88/100",
+                },
               ].map((assignment, index) => (
                 <TableRow key={index}>
                   <TableCell>{assignment.subject}</TableCell>

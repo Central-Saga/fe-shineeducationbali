@@ -52,8 +52,10 @@ export default function MaterialView() {
                     <div>
                       <h3 className="font-semibold">{material.title}</h3>
                       <p className="text-sm text-gray-500">
-                        {material.subject} • {material.size} • 
-                        {new Date(material.uploadDate).toLocaleDateString("id-ID")}
+                        {material.subject} • {material.size} •
+                        {new Date(material.uploadDate).toLocaleDateString(
+                          "id-ID"
+                        )}
                       </p>
                     </div>
                   </div>

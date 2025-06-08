@@ -99,33 +99,33 @@ export default function LoginPage() {
           password: "password123",
           peran: ["Super Admin"],
           izin: ["read", "write", "delete"],
-          nama: "Super Admin"
+          nama: "Super Admin",
         },
         {
           email: "admin@example.com",
           password: "password123",
           peran: ["Admin"],
           izin: ["read", "write"],
-          nama: "Admin"
+          nama: "Admin",
         },
         {
           email: "teacher@example.com",
           password: "password123",
           peran: ["Teacher"],
           izin: ["read", "write"],
-          nama: "Teacher"
+          nama: "Teacher",
         },
         {
           email: "student@example.com",
           password: "password123",
           peran: ["Student"],
           izin: ["read"],
-          nama: "Student"
-        }
+          nama: "Student",
+        },
       ];
 
-      const pengguna = mockUsers.find(user => 
-        user.email === email && user.password === password
+      const pengguna = mockUsers.find(
+        (user) => user.email === email && user.password === password
       );
 
       if (!pengguna) {
@@ -140,51 +140,50 @@ export default function LoginPage() {
 
       // Simpan token
       document.cookie = `access_token=token_${Date.now()}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
-      
+
       // Simpan data pengguna
       const dataPenggunaString = JSON.stringify({
         nama: pengguna.nama,
         email: pengguna.email,
         peran: pengguna.peran,
-        izin: pengguna.izin
+        izin: pengguna.izin,
       });
 
       // Set cookie data pengguna
       document.cookie = `data_pengguna=${dataPenggunaString}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
 
       // Simpan di localStorage
-      localStorage.setItem('pengguna', dataPenggunaString);
+      localStorage.setItem("pengguna", dataPenggunaString);
 
       // Debug log
-      console.log('Data pengguna tersimpan:', {
+      console.log("Data pengguna tersimpan:", {
         cookies: document.cookie,
-        localStorage: localStorage.getItem('pengguna')
+        localStorage: localStorage.getItem("pengguna"),
       });
 
       // Simulasi delay server
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Redirect berdasarkan peran
       const role = pengguna.peran[0]; // Ambil peran pertama
-      console.log('Redirecting user with role:', role);
+      console.log("Redirecting user with role:", role);
 
-      switch(role) {
-        case 'Student':
-          await router.push('/dashboard-student');
+      switch (role) {
+        case "Student":
+          await router.push("/dashboard-student");
           break;
-        case 'Teacher':
-          await router.push('/dashboard-teacher');
+        case "Teacher":
+          await router.push("/dashboard-teacher");
           break;
-        case 'Super Admin':
-        case 'Admin':
-          await router.push('/dashboard');
+        case "Super Admin":
+        case "Admin":
+          await router.push("/dashboard");
           break;
         default:
-          throw new Error('Peran tidak valid');
+          throw new Error("Peran tidak valid");
       }
-
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       setError("Terjadi kesalahan saat login. Silakan coba lagi.");
     } finally {
       setIsLoading(false);

@@ -2,7 +2,14 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function GradeList() {
   return (
@@ -22,15 +29,13 @@ export default function GradeList() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {["Grade 10A", "Grade 10B", "Grade 11A", "Grade 11B"].map((className, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="w-full"
-                >
-                  {className}
-                </Button>
-              ))}
+              {["Grade 10A", "Grade 10B", "Grade 11A", "Grade 11B"].map(
+                (className, index) => (
+                  <Button key={index} variant="outline" className="w-full">
+                    {className}
+                  </Button>
+                )
+              )}
             </div>
           </CardContent>
         </Card>
@@ -75,7 +80,8 @@ export default function GradeList() {
                     ))}
                     <TableCell>
                       {Math.round(
-                        student.grades.reduce((a, b) => a + b) / student.grades.length
+                        student.grades.reduce((a, b) => a + b) /
+                          student.grades.length
                       )}
                     </TableCell>
                     <TableCell>

@@ -27,17 +27,17 @@ export default function MaterialList() {
                   subject: "Mathematics",
                   grade: "Grade 10",
                   uploadedAt: "2 days ago",
-                  type: "PDF"
+                  type: "PDF",
                 },
                 {
                   title: "Physics Lab Guide",
                   subject: "Physics",
                   grade: "Grade 11",
                   uploadedAt: "1 week ago",
-                  type: "PDF"
-                }
+                  type: "PDF",
+                },
               ].map((material, index) => (
-                <div 
+                <div
                   key={index}
                   className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                 >
@@ -77,14 +77,16 @@ export default function MaterialList() {
                 { name: "Worksheets", count: 12 },
                 { name: "Video Lectures", count: 5 },
                 { name: "Practice Tests", count: 10 },
-                { name: "Study Guides", count: 7 }
+                { name: "Study Guides", count: 7 },
               ].map((category, index) => (
-                <div 
+                <div
                   key={index}
                   className="p-4 border rounded-lg hover:shadow-md transition-shadow"
                 >
                   <h3 className="font-semibold">{category.name}</h3>
-                  <p className="text-sm text-gray-500">{category.count} items</p>
+                  <p className="text-sm text-gray-500">
+                    {category.count} items
+                  </p>
                 </div>
               ))}
             </div>

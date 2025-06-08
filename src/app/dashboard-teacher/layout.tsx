@@ -14,15 +14,15 @@ export default function TeacherDashboardLayout({
 
   useEffect(() => {
     // Cek autentikasi
-    const dataPengguna = localStorage.getItem('pengguna');
+    const dataPengguna = localStorage.getItem("pengguna");
     if (!dataPengguna) {
-      router.push('/auth/login');
+      router.push("/auth/login");
       return;
     }
 
     const user = JSON.parse(dataPengguna);
-    if (!user.peran.includes('Teacher')) {
-      router.push('/auth/login');
+    if (!user.peran.includes("Teacher")) {
+      router.push("/auth/login");
       return;
     }
 
@@ -43,27 +43,45 @@ export default function TeacherDashboardLayout({
               Dashboard Guru
             </h2>
             <nav className="space-y-2">
-              <a href="/dashboard-teacher" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-teacher"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">🏠</span>
                 Beranda
               </a>
-              <a href="/dashboard-teacher/schedule" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-teacher/schedule"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">📅</span>
                 Jadwal
               </a>
-              <a href="/dashboard-teacher/materials" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-teacher/materials"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">📚</span>
                 Materi
               </a>
-              <a href="/dashboard-teacher/grades" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-teacher/grades"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">📊</span>
                 Nilai
               </a>
-              <a href="/dashboard-teacher/assignments" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-teacher/assignments"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">✏️</span>
                 Tugas
               </a>
-              <a href="/dashboard-teacher/students" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <a
+                href="/dashboard-teacher/students"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <span className="mr-3">👥</span>
                 Siswa
               </a>

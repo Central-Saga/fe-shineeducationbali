@@ -2,7 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Plus, FileEdit, Trash2 } from "lucide-react";
 
 // Mock data untuk testing
@@ -66,13 +73,17 @@ export default function AssignmentList() {
                   <TableCell>{assignment.title}</TableCell>
                   <TableCell>{assignment.subject}</TableCell>
                   <TableCell>{assignment.class}</TableCell>
-                  <TableCell>{new Date(assignment.dueDate).toLocaleDateString("id-ID")}</TableCell>
                   <TableCell>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      assignment.status === "Active" 
-                        ? "bg-green-100 text-green-800"
-                        : "bg-gray-100 text-gray-800"
-                    }`}>
+                    {new Date(assignment.dueDate).toLocaleDateString("id-ID")}
+                  </TableCell>
+                  <TableCell>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs ${
+                        assignment.status === "Active"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
                       {assignment.status}
                     </span>
                   </TableCell>
@@ -81,7 +92,11 @@ export default function AssignmentList() {
                       <Button variant="outline" size="icon">
                         <FileEdit className="h-4 w-4" />
                       </Button>
-                      <Button variant="outline" size="icon" className="text-red-600">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="text-red-600"
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
