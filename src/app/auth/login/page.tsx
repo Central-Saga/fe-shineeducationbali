@@ -86,21 +86,106 @@ export default function LoginPage() {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
 
     try {
-      if (email === "superadmin@example.com" && password === "password") {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulasi loading
-        router.push("/dashboard");
+      // Data pengguna sementara untuk testing
+      const mockUsers = [
+        {
+          email: "superadmin@example.com",
+          password: "password123",
+          peran: ["Super Admin"],
+          izin: ["read", "write", "delete"],
+          nama: "Super Admin"
+        },
+        {
+          email: "admin@example.com",
+          password: "password123",
+          peran: ["Admin"],
+          izin: ["read", "write"],
+          nama: "Admin"
+        },
+        {
+          email: "teacher@example.com",
+          password: "password123",
+          peran: ["Teacher"],
+          izin: ["read", "write"],
+          nama: "Teacher"
+        },
+        {
+          email: "student@example.com",
+          password: "password123",
+          peran: ["Student"],
+          izin: ["read"],
+          nama: "Student"
+        }
+      ];
+
+      const pengguna = mockUsers.find(user => 
+        user.email === email && user.password === password
+      );
+
+      if (!pengguna) {
+        setError("Email atau password salah");
+        setIsLoading(false);
         return;
       }
-      setError("Email atau password salah");
-    } catch (err) {
-      setError("Terjadi kesalahan saat login");
+
+      // Set cookie untuk autentikasi dengan expire time
+      const expireTime = new Date();
+      expireTime.setHours(expireTime.getHours() + 24); // Cookie berlaku 24 jam
+
+      // Simpan token
+      document.cookie = `access_token=token_${Date.now()}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
+      
+      // Simpan data pengguna
+      const dataPenggunaString = JSON.stringify({
+        nama: pengguna.nama,
+        email: pengguna.email,
+        peran: pengguna.peran,
+        izin: pengguna.izin
+      });
+
+      // Set cookie data pengguna
+      document.cookie = `data_pengguna=${dataPenggunaString}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
+
+      // Simpan di localStorage
+      localStorage.setItem('pengguna', dataPenggunaString);
+
+      // Debug log
+      console.log('Data pengguna tersimpan:', {
+        cookies: document.cookie,
+        localStorage: localStorage.getItem('pengguna')
+      });
+
+      // Simulasi delay server
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Redirect berdasarkan peran
+      const role = pengguna.peran[0]; // Ambil peran pertama
+      console.log('Redirecting user with role:', role);
+
+      switch(role) {
+        case 'Student':
+          await router.push('/dashboard-student');
+          break;
+        case 'Teacher':
+          await router.push('/dashboard-teacher');
+          break;
+        case 'Super Admin':
+        case 'Admin':
+          await router.push('/dashboard');
+          break;
+        default:
+          throw new Error('Peran tidak valid');
+      }
+
+    } catch (error) {
+      console.error('Login error:', error);
+      setError("Terjadi kesalahan saat login. Silakan coba lagi.");
     } finally {
       setIsLoading(false);
     }
