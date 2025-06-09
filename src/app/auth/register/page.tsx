@@ -384,29 +384,30 @@ export default function RegisterPage() {
             </form>
           </CardContent>{" "}
           <CardFooter className="flex justify-center">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.9 }}
-              className="text-sm text-center"
-            >
-              <span className="text-[#C40503]/70">
-                Already have an account?{" "}
-              </span>
-              <motion.span
-                whileHover={{
-                  scale: 1.05,
-                }}
-                className="inline-block"
+            <div className="text-sm text-center">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 }}
               >
+                <span className="text-gray-500">Already have an account? </span>
                 <Link
                   href="/auth/login"
-                  className="font-medium text-[#DAA625] hover:text-[#C40503] transition-colors duration-300"
+                  className="group relative inline-block"
                 >
-                  Sign in here ✨
+                  <motion.span
+                    className="font-medium text-[#DAA625] group-hover:text-[#C40503] transition-all duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    style={{
+                      display: "inline-block",
+                      transformOrigin: "center",
+                    }}
+                  >
+                    Sign in here ✨
+                  </motion.span>
                 </Link>
-              </motion.span>
-            </motion.div>
+              </motion.div>
+            </div>
           </CardFooter>
         </Card>
       </motion.div>
