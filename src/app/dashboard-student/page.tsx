@@ -1,12 +1,87 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StudentNavbar } from "@/components/ui-student/dashboard/StudentNavbar";
+import { StudentHero } from "@/components/ui-student/dashboard/StudentHero";
+import { StatisticsCards } from "@/components/ui-student/dashboard/StatisticsCards";
+import { ClassSchedule } from "@/components/ui-student/dashboard/ClassSchedule";
+import { LearningProgress } from "@/components/ui-student/dashboard/LearningProgress";
+import { AssignmentsAndGrades } from "@/components/ui-student/dashboard/AssignmentsAndGrades";
 
 interface StudentData {
   nama: string;
-  peran: string[];
+  role: string[];
 }
+
+// Mock data untuk contoh
+const mockAssignments = [
+  {
+    title: "Matematika - Bab 5",
+    dueIn: "2 hari lagi",
+  },
+  {
+    title: "Tugas Bahasa Inggris",
+    dueIn: "5 hari lagi",
+  },
+];
+
+const mockGrades = [
+  {
+    subject: "Ulangan IPA",
+    score: 90,
+    date: "Minggu lalu",
+  },
+  {
+    subject: "Tugas Sejarah",
+    score: 85,
+    date: "2 minggu lalu",
+  },
+];
+
+const mockSchedule = [
+  {
+    subject: "Matematika",
+    time: "08:00 - 09:30",
+    day: "Senin",
+    icon: "/picprogram/matematika.png",
+    teacher: "Bu Siti",
+  },
+  {
+    subject: "Bahasa Inggris",
+    time: "10:00 - 11:30",
+    day: "Selasa",
+    icon: "/picprogram/bahasainggris.png",
+    teacher: "Mr. John",
+  },
+  {
+    subject: "Coding",
+    time: "13:00 - 14:30",
+    day: "Rabu",
+    icon: "/picprogram/coding.png",
+    teacher: "Pak Rudi",
+  },
+];
+
+const learningProgress = [
+  {
+    subject: "Matematika",
+    progress: 75,
+    totalModules: 12,
+    completedModules: 9,
+  },
+  {
+    subject: "Bahasa Inggris",
+    progress: 60,
+    totalModules: 10,
+    completedModules: 6,
+  },
+  {
+    subject: "Coding",
+    progress: 45,
+    totalModules: 8,
+    completedModules: 4,
+  },
+];
 
 export default function StudentOverview() {
   const [studentData, setStudentData] = useState<StudentData | null>(null);
@@ -23,104 +98,27 @@ export default function StudentOverview() {
   }
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold">Welcome, {studentData.nama}</h1>
+    <>
+      <StudentNavbar studentName={studentData.nama} />
+      <div className="pt-10 px-2 min-h-screen bg-gray-50">
+        <div className="max-w-full mx-auto space-y-4">
+          <StudentHero studentName={studentData.nama} learningStreak={7} />
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Enrolled Classes
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">5</div>
-          </CardContent>
-        </Card>
+          <StatisticsCards
+            enrolledClasses={5}
+            pendingAssignments={3}
+            averageGrade="85%"
+            studyHours="24h"
+          />
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Pending Assignments
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">3</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Grade</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">85%</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Study Hours</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">24h</div>
-          </CardContent>
-        </Card>
+          <ClassSchedule schedule={mockSchedule} />
+          <LearningProgress progress={learningProgress} />
+          <AssignmentsAndGrades
+            assignments={mockAssignments}
+            grades={mockGrades}
+          />
+        </div>
       </div>
-
-      {/* Upcoming Assignments */}
-      <Card className="col-span-4">
-        <CardHeader>
-          <CardTitle>Upcoming Assignments</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center">
-              <div className="ml-4 space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  Math Homework - Chapter 5
-                </p>
-                <p className="text-sm text-muted-foreground">Due in 2 days</p>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="ml-4 space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  English Essay
-                </p>
-                <p className="text-sm text-muted-foreground">Due in 5 days</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Recent Grades */}
-      <Card className="col-span-4">
-        <CardHeader>
-          <CardTitle>Recent Grades</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-sm font-medium leading-none">Science Quiz</p>
-                <p className="text-sm text-muted-foreground">Last week</p>
-              </div>
-              <span className="text-green-600 font-bold">90%</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  History Assignment
-                </p>
-                <p className="text-sm text-muted-foreground">2 weeks ago</p>
-              </div>
-              <span className="text-green-600 font-bold">85%</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    </>
   );
 }

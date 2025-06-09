@@ -6,8 +6,8 @@ export function authMiddleware(request: NextRequest) {
     const token = request.cookies.get("access_token")?.value;
     const pathname = request.nextUrl.pathname;
 
-    // Definisi jalur publik yang bisa diakses tanpa login
-    const jalanPublik = [
+    // Define public paths that can be accessed without login
+    const publicPaths = [
       "/auth/login",
       "/auth/register",
       "/",
@@ -17,8 +17,8 @@ export function authMiddleware(request: NextRequest) {
       "/kontak",
     ];
 
-    // Definisi jalur yang membutuhkan autentikasi dan otorisasi
-    const jalanTerproteksi: Record<string, string[]> = {
+    // Define paths that require authentication and authorization
+    const protectedPaths: Record<string, string[]> = {
       "/dashboard": ["Super Admin", "Admin"],
       "/dashboard/users": ["Super Admin"],
       "/dashboard/programs": ["Super Admin", "Admin"],
@@ -35,15 +35,15 @@ export function authMiddleware(request: NextRequest) {
       "/dashboard-student/grades": ["Student"],
     };
 
-    // Pengecekan untuk jalur publik
-    if (jalanPublik.includes(pathname)) {
+    // Check for public paths
+    if (publicPaths.includes(pathname)) {
       if (token) {
-        const dataPengguna = request.cookies.get("data_pengguna")?.value;
-        if (dataPengguna) {
-          const pengguna = JSON.parse(dataPengguna);
+        const userData = request.cookies.get("data_pengguna")?.value;
+        if (userData) {
+          const user = JSON.parse(userData);
           if (
-            pengguna.peran.includes("Super Admin") ||
-            pengguna.peran.includes("Admin")
+            user.role.includes("Super Admin") ||
+            user.role.includes("Admin")
           ) {
             return NextResponse.redirect(new URL("/dashboard", request.url));
           }
@@ -52,33 +52,33 @@ export function authMiddleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    // Pengecekan untuk jalur terproteksi
-    const isJalanTerproteksi = Object.keys(jalanTerproteksi).some((path) =>
+    // Check for protected paths
+    const isProtectedPath = Object.keys(protectedPaths).some((path) =>
       pathname.startsWith(path)
     );
 
-    if (isJalanTerproteksi) {
-      // Jika tidak ada token, redirect ke login
+    if (isProtectedPath) {
+      // If no token, redirect to login
       if (!token) {
         return NextResponse.redirect(new URL("/auth/login", request.url));
       }
 
-      // Cek data pengguna dari cookies
-      const dataPengguna = request.cookies.get("data_pengguna")?.value;
-      if (!dataPengguna) {
+      // Check user data from cookies
+      const userData = request.cookies.get("data_pengguna")?.value;
+      if (!userData) {
         return NextResponse.redirect(new URL("/auth/login", request.url));
       }
 
       try {
-        const pengguna = JSON.parse(dataPengguna);
-        const peranDibutuhkan = Object.entries(jalanTerproteksi).find(
-          ([path]) => pathname.startsWith(path)
+        const user = JSON.parse(userData);
+        const requiredRoles = Object.entries(protectedPaths).find(([path]) =>
+          pathname.startsWith(path)
         )?.[1];
 
-        // Jika pengguna tidak memiliki peran yang dibutuhkan, redirect ke home
+        // If user doesn't have required role, redirect to home
         if (
-          peranDibutuhkan &&
-          !peranDibutuhkan.some((peran) => pengguna.peran.includes(peran))
+          requiredRoles &&
+          !requiredRoles.some((role) => user.role.includes(role))
         ) {
           return NextResponse.redirect(new URL("/", request.url));
         }

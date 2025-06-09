@@ -55,6 +55,13 @@ const formFields: FormFieldType[] = [
     icon: "👤",
   },
   {
+    id: "tanggalLahir",
+    label: "Tanggal Lahir",
+    type: "date",
+    placeholder: "Masukkan tanggal lahir",
+    icon: "📅",
+  },
+  {
     id: "email",
     label: "Email",
     type: "email",
@@ -74,6 +81,13 @@ const formFields: FormFieldType[] = [
     type: "textarea",
     placeholder: "Masukkan alamat lengkap",
     icon: "📍",
+  },
+  {
+    id: "tempatTinggal",
+    label: "Tempat Tinggal",
+    type: "text",
+    placeholder: "Masukkan tempat tinggal saat ini",
+    icon: "🏠",
   },
   {
     id: "password",
@@ -98,6 +112,8 @@ interface FormData {
   konfirmasiPassword: string;
   noTelepon: string;
   alamat: string;
+  tempatTinggal: string;
+  tanggalLahir: string;
 }
 
 export default function RegisterPage() {
@@ -112,6 +128,8 @@ export default function RegisterPage() {
     konfirmasiPassword: "",
     noTelepon: "",
     alamat: "",
+    tempatTinggal: "",
+    tanggalLahir: "",
   });
   const [error, setError] = useState("");
 
@@ -212,14 +230,13 @@ export default function RegisterPage() {
 
       {/* Main Card */}
       <motion.div
-        className="w-full max-w-md relative z-10"
+        className="w-full max-w-4xl relative z-10"
         initial={{ opacity: 0, y: 50, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
       >
-        <Card className="relative bg-white/90 backdrop-blur-md shadow-2xl border-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-pink-50/50 to-orange-50/50" />
-
+        <Card className="relative bg-white/95 backdrop-blur-md shadow-xl border-0 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5" />
           <CardHeader className="space-y-1 relative">
             {/* Logo Animation */}
             <motion.div
@@ -230,7 +247,7 @@ export default function RegisterPage() {
             >
               <div className="relative">
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-[#ff9b9b]/20 to-[#ffdb99]/20 rounded-full blur-2xl"
+                  className="absolute inset-0 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-full blur-2xl"
                   animate={{
                     scale: [1, 1.2, 1],
                     opacity: [0.5, 0.8, 0.5],
@@ -246,7 +263,7 @@ export default function RegisterPage() {
                   alt="Shine Education Logo"
                   width={150}
                   height={150}
-                  className="relative z-10 drop-shadow-xl"
+                  className="relative z-10"
                 />
               </div>
             </motion.div>
@@ -257,21 +274,22 @@ export default function RegisterPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-[#ff6b6b] to-[#ffa06b] bg-clip-text text-transparent">
+              <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
                 Bergabung dengan Shine Education
               </CardTitle>
-              <CardDescription className="text-center mt-2">
+              <CardDescription className="text-center mt-2 text-[#C40503]/80">
                 Mulai petualangan belajarmu bersama kami! ✨
               </CardDescription>
             </motion.div>
           </CardHeader>
-
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
               {formFields.map((field) => (
                 <motion.div
                   key={field.id}
-                  className="space-y-2"
+                  className={`space-y-2 ${
+                    field.type === "textarea" ? "col-span-2" : ""
+                  }`}
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
@@ -283,16 +301,13 @@ export default function RegisterPage() {
                 >
                   <Label
                     htmlFor={field.id}
-                    className="flex items-center gap-2 text-gray-700 font-medium"
+                    className="flex items-center gap-2 text-black font-medium"
                   >
                     <span className="text-xl">{field.icon}</span>
                     {field.label}
-                  </Label>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="relative"
-                  >
+                  </Label>{" "}
+                  <motion.div className="relative">
+                    {" "}
                     {field.type === "textarea" ? (
                       <Textarea
                         id={field.id}
@@ -300,11 +315,16 @@ export default function RegisterPage() {
                         placeholder={field.placeholder}
                         value={formData[field.id]}
                         onChange={handleChange}
-                        className={`min-h-[100px] bg-white/80 border-gray-200 focus:border-[#ff6b6b] focus:ring-[#ff6b6b] shadow-sm hover:shadow-md transition-all duration-300 ${
-                          activeField === field.id
-                            ? "shadow-lg ring-2 ring-[#ff6b6b]/20"
-                            : ""
-                        }`}
+                        className={`min-h-[100px] bg-white text-black placeholder:text-gray-500
+                          border-[1px] ${
+                            activeField === field.id
+                              ? "border-[#C40503]"
+                              : "border-gray-200"
+                          }
+                          focus:border-[#C40503] focus:outline-none focus:ring-0
+                          !shadow-none !ring-0 hover:shadow-none active:shadow-none
+                          transition-colors duration-300`}
+                        style={{ boxShadow: "none" }}
                         onFocus={() => setActiveField(field.id)}
                         onBlur={() => setActiveField("")}
                         required
@@ -317,11 +337,12 @@ export default function RegisterPage() {
                         placeholder={field.placeholder}
                         value={formData[field.id]}
                         onChange={handleChange}
-                        className={`bg-white/80 border-gray-200 focus:border-[#ff6b6b] focus:ring-[#ff6b6b] shadow-sm hover:shadow-md transition-all duration-300 ${
-                          activeField === field.id
-                            ? "shadow-lg ring-2 ring-[#ff6b6b]/20"
-                            : ""
-                        }`}
+                        className="bg-white text-black placeholder:text-gray-500
+                          border-[1px] border-gray-200
+                          focus:border-[#C40503] focus:outline-none focus:ring-0
+                          !shadow-none !ring-0 hover:shadow-none active:shadow-none
+                          transition-colors duration-300"
+                        style={{ boxShadow: "none" }}
                         onFocus={() => setActiveField(field.id)}
                         onBlur={() => setActiveField("")}
                         required
@@ -338,7 +359,7 @@ export default function RegisterPage() {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="bg-red-50/80 backdrop-blur-sm text-[#ff6b6b] text-sm p-3 rounded-md text-center"
+                    className="col-span-2 bg-[#C40503]/10 backdrop-blur-sm text-[#C40503] text-sm p-3 rounded-md text-center"
                   >
                     {error}
                   </motion.div>
@@ -347,33 +368,21 @@ export default function RegisterPage() {
 
               {/* Submit Button */}
               <motion.div
+                className="col-span-2"
                 whileHover={{
-                  scale: 1.03,
-                  rotate: [0, -1, 1, -1, 0],
-                  transition: {
-                    rotate: {
-                      repeat: Infinity,
-                      duration: 0.5,
-                    },
-                    scale: {
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 10,
-                    },
-                  },
+                  scale: 1.02,
                 }}
-                whileTap={{ scale: 0.97 }}
+                whileTap={{ scale: 0.98 }}
               >
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-[#ff6b6b] to-[#ffa06b] hover:from-[#ff5b5b] hover:to-[#ff906b] text-white shadow-lg hover:shadow-xl hover:translate-y-[-2px] transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:from-[#C40503]/90 hover:to-[#DAA625]/90 text-white transition-all duration-300"
                 >
                   Mulai Belajar Bersama Kami! 🚀
                 </Button>
               </motion.div>
             </form>
-          </CardContent>
-
+          </CardContent>{" "}
           <CardFooter className="flex justify-center">
             <motion.div
               initial={{ opacity: 0 }}
@@ -381,23 +390,20 @@ export default function RegisterPage() {
               transition={{ delay: 0.9 }}
               className="text-sm text-center"
             >
-              <span className="text-gray-500">Sudah punya akun? </span>
+              <span className="text-[#C40503]/70">
+                Already have an account?{" "}
+              </span>
               <motion.span
                 whileHover={{
-                  scale: 1.1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 10,
-                  },
+                  scale: 1.05,
                 }}
                 className="inline-block"
               >
                 <Link
                   href="/auth/login"
-                  className="font-medium text-[#ff6b6b] hover:text-[#ff906b] transition-colors duration-300"
+                  className="font-medium text-[#DAA625] hover:text-[#C40503] transition-colors duration-300"
                 >
-                  Masuk di sini ✨
+                  Sign in here ✨
                 </Link>
               </motion.span>
             </motion.div>

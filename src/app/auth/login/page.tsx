@@ -97,38 +97,38 @@ export default function LoginPage() {
         {
           email: "superadmin@example.com",
           password: "password123",
-          peran: ["Super Admin"],
-          izin: ["read", "write", "delete"],
+          role: ["Super Admin"],
+          permissions: ["read", "write", "delete"],
           nama: "Super Admin",
         },
         {
           email: "admin@example.com",
           password: "password123",
-          peran: ["Admin"],
-          izin: ["read", "write"],
+          role: ["Admin"],
+          permissions: ["read", "write"],
           nama: "Admin",
         },
         {
           email: "teacher@example.com",
           password: "password123",
-          peran: ["Teacher"],
-          izin: ["read", "write"],
+          role: ["Teacher"],
+          permissions: ["read", "write"],
           nama: "Teacher",
         },
         {
           email: "student@example.com",
           password: "password123",
-          peran: ["Student"],
-          izin: ["read"],
+          role: ["Student"],
+          permissions: ["read"],
           nama: "Student",
         },
       ];
 
-      const pengguna = mockUsers.find(
+      const user = mockUsers.find(
         (user) => user.email === email && user.password === password
       );
 
-      if (!pengguna) {
+      if (!user) {
         setError("Email atau password salah");
         setIsLoading(false);
         return;
@@ -141,19 +141,19 @@ export default function LoginPage() {
       // Simpan token
       document.cookie = `access_token=token_${Date.now()}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
 
-      // Simpan data pengguna
-      const dataPenggunaString = JSON.stringify({
-        nama: pengguna.nama,
-        email: pengguna.email,
-        peran: pengguna.peran,
-        izin: pengguna.izin,
+      // Simpan data pengguna dengan struktur yang diperbarui
+      const userData = JSON.stringify({
+        nama: user.nama,
+        email: user.email,
+        role: user.role,
+        permissions: user.permissions,
       });
 
       // Set cookie data pengguna
-      document.cookie = `data_pengguna=${dataPenggunaString}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
+      document.cookie = `data_pengguna=${userData}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
 
       // Simpan di localStorage
-      localStorage.setItem("pengguna", dataPenggunaString);
+      localStorage.setItem("pengguna", userData);
 
       // Debug log
       console.log("Data pengguna tersimpan:", {
@@ -164,11 +164,11 @@ export default function LoginPage() {
       // Simulasi delay server
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Redirect berdasarkan peran
-      const role = pengguna.peran[0]; // Ambil peran pertama
-      console.log("Redirecting user with role:", role);
+      // Redirect berdasarkan role
+      const userRole = user.role[0]; // Ambil role pertama
+      console.log("Redirecting user with role:", userRole);
 
-      switch (role) {
+      switch (userRole) {
         case "Student":
           await router.push("/dashboard-student");
           break;
@@ -180,7 +180,7 @@ export default function LoginPage() {
           await router.push("/dashboard");
           break;
         default:
-          throw new Error("Peran tidak valid");
+          throw new Error("Role tidak valid");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -298,69 +298,77 @@ export default function LoginPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5" />
 
             <CardHeader className="space-y-1 text-center relative">
+              {" "}
               <motion.h2
                 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                Masuk ke Akun Anda
+                Sign In to Your Account
               </motion.h2>
               <p className="text-gray-500">
-                Selamat datang kembali di Shine Education
+                Welcome back to Shine Education ✨
               </p>
             </CardHeader>
 
             <CardContent className="relative">
               <form onSubmit={handleSubmit} className="space-y-4">
+                {" "}
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    style={{ transformOrigin: "center" }}
-                  >
+                  <Label htmlFor="email" className="flex items-center gap-2">
+                    <span className="text-xl">📧</span>
+                    Email
+                  </Label>
+                  <motion.div className="relative">
                     <Input
                       id="email"
                       type="email"
-                      placeholder="nama@email.com"
+                      placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="bg-white/80 backdrop-blur-sm border-gray-200 focus:border-[#C40503] focus:ring-[#C40503] shadow-sm hover:shadow-md transition-all duration-300"
+                      className="bg-white text-black border-[1px] border-transparent
+                        focus:border-[#C40503] focus:outline-none focus:ring-0
+                        shadow-none focus:ring-transparent hover:shadow-none
+                        active:shadow-none focus-visible:ring-0
+                        transition-colors duration-300"
+                      style={{ boxShadow: "none" }}
                       required
                     />
                   </motion.div>
                 </div>
-
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    style={{ transformOrigin: "center" }}
-                  >
+                  <Label htmlFor="password" className="flex items-center gap-2">
+                    <span className="text-xl">🔒</span>
+                    Password
+                  </Label>
+                  <motion.div className="relative">
                     <Input
                       id="password"
                       type="password"
-                      placeholder="Masukkan password"
+                      placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="bg-white/80 backdrop-blur-sm border-gray-200 focus:border-[#C40503] focus:ring-[#C40503] shadow-sm hover:shadow-md transition-all duration-300"
+                      className="bg-white text-black border-[1px] border-gray-200
+                        focus:border-[#C40503] focus:outline-none focus:ring-0
+                        !shadow-none !ring-0 hover:shadow-none active:shadow-none
+                        transition-colors duration-300"
+                      style={{ boxShadow: "none" }}
                       required
                     />
                   </motion.div>
                 </div>
-
                 {error && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-red-50/80 backdrop-blur-sm text-[#C40503] text-sm p-3 rounded-md text-center shadow-sm"
+                    className="bg-red-50/80 backdrop-blur-sm text-[#C40503] text-sm p-3 rounded-md text-center"
                   >
-                    {error}
+                    {error === "Email atau password salah"
+                      ? "Invalid email or password"
+                      : "An error occurred. Please try again."}
                   </motion.div>
                 )}
-
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -369,7 +377,7 @@ export default function LoginPage() {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:from-[#b30402] hover:to-[#c99421] text-white shadow-lg hover:shadow-xl hover:translate-y-[-2px] transition-all duration-300"
+                    className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:from-[#C40503]/90 hover:to-[#DAA625]/90 text-white transition-all duration-300"
                   >
                     {isLoading ? (
                       <motion.div
@@ -382,13 +390,12 @@ export default function LoginPage() {
                         className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                       />
                     ) : (
-                      "Masuk"
+                      "Sign In 🚀"
                     )}
                   </Button>
                 </motion.div>
-
                 <div className="text-center text-sm">
-                  <span className="text-gray-500">Belum punya akun? </span>
+                  <span className="text-gray-500">Don't have an account? </span>
                   <motion.div
                     className="inline-block"
                     whileHover={{ scale: 1.1 }}
@@ -398,7 +405,7 @@ export default function LoginPage() {
                       href="/auth/register"
                       className="text-[#C40503] hover:text-[#DAA625] font-medium transition-all duration-300"
                     >
-                      Daftar di sini
+                      Register here ✨
                     </Link>
                   </motion.div>
                 </div>
