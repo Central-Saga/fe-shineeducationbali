@@ -2,6 +2,7 @@
 
 import { Overview } from "@/components/ui-admin/grades/Overview";
 import { GradeTable } from "@/components/ui-admin/grades/GradeTable";
+import { SubjectCards } from "@/components/ui-admin/grades/SubjectCards";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function GradesPage() {
@@ -26,10 +27,7 @@ export default function GradesPage() {
         </TabsContent>
 
         <TabsContent value="subjects">
-          {/* Ini akan diimplementasikan nanti untuk view per mata pelajaran */}
-          <div className="text-center py-8 text-muted-foreground">
-            Fitur tampilan per mata pelajaran akan segera hadir
-          </div>
+          <SubjectCards />
         </TabsContent>
       </Tabs>
     </div>
