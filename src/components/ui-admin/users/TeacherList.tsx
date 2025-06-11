@@ -49,7 +49,7 @@ export function TeacherList() {
       <TeacherDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
-        teacher={selectedTeacher}
+        teacher={selectedTeacher || undefined}
       />
     </div>
   );

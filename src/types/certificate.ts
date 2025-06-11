@@ -1,29 +1,21 @@
+export type CertificateStatus = "issued" | "draft" | "pending";
+export type CertificateType = "course" | "achievement" | "completion";
+
 export interface Certificate {
   id: string;
   studentId: string;
-  recipientName: string; // Added recipient name
-  title: string;
-  description: string;
-  previewUrl: string; // Added preview URL
-  achievementDate: string;
+  studentName: string;
+  courseId: string;
+  courseName: string;
   issueDate: string;
+  certificateNumber: string;
+  status: CertificateStatus;
+  grade: string;
+  teacherName: string;
   validUntil?: string;
-  status: "issued" | "draft" | "pending"; // Added status property
-  type: "COURSE_COMPLETION" | "ACHIEVEMENT" | "PARTICIPATION";
-  metadata: {
-    courseId?: string;
-    courseName?: string;
-    grade?: string;
-    achievementDetails?: string;
-  };
-  signedBy: {
-    name: string;
-    position: string;
-    signature: string;
-  };
-  templateId: string;
-  createdAt: string;
-  updatedAt: string;
+  type: CertificateType;
+  signedBy: string;
+  metadata?: Record<string, any>; // Adding metadata property
 }
 
 export interface CertificateTemplate {

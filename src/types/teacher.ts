@@ -1,14 +1,23 @@
+export type EducationLevel = "SD" | "SMP" | "SMA";
+export type TeacherStatus = "ACTIVE" | "INACTIVE";
+
 export interface Teacher {
   id: string;
-  nip: string;
   name: string;
   email: string;
-  phone: string;
-  address: string;
+  phoneNumber: string;
+  profilePhoto: string | null;
+  subjects: string[];
+  educationLevel: EducationLevel[];
+  status: TeacherStatus;
   specialization: string[];
-  status: "ACTIVE" | "INACTIVE";
-  createdAt: Date;
-  updatedAt: Date;
+  yearsOfExperience: number;
+  certifications: string[];
+  schedule: {
+    [key: string]: string[];
+  };
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface TeacherAssignment {

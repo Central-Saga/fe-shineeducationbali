@@ -17,13 +17,13 @@ const generateStudentGrades = (total: number) => {
     id: `SSW000${1000 + index}`,
     name: `Siswa ${index + 1}`,
     scores: {
-      'Str & Voc': Math.floor(Math.random() * (95 - 75) + 75),
-      'Reading': Math.floor(Math.random() * (95 - 75) + 75),
-      'Speaking': Math.floor(Math.random() * (95 - 75) + 75),
-      'Listening': Math.floor(Math.random() * (95 - 75) + 75),
-      'Writing': Math.floor(Math.random() * (95 - 75) + 75),
-      'ACT': Math.floor(Math.random() * (95 - 75) + 75),
-    }
+      "Str & Voc": Math.floor(Math.random() * (95 - 75) + 75),
+      Reading: Math.floor(Math.random() * (95 - 75) + 75),
+      Speaking: Math.floor(Math.random() * (95 - 75) + 75),
+      Listening: Math.floor(Math.random() * (95 - 75) + 75),
+      Writing: Math.floor(Math.random() * (95 - 75) + 75),
+      ACT: Math.floor(Math.random() * (95 - 75) + 75),
+    },
   }));
 };
 
@@ -36,7 +36,7 @@ export default function SubjectDetailPage() {
     id: parseInt(subjectId),
     name: "Bahasa Inggris",
     level: "SMP",
-    totalStudents: 45
+    totalStudents: 45,
   };
 
   const students = generateStudentGrades(subject.totalStudents);
@@ -48,12 +48,8 @@ export default function SubjectDetailPage() {
           Detail Nilai - {subject.name} ({subject.level})
         </h1>
         <div className="flex gap-2">
-          <Button variant="outline">
-            Kembali
-          </Button>
-          <Button variant="default">
-            Cetak Sertifikat Kelas
-          </Button>
+          <Button variant="outline">Kembali</Button>
+          <Button variant="default">Cetak Sertifikat Kelas</Button>
         </div>
       </div>
 
@@ -76,11 +72,13 @@ export default function SubjectDetailPage() {
               <TableRow key={student.id}>
                 <TableCell className="font-medium">
                   <div>
-                    <div className="text-sm text-muted-foreground">ID: {student.id}</div>
+                    <div className="text-sm text-muted-foreground">
+                      ID: {student.id}
+                    </div>
                     <div>{student.name}</div>
                   </div>
                 </TableCell>
-                <TableCell>{student.scores['Str & Voc']}</TableCell>
+                <TableCell>{student.scores["Str & Voc"]}</TableCell>
                 <TableCell>{student.scores.Reading}</TableCell>
                 <TableCell>{student.scores.Speaking}</TableCell>
                 <TableCell>{student.scores.Listening}</TableCell>
