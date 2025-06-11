@@ -23,8 +23,8 @@ class StudentService {
           duration: 6,
           startDate: "2025-01-01",
           endDate: "2025-06-30",
-          status: "active",
-        },
+          status: "active"
+        }
       ],
       placements: [
         {
@@ -34,9 +34,9 @@ class StudentService {
           className: "7A",
           packageId: "pkg1",
           placementDate: "2025-01-01",
-          status: "active",
-        },
-      ],
+          status: "active"
+        }
+      ]
     },
     {
       id: "2",
@@ -51,7 +51,7 @@ class StudentService {
       status: "active",
       enrollmentDate: "2025-01-02",
       packages: [],
-      placements: [],
+      placements: []
     },
     {
       id: "3",
@@ -66,7 +66,7 @@ class StudentService {
       status: "inactive",
       enrollmentDate: "2024-12-01",
       packages: [],
-      placements: [],
+      placements: []
     },
     {
       id: "4",
@@ -80,27 +80,25 @@ class StudentService {
       status: "active",
       enrollmentDate: "2025-01-03",
       packages: [],
-      placements: [],
-    },
+      placements: []
+    }
   ];
 
   async getStudents(): Promise<Student[]> {
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 500));
     return this.students;
   }
 
   async getStudentById(id: string): Promise<Student | null> {
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 300));
     return this.students.find((s) => s.id === id) || null;
   }
 
-  async createStudent(
-    student: Omit<Student, "id" | "enrollmentDate" | "packages" | "placements">
-  ): Promise<Student> {
+  async createStudent(student: Omit<Student, "id" | "enrollmentDate" | "packages" | "placements">): Promise<Student> {
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const newStudent = {
       id: Math.random().toString(36).substr(2, 9),
       enrollmentDate: new Date().toISOString(),
@@ -112,12 +110,9 @@ class StudentService {
     return newStudent;
   }
 
-  async updateStudent(
-    id: string,
-    data: Partial<Omit<Student, "id" | "enrollmentDate">>
-  ): Promise<Student> {
+  async updateStudent(id: string, data: Partial<Omit<Student, "id" | "enrollmentDate">>): Promise<Student> {
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 800));
     const index = this.students.findIndex((s) => s.id === id);
     if (index !== -1) {
       this.students[index] = {
@@ -131,7 +126,7 @@ class StudentService {
 
   async deleteStudent(id: string): Promise<void> {
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    await new Promise(resolve => setTimeout(resolve, 600));
     const index = this.students.findIndex((s) => s.id === id);
     if (index !== -1) {
       this.students.splice(index, 1);
@@ -140,26 +135,21 @@ class StudentService {
     throw new Error("Student not found");
   }
 
-  async getStudentsByEducationLevel(
-    level: Student["educationLevel"]
-  ): Promise<Student[]> {
+  async getStudentsByEducationLevel(level: Student["educationLevel"]): Promise<Student[]> {
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 300));
     return this.students.filter((s) => s.educationLevel === level);
   }
 
   async getStudentsByStatus(status: Student["status"]): Promise<Student[]> {
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 300));
     return this.students.filter((s) => s.status === status);
   }
 
-  async enrollInPackage(
-    studentId: string,
-    packageId: string
-  ): Promise<Student> {
+  async enrollInPackage(studentId: string, packageId: string): Promise<Student> {
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const student = await this.getStudentById(studentId);
     if (!student) throw new Error("Student not found");
 
@@ -170,9 +160,7 @@ class StudentService {
       subjects: ["Matematika", "IPA", "Bahasa Inggris"],
       duration: 6,
       startDate: new Date().toISOString(),
-      endDate: new Date(
-        Date.now() + 6 * 30 * 24 * 60 * 60 * 1000
-      ).toISOString(),
+      endDate: new Date(Date.now() + 6 * 30 * 24 * 60 * 60 * 1000).toISOString(),
       status: "active" as const,
     };
 
@@ -181,12 +169,9 @@ class StudentService {
     });
   }
 
-  async updatePlacement(
-    studentId: string,
-    placement: Student["placements"][0]
-  ): Promise<Student> {
+  async updatePlacement(studentId: string, placement: Student["placements"][0]): Promise<Student> {
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 800));
     const student = await this.getStudentById(studentId);
     if (!student) throw new Error("Student not found");
 

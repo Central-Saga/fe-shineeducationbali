@@ -26,6 +26,28 @@ const navigation = [
     icon: LayoutDashboard,
   },
   {
+    name: "Manajemen Pengguna",
+    href: "/dashboard/users",
+    icon: Users,
+    submenu: [
+      {
+        name: "Manajemen Siswa",
+        href: "/dashboard/users/students",
+        description: "Kelola data siswa dan penempatan kelas",
+      },
+      {
+        name: "Manajemen Guru",
+        href: "/dashboard/users/teachers",
+        description: "Kelola data guru dan jadwal mengajar",
+      },
+      {
+        name: "Role & Permissions",
+        href: "/dashboard/users/roles",
+        description: "Atur peran dan hak akses pengguna",
+      },
+    ],
+  },
+  {
     name: "Manajemen Sertifikat",
     href: "/dashboard/certificates",
     icon: GraduationCap,
@@ -48,24 +70,14 @@ const navigation = [
     ],
   },
   {
-    name: "Manajemen Pengguna",
-    href: "/dashboard/users",
-    icon: Users,
+    name: "Manajemen Nilai",
+    href: "/dashboard/grades",
+    icon: FilePieChart,
     submenu: [
       {
-        name: "Manajemen Siswa",
-        href: "/dashboard/users/students",
-        description: "Kelola data siswa dan penempatan kelas",
-      },
-      {
-        name: "Manajemen Guru",
-        href: "/dashboard/users/teachers",
-        description: "Kelola data guru dan jadwal mengajar",
-      },
-      {
-        name: "Role & Permissions",
-        href: "/dashboard/users/roles",
-        description: "Atur peran dan hak akses pengguna",
+        name: "Daftar Nilai",
+        href: "/dashboard/grades",
+        description: "Kelola data nilai siswa",
       },
     ],
   },
@@ -188,76 +200,76 @@ export function AdminSidebar() {
             const hasSubmenu = item.submenu && item.submenu.length > 0;
             const isOpen = isMenuOpen(item.name);
 
-          return (
-            <div key={item.name} className="relative group">
-              {hasSubmenu ? (
-                // Menu items with submenu
-                <div
-                  className={cn(
-                    "flex items-center justify-between gap-3 rounded-lg px-3 py-2 transition-all cursor-pointer",
-                    isActive
-                      ? "bg-red-50 text-red-600"
-                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                  )}
-                  onClick={() => toggleMenu(item.name)}
-                >
-                  <div className="flex items-center gap-3">
-                    <item.icon className="h-4 w-4" />
-                    <span className="text-sm font-medium">{item.name}</span>
-                  </div>
-                  <div className="text-gray-400">
-                    {isOpen ? (
-                      <ChevronDown className="h-4 w-4" />
-                    ) : (
-                      <ChevronRight className="h-4 w-4" />
-                    )}
-                  </div>
-                </div>
-              ) : (
-                // Menu items without submenu (like Dashboard)
-                <Link href={item.href}>
+            return (
+              <div key={item.name} className="relative group">
+                {hasSubmenu ? (
+                  // Menu items with submenu
                   <div
                     className={cn(
-                      "flex items-center justify-between gap-3 rounded-lg px-3 py-2 transition-all",
+                      "flex items-center justify-between gap-3 rounded-lg px-3 py-2 transition-all cursor-pointer",
                       isActive
                         ? "bg-red-50 text-red-600"
                         : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                     )}
+                    onClick={() => toggleMenu(item.name)}
                   >
                     <div className="flex items-center gap-3">
                       <item.icon className="h-4 w-4" />
                       <span className="text-sm font-medium">{item.name}</span>
                     </div>
+                    <div className="text-gray-400">
+                      {isOpen ? (
+                        <ChevronDown className="h-4 w-4" />
+                      ) : (
+                        <ChevronRight className="h-4 w-4" />
+                      )}
+                    </div>
                   </div>
-                </Link>
-              )}
-
-              {/* Submenu rendering remains the same */}
-              {hasSubmenu && isOpen && (
-                <div className="ml-6 mt-1 flex flex-col gap-1">
-                  {item.submenu.map((subitem) => (
-                    <Link
-                      key={subitem.name}
-                      href={subitem.href}
+                ) : (
+                  // Menu items without submenu (like Dashboard)
+                  <Link href={item.href}>
+                    <div
                       className={cn(
-                        "text-sm flex flex-col gap-1 rounded-lg px-3 py-2 transition-all",
-                        pathname === subitem.href
-                          ? "text-red-600 font-medium"
-                          : "text-gray-500 hover:text-gray-900"
+                        "flex items-center justify-between gap-3 rounded-lg px-3 py-2 transition-all",
+                        isActive
+                          ? "bg-red-50 text-red-600"
+                          : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                       )}
                     >
-                      <span>{subitem.name}</span>
-                      {subitem.description && (
-                        <span className="text-xs text-gray-400">
-                          {subitem.description}
-                        </span>
-                      )}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
+                      <div className="flex items-center gap-3">
+                        <item.icon className="h-4 w-4" />
+                        <span className="text-sm font-medium">{item.name}</span>
+                      </div>
+                    </div>
+                  </Link>
+                )}
+
+                {/* Submenu rendering remains the same */}
+                {hasSubmenu && isOpen && (
+                  <div className="ml-6 mt-1 flex flex-col gap-1">
+                    {item.submenu.map((subitem) => (
+                      <Link
+                        key={subitem.name}
+                        href={subitem.href}
+                        className={cn(
+                          "text-sm flex flex-col gap-1 rounded-lg px-3 py-2 transition-all",
+                          pathname === subitem.href
+                            ? "text-red-600 font-medium"
+                            : "text-gray-500 hover:text-gray-900"
+                        )}
+                      >
+                        <span>{subitem.name}</span>
+                        {subitem.description && (
+                          <span className="text-xs text-gray-400">
+                            {subitem.description}
+                          </span>
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
           })}
         </nav>
       </div>

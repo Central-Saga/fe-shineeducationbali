@@ -1,12 +1,18 @@
+export type EducationLevel = "SD" | "SMP" | "SMA" | "UMUM";
+
 export interface Student {
   id: string;
   name: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
+  educationLevel: EducationLevel;
   class?: string;
+  address: string;
+  parentName: string;
+  parentPhone: string;
   status: "active" | "inactive";
-  createdAt: string;
-  updatedAt: string;
+  enrollmentDate: string;
+  profilePhoto?: string;
   packages: StudentPackage[];
   placements: StudentPlacement[];
 }
