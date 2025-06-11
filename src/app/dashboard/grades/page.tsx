@@ -1,50 +1,35 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Overview } from "@/components/ui-admin/grades/Overview";
-import { GradeList } from "@/components/ui-admin/grades/GradeList";
+import { GradeTable } from "@/components/ui-admin/grades/GradeTable";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function GradesPage() {
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Manajemen Nilai</h2>
-      </div>
+    <div className="p-6 space-y-6">
+      <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+        Manajemen Nilai
+      </h1>
 
-      <Tabs defaultValue="overview" className="space-y-4">
+      {/* Overview Cards */}
+      <Overview />
+
+      {/* Grade Management Tabs */}
+      <Tabs defaultValue="all" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="all-grades">Semua Nilai</TabsTrigger>
-          <TabsTrigger value="by-course">Per Mata Pelajaran</TabsTrigger>
+          <TabsTrigger value="all">Daftar Nilai</TabsTrigger>
+          <TabsTrigger value="subjects">Per Mata Pelajaran</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-4">
-          <Overview />
+        <TabsContent value="all" className="space-y-4">
+          <GradeTable />
         </TabsContent>
 
-        <TabsContent value="all-grades">
-          <GradeList />
-        </TabsContent>
-
-        <TabsContent value="by-course">
-          <Card>
-            <CardHeader>
-              <CardTitle>Nilai Per Mata Pelajaran</CardTitle>
-              <CardDescription>
-                Lihat dan kelola nilai berdasarkan mata pelajaran
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {/* Course-based grade content will be implemented */}
-            </CardContent>
-          </Card>
+        <TabsContent value="subjects">
+          {/* Ini akan diimplementasikan nanti untuk view per mata pelajaran */}
+          <div className="text-center py-8 text-muted-foreground">
+            Fitur tampilan per mata pelajaran akan segera hadir
+          </div>
         </TabsContent>
       </Tabs>
     </div>
