@@ -38,8 +38,15 @@ export function StudentTable({ students, onStudentChange }: StudentTableProps) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [sortField, setSortField] = useState<keyof Student>("name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-
   const sortedStudents = [...students].sort((a, b) => {
+    if (sortField === "packages") {
+      const aPackages = a.packages?.length || 0;
+      const bPackages = b.packages?.length || 0;
+      return sortDirection === "asc"
+        ? aPackages - bPackages
+        : bPackages - aPackages;
+    }
+
     const aValue = a[sortField] ?? "";
     const bValue = b[sortField] ?? "";
 
@@ -108,14 +115,14 @@ export function StudentTable({ students, onStudentChange }: StudentTableProps) {
                 Email
                 <ArrowUpDown className="ml-2 h-4 w-4" />
               </Button>
-            </TableHead>
+            </TableHead>{" "}
             <TableHead>
               <Button
                 variant="ghost"
-                onClick={() => handleSort("class")}
+                onClick={() => handleSort("packages")}
                 className="h-8 px-2"
               >
-                Kelas
+                Paket Kursus
                 <ArrowUpDown className="ml-2 h-4 w-4" />
               </Button>
             </TableHead>
@@ -135,9 +142,54 @@ export function StudentTable({ students, onStudentChange }: StudentTableProps) {
         <TableBody>
           {sortedStudents.map((student) => (
             <TableRow key={student.id}>
+              {" "}
               <TableCell className="font-medium">{student.name}</TableCell>
-              <TableCell>{student.email}</TableCell>
-              <TableCell>{student.class}</TableCell>
+              <TableCell>{student.email}</TableCell>{" "}
+              <TableCell>
+                <div className="space-y-2">
+                  {student.packages && student.packages.length > 0 ? (
+                    student.packages.map((pkg) => (
+                      <div key={pkg.id} className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                              pkg.type === "regular"
+                                ? "bg-blue-100 text-blue-800"
+                                : "bg-purple-100 text-purple-800"
+                            }`}
+                          >
+                            {pkg.name}
+                          </span>
+                          <span
+                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs ${
+                              pkg.status === "active"
+                                ? "bg-green-100 text-green-800"
+                                : pkg.status === "completed"
+                                ? "bg-gray-100 text-gray-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {pkg.status === "active"
+                              ? "⏺ Aktif"
+                              : pkg.status === "completed"
+                              ? "✓ Selesai"
+                              : "⨯ Dibatalkan"}
+                          </span>
+                        </div>
+                        <div className="text-xs text-gray-500 pl-2">
+                          {pkg.courses.map((course, idx) => (
+                            <div key={idx} className="flex items-center gap-1">
+                              • {course.name}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <span className="text-gray-500">Belum ada paket</span>
+                  )}
+                </div>
+              </TableCell>
               <TableCell>
                 <span
                   className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -157,12 +209,23 @@ export function StudentTable({ students, onStudentChange }: StudentTableProps) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    {" "}
                     {canEdit && (
-                      <DropdownMenuItem
-                        onClick={() => handleEditClick(student)}
-                      >
-                        Edit
-                      </DropdownMenuItem>
+                      <>
+                        <DropdownMenuItem
+                          onClick={() => handleEditClick(student)}
+                        >
+                          Edit Profil
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            // TODO: Implement package management dialog
+                            console.log("Manage packages for:", student.name);
+                          }}
+                        >
+                          Kelola Paket Kursus
+                        </DropdownMenuItem>
+                      </>
                     )}
                     {canDelete && (
                       <DropdownMenuItem
@@ -180,18 +243,10 @@ export function StudentTable({ students, onStudentChange }: StudentTableProps) {
         </TableBody>
       </Table>
 
-      {canEdit && (
-        <StudentDialog
+      {canEdit && (        <StudentDialog
           open={isEditDialogOpen}
           onOpenChange={setIsEditDialogOpen}
-          initialData={
-            selectedStudent
-              ? {
-                  ...selectedStudent,
-                  class: selectedStudent.class || "",
-                }
-              : undefined
-          }
+          student={selectedStudent}
           onSuccess={() => {
             onStudentChange();
             setSelectedStudent(null);

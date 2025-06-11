@@ -1,102 +1,62 @@
-import { Class, ClassSchedule } from "@/types/class";
+import { Class } from "@/types/class";
+
+interface StudentPlacement {
+  studentId: string;
+  classId: string;
+  placementDate: string;
+  status: "active" | "inactive";
+}
 
 class ClassService {
-  private classes: Class[] = [];
+  private classes: Class[] = [
+    {
+      id: "1",
+      name: "Kelas A",
+      subject: "Matematika",
+      capacity: 20,
+      currentStudents: 15,
+      teacherId: "T1",
+      schedule: "Senin & Rabu, 14:00-15:30",
+      room: "R101",
+      academicYear: "2025/2026",
+      semester: 1,
+      status: "active"
+    },
+    {
+      id: "2",
+      name: "Kelas B",
+      subject: "Bahasa Inggris",
+      capacity: 15,
+      currentStudents: 10,
+      teacherId: "T2",
+      schedule: "Selasa & Kamis, 14:00-15:30",
+      room: "R102",
+      academicYear: "2025/2026",
+      semester: 1,
+      status: "active"
+    }
+  ];
 
   async getClasses(): Promise<Class[]> {
-    // TODO: Implement API call
+    await new Promise(resolve => setTimeout(resolve, 500));
     return this.classes;
   }
 
   async getClassById(id: string): Promise<Class | null> {
-    // TODO: Implement API call
-    return this.classes.find((c) => c.id === id) || null;
+    await new Promise(resolve => setTimeout(resolve, 300));
+    return this.classes.find(c => c.id === id) || null;
   }
 
-  async createClass(
-    data: Omit<Class, "id" | "createdAt" | "updatedAt">
-  ): Promise<Class> {
-    // TODO: Implement API call
-    const newClass = {
-      id: Math.random().toString(36).substr(2, 9),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      ...data,
-    };
-    this.classes.push(newClass);
-    return newClass;
-  }
-
-  async updateClass(id: string, data: Partial<Class>): Promise<Class> {
-    // TODO: Implement API call
-    const index = this.classes.findIndex((c) => c.id === id);
-    if (index === -1) throw new Error("Class not found");
-
-    this.classes[index] = {
-      ...this.classes[index],
-      ...data,
-      updatedAt: new Date().toISOString(),
-    };
-    return this.classes[index];
-  }
-
-  async deleteClass(id: string): Promise<void> {
-    // TODO: Implement API call
-    const index = this.classes.findIndex((c) => c.id === id);
-    if (index === -1) throw new Error("Class not found");
-    this.classes.splice(index, 1);
-  }
-
-  async getClassSchedule(classId: string): Promise<ClassSchedule[]> {
-    // TODO: Implement API call
-    const classData = await this.getClassById(classId);
-    return classData?.schedule || [];
-  }
-  async updateClassSchedule(
-    classId: string,
-    schedule: ClassSchedule[]
-  ): Promise<void> {
-    // TODO: Implement API call
-    await this.updateClass(classId, { schedule });
-  }
-
-  async bulkPlaceStudents(
-    placements: Array<{
-      studentId: string;
-      classId: string;
-      placementDate: string;
-      status: "active" | "completed" | "cancelled";
-    }>
-  ): Promise<void> {
-    // TODO: Implement API call
-    for (const placement of placements) {
-      const classData = await this.getClassById(placement.classId);
-      if (!classData) {
-        throw new Error(`Class ${placement.classId} not found`);
+  async bulkPlaceStudents(placements: StudentPlacement[]): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    // In a real application, this would update the database
+    // For now, we'll just update the currentStudents count
+    placements.forEach(placement => {
+      const classIndex = this.classes.findIndex(c => c.id === placement.classId);
+      if (classIndex !== -1) {
+        this.classes[classIndex].currentStudents += 1;
       }
-
-      // Check capacity
-      if (classData.currentStudents >= classData.capacity) {
-        throw new Error(`Class ${classData.name} is at full capacity`);
-      }
-
-      // Add student to class
-      const updatedStudents = [...classData.students];
-      updatedStudents.push({
-        studentId: placement.studentId,
-        packageId: "", // This should come from the actual package selection
-        packageName: "", // This should come from the actual package selection
-        name: "", // This should be fetched from student service
-        joinDate: placement.placementDate,
-        status: placement.status,
-      });
-
-      // Update class
-      await this.updateClass(placement.classId, {
-        students: updatedStudents,
-        currentStudents: classData.currentStudents + 1,
-      });
-    }
+    });
   }
 }
 

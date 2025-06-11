@@ -8,7 +8,6 @@ class StudentService {
       email: "john@example.com",
       phoneNumber: "081234567890",
       educationLevel: "SMP",
-      class: "7A",
       address: "Jl. Contoh No. 1",
       parentName: "Jane Doe",
       parentPhone: "081234567891",
@@ -18,12 +17,35 @@ class StudentService {
         {
           id: "pkg1",
           name: "Paket Reguler SMP",
-          type: "offline",
-          subjects: ["Matematika", "IPA", "Bahasa Inggris"],
+          type: "regular",
+          courses: [
+            {
+              id: "c1",
+              name: "Matematika",
+              level: "SMP",
+              schedule: "Senin & Rabu, 14:00-15:30",
+              teacher: "Pak Budi",
+            },
+            {
+              id: "c2",
+              name: "IPA",
+              level: "SMP",
+              schedule: "Selasa & Kamis, 14:00-15:30",
+              teacher: "Bu Ani",
+            },
+            {
+              id: "c3",
+              name: "Bahasa Inggris",
+              level: "SMP",
+              schedule: "Jumat, 14:00-16:00",
+              teacher: "Mr. John",
+            },
+          ],
           duration: 6,
           startDate: "2025-01-01",
           endDate: "2025-06-30",
           status: "active",
+          price: 1500000,
         },
       ],
       placements: [
@@ -44,13 +66,39 @@ class StudentService {
       email: "jane@example.com",
       phoneNumber: "081234567892",
       educationLevel: "SD",
-      class: "6B",
       address: "Jl. Contoh No. 2",
       parentName: "John Smith",
       parentPhone: "081234567893",
       status: "active",
       enrollmentDate: "2025-01-02",
-      packages: [],
+      packages: [
+        {
+          id: "pkg2",
+          name: "Paket Premium SD",
+          type: "private",
+          courses: [
+            {
+              id: "c4",
+              name: "Matematika",
+              level: "SD",
+              schedule: "Senin & Rabu, 14:00-15:30",
+              teacher: "Bu Sarah",
+            },
+            {
+              id: "c5",
+              name: "IPA",
+              level: "SD",
+              schedule: "Selasa & Kamis, 14:00-15:30",
+              teacher: "Pak Deni",
+            },
+          ],
+          duration: 12,
+          startDate: "2025-01-02",
+          endDate: "2025-12-31",
+          status: "active",
+          price: 2500000,
+        },
+      ],
       placements: [],
     },
     {
@@ -59,7 +107,6 @@ class StudentService {
       email: "bob@example.com",
       phoneNumber: "081234567894",
       educationLevel: "SMA",
-      class: "11A",
       address: "Jl. Contoh No. 3",
       parentName: "Alice Wilson",
       parentPhone: "081234567895",
@@ -140,20 +187,6 @@ class StudentService {
     throw new Error("Student not found");
   }
 
-  async getStudentsByEducationLevel(
-    level: Student["educationLevel"]
-  ): Promise<Student[]> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    return this.students.filter((s) => s.educationLevel === level);
-  }
-
-  async getStudentsByStatus(status: Student["status"]): Promise<Student[]> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    return this.students.filter((s) => s.status === status);
-  }
-
   async enrollInPackage(
     studentId: string,
     packageId: string
@@ -162,18 +195,26 @@ class StudentService {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const student = await this.getStudentById(studentId);
     if (!student) throw new Error("Student not found");
-
-    const newPackage = {
+    const newPackage: Student["packages"][0] = {
       id: packageId,
       name: "Package Name",
-      type: "offline" as const,
-      subjects: ["Matematika", "IPA", "Bahasa Inggris"],
+      type: "regular",
+      courses: [
+        {
+          id: "c6",
+          name: "Matematika",
+          level: "SMP",
+          schedule: "Senin & Rabu, 14:00-15:30",
+          teacher: "Pak Budi",
+        },
+      ],
       duration: 6,
       startDate: new Date().toISOString(),
       endDate: new Date(
         Date.now() + 6 * 30 * 24 * 60 * 60 * 1000
       ).toISOString(),
-      status: "active" as const,
+      status: "active",
+      price: 1500000,
     };
 
     return this.updateStudent(studentId, {

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { DataTable } from "@/components/ui/data-table";
-import { studentPlacementColumns } from "./columns";
+import { enrollmentColumns } from "./enrollment-columns";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,57 +13,57 @@ import {
 } from "@/components/ui/card";
 import { usePermission } from "@/hooks/use-permission";
 import { Student } from "@/types/student";
-import { BulkPlacementDialog } from "./bulk-placement-dialog";
+import { CourseAssignmentDialog } from "./course-assignment-dialog";
 
-interface StudentPlacementTableProps {
+interface EnrollmentTableProps {
   students: Student[];
-  onPlacementChange: () => void;
+  onEnrollmentChange: () => void;
 }
 
-export function StudentPlacementTable({
+export function EnrollmentTable({
   students,
-  onPlacementChange,
-}: StudentPlacementTableProps) {
+  onEnrollmentChange,
+}: EnrollmentTableProps) {
   const { hasPermission: canEdit } = usePermission("student.edit");
   const [selectedRows, setSelectedRows] = useState<Student[]>([]);
-  const [showPlacementDialog, setShowPlacementDialog] = useState(false);
+  const [showEnrollmentDialog, setShowEnrollmentDialog] = useState(false);
 
-  const handleBulkPlacement = () => {
-    setShowPlacementDialog(true);
+  const handleBulkEnrollment = () => {
+    setShowEnrollmentDialog(true);
   };
 
-  const handlePlacementSuccess = () => {
+  const handleEnrollmentSuccess = () => {
     setSelectedRows([]);
-    onPlacementChange();
+    onEnrollmentChange();
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Penempatan Siswa</CardTitle>
+        <CardTitle>Pendaftaran Paket Kursus</CardTitle>
         <CardDescription>
-          Kelola penempatan siswa ke kelas berdasarkan paket yang telah dibeli
+          Kelola pendaftaran siswa ke paket kursus yang tersedia
         </CardDescription>
       </CardHeader>
       <CardContent>
         {canEdit && selectedRows.length > 0 && (
           <div className="mb-4">
-            <Button onClick={handleBulkPlacement}>
-              Tempatkan {selectedRows.length} Siswa Terpilih
+            <Button onClick={handleBulkEnrollment}>
+              Daftarkan {selectedRows.length} Siswa Terpilih
             </Button>
           </div>
         )}
         <DataTable<Student, any>
-          columns={studentPlacementColumns}
+          columns={enrollmentColumns}
           data={students}
           onRowSelection={setSelectedRows}
         />
 
-        <BulkPlacementDialog
-          open={showPlacementDialog}
-          onOpenChange={setShowPlacementDialog}
+        <CourseAssignmentDialog
+          open={showEnrollmentDialog}
+          onOpenChange={setShowEnrollmentDialog}
           selectedStudents={selectedRows}
-          onSuccess={handlePlacementSuccess}
+          onSuccess={handleEnrollmentSuccess}
         />
       </CardContent>
     </Card>

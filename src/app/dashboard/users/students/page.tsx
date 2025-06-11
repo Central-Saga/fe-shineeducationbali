@@ -97,6 +97,10 @@ export default function StudentsPage() {
 
   return (
     <div className="p-6 space-y-6">
+      <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+        Manajemen Siswa
+      </h1>
+
       {/* Statistics Section */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
@@ -194,6 +198,7 @@ export default function StudentsPage() {
       {/* Students Table */}
       <Card>
         <CardContent className="p-0">
+          {" "}
           <Table>
             <TableHeader>
               <TableRow>
@@ -201,7 +206,8 @@ export default function StudentsPage() {
                 <TableHead>Email</TableHead>
                 <TableHead>No. Telepon</TableHead>
                 <TableHead>Jenjang</TableHead>
-                <TableHead>Kelas</TableHead>
+                <TableHead>Paket Kursus</TableHead>
+                <TableHead>Mata Pelajaran</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Aksi</TableHead>
               </TableRow>
@@ -209,13 +215,13 @@ export default function StudentsPage() {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-4">
+                  <TableCell colSpan={8} className="text-center py-4">
                     Memuat data...
                   </TableCell>
                 </TableRow>
               ) : filteredStudents.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-4">
+                  <TableCell colSpan={8} className="text-center py-4">
                     Tidak ada data siswa
                   </TableCell>
                 </TableRow>
@@ -237,13 +243,53 @@ export default function StudentsPage() {
                             </span>
                           </div>
                         )}
-                        {student.name}
+                        <span>{student.name}</span>
                       </div>
                     </TableCell>
                     <TableCell>{student.email}</TableCell>
                     <TableCell>{student.phoneNumber}</TableCell>
                     <TableCell>{student.educationLevel}</TableCell>
-                    <TableCell>{student.class || "-"}</TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {" "}
+                        {student.packages?.length > 0 ? (
+                          student.packages.map((pkg) => (
+                            <Badge
+                              key={pkg.id}
+                              variant={
+                                pkg.type === "regular" ? "default" : "secondary"
+                              }
+                              className="whitespace-nowrap"
+                            >
+                              {pkg.name}
+                            </Badge>
+                          ))
+                        ) : (
+                          <span className="text-gray-500">-</span>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-col gap-1">
+                        {" "}
+                        {student.packages?.length > 0 ? (
+                          student.packages.flatMap((pkg) =>
+                            pkg.courses.map((course) => (
+                              <div
+                                key={`${pkg.id}-${course.name}`}
+                                className="text-sm flex items-center gap-1"
+                              >
+                                <span className="font-medium">
+                                  {course.name}
+                                </span>
+                              </div>
+                            ))
+                          )
+                        ) : (
+                          <span className="text-gray-500">-</span>
+                        )}
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <Badge
                         variant={

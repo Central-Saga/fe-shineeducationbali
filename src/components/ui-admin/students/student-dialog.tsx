@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -54,7 +55,7 @@ const formSchema = z.object({
   status: z.enum(["active", "inactive"] as const, {
     required_error: "Status siswa harus dipilih",
   }),
-  class: z.string().optional(),
+  coursePackages: z.array(z.string()).min(1, "Pilih minimal satu paket kursus"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -84,7 +85,7 @@ export function StudentDialog({
     parentName: "",
     parentPhone: "",
     status: "active",
-    class: "",
+    coursePackages: [],
   };
 
   const form = useForm<FormValues>({
@@ -99,7 +100,7 @@ export function StudentDialog({
           parentName: student.parentName,
           parentPhone: student.parentPhone,
           status: student.status,
-          class: student.class,
+          coursePackages: student.packages?.map((p) => p.id) || [],
         }
       : defaultValues,
   });
@@ -158,7 +159,6 @@ export function StudentDialog({
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="educationLevel"
@@ -185,7 +185,6 @@ export function StudentDialog({
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="email"
@@ -203,7 +202,6 @@ export function StudentDialog({
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="phoneNumber"
@@ -220,22 +218,69 @@ export function StudentDialog({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-
+              />{" "}
               <FormField
                 control={form.control}
-                name="class"
+                name="coursePackages"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Kelas (Opsional)</FormLabel>
+                    <FormLabel>Paket Kursus</FormLabel>
                     <FormControl>
-                      <Input placeholder="Masukkan kelas" {...field} />
+                      <div className="space-y-2">
+                        <Select
+                          onValueChange={(value) => {
+                            if (!field.value.includes(value)) {
+                              field.onChange([...field.value, value]);
+                            }
+                          }}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Pilih paket kursus" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="basic">Basic Package</SelectItem>
+                            <SelectItem value="standard">
+                              Standard Package
+                            </SelectItem>
+                            <SelectItem value="premium">
+                              Premium Package
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </FormControl>
+                    {field.value.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {field.value.map((packageId) => (
+                          <Badge
+                            key={packageId}
+                            variant="secondary"
+                            className="flex items-center gap-1"
+                          >
+                            {packageId === "basic"
+                              ? "Basic Package"
+                              : packageId === "standard"
+                              ? "Standard Package"
+                              : "Premium Package"}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                field.onChange(
+                                  field.value.filter((id) => id !== packageId)
+                                );
+                              }}
+                              className="ml-1 hover:text-red-500"
+                            >
+                              ×
+                            </button>
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="status"
@@ -260,7 +305,6 @@ export function StudentDialog({
                   </FormItem>
                 )}
               />
-
               <div className="col-span-2">
                 <FormField
                   control={form.control}
@@ -279,7 +323,6 @@ export function StudentDialog({
                   )}
                 />
               </div>
-
               <FormField
                 control={form.control}
                 name="parentName"
@@ -293,7 +336,6 @@ export function StudentDialog({
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="parentPhone"

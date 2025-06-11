@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,51 +28,52 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Student } from "@/types/student";
-import { Class } from "@/types/class";
-import { classService } from "@/lib/services/class.service";
+import { toast } from "sonner";
 
 const formSchema = z.object({
-  classId: z.string({
-    required_error: "Pilih kelas tujuan",
+  packageId: z.string({
+    required_error: "Pilih paket kursus",
   }),
 });
 
-interface BulkPlacementDialogProps {
+interface CourseAssignmentDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   selectedStudents: Student[];
   onSuccess?: () => void;
 }
 
-export function BulkPlacementDialog({
+export function CourseAssignmentDialog({
   open,
   onOpenChange,
   selectedStudents,
   onSuccess,
-}: BulkPlacementDialogProps) {
+}: CourseAssignmentDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [availableClasses, setAvailableClasses] = useState<Class[]>([]);
+  const [availablePackages, setAvailablePackages] = useState([
+    { id: "pkg1", name: "Paket Reguler SD", type: "regular" },
+    { id: "pkg2", name: "Paket Premium SD", type: "private" },
+    { id: "pkg3", name: "Paket Reguler SMP", type: "regular" },
+    { id: "pkg4", name: "Paket Premium SMP", type: "private" },
+  ]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  const handlePlacement = async (values: z.infer<typeof formSchema>) => {
+  const handleAssignment = async (values: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
-      // Implement bulk placement logic here using classService
-      await classService.bulkPlaceStudents(
-        selectedStudents.map((student) => ({
-          studentId: student.id,
-          classId: values.classId,
-          placementDate: new Date().toISOString(),
-          status: "active",
-        }))
-      );
+      // Di sini implementasi logika untuk mendaftarkan siswa ke paket kursus
+      // Contoh mock:
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast.success(`${selectedStudents.length} siswa berhasil didaftarkan ke paket kursus`);
       onSuccess?.();
       onOpenChange(false);
     } catch (error) {
-      console.error("Failed to place students:", error);
+      console.error("Failed to assign courses:", error);
+      toast.error("Gagal mendaftarkan siswa ke paket kursus");
     } finally {
       setIsLoading(false);
     }
@@ -82,37 +83,36 @@ export function BulkPlacementDialog({
     <Dialog open={open} onOpenChange={isLoading ? undefined : onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Penempatan Siswa</DialogTitle>
+          <DialogTitle>Pendaftaran Paket Kursus</DialogTitle>
           <DialogDescription>
-            Pilih kelas untuk {selectedStudents.length} siswa terpilih
+            Pilih paket kursus untuk {selectedStudents.length} siswa terpilih
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handlePlacement)}
+            onSubmit={form.handleSubmit(handleAssignment)}
             className="space-y-4"
           >
             <FormField
               control={form.control}
-              name="classId"
+              name="packageId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Kelas</FormLabel>
+                  <FormLabel>Paket Kursus</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Pilih kelas" />
+                        <SelectValue placeholder="Pilih paket kursus" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {availableClasses.map((cls) => (
-                        <SelectItem key={cls.id} value={cls.id}>
-                          {cls.name} - {cls.subject} ({cls.currentStudents}/
-                          {cls.capacity})
+                      {availablePackages.map((pkg) => (
+                        <SelectItem key={pkg.id} value={pkg.id}>
+                          {pkg.name} ({pkg.type === "regular" ? "Reguler" : "Private"})
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -132,7 +132,7 @@ export function BulkPlacementDialog({
                 Batal
               </Button>
               <Button type="submit" disabled={isLoading}>
-                Tempatkan Siswa
+                Daftarkan Siswa
               </Button>
             </div>
           </form>

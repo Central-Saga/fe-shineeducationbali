@@ -6,7 +6,6 @@ export interface Student {
   email: string;
   phoneNumber: string;
   educationLevel: EducationLevel;
-  class?: string;
   address: string;
   parentName: string;
   parentPhone: string;
@@ -20,12 +19,19 @@ export interface Student {
 export interface StudentPackage {
   id: string;
   name: string;
-  type: "offline" | "online";
-  subjects: string[];
+  type: "regular" | "private";
+  courses: {
+    id: string;
+    name: string;
+    level?: EducationLevel;
+    schedule: string;
+    teacher?: string;
+  }[];
   duration: number; // in months
   startDate: string;
   endDate: string;
   status: "active" | "completed" | "cancelled";
+  price: number;
 }
 
 export interface StudentPlacement {

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Student } from "@/lib/services/student.service";
+import { Student } from "@/types/student";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 
@@ -56,17 +56,29 @@ export const columns: ColumnDef<Student>[] = [
     },
   },
   {
-    accessorKey: "class",
-    header: ({ column }) => {
+    accessorKey: "packages",
+    header: "Paket Kursus",
+    cell: ({ row }) => {
+      const packages = row.getValue("packages") as Student["packages"];
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          {" "}
-          Kelas
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="space-y-1">
+          {packages && packages.length > 0 ? (
+            packages.map((pkg) => (
+              <div key={pkg.id} className="flex flex-wrap gap-1 mb-1">
+                <Badge
+                  variant={pkg.type === "regular" ? "default" : "secondary"}
+                >
+                  {pkg.name}
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  {pkg.type === "regular" ? "Reguler" : "Private"}
+                </Badge>
+              </div>
+            ))
+          ) : (
+            <span className="text-gray-500">Belum ada paket</span>
+          )}
+        </div>
       );
     },
   },
@@ -74,10 +86,7 @@ export const columns: ColumnDef<Student>[] = [
     accessorKey: "email",
     header: "Email",
   },
-  {
-    accessorKey: "phone",
-    header: "No. Telepon",
-  },
+  { accessorKey: "phoneNumber", header: "No. Telepon" },
   {
     accessorKey: "status",
     header: "Status",
@@ -91,10 +100,10 @@ export const columns: ColumnDef<Student>[] = [
     },
   },
   {
-    accessorKey: "createdAt",
+    accessorKey: "enrollmentDate",
     header: "Terdaftar",
     cell: ({ row }) => {
-      return format(new Date(row.getValue("createdAt")), "dd MMMM yyyy", {
+      return format(new Date(row.getValue("enrollmentDate")), "dd MMMM yyyy", {
         locale: id,
       });
     },

@@ -29,7 +29,8 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { studentService, Student } from "@/lib/services/student.service";
+import { studentService } from "@/lib/services/student.service";
+import { Student } from "@/types/student";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
@@ -40,11 +41,20 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Email tidak valid.",
   }),
-  phone: z.string().min(10, {
+  phoneNumber: z.string().min(10, {
     message: "No. Telepon tidak valid.",
   }),
-  class: z.string({
-    required_error: "Pilih kelas.",
+  educationLevel: z.enum(["SD", "SMP", "SMA", "UMUM"] as const, {
+    required_error: "Pilih jenjang pendidikan.",
+  }),
+  address: z.string().min(1, {
+    message: "Alamat harus diisi.",
+  }),
+  parentName: z.string().min(1, {
+    message: "Nama orang tua harus diisi.",
+  }),
+  parentPhone: z.string().min(10, {
+    message: "No. Telepon orang tua tidak valid.",
   }),
   status: z.enum(["active", "inactive"], {
     required_error: "Pilih status.",
@@ -55,24 +65,27 @@ interface StudentDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
-  initialData?: Student;
+  student?: Student | null;
 }
 
 export function StudentDialog({
   open,
   onOpenChange,
   onSuccess,
-  initialData,
+  student,
 }: StudentDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
+    defaultValues: student || {
       name: "",
       email: "",
-      phone: "",
-      class: "",
+      phoneNumber: "",
+      educationLevel: "SD",
+      address: "",
+      parentName: "",
+      parentPhone: "",
       status: "active",
     },
   });
@@ -80,9 +93,8 @@ export function StudentDialog({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setIsLoading(true);
-      if (initialData?.id) {
-        await studentService.updateStudent({
-          id: initialData.id,
+      if (student?.id) {
+        await studentService.updateStudent(student.id, {
           ...values,
         });
         toast.success("Data siswa berhasil diperbarui");
@@ -106,7 +118,7 @@ export function StudentDialog({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {initialData ? "Edit Data Siswa" : "Tambah Siswa Baru"}
+            {student ? "Edit Data Siswa" : "Tambah Siswa Baru"}
           </DialogTitle>
           <DialogDescription>
             Masukkan data siswa di bawah ini. Klik simpan bila sudah selesai.
@@ -142,7 +154,7 @@ export function StudentDialog({
             />
             <FormField
               control={form.control}
-              name="phone"
+              name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>No. Telepon</FormLabel>
@@ -155,26 +167,65 @@ export function StudentDialog({
             />
             <FormField
               control={form.control}
-              name="class"
+              name="educationLevel"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Kelas</FormLabel>
+                  <FormLabel>Jenjang Pendidikan</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Pilih kelas" />
+                        <SelectValue placeholder="Pilih jenjang" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="10A">Kelas 10A</SelectItem>
-                      <SelectItem value="10B">Kelas 10B</SelectItem>
-                      <SelectItem value="11A">Kelas 11A</SelectItem>
-                      <SelectItem value="11B">Kelas 11B</SelectItem>
+                      <SelectItem value="SD">SD</SelectItem>
+                      <SelectItem value="SMP">SMP</SelectItem>
+                      <SelectItem value="SMA">SMA</SelectItem>
+                      <SelectItem value="UMUM">UMUM</SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Alamat</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Alamat lengkap" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="parentName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nama Orang Tua</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Nama orang tua" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="parentPhone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>No. Telepon Orang Tua</FormLabel>
+                  <FormControl>
+                    <Input placeholder="081234567890" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -214,7 +265,7 @@ export function StudentDialog({
               </Button>
               <Button type="submit" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {initialData ? "Simpan Perubahan" : "Tambah Siswa"}
+                {student ? "Simpan Perubahan" : "Tambah Siswa"}
               </Button>
             </DialogFooter>
           </form>
