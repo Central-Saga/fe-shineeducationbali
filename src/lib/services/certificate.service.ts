@@ -48,7 +48,7 @@ const dummyCertificates: Certificate[] = [
     status: "issued",
     grade: "A",
     teacherName: "Ni Kadek Dewi",
-    type: "course",
+    type: "COURSE_COMPLETION",
     signedBy: "Dr. I Made Sudiana, M.Pd",
   },
   {
@@ -62,7 +62,7 @@ const dummyCertificates: Certificate[] = [
     status: "issued",
     grade: "A-",
     teacherName: "I Made Wijaya",
-    type: "course",
+    type: "COURSE_COMPLETION",
     signedBy: "Dr. I Made Sudiana, M.Pd",
   },
   {
@@ -76,7 +76,7 @@ const dummyCertificates: Certificate[] = [
     status: "pending",
     grade: "B+",
     teacherName: "I Putu Surya",
-    type: "course",
+    type: "ACHIEVEMENT",
     signedBy: "Dr. I Made Sudiana, M.Pd",
   },
   {
@@ -90,7 +90,7 @@ const dummyCertificates: Certificate[] = [
     status: "issued",
     grade: "A",
     teacherName: "Ni Kadek Dewi",
-    type: "completion",
+    type: "COURSE_COMPLETION",
     signedBy: "Dr. I Made Sudiana, M.Pd",
   },
   {
@@ -104,7 +104,7 @@ const dummyCertificates: Certificate[] = [
     status: "pending",
     grade: "A-",
     teacherName: "Ni Made Sri",
-    type: "course",
+    type: "PARTICIPATION",
     signedBy: "Dr. I Made Sudiana, M.Pd",
   },
 ];

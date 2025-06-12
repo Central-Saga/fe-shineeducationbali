@@ -20,115 +20,140 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-
-// Mock data - nanti diganti dengan data dari API
-const mockGrades = [
-  {
-    id: "INB0001081",
-    studentName: "Ani Susanti",
-    subject: "Bahasa Inggris",
-    level: "SMP",
-    grades: {
-      speaking: 85,
-      reading: 90,
-      writing: 88,
-    },
-    status: "Selesai",
-  },
-  // Tambahkan data mock lainnya sesuai kebutuhan
-];
+import { Eye, Edit2, Search, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { studentGrades } from "@/data/data-admin/grades-data/student-grades";
 
 export function GradeTable() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLevel, setSelectedLevel] = useState("all");
   const [selectedSubject, setSelectedSubject] = useState("all");
+  const [selectedLevel, setSelectedLevel] = useState("all");
+  const router = useRouter();
+
+  const filteredGrades = studentGrades.filter((grade) => {
+    const matchesSearch = grade.studentName
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesSubject =
+      selectedSubject === "all" || grade.subject === selectedSubject;
+    const matchesLevel =
+      selectedLevel === "all" || grade.level === selectedLevel;
+    return matchesSearch && matchesSubject && matchesLevel;
+  });
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-lg font-bold">Daftar Nilai Siswa</CardTitle>
-        <Button className="bg-[#C40503] hover:bg-[#b30402]">
+      <CardHeader className="flex flex-row justify-between">
+        <CardTitle>Daftar Nilai Siswa</CardTitle>
+        <Button className="bg-[#C40503] text-white hover:bg-[#A00503]">
+          <Plus className="h-4 w-4 mr-2" />
           Input Nilai Baru
         </Button>
       </CardHeader>
       <CardContent>
-        {/* Search and Filters */}
-        <div className="flex items-center gap-4 mb-4">
-          <div className="flex-1">
+        <div className="mb-4 flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Cari nama siswa..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-8"
             />
           </div>
-          <Select value={selectedLevel} onValueChange={setSelectedLevel}>
-            <SelectTrigger className="w-[160px]">
-              <SelectValue placeholder="Jenjang" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Semua Jenjang</SelectItem>
-              <SelectItem value="SD">SD</SelectItem>
-              <SelectItem value="SMP">SMP</SelectItem>
-              <SelectItem value="SMA">SMA</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Mata Pelajaran" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Semua Mata Pelajaran</SelectItem>
-              <SelectItem value="matematika">Matematika</SelectItem>
-              <SelectItem value="english">Bahasa Inggris</SelectItem>
-              <SelectItem value="ipa">IPA</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex gap-2">
+            <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Semua Mata Pelajaran" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Semua Mata Pelajaran</SelectItem>
+                <SelectItem value="Matematika">Matematika</SelectItem>
+                <SelectItem value="Bahasa Inggris">Bahasa Inggris</SelectItem>
+                <SelectItem value="Computer Science">Computer Science</SelectItem>
+                <SelectItem value="Bahasa Indonesia">Bahasa Indonesia</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={selectedLevel} onValueChange={setSelectedLevel}>
+              <SelectTrigger className="w-32">
+                <SelectValue placeholder="Jenjang" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Semua</SelectItem>
+                <SelectItem value="SD">SD</SelectItem>
+                <SelectItem value="SMP">SMP</SelectItem>
+                <SelectItem value="SMA">SMA</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
-        {/* Grades Table */}
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID Nilai</TableHead>
-                <TableHead>Nama Siswa</TableHead>
-                <TableHead>Mata Pelajaran</TableHead>
-                <TableHead>Jenjang</TableHead>
-                <TableHead>Nilai</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Aksi</TableHead>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID Nilai</TableHead>
+              <TableHead>Nama Siswa</TableHead>
+              <TableHead>Mata Pelajaran</TableHead>
+              <TableHead>Jenjang</TableHead>
+              <TableHead>Rata-rata</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Aksi</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredGrades.map((grade) => (
+              <TableRow key={grade.id}>
+                <TableCell>{grade.id}</TableCell>
+                <TableCell className="font-medium">{grade.studentName}</TableCell>
+                <TableCell>{grade.subject}</TableCell>
+                <TableCell>{grade.level}</TableCell>
+                <TableCell>
+                  <Badge
+                    variant={
+                      grade.averageScore >= 90
+                        ? "success"
+                        : grade.averageScore >= 80
+                        ? "secondary"
+                        : grade.averageScore >= 70
+                        ? "outline"
+                        : "destructive"
+                    }
+                  >
+                    {grade.averageScore.toFixed(1)}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge variant="success" className="bg-green-100 text-green-800 hover:bg-green-100">
+                    {grade.status}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg shadow-sm hover:bg-gray-50"
+                      onClick={() =>
+                        router.push(`/dashboard/grades/${grade.id}`)
+                      }
+                    >
+                      <Eye className="h-4 w-4" />
+                      <span>Detail</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg shadow-sm hover:bg-gray-50"
+                    >
+                      <Edit2 className="h-4 w-4" />
+                      <span>Edit</span>
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockGrades.map((grade) => (
-                <TableRow key={grade.id}>
-                  <TableCell className="font-medium">{grade.id}</TableCell>
-                  <TableCell>{grade.studentName}</TableCell>
-                  <TableCell>{grade.subject}</TableCell>
-                  <TableCell>{grade.level}</TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <div>Speaking: {grade.grades.speaking}</div>
-                      <div>Reading: {grade.grades.reading}</div>
-                      <div>Writing: {grade.grades.writing}</div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="success">{grade.status}</Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      Edit
-                    </Button>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      Detail
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+            ))}
+          </TableBody>
+        </Table>
       </CardContent>
     </Card>
   );

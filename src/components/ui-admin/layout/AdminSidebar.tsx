@@ -79,7 +79,7 @@ const navigation = [
       },
     ],
   },
-    {
+  {
     name: "Sistem Absensi",
     href: "/dashboard/attendance",
     icon: ClipboardList,
@@ -118,7 +118,7 @@ const navigation = [
       },
     ],
   },
-    {
+  {
     name: "Manajemen Sertifikat",
     href: "/dashboard/certificates",
     icon: GraduationCap,
@@ -159,17 +159,13 @@ const navigation = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const [openMenus, setOpenMenus] = useState<string[]>([]);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   const toggleMenu = (menuName: string) => {
-    setOpenMenus((current) =>
-      current.includes(menuName)
-        ? current.filter((name) => name !== menuName)
-        : [...current, menuName]
-    );
+    setOpenMenu((current) => (current === menuName ? null : menuName));
   };
 
-  const isMenuOpen = (menuName: string) => openMenus.includes(menuName);
+  const isMenuOpen = (menuName: string) => openMenu === menuName;
 
   return (
     <ScrollArea className="flex flex-col h-full">

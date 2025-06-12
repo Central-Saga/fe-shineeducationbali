@@ -11,34 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Plus, FileEdit, Trash2 } from "lucide-react";
-
-// Mock data untuk testing
-const mockAssignments = [
-  {
-    id: "ASG001",
-    title: "Project Website Personal",
-    subject: "Coding",
-    dueDate: "2025-06-15",
-    class: "X-A",
-    status: "Active",
-  },
-  {
-    id: "ASG002",
-    title: "Essay Bahasa Inggris",
-    subject: "Bahasa Inggris",
-    dueDate: "2025-06-10",
-    class: "X-B",
-    status: "Active",
-  },
-  {
-    id: "ASG003",
-    title: "Latihan Soal Aljabar",
-    subject: "Matematika",
-    dueDate: "2025-06-08",
-    class: "X-A",
-    status: "Closed",
-  },
-];
+import { assignmentsData } from "@/data/data-teacher/assignments-data";
 
 export default function AssignmentList() {
   return (
@@ -57,7 +30,6 @@ export default function AssignmentList() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
                 <TableHead>Judul</TableHead>
                 <TableHead>Mata Pelajaran</TableHead>
                 <TableHead>Kelas</TableHead>
@@ -67,21 +39,20 @@ export default function AssignmentList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockAssignments.map((assignment) => (
+              {assignmentsData.map((assignment) => (
                 <TableRow key={assignment.id}>
-                  <TableCell className="font-medium">{assignment.id}</TableCell>
-                  <TableCell>{assignment.title}</TableCell>
+                  <TableCell className="font-medium">
+                    {assignment.title}
+                  </TableCell>
                   <TableCell>{assignment.subject}</TableCell>
                   <TableCell>{assignment.class}</TableCell>
-                  <TableCell>
-                    {new Date(assignment.dueDate).toLocaleDateString("id-ID")}
-                  </TableCell>
+                  <TableCell>{assignment.dueDate}</TableCell>
                   <TableCell>
                     <span
                       className={`px-2 py-1 rounded-full text-xs ${
                         assignment.status === "Active"
                           ? "bg-green-100 text-green-800"
-                          : "bg-gray-100 text-gray-800"
+                          : "bg-yellow-100 text-yellow-800"
                       }`}
                     >
                       {assignment.status}
@@ -89,15 +60,11 @@ export default function AssignmentList() {
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Button variant="outline" size="icon">
+                      <Button variant="ghost" size="icon">
                         <FileEdit className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="text-red-600"
-                      >
-                        <Trash2 className="h-4 w-4" />
+                      <Button variant="ghost" size="icon">
+                        <Trash2 className="h-4 w-4 text-red-500" />
                       </Button>
                     </div>
                   </TableCell>

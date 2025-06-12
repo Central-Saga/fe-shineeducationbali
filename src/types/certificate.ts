@@ -1,5 +1,8 @@
 export type CertificateStatus = "issued" | "draft" | "pending";
-export type CertificateType = "course" | "achievement" | "completion";
+export type CertificateType =
+  | "COURSE_COMPLETION"
+  | "ACHIEVEMENT"
+  | "PARTICIPATION";
 
 export interface Certificate {
   id: string;
@@ -15,24 +18,29 @@ export interface Certificate {
   validUntil?: string;
   type: CertificateType;
   signedBy: string;
-  metadata?: Record<string, any>; // Adding metadata property
+  previewUrl?: string;
+  recipientName?: string; // For displaying recipient name differently from studentName if needed
+  metadata?: Record<string, any>;
 }
 
 export interface CertificateTemplate {
   id: string;
   name: string;
   description: string;
-  html: string; // The HTML template with placeholders
-  previewImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
+  html: string;
+  thumbnail: string;
   status: "active" | "draft" | "archived";
+  createdAt: string;
+  lastModified: string;
+  usageCount: number;
   metadata: {
-    placeholders: string[]; // Available placeholders in the template
     dimensions: {
       width: number;
       height: number;
     };
+    placeholders: string[];
+    fonts?: string[];
+    background?: string;
   };
 }
 

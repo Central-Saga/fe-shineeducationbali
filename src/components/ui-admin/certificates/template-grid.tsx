@@ -19,41 +19,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Copy, MoreHorizontal, Pencil, Trash } from "lucide-react";
-
-const templates = [
-  {
-    id: "1",
-    name: "Basic Completion Certificate",
-    description: "A simple certificate of completion template",
-    thumbnail: "/certificates/basic.png",
-    status: "active",
-    lastModified: "2025-06-01",
-    usageCount: 156,
-  },
-  {
-    id: "2",
-    name: "Advanced Achievement Certificate",
-    description: "Professional certificate with advanced design",
-    thumbnail: "/certificates/advanced.png",
-    status: "active",
-    lastModified: "2025-06-05",
-    usageCount: 89,
-  },
-  {
-    id: "3",
-    name: "Professional Training Certificate",
-    description: "Corporate style certificate template",
-    thumbnail: "/certificates/professional.png",
-    status: "draft",
-    lastModified: "2025-06-08",
-    usageCount: 0,
-  },
-];
+import {
+  certificateTemplates,
+  type CertificateTemplate,
+} from "@/data/data-admin/certificates-data/templates";
 
 export function TemplateGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {templates.map((template) => (
+      {certificateTemplates.map((template: CertificateTemplate) => (
         <Card key={template.id}>
           <CardHeader className="relative">
             <div className="aspect-[1.4] relative rounded-lg overflow-hidden border mb-4">
@@ -92,8 +66,16 @@ export function TemplateGrid() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between text-sm">
+              {" "}
               <Badge
-                variant={template.status === "active" ? "default" : "secondary"}
+                variant={
+                  template.status === "active"
+                    ? "success"
+                    : template.status === "draft"
+                    ? "secondary"
+                    : "outline"
+                }
+                className="capitalize"
               >
                 {template.status}
               </Badge>

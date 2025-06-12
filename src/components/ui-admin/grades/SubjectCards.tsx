@@ -12,55 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-
-// Dummy data untuk mata pelajaran
-const subjectsData = [
-  {
-    id: 1,
-    name: "Bahasa Inggris",
-    totalStudents: 45,
-    averageScore: 85.5,
-    highestScore: 98,
-    lowestScore: 65,
-    level: "SMP",
-  },
-  {
-    id: 2,
-    name: "Matematika",
-    totalStudents: 50,
-    averageScore: 78.3,
-    highestScore: 95,
-    lowestScore: 60,
-    level: "SMP",
-  },
-  {
-    id: 3,
-    name: "IPA",
-    totalStudents: 48,
-    averageScore: 82.7,
-    highestScore: 96,
-    lowestScore: 68,
-    level: "SMP",
-  },
-  {
-    id: 4,
-    name: "Bahasa Indonesia",
-    totalStudents: 52,
-    averageScore: 88.2,
-    highestScore: 99,
-    lowestScore: 70,
-    level: "SMP",
-  },
-  {
-    id: 5,
-    name: "IPS",
-    totalStudents: 47,
-    averageScore: 81.5,
-    highestScore: 94,
-    lowestScore: 63,
-    level: "SMP",
-  },
-];
+import { subjectsData } from "@/data/data-admin/grades-data/grades-data";
 
 export function SubjectCards() {
   const router = useRouter();

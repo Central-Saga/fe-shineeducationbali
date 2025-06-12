@@ -11,31 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Search } from "lucide-react";
-
-// Mock data untuk testing
-const mockStudents = [
-  {
-    id: "STD001",
-    name: "Alex Johnson",
-    class: "X-A",
-    email: "alex.j@shineedu.com",
-    status: "Active",
-  },
-  {
-    id: "STD002",
-    name: "Sarah Smith",
-    class: "X-A",
-    email: "sarah.s@shineedu.com",
-    status: "Active",
-  },
-  {
-    id: "STD003",
-    name: "Mike Brown",
-    class: "X-B",
-    email: "mike.b@shineedu.com",
-    status: "Inactive",
-  },
-];
+import { studentsData } from "@/data/data-admin/user-data/students-data";
 
 export default function StudentList() {
   return (
@@ -70,7 +46,7 @@ export default function StudentList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockStudents.map((student) => (
+              {studentsData.map((student) => (
                 <TableRow key={student.id}>
                   <TableCell className="font-medium">{student.id}</TableCell>
                   <TableCell>{student.name}</TableCell>

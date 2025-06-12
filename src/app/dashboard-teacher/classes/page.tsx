@@ -12,34 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Plus, Search } from "lucide-react";
 import Link from "next/link";
-
-// Mock data for testing
-const mockClasses = [
-  {
-    id: "CLS001",
-    name: "Mathematics Grade 10",
-    teacher: "Mr. John Smith",
-    schedule: "Monday & Wednesday, 09:00 - 10:30",
-    students: 25,
-    status: "Active",
-  },
-  {
-    id: "CLS002",
-    name: "Physics Grade 11",
-    teacher: "Mrs. Sarah Johnson",
-    schedule: "Tuesday & Thursday, 10:00 - 11:30",
-    students: 22,
-    status: "Active",
-  },
-  {
-    id: "CLS003",
-    name: "English Grade 10",
-    teacher: "Ms. Emily Davis",
-    schedule: "Monday & Friday, 13:00 - 14:30",
-    students: 28,
-    status: "Active",
-  },
-];
+import { classesData } from "@/data/data-teacher/classes-data";
 
 export default function ClassList() {
   return (
@@ -77,14 +50,14 @@ export default function ClassList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockClasses.map((classItem) => (
+              {classesData.map((classItem) => (
                 <TableRow key={classItem.id}>
                   <TableCell className="font-medium">
                     {classItem.name}
                   </TableCell>
                   <TableCell>{classItem.teacher}</TableCell>
                   <TableCell>{classItem.schedule}</TableCell>
-                  <TableCell>{classItem.students}</TableCell>
+                  <TableCell>{classItem.totalStudents}</TableCell>
                   <TableCell>
                     <span
                       className={`px-2 py-1 rounded-full text-xs ${

@@ -1,0 +1,40 @@
+// Data dummy untuk tugas
+export const assignmentsData = [
+  {
+    id: "ASG001",
+    title: "Project Website Personal",
+    subject: "Coding",
+    dueDate: "2025-06-15",
+    class: "X-A",
+    status: "Active",
+    description: "Membuat website portofolio personal menggunakan HTML dan CSS",
+    maxScore: 100,
+    submittedCount: 15,
+    totalStudents: 25,
+  },
+  {
+    id: "ASG002",
+    title: "Essay Bahasa Inggris",
+    subject: "Bahasa Inggris",
+    dueDate: "2025-06-10",
+    class: "X-B",
+    status: "Active",
+    description:
+      "Menulis essay tentang pentingnya pendidikan dalam bahasa Inggris",
+    maxScore: 100,
+    submittedCount: 18,
+    totalStudents: 22,
+  },
+  {
+    id: "ASG003",
+    title: "Latihan Soal Aljabar",
+    subject: "Matematika",
+    dueDate: "2025-06-20",
+    class: "X-A",
+    status: "Upcoming",
+    description: "Menyelesaikan 20 soal latihan aljabar",
+    maxScore: 100,
+    submittedCount: 0,
+    totalStudents: 25,
+  },
+];
