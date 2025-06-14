@@ -70,8 +70,12 @@ export function GradeTable() {
                 <SelectItem value="all">Semua Mata Pelajaran</SelectItem>
                 <SelectItem value="Matematika">Matematika</SelectItem>
                 <SelectItem value="Bahasa Inggris">Bahasa Inggris</SelectItem>
-                <SelectItem value="Computer Science">Computer Science</SelectItem>
-                <SelectItem value="Bahasa Indonesia">Bahasa Indonesia</SelectItem>
+                <SelectItem value="Computer Science">
+                  Computer Science
+                </SelectItem>
+                <SelectItem value="Bahasa Indonesia">
+                  Bahasa Indonesia
+                </SelectItem>
               </SelectContent>
             </Select>
             <Select value={selectedLevel} onValueChange={setSelectedLevel}>
@@ -104,7 +108,9 @@ export function GradeTable() {
             {filteredGrades.map((grade) => (
               <TableRow key={grade.id}>
                 <TableCell>{grade.id}</TableCell>
-                <TableCell className="font-medium">{grade.studentName}</TableCell>
+                <TableCell className="font-medium">
+                  {grade.studentName}
+                </TableCell>
                 <TableCell>{grade.subject}</TableCell>
                 <TableCell>{grade.level}</TableCell>
                 <TableCell>
@@ -123,7 +129,10 @@ export function GradeTable() {
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <Badge variant="success" className="bg-green-100 text-green-800 hover:bg-green-100">
+                  <Badge
+                    variant="success"
+                    className="bg-green-100 text-green-800 hover:bg-green-100"
+                  >
                     {grade.status}
                   </Badge>
                 </TableCell>

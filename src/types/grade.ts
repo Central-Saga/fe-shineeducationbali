@@ -1,8 +1,8 @@
-export type SubjectType = 'english' | 'math' | 'computerScience' | 'indonesian';
+export type SubjectType = "english" | "math" | "computerScience" | "indonesian";
 
-export type SubjectName = 
+export type SubjectName =
   | "Matematika"
-  | "Bahasa Inggris" 
+  | "Bahasa Inggris"
   | "Computer Science"
   | "Bahasa Indonesia";
 
@@ -31,7 +31,7 @@ export interface SubjectGradeConfig {
 export interface StudentDetail {
   id: string;
   name: string;
-  level: 'SD' | 'SMP' | 'SMA';
+  level: "SD" | "SMP" | "SMA";
   class: string;
   enrollmentDate: string;
   photoUrl?: string;
