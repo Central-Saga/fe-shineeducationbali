@@ -15,6 +15,7 @@ import {
   School,
   ChevronDown,
   ChevronRight,
+  Wallet,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -141,6 +142,28 @@ const navigation = [
     ],
   },
   {
+    name: "Manajemen Pembayaran",
+    href: "/dashboard/payments",
+    icon: Wallet,
+    submenu: [
+      {
+        name: "Transaksi",
+        href: "/dashboard/payments/transactions",
+        description: "Kelola transaksi pembayaran siswa",
+      },
+      {
+        name: "Laporan Keuangan",
+        href: "/dashboard/payments/reports",
+        description: "Lihat laporan dan rekap keuangan",
+      },
+      {
+        name: "Pengaturan Pembayaran",
+        href: "/dashboard/payments/settings",
+        description: "Konfigurasi sistem pembayaran",
+      },
+    ],
+  },
+  {
     name: "Jadwal",
     href: "/dashboard/schedule",
     icon: Calendar,
@@ -155,6 +178,7 @@ const navigation = [
     href: "/dashboard/settings",
     icon: Settings,
   },
+  
 ];
 
 export function AdminSidebar() {

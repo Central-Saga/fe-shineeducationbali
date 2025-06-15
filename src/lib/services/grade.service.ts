@@ -5,7 +5,7 @@ import {
   GradeSummary,
   GradeComponents,
 } from "@/types/grade";
-
+ 
 class GradeService {
   private apiUrl = "/api/v1/grades";
 
