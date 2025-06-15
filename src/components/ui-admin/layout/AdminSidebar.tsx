@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -16,6 +17,7 @@ import {
   ChevronDown,
   ChevronRight,
   Wallet,
+  CalendarRange,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -67,11 +69,6 @@ const navigation = [
         name: "Materi",
         href: "/dashboard/courses/materials",
         description: "Kelola materi pembelajaran",
-      },
-      {
-        name: "Jadwal Kursus",
-        href: "/dashboard/courses/schedule",
-        description: "Atur jadwal kursus dan guru pengajar",
       },
       {
         name: "Penempatan Siswa",
@@ -166,7 +163,7 @@ const navigation = [
   {
     name: "Jadwal",
     href: "/dashboard/schedule",
-    icon: Calendar,
+    icon: CalendarRange,
   },
   {
     name: "Laporan",
@@ -178,7 +175,6 @@ const navigation = [
     href: "/dashboard/settings",
     icon: Settings,
   },
-  
 ];
 
 export function AdminSidebar() {
@@ -192,15 +188,22 @@ export function AdminSidebar() {
   const isMenuOpen = (menuName: string) => openMenu === menuName;
 
   return (
-    <ScrollArea className="flex flex-col h-full">
-      <div className="flex h-14 items-center border-b px-6">
+    <ScrollArea className="flex flex-col h-full">      <div className="flex h-14 items-center border-b px-6">
         <Link
           className="flex items-center gap-2 font-semibold"
           href="/dashboard"
-        >
-          <span className="text-xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+        >          <Image
+            src="/pichome/logo.png"
+            alt="Shine Education Logo"
+            width={100}
+            height={100}
+            className="h-8 w-auto object-contain"
+            priority
+            quality={100}
+          />
+          {/* <span className="text-xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
             Shine Education
-          </span>
+          </span> */}
         </Link>
       </div>
       <div className="flex-1 p-4">
