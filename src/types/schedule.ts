@@ -1,6 +1,13 @@
-export type ScheduleType = 'REGULAR' | 'EXAM' | 'EVENT' | 'HOLIDAY';
-export type DayOfWeek = 'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY';
-export type ScheduleStatus = 'ACTIVE' | 'INACTIVE' | 'DRAFT';
+export type ScheduleType = "REGULAR" | "EXAM" | "EVENT" | "HOLIDAY";
+export type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export type ScheduleStatus = "ACTIVE" | "INACTIVE" | "DRAFT";
 
 export interface TeacherSchedule {
   teacher_id: number;
@@ -19,7 +26,7 @@ export interface Schedule {
   title: string;
   description?: string;
   schedule_type: ScheduleType;
-  education_level: 'SD' | 'SMP' | 'SMA';
+  education_level: "SD" | "SMP" | "SMA";
   academic_year: string;
   semester: 1 | 2;
   start_date: string;

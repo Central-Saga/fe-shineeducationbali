@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,17 +13,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";
-import { Schedule, ScheduleType } from '@/types/schedule';
-import { scheduleData } from '@/data/data-admin/schedule/schedule-data';
-import { CalendarRange, Eye, FileText, PencilIcon, Plus, MoreHorizontal } from 'lucide-react';
+import { Schedule, ScheduleType } from "@/types/schedule";
+import { scheduleData } from "@/data/data-admin/schedule/schedule-data";
+import {
+  CalendarRange,
+  Eye,
+  FileText,
+  PencilIcon,
+  Plus,
+  MoreHorizontal,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from 'next/navigation';
-import { Badge } from '@/components/ui/badge';
+import { useRouter } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
 
 const ScheduleManagement = () => {
   const [schedules, setSchedules] = useState<Schedule[]>(scheduleData);
@@ -43,10 +50,15 @@ const ScheduleManagement = () => {
       header: "Tipe",
       cell: ({ row }) => {
         const type = row.getValue("schedule_type") as ScheduleType;
-        return (          <Badge>
-            {type === 'REGULAR' ? 'Reguler' :
-             type === 'EXAM' ? 'Ujian' :
-             type === 'EVENT' ? 'Event' : 'Libur'}
+        return (
+          <Badge>
+            {type === "REGULAR"
+              ? "Reguler"
+              : type === "EXAM"
+              ? "Ujian"
+              : type === "EVENT"
+              ? "Event"
+              : "Libur"}
           </Badge>
         );
       },
@@ -68,17 +80,27 @@ const ScheduleManagement = () => {
       header: "Status",
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
-        return (          <Badge variant={
-            status === 'ACTIVE' ? 'success' :
-            status === 'DRAFT' ? 'secondary' : 'outline'
-          }>
-            {status === 'ACTIVE' ? 'Aktif' :
-             status === 'DRAFT' ? 'Draft' : 'Tidak Aktif'}
+        return (
+          <Badge
+            variant={
+              status === "ACTIVE"
+                ? "success"
+                : status === "DRAFT"
+                ? "secondary"
+                : "outline"
+            }
+          >
+            {status === "ACTIVE"
+              ? "Aktif"
+              : status === "DRAFT"
+              ? "Draft"
+              : "Tidak Aktif"}
           </Badge>
         );
       },
     },
-    {      id: "actions",
+    {
+      id: "actions",
       header: "Aksi",
       cell: ({ row }) => {
         const schedule = row.original;
@@ -91,19 +113,25 @@ const ScheduleManagement = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[160px]">
               <DropdownMenuItem
-                onClick={() => router.push(`/dashboard/schedule/detail/${schedule.id}`)}
+                onClick={() =>
+                  router.push(`/dashboard/schedule/detail/${schedule.id}`)
+                }
               >
                 <Eye className="h-4 w-4 mr-2" />
                 Detail
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => router.push(`/dashboard/schedule/print/${schedule.id}`)}
+                onClick={() =>
+                  router.push(`/dashboard/schedule/print/${schedule.id}`)
+                }
               >
                 <FileText className="h-4 w-4 mr-2" />
                 Cetak
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => router.push(`/dashboard/schedule/edit/${schedule.id}`)}
+                onClick={() =>
+                  router.push(`/dashboard/schedule/edit/${schedule.id}`)
+                }
               >
                 <PencilIcon className="h-4 w-4 mr-2" />
                 Edit
@@ -119,7 +147,7 @@ const ScheduleManagement = () => {
     <div className="container mx-auto py-6 space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold tracking-tight">Manajemen Jadwal</h2>
-        <Button onClick={() => router.push('/dashboard/schedule/create')}>
+        <Button onClick={() => router.push("/dashboard/schedule/create")}>
           <Plus className="h-4 w-4 mr-2" />
           Tambah Jadwal
         </Button>
@@ -174,10 +202,7 @@ const ScheduleManagement = () => {
             </div>
           </div>
 
-          <DataTable
-            columns={columns}
-            data={schedules}
-          />
+          <DataTable columns={columns} data={schedules} />
         </div>
       </Card>
     </div>

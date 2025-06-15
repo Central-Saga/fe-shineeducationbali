@@ -188,11 +188,15 @@ export function AdminSidebar() {
   const isMenuOpen = (menuName: string) => openMenu === menuName;
 
   return (
-    <ScrollArea className="flex flex-col h-full">      <div className="flex h-14 items-center border-b px-6">
+    <ScrollArea className="flex flex-col h-full">
+      {" "}
+      <div className="flex h-14 items-center border-b px-6">
         <Link
           className="flex items-center gap-2 font-semibold"
           href="/dashboard"
-        >          <Image
+        >
+          {" "}
+          <Image
             src="/pichome/logo.png"
             alt="Shine Education Logo"
             width={100}

@@ -1,20 +1,20 @@
 "use client";
 
-import React from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import React from "react";
+import { useParams, useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FileText } from 'lucide-react';
-import { scheduleData } from '@/data/data-admin/schedule/schedule-data';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+import { ArrowLeft, FileText } from "lucide-react";
+import { scheduleData } from "@/data/data-admin/schedule/schedule-data";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 export default function ScheduleDetail() {
   const params = useParams();
   const router = useRouter();
   const scheduleId = params.id as string;
 
-  const schedule = scheduleData.find(s => s.id === scheduleId);
+  const schedule = scheduleData.find((s) => s.id === scheduleId);
 
   if (!schedule) {
     return (
@@ -35,9 +35,7 @@ export default function ScheduleDetail() {
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-3xl font-bold tracking-tight">Detail Jadwal</h2>
-          <p className="text-muted-foreground">
-            {schedule.id}
-          </p>
+          <p className="text-muted-foreground">{schedule.id}</p>
         </div>
         <div className="flex items-center gap-4">
           <Button variant="outline" onClick={() => router.back()}>
@@ -62,10 +60,15 @@ export default function ScheduleDetail() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-muted-foreground">Tipe Jadwal</p>                <Badge>
-                  {schedule.schedule_type === 'REGULAR' ? 'Reguler' :
-                   schedule.schedule_type === 'EXAM' ? 'Ujian' :
-                   schedule.schedule_type === 'EVENT' ? 'Event' : 'Libur'}
+                <p className="text-sm text-muted-foreground">Tipe Jadwal</p>{" "}
+                <Badge>
+                  {schedule.schedule_type === "REGULAR"
+                    ? "Reguler"
+                    : schedule.schedule_type === "EXAM"
+                    ? "Ujian"
+                    : schedule.schedule_type === "EVENT"
+                    ? "Event"
+                    : "Libur"}
                 </Badge>
               </div>
               <div>
@@ -110,7 +113,9 @@ export default function ScheduleDetail() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Waktu</p>
-                    <p className="font-medium">{schedule.start_time} - {schedule.end_time}</p>
+                    <p className="font-medium">
+                      {schedule.start_time} - {schedule.end_time}
+                    </p>
                   </div>
                 </>
               )}
@@ -133,10 +138,15 @@ export default function ScheduleDetail() {
             <h3 className="text-lg font-semibold mb-4">Daftar Guru</h3>
             <div className="space-y-4">
               {schedule.teacher_schedules.map((teacher, index) => (
-                <div key={teacher.teacher_id} className="flex justify-between items-center">
+                <div
+                  key={teacher.teacher_id}
+                  className="flex justify-between items-center"
+                >
                   <div>
                     <p className="font-medium">{teacher.teacher_name}</p>
-                    <p className="text-sm text-muted-foreground">{teacher.subject}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {teacher.subject}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -147,11 +157,16 @@ export default function ScheduleDetail() {
             <h3 className="text-lg font-semibold mb-4">Daftar Kelas</h3>
             <div className="space-y-4">
               {schedule.class_schedules.map((class_schedule, index) => (
-                <div key={class_schedule.class_id} className="flex justify-between items-center">
+                <div
+                  key={class_schedule.class_id}
+                  className="flex justify-between items-center"
+                >
                   <div>
                     <p className="font-medium">{class_schedule.class_name}</p>
                     {class_schedule.room && (
-                      <p className="text-sm text-muted-foreground">Ruang: {class_schedule.room}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Ruang: {class_schedule.room}
+                      </p>
                     )}
                   </div>
                 </div>
