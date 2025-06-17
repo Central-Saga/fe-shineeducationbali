@@ -47,7 +47,8 @@ export const certificateTypes: CertificateType[] = [
     id: "CERT_ENGLISH_INTERMEDIATE",
     name: "Sertifikat Kursus Bahasa Inggris - Intermediate",
     courseType: "ENGLISH",
-    description: "Sertifikat penyelesaian kursus Bahasa Inggris tingkat menengah",
+    description:
+      "Sertifikat penyelesaian kursus Bahasa Inggris tingkat menengah",
     levels: ["SMP", "SMA"],
     templateId: "tpl-english-intermediate",
     validityPeriod: 24,

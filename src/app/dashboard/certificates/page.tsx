@@ -12,7 +12,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Award, CircleSlash, Settings, TableProperties } from "lucide-react";
 import { CertificateTypes } from "@/components/ui-admin/certificates/CertificateTypes";
-import { IssueCertificateModal } from "@/components/ui-admin/certificates/issue-certificate-modal";
+import { IssueCertificateModal } from "@/components/ui-admin/certificates/certificate-type-input";
 
 export default function CertificatesPage() {
   return (
@@ -45,21 +45,26 @@ export default function CertificatesPage() {
         </TabsList>
         <TabsContent value="templates" className="space-y-4">
           <Card>
-            <CardHeader>              <div className="flex items-center justify-between">
+            <CardHeader>
+              {" "}
+              <div className="flex items-center justify-between">
                 <div>
                   <CardTitle>Jenis-Jenis Sertifikat</CardTitle>
                   <CardDescription>
-                    Kelola berbagai jenis sertifikat yang dapat diterbitkan untuk
-                    siswa
+                    Kelola berbagai jenis sertifikat yang dapat diterbitkan
+                    untuk siswa
                   </CardDescription>
-                </div>                <IssueCertificateModal
+                </div>{" "}
+                <IssueCertificateModal
                   onSubmit={async (data) => {
                     console.log("Creating certificate:", data);
                   }}
                 />
               </div>
             </CardHeader>
-            <CardContent className="pl-2">              <CertificateTypes />
+            <CardContent className="pl-2">
+              {" "}
+              <CertificateTypes />
             </CardContent>
           </Card>
         </TabsContent>

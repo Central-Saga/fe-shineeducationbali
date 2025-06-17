@@ -2,21 +2,24 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { certificateTypes, CourseType } from "@/data/data-admin/certificates-data/certificate-types";
+import {
+  certificateTypes,
+  CourseType,
+} from "@/data/data-admin/certificates-data/certificate-types";
 import { CertificateTypeCard } from "./CertificateTypeCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IssueCertificateModal } from "./issue-certificate-modal";
+import { IssueCertificateModal } from "./certificate-type-input";
 import { EducationLevel } from "@/types/student";
-import { 
-  GraduationCap, 
-  School2, 
-  BookOpen, 
-  Users, 
-  Building2, 
+import {
+  GraduationCap,
+  School2,
+  BookOpen,
+  Users,
+  Building2,
   GanttChartSquare,
   Globe,
   LucideIcon,
-  Plus
+  Plus,
 } from "lucide-react";
 
 type LevelFilter = EducationLevel | "ALL";
@@ -26,7 +29,11 @@ export function CertificateTypes() {
   const [selectedCourse, setSelectedCourse] = useState<CourseType>("ENGLISH");
   const [selectedLevel, setSelectedLevel] = useState<LevelFilter>("ALL");
 
-  const EDUCATION_LEVELS: Array<{ id: LevelFilter; label: string; icon: LucideIcon }> = [
+  const EDUCATION_LEVELS: Array<{
+    id: LevelFilter;
+    label: string;
+    icon: LucideIcon;
+  }> = [
     { id: "ALL", label: "ALL", icon: GanttChartSquare },
     { id: "TK", label: "TK", icon: School2 },
     { id: "SD", label: "SD", icon: BookOpen },
@@ -36,9 +43,10 @@ export function CertificateTypes() {
     { id: "UMUM", label: "UMUM", icon: Globe },
   ];
 
-    // Filter certificates by education level and course type
-  const filteredCertificates = certificateTypes.filter(type => {
-    const matchesLevel = selectedLevel === "ALL" || type.levels.includes(selectedLevel);
+  // Filter certificates by education level and course type
+  const filteredCertificates = certificateTypes.filter((type) => {
+    const matchesLevel =
+      selectedLevel === "ALL" || type.levels.includes(selectedLevel);
     const matchesCourse = type.courseType === selectedCourse;
     return matchesLevel && matchesCourse;
   });
@@ -49,7 +57,8 @@ export function CertificateTypes() {
 
   return (
     <div className="space-y-6">
-      {/* Education Level Filter */}      <div className="flex gap-2 mb-4">
+      {/* Education Level Filter */}{" "}
+      <div className="flex gap-2 mb-4">
         {EDUCATION_LEVELS.map((level) => {
           const Icon = level.icon;
           return (
@@ -66,9 +75,8 @@ export function CertificateTypes() {
           );
         })}
       </div>
-
-      <Tabs 
-        defaultValue="ENGLISH" 
+      <Tabs
+        defaultValue="ENGLISH"
         value={selectedCourse}
         onValueChange={(value) => setSelectedCourse(value as CourseType)}
         className="w-full"
@@ -77,7 +85,8 @@ export function CertificateTypes() {
           <TabsTrigger value="ENGLISH">Bahasa Inggris</TabsTrigger>
           <TabsTrigger value="COMPUTER">Komputer</TabsTrigger>
           <TabsTrigger value="CODING">Coding</TabsTrigger>
-        </TabsList>        <TabsContent value="ENGLISH" className="mt-6">
+        </TabsList>{" "}
+        <TabsContent value="ENGLISH" className="mt-6">
           <div className="grid gap-6 md:grid-cols-2">
             {filteredCertificates.map((type) => (
               <CertificateTypeCard
@@ -88,7 +97,6 @@ export function CertificateTypes() {
             ))}
           </div>
         </TabsContent>
-
         <TabsContent value="COMPUTER" className="mt-6">
           <div className="grid gap-6 md:grid-cols-2">
             {filteredCertificates.map((type) => (
@@ -100,7 +108,6 @@ export function CertificateTypes() {
             ))}
           </div>
         </TabsContent>
-
         <TabsContent value="CODING" className="mt-6">
           <div className="grid gap-6 md:grid-cols-2">
             {filteredCertificates.map((type) => (
@@ -113,12 +120,14 @@ export function CertificateTypes() {
           </div>
         </TabsContent>
       </Tabs>
-
       {selectedType && (
         <IssueCertificateModal
           onSubmit={async (data) => {
             // Handle certificate creation
-            console.log("Creating certificate:", { typeId: selectedType, ...data });
+            console.log("Creating certificate:", {
+              typeId: selectedType,
+              ...data,
+            });
             setSelectedType(null);
           }}
         />

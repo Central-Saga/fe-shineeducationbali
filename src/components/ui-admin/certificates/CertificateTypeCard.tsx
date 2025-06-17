@@ -9,12 +9,16 @@ interface CertificateTypeCardProps {
   onCreateClick: () => void;
 }
 
-export function CertificateTypeCard({ type, onCreateClick }: CertificateTypeCardProps) {
-  const courseTypeBadgeVariant = type.courseType === "ENGLISH" 
-    ? "default"
-    : type.courseType === "COMPUTER" 
-    ? "outline" 
-    : "secondary";
+export function CertificateTypeCard({
+  type,
+  onCreateClick,
+}: CertificateTypeCardProps) {
+  const courseTypeBadgeVariant =
+    type.courseType === "ENGLISH"
+      ? "default"
+      : type.courseType === "COMPUTER"
+      ? "outline"
+      : "secondary";
 
   return (
     <Card>
@@ -25,9 +29,7 @@ export function CertificateTypeCard({ type, onCreateClick }: CertificateTypeCard
             {type.levels.join(", ")}
           </Badge>
         </CardTitle>
-        <Badge variant={courseTypeBadgeVariant}>
-          {type.courseType}
-        </Badge>
+        <Badge variant={courseTypeBadgeVariant}>{type.courseType}</Badge>
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground mb-4">{type.description}</p>
@@ -44,7 +46,8 @@ export function CertificateTypeCard({ type, onCreateClick }: CertificateTypeCard
             <span className="text-muted-foreground">Untuk Tingkat:</span>{" "}
             {type.levels.join(", ")}
           </div>
-        </div>        <div className="flex items-center justify-end mt-4">
+        </div>{" "}
+        <div className="flex items-center justify-end mt-4">
           <Button variant="outline" size="sm">
             <Eye className="h-4 w-4 mr-2" />
             Preview

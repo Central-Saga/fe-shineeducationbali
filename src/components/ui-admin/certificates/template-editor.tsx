@@ -27,7 +27,11 @@ interface TemplateEditorProps {
   onCancel: () => void;
 }
 
-export function TemplateEditor({ templateId, onSave, onCancel }: TemplateEditorProps) {
+export function TemplateEditor({
+  templateId,
+  onSave,
+  onCancel,
+}: TemplateEditorProps) {
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
   const [logo, setLogo] = useState<string | null>(null);
 
