@@ -38,8 +38,7 @@ export function CertificateTypes() {
     { id: "TK", label: "TK", icon: School2 },
     { id: "SD", label: "SD", icon: BookOpen },
     { id: "SMP", label: "SMP", icon: Users },
-    { id: "SMA", label: "SMA", icon: GraduationCap },
-    { id: "SMK", label: "SMK", icon: Building2 },
+    { id: "SMA", label: "SMA/SMK", icon: GraduationCap },
     { id: "UMUM", label: "UMUM", icon: Globe },
   ];
 

@@ -191,7 +191,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Kursus Matematika - Intermediate",
     courseType: "CODING",
     description: "Sertifikat penyelesaian kursus Matematika tingkat menengah",
-    levels: ["SMP", "SMA"],
+    levels: ["SMP", "SMA", "SMK"],
     templateId: "tpl-math-intermediate",
     validityPeriod: 24,
     metadata: {

@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CertificateTemplate } from "@/types/certificate";
-import { Edit, Trash, LayoutTemplate } from "lucide-react";
-import { certificateTemplates } from "@/data/data-admin/certificates-data/templates";
+import { Calendar, Edit, Image, Trash, LayoutTemplate, Upload } from "lucide-react";
+import { certificateTemplates } from "@/data/data-admin/certificates-data/certificate-templates";
+import { CertificateTemplate } from "@/types/template";
 
 export function TemplatesTab() {
   const [templates, setTemplates] =
@@ -15,10 +15,10 @@ export function TemplatesTab() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Certificate Templates</h2>
-        <Button>
-          <LayoutTemplate className="mr-2 h-4 w-4" />
-          Create New Template
+        <h2 className="text-2xl font-bold">Template Sertifikat</h2>
+        <Button className="bg-black hover:bg-gray-800">
+          <Upload className="mr-2 h-4 w-4" />
+          Upload Template Baru
         </Button>
       </div>
 
@@ -43,29 +43,41 @@ export function TemplatesTab() {
                 {template.description}
               </p>
               <div className="aspect-[4/3] relative mb-4 border rounded-lg overflow-hidden">
-                {" "}
                 <img
                   src={template.thumbnail}
                   alt={template.name}
                   className="object-cover w-full h-full"
                 />
               </div>
-              <div className="flex justify-between items-center text-sm text-gray-500">
-                <span>
-                  Created: {new Date(template.createdAt).toLocaleDateString()}
-                </span>{" "}
-                <Badge
-                  variant={
-                    template.status === "active"
-                      ? "success"
-                      : template.status === "draft"
-                      ? "secondary"
-                      : "outline"
-                  }
-                  className="capitalize"
-                >
-                  {template.status}
-                </Badge>
+              <div className="space-y-2 text-sm text-gray-500">
+                <div className="flex items-center">
+                  <Upload className="h-4 w-4 mr-2" />
+                  <span>Diupload oleh: {template.createdBy.name}</span>
+                </div>
+                <div className="flex items-center">
+                  <Calendar className="h-4 w-4 mr-2" />
+                  <span>Tanggal upload: {new Date(template.createdAt).toLocaleDateString()}</span>
+                </div>
+                <div className="flex items-center">
+                  <Edit className="h-4 w-4 mr-2" />
+                  <span>Terakhir diubah: {new Date(template.updatedAt).toLocaleDateString()}</span>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <Badge
+                    variant={
+                      template.status === "active"
+                        ? "success"
+                        : template.status === "draft"
+                        ? "secondary"
+                        : "outline"
+                    }
+                    className="capitalize"
+                  >
+                    {template.status === "active" ? "Aktif" : 
+                     template.status === "draft" ? "Draft" : "Diarsipkan"}
+                  </Badge>
+                  <span>Digunakan: {template.usageCount}x</span>
+                </div>
               </div>
             </CardContent>
           </Card>

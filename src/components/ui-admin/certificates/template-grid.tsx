@@ -19,10 +19,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Copy, MoreHorizontal, Pencil, Trash } from "lucide-react";
-import {
-  certificateTemplates,
-  type CertificateTemplate,
-} from "@/data/data-admin/certificates-data/templates";
+import { certificateTemplates } from "@/data/data-admin/certificates-data/certificate-templates";
+import type { CertificateTemplate } from "@/types/template";
 
 export function TemplateGrid() {
   return (
@@ -45,18 +43,17 @@ export function TemplateGrid() {
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>
+                <DropdownMenuContent align="end">                  <DropdownMenuItem>
                     <Pencil className="mr-2 h-4 w-4" />
                     Edit Template
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Copy className="mr-2 h-4 w-4" />
-                    Duplicate
+                    Duplikat
                   </DropdownMenuItem>
                   <DropdownMenuItem className="text-red-600">
                     <Trash className="mr-2 h-4 w-4" />
-                    Delete
+                    Hapus
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -84,9 +81,8 @@ export function TemplateGrid() {
               </span>
             </div>
           </CardContent>
-          <CardFooter className="text-xs text-muted-foreground">
-            Last modified:{" "}
-            {new Date(template.lastModified).toLocaleDateString()}
+          <CardFooter className="text-xs text-muted-foreground">            Terakhir diubah:{" "}
+            {new Date(template.updatedAt).toLocaleDateString()}
           </CardFooter>
         </Card>
       ))}
