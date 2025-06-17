@@ -1,4 +1,4 @@
-export type EducationLevel = "SD" | "SMP" | "SMA" | "UMUM";
+export type EducationLevel = "TK" | "SD" | "SMP" | "SMA" | "SMK" | "UMUM";
 
 export interface Student {
   id: string;

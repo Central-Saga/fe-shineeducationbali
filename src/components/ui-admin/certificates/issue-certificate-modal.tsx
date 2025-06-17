@@ -78,7 +78,7 @@ export function IssueCertificateModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Issue Certificate</Button>
+        <Button>Terbitkan Sertifikat</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
@@ -218,7 +218,7 @@ export function IssueCertificateModal({
               >
                 Cancel
               </Button>
-              <Button type="submit">Issue Certificate</Button>
+              <Button type="submit">Terbitkan Sertifikat</Button>
             </div>
           </form>
         </Form>
