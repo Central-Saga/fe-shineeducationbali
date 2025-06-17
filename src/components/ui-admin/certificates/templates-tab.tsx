@@ -22,8 +22,13 @@ export function TemplatesTab() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Template Sertifikat</h2>
-        <Button className="bg-black hover:bg-gray-800">
+        <h2 className="text-2xl font-bold">Template Sertifikat</h2>{" "}
+        <Button
+          className="bg-black hover:bg-gray-800"
+          onClick={() =>
+            (window.location.href = "/dashboard/certificates/templates/new")
+          }
+        >
           <Upload className="mr-2 h-4 w-4" />
           Upload Template Baru
         </Button>

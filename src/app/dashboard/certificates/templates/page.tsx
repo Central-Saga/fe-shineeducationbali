@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Heading } from "@/components/ui-admin/shared/Heading";
 import { TemplateGrid } from "@/components/ui-admin/certificates/template-grid";
-import { Plus } from "lucide-react";
+import { NewTemplateButton } from "@/components/ui-admin/certificates/new-template-button";
 
 export default function CertificateTemplatesPage() {
   return (
@@ -11,11 +10,8 @@ export default function CertificateTemplatesPage() {
         <Heading
           title="Certificate Templates"
           description="Manage and create certificate templates"
-        />
-        <Button>
-          <Plus className="w-4 h-4 mr-2" />
-          New Template
-        </Button>
+        />{" "}
+        <NewTemplateButton />
       </div>
       <div className="mt-6">
         <Card className="p-6">
