@@ -43,7 +43,9 @@ export function TemplateGrid() {
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">                  <DropdownMenuItem>
+                <DropdownMenuContent align="end">
+                  {" "}
+                  <DropdownMenuItem>
                     <Pencil className="mr-2 h-4 w-4" />
                     Edit Template
                   </DropdownMenuItem>
@@ -81,8 +83,9 @@ export function TemplateGrid() {
               </span>
             </div>
           </CardContent>
-          <CardFooter className="text-xs text-muted-foreground">            Terakhir diubah:{" "}
-            {new Date(template.updatedAt).toLocaleDateString()}
+          <CardFooter className="text-xs text-muted-foreground">
+            {" "}
+            Terakhir diubah: {new Date(template.updatedAt).toLocaleDateString()}
           </CardFooter>
         </Card>
       ))}

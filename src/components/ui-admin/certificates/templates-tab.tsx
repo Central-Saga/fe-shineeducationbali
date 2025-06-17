@@ -4,7 +4,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Edit, Image, Trash, LayoutTemplate, Upload } from "lucide-react";
+import {
+  Calendar,
+  Edit,
+  Image,
+  Trash,
+  LayoutTemplate,
+  Upload,
+} from "lucide-react";
 import { certificateTemplates } from "@/data/data-admin/certificates-data/certificate-templates";
 import { CertificateTemplate } from "@/types/template";
 
@@ -56,11 +63,17 @@ export function TemplatesTab() {
                 </div>
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-2" />
-                  <span>Tanggal upload: {new Date(template.createdAt).toLocaleDateString()}</span>
+                  <span>
+                    Tanggal upload:{" "}
+                    {new Date(template.createdAt).toLocaleDateString()}
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <Edit className="h-4 w-4 mr-2" />
-                  <span>Terakhir diubah: {new Date(template.updatedAt).toLocaleDateString()}</span>
+                  <span>
+                    Terakhir diubah:{" "}
+                    {new Date(template.updatedAt).toLocaleDateString()}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <Badge
@@ -73,8 +86,11 @@ export function TemplatesTab() {
                     }
                     className="capitalize"
                   >
-                    {template.status === "active" ? "Aktif" : 
-                     template.status === "draft" ? "Draft" : "Diarsipkan"}
+                    {template.status === "active"
+                      ? "Aktif"
+                      : template.status === "draft"
+                      ? "Draft"
+                      : "Diarsipkan"}
                   </Badge>
                   <span>Digunakan: {template.usageCount}x</span>
                 </div>
