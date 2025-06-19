@@ -97,7 +97,8 @@ export default function StudentsPage() {
         TK: students.filter((s) => s.educationLevel === "TK").length,
         SD: students.filter((s) => s.educationLevel === "SD").length,
         SMP: students.filter((s) => s.educationLevel === "SMP").length,
-        "SMA/SMK": students.filter((s) => s.educationLevel === "SMA/SMK").length,
+        "SMA/SMK": students.filter((s) => s.educationLevel === "SMA/SMK")
+          .length,
         UMUM: students.filter((s) => s.educationLevel === "UMUM").length,
       },
     };
@@ -256,8 +257,12 @@ export default function StudentsPage() {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell className="text-center">{student.name}</TableCell>
-                    <TableCell className="text-center">{student.email}</TableCell>
+                    <TableCell className="text-center">
+                      {student.name}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {student.email}
+                    </TableCell>
                     <TableCell className="text-center">
                       {student.phoneNumber}
                     </TableCell>
@@ -323,11 +328,18 @@ export default function StudentsPage() {
                       <div className="flex items-center justify-center">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 w-8 p-0"
+                            >
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-[160px]">
+                          <DropdownMenuContent
+                            align="end"
+                            className="w-[160px]"
+                          >
                             <DropdownMenuItem
                               onClick={() =>
                                 router.push(

@@ -257,9 +257,15 @@ export default function EditStudentPage() {
                               <SelectValue placeholder="Pilih paket kursus" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="basic">Basic Package</SelectItem>
-                              <SelectItem value="standard">Standard Package</SelectItem>
-                              <SelectItem value="premium">Premium Package</SelectItem>
+                              <SelectItem value="basic">
+                                Basic Package
+                              </SelectItem>
+                              <SelectItem value="standard">
+                                Standard Package
+                              </SelectItem>
+                              <SelectItem value="premium">
+                                Premium Package
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -345,7 +351,10 @@ export default function EditStudentPage() {
                     <FormItem>
                       <FormLabel>Nama Orang Tua</FormLabel>
                       <FormControl>
-                        <Input placeholder="Masukkan nama orang tua" {...field} />
+                        <Input
+                          placeholder="Masukkan nama orang tua"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
