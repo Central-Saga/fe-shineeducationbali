@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,13 +31,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Plus, Search } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Plus, Search, Eye, Edit2, Trash2, MoreHorizontal } from "lucide-react";
 import { Student, EducationLevel } from "@/types/student";
 import { studentService } from "@/lib/services/student.service";
-import { StudentDialog } from "@/components/ui-admin/students/student-dialog";
+
 import { toast } from "sonner";
 
 export default function StudentsPage() {
+  const router = useRouter();
   const [students, setStudents] = useState<Student[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLevel, setSelectedLevel] = useState<EducationLevel | "all">(
@@ -46,7 +54,6 @@ export default function StudentsPage() {
     "active" | "inactive" | "all"
   >("all");
   const [loading, setLoading] = useState(true);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
@@ -87,9 +94,10 @@ export default function StudentsPage() {
       total: students.length,
       active: students.filter((s) => s.status === "active").length,
       byLevel: {
+        TK: students.filter((s) => s.educationLevel === "TK").length,
         SD: students.filter((s) => s.educationLevel === "SD").length,
         SMP: students.filter((s) => s.educationLevel === "SMP").length,
-        SMA: students.filter((s) => s.educationLevel === "SMA").length,
+        "SMA/SMK": students.filter((s) => s.educationLevel === "SMA/SMK").length,
         UMUM: students.filter((s) => s.educationLevel === "UMUM").length,
       },
     };
@@ -121,21 +129,21 @@ export default function StudentsPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">SD/SMP</CardTitle>
+            <CardTitle className="text-sm font-medium">TK/SD/SMP</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {stats.byLevel.SD + stats.byLevel.SMP}
+              {stats.byLevel.TK + stats.byLevel.SD + stats.byLevel.SMP}
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">SMA/UMUM</CardTitle>
+            <CardTitle className="text-sm font-medium">SMA/SMK/UMUM</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {stats.byLevel.SMA + stats.byLevel.UMUM}
+              {stats.byLevel["SMA/SMK"] + stats.byLevel.UMUM}
             </div>
           </CardContent>
         </Card>
@@ -164,9 +172,11 @@ export default function StudentsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Semua Jenjang</SelectItem>
+              <SelectItem value="TK">TK</SelectItem>
               <SelectItem value="SD">SD</SelectItem>
               <SelectItem value="SMP">SMP</SelectItem>
               <SelectItem value="SMA">SMA</SelectItem>
+              <SelectItem value="SMK">SMK</SelectItem>
               <SelectItem value="UMUM">UMUM</SelectItem>
             </SelectContent>
           </Select>
@@ -188,7 +198,7 @@ export default function StudentsPage() {
         </div>
         <Button
           className="bg-[#C40503] hover:bg-[#b30402]"
-          onClick={() => setDialogOpen(true)}
+          onClick={() => router.push("/dashboard/users/students/add")}
         >
           <Plus className="mr-2 h-4 w-4" />
           Tambah Siswa
@@ -202,14 +212,15 @@ export default function StudentsPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Nama</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>No. Telepon</TableHead>
-                <TableHead>Jenjang</TableHead>
-                <TableHead>Paket Kursus</TableHead>
-                <TableHead>Mata Pelajaran</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Aksi</TableHead>
+                <TableHead className="text-center w-12">Inisial</TableHead>
+                <TableHead className="text-center">Nama</TableHead>
+                <TableHead className="text-center">Email</TableHead>
+                <TableHead className="text-center">No. Telepon</TableHead>
+                <TableHead className="text-center">Jenjang</TableHead>
+                <TableHead className="text-center">Paket Kursus</TableHead>
+                <TableHead className="text-center">Mata Pelajaran</TableHead>
+                <TableHead className="text-center">Status</TableHead>
+                <TableHead className="text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -228,8 +239,8 @@ export default function StudentsPage() {
               ) : (
                 filteredStudents.map((student) => (
                   <TableRow key={student.id}>
-                    <TableCell className="font-medium">
-                      <div className="flex items-center gap-2">
+                    <TableCell className="font-medium text-center">
+                      <div className="flex items-center justify-center gap-2">
                         {student.profilePhoto ? (
                           <img
                             src={student.profilePhoto}
@@ -243,14 +254,18 @@ export default function StudentsPage() {
                             </span>
                           </div>
                         )}
-                        <span>{student.name}</span>
                       </div>
                     </TableCell>
-                    <TableCell>{student.email}</TableCell>
-                    <TableCell>{student.phoneNumber}</TableCell>
-                    <TableCell>{student.educationLevel}</TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-1">
+                    <TableCell className="text-center">{student.name}</TableCell>
+                    <TableCell className="text-center">{student.email}</TableCell>
+                    <TableCell className="text-center">
+                      {student.phoneNumber}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {student.educationLevel}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <div className="flex flex-wrap gap-1 justify-center">
                         {" "}
                         {student.packages?.length > 0 ? (
                           student.packages.map((pkg) => (
@@ -269,7 +284,7 @@ export default function StudentsPage() {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-center">
                       <div className="flex flex-col gap-1">
                         {" "}
                         {student.packages?.length > 0 ? (
@@ -290,38 +305,61 @@ export default function StudentsPage() {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-center">
                       <Badge
                         variant={
                           student.status === "active" ? "success" : "secondary"
+                        }
+                        className={
+                          student.status === "active"
+                            ? "bg-green-100 text-green-800 hover:bg-green-100"
+                            : "bg-gray-100 text-gray-800 hover:bg-gray-100"
                         }
                       >
                         {student.status === "active" ? "Aktif" : "Nonaktif"}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            setSelectedStudent(student);
-                            setDialogOpen(true);
-                          }}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                          onClick={() => {
-                            setSelectedStudent(student);
-                            setDeleteDialogOpen(true);
-                          }}
-                        >
-                          Hapus
-                        </Button>
+                    <TableCell>
+                      <div className="flex items-center justify-center">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-[160px]">
+                            <DropdownMenuItem
+                              onClick={() =>
+                                router.push(
+                                  `/dashboard/users/students/detail/${student.id}`
+                                )
+                              }
+                            >
+                              <Eye className="h-4 w-4 mr-2 text-blue-600" />
+                              Detail
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                router.push(
+                                  `/dashboard/users/students/edit/${student.id}`
+                                )
+                              }
+                            >
+                              <Edit2 className="h-4 w-4 mr-2 text-amber-600" />
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              className="text-red-600"
+                              onClick={() => {
+                                setSelectedStudent(student);
+                                setDeleteDialogOpen(true);
+                              }}
+                            >
+                              <Trash2 className="h-4 w-4 mr-2" />
+                              Hapus
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -331,18 +369,6 @@ export default function StudentsPage() {
           </Table>
         </CardContent>
       </Card>
-
-      {/* Student Form Dialog */}
-      <StudentDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        student={selectedStudent}
-        onSuccess={() => {
-          loadStudents();
-          setDialogOpen(false);
-          setSelectedStudent(null);
-        }}
-      />
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
@@ -360,8 +386,7 @@ export default function StudentsPage() {
             </AlertDialogCancel>
             <AlertDialogAction
               disabled={deleteLoading}
-              onClick={async (event) => {
-                event.preventDefault();
+              onClick={async () => {
                 if (!selectedStudent) return;
 
                 try {
