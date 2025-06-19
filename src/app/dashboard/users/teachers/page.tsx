@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -20,20 +21,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, Plus } from "lucide-react";
-import { Teacher } from "@/types/teacher";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Search, Plus, MoreHorizontal, Eye, Edit2, Trash2 } from "lucide-react";
+import { Teacher, EducationLevel } from "@/types/teacher";
 import { teacherService } from "@/lib/services/teacher.service";
 import { toast } from "sonner";
-import { TeacherDialog } from "@/components/ui-admin/users/TeacherDialog";
+import { TeacherDialog } from "@/components/ui-admin/teacher/TeacherDialog";
 
 export default function TeachersPage() {
+  const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLevel, setSelectedLevel] = useState<
-    "all" | "SD" | "SMP" | "SMA"
-  >("all");
+  const [selectedLevel, setSelectedLevel] = useState<"all" | EducationLevel>(
+    "all"
+  );
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
 
   useEffect(() => {
     loadTeachers();
@@ -90,9 +110,7 @@ export default function TeachersPage() {
             </div>
             <Select
               value={selectedLevel}
-              onValueChange={(value: "all" | "SD" | "SMP" | "SMA") =>
-                setSelectedLevel(value)
-              }
+              onValueChange={(value: typeof selectedLevel) => setSelectedLevel(value)}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Jenjang Mengajar" />
@@ -101,35 +119,31 @@ export default function TeachersPage() {
                 <SelectItem value="all">Semua Jenjang</SelectItem>
                 <SelectItem value="SD">SD</SelectItem>
                 <SelectItem value="SMP">SMP</SelectItem>
-                <SelectItem value="SMA">SMA</SelectItem>
+                <SelectItem value="SMA/SMK">SMA/SMK</SelectItem>
               </SelectContent>
             </Select>
-          </div>{" "}
+          </div>
           <Button
             className="bg-[#C40503] hover:bg-[#b30402]"
-            onClick={() => setDialogOpen(true)}
+            onClick={() => router.push("/dashboard/users/teachers/add")}
           >
             <Plus className="mr-2 h-4 w-4" />
             Tambah Guru
           </Button>
-          <TeacherDialog open={dialogOpen} onOpenChange={setDialogOpen} />
         </div>
 
         {/* Teachers Table */}
         <Card>
           <CardContent className="p-0">
             <Table>
-              {" "}
               <TableHeader>
                 <TableRow>
                   <TableHead className="text-center">ID</TableHead>
                   <TableHead className="text-center">Nama</TableHead>
-                  <TableHead className="text-center">
-                    Kursus yang Diminati
-                  </TableHead>
+                  <TableHead className="text-center">Kursus yang Diminati</TableHead>
                   <TableHead className="text-center">Status</TableHead>
                   <TableHead className="text-center">Kelas Aktif</TableHead>
-                  <TableHead className="text-center">Aksi</TableHead>
+                  <TableHead className="text-center w-[100px]">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -187,11 +201,7 @@ export default function TeachersPage() {
                       </TableCell>
                       <TableCell>
                         <Badge
-                          variant={
-                            teacher.status === "ACTIVE"
-                              ? "success"
-                              : "secondary"
-                          }
+                          variant={teacher.status === "ACTIVE" ? "success" : "secondary"}
                         >
                           {teacher.status === "ACTIVE" ? "Aktif" : "Nonaktif"}
                         </Badge>
@@ -205,16 +215,40 @@ export default function TeachersPage() {
                           ))}
                         </div>
                       </TableCell>
-                      <TableCell className="text-right">
-                        <Button variant="ghost" className="mr-2">
-                          Edit
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          Hapus
-                        </Button>
+                      <TableCell>
+                        <div className="flex items-center justify-center">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-[160px]">
+                              <DropdownMenuItem
+                                onClick={() => router.push(`/dashboard/users/teachers/detail/${teacher.id}`)}
+                              >
+                                <Eye className="h-4 w-4 mr-2 text-blue-600" />
+                                Detail
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => router.push(`/dashboard/users/teachers/edit/${teacher.id}`)}
+                              >
+                                <Edit2 className="h-4 w-4 mr-2 text-amber-600" />
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                className="text-red-600"
+                                onClick={() => {
+                                  setSelectedTeacher(teacher);
+                                  setDeleteDialogOpen(true);
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Hapus
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))
@@ -224,6 +258,44 @@ export default function TeachersPage() {
           </CardContent>
         </Card>
       </div>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Hapus Data Guru</AlertDialogTitle>
+            <AlertDialogDescription>
+              Apakah Anda yakin ingin menghapus data guru ini? Tindakan ini tidak
+              dapat dibatalkan.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={loading}>Batal</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (!selectedTeacher) return;
+
+                try {
+                  setLoading(true);
+                  await teacherService.deleteTeacher(selectedTeacher.id);
+                  await loadTeachers();
+                  toast.success("Guru berhasil dihapus");
+                  setDeleteDialogOpen(false);
+                  setSelectedTeacher(null);
+                } catch (error) {
+                  toast.error("Gagal menghapus guru");
+                  console.error(error);
+                } finally {
+                  setLoading(false);
+                }
+              }}
+              className="bg-red-600 hover:bg-red-700 text-white"
+              disabled={loading}
+            >
+              {loading ? "Menghapus..." : "Hapus"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
