@@ -155,7 +155,7 @@ export const subjectsData = [
     averageScore: 78.3,
     highestScore: 95,
     lowestScore: 60,
-    level: "SMP",
+    level: "SMA/SMK",
   },
   {
     id: 3,
@@ -173,7 +173,7 @@ export const subjectsData = [
     averageScore: 88.2,
     highestScore: 99,
     lowestScore: 70,
-    level: "SMP",
+    level: "SD",
   },
   {
     id: 5,

@@ -1,10 +1,16 @@
-export type SubjectType = "english" | "math" | "computerScience" | "indonesian";
+export type SubjectType =
+  | "english"
+  | "math"
+  | "computerScience"
+  | "indonesian"
+  | "calistung";
 
 export type SubjectName =
   | "Matematika"
   | "Bahasa Inggris"
   | "Computer Science"
-  | "Bahasa Indonesia";
+  | "Bahasa Indonesia"
+  | "Calistung";
 
 export type StatusType = "SELESAI" | "PENDING" | "TIDAK_LULUS";
 
@@ -12,7 +18,7 @@ export interface Grade {
   id: string;
   studentName: string;
   subject: SubjectName;
-  level: "SD" | "SMP" | "SMA";
+  level: "TK" | "SD" | "SMP" | "SMA/SMK" | "UMUM";
   averageScore: number;
   status: StatusType;
 }

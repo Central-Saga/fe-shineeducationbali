@@ -74,8 +74,9 @@ export function GradeTable() {
                   Computer Science
                 </SelectItem>
                 <SelectItem value="Bahasa Indonesia">
-                  Bahasa Indonesia
+                  Bahasa Indonesia{" "}
                 </SelectItem>
+                <SelectItem value="Calistung"> Calistung </SelectItem>
               </SelectContent>
             </Select>
             <Select value={selectedLevel} onValueChange={setSelectedLevel}>
@@ -84,9 +85,11 @@ export function GradeTable() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Semua</SelectItem>
+                <SelectItem value="TK">TK</SelectItem>
                 <SelectItem value="SD">SD</SelectItem>
                 <SelectItem value="SMP">SMP</SelectItem>
-                <SelectItem value="SMA">SMA</SelectItem>
+                <SelectItem value="SMA/SMK">SMA/SMK</SelectItem>
+                <SelectItem value="UMUM">UMUM</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -143,7 +146,7 @@ export function GradeTable() {
                       size="sm"
                       className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg shadow-sm hover:bg-gray-50"
                       onClick={() =>
-                        router.push(`/dashboard/grades/${grade.id}`)
+                        router.push(`/dashboard/grades/detail/${grade.id}`)
                       }
                     >
                       <Eye className="h-4 w-4" />

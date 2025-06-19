@@ -35,7 +35,7 @@ const getGradeDetail = (id: string) => {
     courseInfo: {
       id: id,
       courseName: "Bahasa Inggris",
-      level: "Advanced",
+      level: "SMA/SMK", // Changed from "Advanced" to match our education levels
       instructor: "Mrs. Sarah Johnson",
       schedule: "Senin & Rabu, 15:00 - 17:00",
       startDate: "2025-01-15",
@@ -99,7 +99,9 @@ export default function GradeDetailPage() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Batal</AlertDialogCancel>
-                <AlertDialogAction className="bg-destructive">Hapus</AlertDialogAction>
+                <AlertDialogAction className="bg-destructive">
+                  Hapus
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -123,8 +125,9 @@ export default function GradeDetailPage() {
                 <p className="font-medium">{gradeDetail.studentInfo.name}</p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Kelas</p>
-                <p className="font-medium">{gradeDetail.studentInfo.class}</p>
+                {" "}
+                <p className="text-sm text-muted-foreground">Jenjang</p>
+                <p className="font-medium">{gradeDetail.courseInfo.level}</p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-muted-foreground">Jenis Kelamin</p>
@@ -140,11 +143,17 @@ export default function GradeDetailPage() {
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-muted-foreground">Nama Orang Tua</p>
-                <p className="font-medium">{gradeDetail.studentInfo.parentName}</p>
+                <p className="font-medium">
+                  {gradeDetail.studentInfo.parentName}
+                </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Telepon Orang Tua</p>
-                <p className="font-medium">{gradeDetail.studentInfo.parentPhone}</p>
+                <p className="text-sm text-muted-foreground">
+                  Telepon Orang Tua
+                </p>
+                <p className="font-medium">
+                  {gradeDetail.studentInfo.parentPhone}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -162,8 +171,12 @@ export default function GradeDetailPage() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Mata Pelajaran</p>
-                  <p className="font-medium">{gradeDetail.courseInfo.courseName}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Mata Pelajaran
+                  </p>
+                  <p className="font-medium">
+                    {gradeDetail.courseInfo.courseName}
+                  </p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Level</p>
@@ -171,34 +184,46 @@ export default function GradeDetailPage() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Pengajar</p>
-                  <p className="font-medium">{gradeDetail.courseInfo.instructor}</p>
+                  <p className="font-medium">
+                    {gradeDetail.courseInfo.instructor}
+                  </p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Jadwal</p>
-                  <p className="font-medium">{gradeDetail.courseInfo.schedule}</p>
+                  <p className="font-medium">
+                    {gradeDetail.courseInfo.schedule}
+                  </p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Tanggal Mulai</p>
                   <p className="font-medium">
-                    {new Date(gradeDetail.courseInfo.startDate).toLocaleDateString(
-                      "id-ID"
-                    )}
+                    {new Date(
+                      gradeDetail.courseInfo.startDate
+                    ).toLocaleDateString("id-ID")}
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Tanggal Selesai</p>
+                  <p className="text-sm text-muted-foreground">
+                    Tanggal Selesai
+                  </p>
                   <p className="font-medium">
-                    {new Date(gradeDetail.courseInfo.endDate).toLocaleDateString(
-                      "id-ID"
-                    )}
+                    {new Date(
+                      gradeDetail.courseInfo.endDate
+                    ).toLocaleDateString("id-ID")}
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Total Pertemuan</p>
-                  <p className="font-medium">{gradeDetail.courseInfo.totalSessions}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Total Pertemuan
+                  </p>
+                  <p className="font-medium">
+                    {gradeDetail.courseInfo.totalSessions}
+                  </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">Pertemuan Selesai</p>
+                  <p className="text-sm text-muted-foreground">
+                    Pertemuan Selesai
+                  </p>
                   <p className="font-medium">
                     {gradeDetail.courseInfo.completedSessions}
                   </p>
@@ -212,24 +237,29 @@ export default function GradeDetailPage() {
               <CardTitle>Nilai Komponen</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {Object.entries(gradeDetail.courseInfo.scores).map(([component, score]) => (
-                <div key={component} className="flex justify-between items-center">
-                  <p className="text-sm capitalize">{component}</p>
-                  <Badge
-                    variant={
-                      score >= 90
-                        ? "success"
-                        : score >= 80
-                        ? "secondary"
-                        : score >= 70
-                        ? "outline"
-                        : "destructive"
-                    }
+              {Object.entries(gradeDetail.courseInfo.scores).map(
+                ([component, score]) => (
+                  <div
+                    key={component}
+                    className="flex justify-between items-center"
                   >
-                    {score}
-                  </Badge>
-                </div>
-              ))}
+                    <p className="text-sm capitalize">{component}</p>
+                    <Badge
+                      variant={
+                        score >= 90
+                          ? "success"
+                          : score >= 80
+                          ? "secondary"
+                          : score >= 70
+                          ? "outline"
+                          : "destructive"
+                      }
+                    >
+                      {score}
+                    </Badge>
+                  </div>
+                )
+              )}
               <div className="pt-4 border-t">
                 <div className="flex justify-between items-center">
                   <p className="font-medium">Rata-rata</p>

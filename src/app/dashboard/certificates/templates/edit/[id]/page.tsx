@@ -32,9 +32,9 @@ export default function EditTemplatePage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [template, setTemplate] = useState<CertificateTemplate | null>(null);
-    // Get template ID from URL using usePathname
+  // Get template ID from URL using usePathname
   const pathname = usePathname();
-  const templateId = pathname?.split('/').pop();
+  const templateId = pathname?.split("/").pop();
 
   // Fetch template data
   useEffect(() => {
@@ -61,16 +61,16 @@ export default function EditTemplatePage() {
           createdBy: {
             id: "ADMIN001",
             name: "Admin Test",
-            role: "admin"
+            role: "admin",
           },
           updatedAt: new Date().toISOString(),
           updatedBy: {
             id: "ADMIN001",
             name: "Admin Test",
-            role: "admin"
-          }
+            role: "admin",
+          },
         };
-        
+
         setTemplate(mockTemplate);
       } catch (error) {
         toast.error("Gagal memuat data template");
@@ -86,7 +86,7 @@ export default function EditTemplatePage() {
     try {
       setIsLoading(true);
       // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
       toast.success("Template berhasil diperbarui");
       router.push("/dashboard/certificates/templates");
     } catch (error) {
@@ -107,11 +107,7 @@ export default function EditTemplatePage() {
   return (
     <div className="container mx-auto p-6">
       <div className="flex items-center mb-6">
-        <Button 
-          variant="ghost" 
-          className="mr-4"
-          onClick={() => router.back()}
-        >
+        <Button variant="ghost" className="mr-4" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Kembali
         </Button>
@@ -131,10 +127,10 @@ export default function EditTemplatePage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Nama Template</Label>
-                <Input 
-                  id="name" 
+                <Input
+                  id="name"
                   defaultValue={template.name}
-                  placeholder="Masukkan nama template" 
+                  placeholder="Masukkan nama template"
                 />
               </div>
 
@@ -154,8 +150,8 @@ export default function EditTemplatePage() {
 
               <div className="space-y-2">
                 <Label htmlFor="description">Deskripsi</Label>
-                <Textarea 
-                  id="description" 
+                <Textarea
+                  id="description"
                   defaultValue={template.description}
                   placeholder="Masukkan deskripsi template"
                   rows={4}
@@ -172,7 +168,9 @@ export default function EditTemplatePage() {
                     className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-black file:text-white hover:file:bg-gray-800"
                   />
                 </div>
-                <p className="text-sm text-gray-500">Biarkan kosong jika tidak ingin mengubah file template</p>
+                <p className="text-sm text-gray-500">
+                  Biarkan kosong jika tidak ingin mengubah file template
+                </p>
               </div>
 
               <div className="pt-4 flex justify-end gap-3">
@@ -183,7 +181,7 @@ export default function EditTemplatePage() {
                 >
                   Batal
                 </Button>
-                <Button 
+                <Button
                   type="submit"
                   className="bg-black hover:bg-gray-800"
                   disabled={isLoading}
@@ -206,9 +204,7 @@ export default function EditTemplatePage() {
         <Card>
           <CardHeader>
             <CardTitle>Preview Template</CardTitle>
-            <CardDescription>
-              Preview template saat ini
-            </CardDescription>
+            <CardDescription>Preview template saat ini</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="border rounded-lg p-4">
@@ -225,7 +221,9 @@ export default function EditTemplatePage() {
             <div className="mt-4 space-y-2 text-sm text-gray-500">
               <div className="flex justify-between">
                 <span>Status:</span>
-                <span className="font-medium capitalize">{template.status}</span>
+                <span className="font-medium capitalize">
+                  {template.status}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Digunakan:</span>

@@ -25,7 +25,7 @@ import type { CertificateTemplate } from "@/types/template";
 
 export function TemplateGrid() {
   const router = useRouter();
-  
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {certificateTemplates.map((template: CertificateTemplate) => (
@@ -46,7 +46,15 @@ export function TemplateGrid() {
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">                  <DropdownMenuItem onClick={() => router.push(`/dashboard/certificates/templates/${template.id}/edit`)}>
+                <DropdownMenuContent align="end">
+                  {" "}
+                  <DropdownMenuItem
+                    onClick={() =>
+                      router.push(
+                        `/dashboard/certificates/templates/${template.id}/edit`
+                      )
+                    }
+                  >
                     <Pencil className="mr-2 h-4 w-4" />
                     Edit Template
                   </DropdownMenuItem>
