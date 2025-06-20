@@ -1,0 +1,115 @@
+interface SubscriptionPlan {
+  name: string;
+  price: string;
+  duration: string;
+  features: string[];
+}
+
+interface Facility {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+interface EducationLevel {
+  level: string;
+  price: string;
+  emoji: string;
+}
+
+export const subscriptionPlans: SubscriptionPlan[] = [
+  {
+    name: "Paket Bulanan",
+    price: "55.000",
+    duration: "1 Bulan",
+    features: [
+      "Start From IDR 55.000",
+      "Durasi 1 Bulan",
+      "4 kali pertemuan",
+      "Konsultasi via WhatsApp",
+      "Akses materi online",
+    ],
+  },
+  {
+    name: "Paket Cerdas",
+    price: "150.000",
+    duration: "3 Bulan",
+    features: [
+      "Start From IDR 150.000",
+      "Durasi 3 Bulan",
+      "3 mata pelajaran",
+      "Konsultasi offline & online",
+      "Akses penuh materi digital",
+      "Free trial 1 minggu",
+    ],
+  },
+  {
+    name: "Paket Triwulanan",
+    price: "165.000",
+    duration: "3 Bulan",
+    features: [
+      "Start From IDR 165.000",
+      "Durasi 3 Bulan",
+      "12 kali pertemuan",
+      "Konsultasi prioritas",
+      "Akses penuh platform",
+      "Modul eksklusif",
+    ],
+  },
+];
+
+export const facilities: Facility[] = [
+  {
+    title: "Akses Program Lengkap",
+    description:
+      "Optimasi semua program pembelajaran yang sesuai dengan kebutuhan Anda",
+    icon: "M12 6v6m0 0v6m0-6h6m-6 0H6",
+  },
+  {
+    title: "Modul Up to Date",
+    description:
+      "Materi pembelajaran selalu diperbarui mengikuti perkembangan kurikulum",
+    icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
+  },
+  {
+    title: "Konsultasi Gratis",
+    description: "Konsultasi langsung dengan pengajar berpengalaman kapan saja",
+    icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
+  },
+  {
+    title: "Wifi Gratis",
+    description:
+      "Akses internet cepat dan gratis untuk mendukung pembelajaran online",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z",
+  },
+  {
+    title: "Akses Makanan",
+    description:
+      "Nikmati pilihan makanan dan minuman yang lezat untuk mengisi ulang energi Anda.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z", // You'll likely want to change this icon too!
+  },
+  {
+    title: "Modul Pembelajaran",
+    description:
+      "Tersedia modul pembelajaran interaktif untuk mendukung proses belajar Anda.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z", // Change icon
+  },
+  {
+    title: "Ruangan Ber-AC",
+    description:
+      "Belajar dalam kenyamanan optimal dengan ruangan berpendingin udara.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z", // Change icon
+  },
+  {
+    title: "Tempat Nyaman",
+    description: "Suasana tenang dan nyaman untuk belajar dan berdiskusi.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z", // Change icon
+  },
+];
+
+export const educationLevels: EducationLevel[] = [
+  { level: "TK - SD", price: "IDR 100.000", emoji: "🎓" },
+  { level: "SMP", price: "IDR 100.000", emoji: "📚" },
+  { level: "SMA", price: "IDR 125.000", emoji: "🎯" },
+  { level: "UMUM", price: "IDR 200.000", emoji: "✨" },
+];

@@ -1,0 +1,438 @@
+.education-particle {
+  position: absolute;
+  pointer-events: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 8px rgba(196, 5, 3, 0.2));
+  z-index: 0;
+}
+
+.login-background {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  transition: all 0.3s;
+  background-size: 30%, 30%, 80px, 80px, 60px, 70px;
+  background-position: center, center, 10% 10%, 90% 10%, 10% 90%, 90% 90%;
+  background-repeat: no-repeat;
+}
+
+.login-card {
+  position: relative;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(196, 5, 3, 0.05),
+    rgba(218, 166, 37, 0.05)
+  );
+  border-radius: 8px;
+}
+
+.education-icon {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+}
+
+.education-icon-tl {
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.education-icon-tr {
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+.education-icon-bl {
+  bottom: 0;
+  left: 0;
+  transform: translate(-50%, 50%);
+}
+
+.education-icon-br {
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 50%);
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(360deg);
+  }
+}
+
+@keyframes floating {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(5px, -5px) rotate(2deg);
+  }
+  50% {
+    transform: translate(0, -10px) rotate(-2deg);
+  }
+  75% {
+    transform: translate(-5px, -5px) rotate(2deg);
+  }
+}
+
+@keyframes shine {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8) rotate(0deg);
+    filter: brightness(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(180deg);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes float-star {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+    filter: brightness(0.8);
+  }
+  25% {
+    transform: translate(8px, -8px) rotate(90deg);
+    filter: brightness(1);
+  }
+  50% {
+    transform: translate(0, -15px) rotate(180deg);
+    filter: brightness(1.2);
+  }
+  75% {
+    transform: translate(-8px, -8px) rotate(270deg);
+    filter: brightness(1);
+  }
+}
+
+.star-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star-particle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: inherit;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #daa625, 0 0 16px #c40503;
+}
+
+.star::before,
+.star::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  border-radius: inherit;
+}
+
+.star::before {
+  inset: -4px;
+  opacity: 0.3;
+  filter: blur(4px);
+  background: radial-gradient(white, transparent 60%);
+}
+
+.star::after {
+  inset: -8px;
+  opacity: 0.2;
+  filter: blur(8px);
+  background: radial-gradient(#daa625, transparent 60%);
+}
+
+.star-small {
+  width: 2px;
+  height: 2px;
+  animation: sparkle 4s infinite ease-in-out;
+}
+
+.star-medium {
+  width: 3px;
+  height: 3px;
+  animation: sparkle 5s infinite ease-in-out;
+}
+
+.star-large {
+  width: 4px;
+  height: 4px;
+  animation: sparkle 6s infinite ease-in-out;
+}
+
+.floating {
+  animation: float-star 6s infinite ease-in-out;
+}
+
+.cursor-glow {
+  pointer-events: none;
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 243, 241, 0.15) 0%,
+    rgba(255, 227, 222, 0.15) 25%,
+    rgba(255, 211, 206, 0.15) 50%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+  z-index: 1;
+}
+
+.cursor-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(20px);
+  opacity: 0.5;
+}
+
+.cursor-effect {
+  pointer-events: none;
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 243, 241, 0.15) 0%,
+    rgba(255, 227, 222, 0.15) 25%,
+    rgba(255, 211, 206, 0.15) 50%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  transition: all 0.1s ease;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.cursor-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(20px);
+  opacity: 0.5;
+}
+
+.bg-pattern {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 211, 206, 0.4) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 227, 222, 0.4) 0%,
+      transparent 50%
+    );
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.bg-shapes {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: 0.2;
+  animation: floating 8s infinite ease-in-out;
+}
+
+.shape-1 {
+  top: 10%;
+  left: 10%;
+  background: #ffb6b6;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  top: 20%;
+  right: 15%;
+  background: #ffe2e2;
+  border-radius: 64% 36% 27% 73% / 55% 58% 42% 45%;
+  animation-delay: -2s;
+}
+
+.shape-3 {
+  bottom: 15%;
+  left: 20%;
+  background: #ffcece;
+  border-radius: 41% 59% 40% 60% / 65% 66% 34% 35%;
+  animation-delay: -4s;
+}
+
+.shape-4 {
+  bottom: 20%;
+  right: 10%;
+  background: #ffd5d5;
+  border-radius: 59% 41% 52% 48% / 44% 59% 41% 56%;
+  animation-delay: -6s;
+}
+
+.shine-effect {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  animation: shine 3s infinite ease-in-out;
+}
+
+.shine-1 {
+  top: 15%;
+  left: 25%;
+  animation-delay: 0s;
+}
+.shine-2 {
+  top: 45%;
+  right: 20%;
+  animation-delay: -1s;
+}
+.shine-3 {
+  bottom: 30%;
+  left: 35%;
+  animation-delay: -2s;
+}
+.shine-4 {
+  bottom: 20%;
+  right: 30%;
+  animation-delay: -1.5s;
+}
+.shine-5 {
+  top: 35%;
+  left: 50%;
+  animation-delay: -0.5s;
+}
+.shine-6 {
+  top: 60%;
+  right: 40%;
+  animation-delay: -2.5s;
+}
+
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mouse-cursor-gradient-tracking {
+  position: fixed;
+  pointer-events: none;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle at center,
+    rgba(196, 5, 3, 0.15) 0%,
+    rgba(218, 166, 37, 0.12) 25%,
+    rgba(255, 211, 206, 0.08) 50%,
+    transparent 75%
+  );
+  transform: translate(-50%, -50%);
+  transition: all 0.1s ease;
+  z-index: 2;
+  mix-blend-mode: screen;
+  filter: blur(5px);
+}
+
+.mouse-cursor-gradient-tracking::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: inherit;
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0.5;
+}
