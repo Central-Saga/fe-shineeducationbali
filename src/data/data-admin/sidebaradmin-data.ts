@@ -10,6 +10,7 @@ import {
   School,
   Wallet,
   CalendarRange,
+  Briefcase, // Tambahan icon untuk Career Center
 } from "lucide-react";
 
 export interface SubMenuItem {
@@ -157,6 +158,23 @@ export const sidebarAdminNavigation: MenuItem[] = [
     name: "Schedule",
     href: "/dashboard/schedule",
     icon: CalendarRange,
+  },
+    {
+    name: "Career Center",
+    href: "/dashboard/career",
+    icon: Briefcase,
+    submenu: [
+      {
+        name: "Job Vacancies",
+        href: "/dashboard/career/vacancies",
+        description: "Kelola lowongan pekerjaan yang tersedia",
+      },
+      {
+        name: "Job Applications",
+        href: "/dashboard/career/applications",
+        description: "Kelola lamaran pekerjaan yang masuk",
+      },
+    ],
   },
   {
     name: "Reports",
