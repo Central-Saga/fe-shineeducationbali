@@ -42,7 +42,15 @@ export default function CertificateSettingsPage() {
     requireSignature: true,
     allowBatchIssuance: true,
     notifyRecipients: true,
+    defaultTemplate: "template1", // Added default template
   });
+
+  const handleTemplateChange = (templateId: string) => {
+    setSettings((prev) => ({
+      ...prev,
+      defaultTemplate: templateId,
+    }));
+  };
 
   const handleSave = () => {
     // TODO: Implement settings save
@@ -163,19 +171,13 @@ export default function CertificateSettingsPage() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label>Template Default</Label>{" "}
+            <div className="mb-8">
               <TemplateSelect
-                useFormField={false}
+                label="Default Certificate Template"
                 value={settings.defaultTemplate}
-                onChange={(value) =>
-                  setSettings({ ...settings, defaultTemplate: value })
-                }
+                onChange={handleTemplateChange}
+                useFormField={false}
               />
-              <p className="text-sm text-gray-500">
-                Template yang akan digunakan secara default saat membuat
-                sertifikat baru
-              </p>
             </div>
           </CardContent>
         </Card>
