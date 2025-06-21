@@ -4,178 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  Users,
-  GraduationCap,
-  Calendar,
-  Settings,
-  FilePieChart,
-  BookOpen,
-  ClipboardList,
-  School,
-  ChevronDown,
-  ChevronRight,
-  Wallet,
-  CalendarRange,
-} from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
-const navigation = [
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    name: "Manajemen Pengguna",
-    href: "/dashboard/users",
-    icon: Users,
-    submenu: [
-      {
-        name: "Manajemen Siswa",
-        href: "/dashboard/users/students",
-        description: "Kelola data siswa dan penempatan kelas",
-      },
-      {
-        name: "Manajemen Guru",
-        href: "/dashboard/users/teachers",
-        description: "Kelola data guru dan jadwal mengajar",
-      },
-      {
-        name: "Role & Permissions",
-        href: "/dashboard/users/roles",
-        description: "Atur peran dan hak akses pengguna",
-      },
-    ],
-  },
-  {
-    name: "Kursus",
-    href: "/dashboard/courses",
-    icon: BookOpen,
-    submenu: [
-      {
-        name: "Daftar Kursus",
-        href: "/dashboard/courses",
-        description: "Kelola daftar kursus yang tersedia",
-      },
-      {
-        name: "Kategori",
-        href: "/dashboard/courses/categories",
-        description: "Atur kategori kursus",
-      },
-      {
-        name: "Materi",
-        href: "/dashboard/courses/materials",
-        description: "Kelola materi pembelajaran",
-      },
-      {
-        name: "Penempatan Siswa",
-        href: "/dashboard/courses/assignments",
-        description: "Atur penempatan siswa ke kursus",
-      },
-    ],
-  },
-  {
-    name: "Sistem Absensi",
-    href: "/dashboard/attendance",
-    icon: ClipboardList,
-    submenu: [
-      {
-        name: "Absensi Harian",
-        href: "/dashboard/attendance/daily",
-        description: "Catat dan kelola absensi harian",
-      },
-      {
-        name: "Laporan Absensi",
-        href: "/dashboard/attendance/reports",
-        description: "Lihat laporan dan statistik absensi",
-      },
-      {
-        name: "Pengaturan Absensi",
-        href: "/dashboard/attendance/settings",
-        description: "Konfigurasi sistem absensi",
-      },
-    ],
-  },
-  {
-    name: "Manajemen Nilai",
-    href: "/dashboard/grades",
-    icon: FilePieChart,
-    submenu: [
-      {
-        name: "Daftar Nilai",
-        href: "/dashboard/grades",
-        description: "Lihat dan kelola nilai siswa",
-      },
-      {
-        name: "Laporan Nilai",
-        href: "/dashboard/grades/reports",
-        description: "Generate laporan nilai siswa",
-      },
-    ],
-  },
-  {
-    name: "Manajemen Sertifikat",
-    href: "/dashboard/certificates",
-    icon: GraduationCap,
-    submenu: [
-      {
-        name: "Daftar Sertifikat",
-        href: "/dashboard/certificates",
-        description: "Kelola sertifikat yang telah diterbitkan",
-      },
-      {
-        name: "Template Sertifikat",
-        href: "/dashboard/certificates/templates",
-        description: "Atur template sertifikat",
-      },
-      {
-        name: "Penerbitan Batch",
-        href: "/dashboard/certificates/batch",
-        description: "Terbitkan sertifikat secara massal",
-      },
-    ],
-  },
-  {
-    name: "Manajemen Pembayaran",
-    href: "/dashboard/payments",
-    icon: Wallet,
-    submenu: [
-      {
-        name: "Transaksi",
-        href: "/dashboard/payments/transactions",
-        description: "Kelola transaksi pembayaran siswa",
-      },
-      {
-        name: "Laporan Keuangan",
-        href: "/dashboard/payments/reports",
-        description: "Lihat laporan dan rekap keuangan",
-      },
-      {
-        name: "Pengaturan Pembayaran",
-        href: "/dashboard/payments/settings",
-        description: "Konfigurasi sistem pembayaran",
-      },
-    ],
-  },
-  {
-    name: "Jadwal",
-    href: "/dashboard/schedule",
-    icon: CalendarRange,
-  },
-  {
-    name: "Laporan",
-    href: "/dashboard/reports",
-    icon: FilePieChart,
-  },
-  {
-    name: "Pengaturan",
-    href: "/dashboard/settings",
-    icon: Settings,
-  },
-];
+import { sidebarAdminNavigation } from "@/data/data-admin/sidebaradmin-data";
 
 export function AdminSidebar() {
   const pathname = usePathname();
@@ -189,13 +21,11 @@ export function AdminSidebar() {
 
   return (
     <ScrollArea className="flex flex-col h-full">
-      {" "}
       <div className="flex h-14 items-center border-b px-6">
         <Link
           className="flex items-center gap-2 font-semibold"
           href="/dashboard"
         >
-          {" "}
           <Image
             src="/pichome/logo.png"
             alt="Shine Education Logo"
@@ -205,17 +35,15 @@ export function AdminSidebar() {
             priority
             quality={100}
           />
-          {/* <span className="text-xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
-            Shine Education
-          </span> */}
         </Link>
       </div>
       <div className="flex-1 p-4">
         <nav className="flex flex-col gap-1">
-          {navigation.map((item) => {
-            const isActive = item.submenu
-              ? item.submenu.some((subitem) => pathname === subitem.href)
-              : pathname === item.href;
+          {" "}
+          {sidebarAdminNavigation.map((item) => {
+            const isActive =
+              item.submenu?.some((subitem) => pathname === subitem.href) ??
+              pathname === item.href;
 
             const hasSubmenu = item.submenu && item.submenu.length > 0;
             const isOpen = isMenuOpen(item.name);
@@ -262,10 +90,8 @@ export function AdminSidebar() {
                       </div>
                     </div>
                   </Link>
-                )}
-
-                {/* Submenu rendering remains the same */}
-                {hasSubmenu && isOpen && (
+                )}{" "}
+                {hasSubmenu && isOpen && item.submenu && (
                   <div className="ml-6 mt-1 flex flex-col gap-1">
                     {item.submenu.map((subitem) => (
                       <Link
