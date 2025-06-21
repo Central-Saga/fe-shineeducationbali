@@ -166,7 +166,11 @@ export function TemplateSelect({
             </SelectTrigger>
             <SelectContent>
               {templateOptions.map((template) => (
-                <SelectItem key={template.id} value={template.id} className="py-2">
+                <SelectItem
+                  key={template.id}
+                  value={template.id}
+                  className="py-2"
+                >
                   <div className="flex items-center">
                     <div className="relative h-12 w-16 mr-3">
                       <Image
@@ -197,16 +201,15 @@ export function TemplateSelect({
                       ?.thumbnail.replace("-thumb", "") || ""
                   }
                   alt={
-                    templateOptions.find((t) => t.id === field.value)?.name || ""
+                    templateOptions.find((t) => t.id === field.value)?.name ||
+                    ""
                   }
                   fill
                   style={{ objectFit: "contain" }}
                 />
               </div>
               <div className="mt-2 text-sm text-muted-foreground">
-                {
-                  templateOptions.find((t) => t.id === field.value)?.description
-                }
+                {templateOptions.find((t) => t.id === field.value)?.description}
               </div>
             </div>
           )}
