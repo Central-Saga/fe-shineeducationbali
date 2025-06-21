@@ -2,24 +2,28 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  ArrowLeft, 
-  Mail, 
-  Phone, 
-  User, 
-  Briefcase, 
-  GraduationCap, 
+import {
+  ArrowLeft,
+  Mail,
+  Phone,
+  User,
+  Briefcase,
+  GraduationCap,
   Calendar,
   FileText,
   MapPin,
-  Clock
+  Clock,
 } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 
-export default function ApplicationDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function ApplicationDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const resolvedParams = use(params);
-  
+
   // Dummy data - In real app, fetch based on resolvedParams.id
   const application = {
     id: resolvedParams.id,
@@ -30,7 +34,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
       avatar: "/images/avatars/sarah.jpg",
       location: "Bali, Indonesia",
       linkedin: "linkedin.com/in/sarahjohnson",
-      website: "sarahjohnson.com"
+      website: "sarahjohnson.com",
     },
     position: "English Teacher",
     appliedDate: "2023-06-18",
@@ -58,8 +62,8 @@ Sarah Johnson`,
         responsibilities: [
           "Developed and implemented innovative teaching methods",
           "Conducted advanced English classes for 100+ students",
-          "Achieved 95% student satisfaction rate"
-        ]
+          "Achieved 95% student satisfaction rate",
+        ],
       },
       {
         position: "English Language Instructor",
@@ -68,20 +72,23 @@ Sarah Johnson`,
         responsibilities: [
           "Taught business English to corporate clients",
           "Created customized learning materials",
-          "Conducted regular progress assessments"
-        ]
-      }
+          "Conducted regular progress assessments",
+        ],
+      },
     ],
     documents: [
       { name: "Resume.pdf", size: "2.4 MB" },
       { name: "Cover_Letter.pdf", size: "1.1 MB" },
-      { name: "Teaching_Certificate.pdf", size: "3.2 MB" }
-    ]
+      { name: "Teaching_Certificate.pdf", size: "3.2 MB" },
+    ],
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <Link href="/dashboard/career/applications" className="inline-flex items-center text-[#C40503] hover:text-[#A30402] mb-6">
+      <Link
+        href="/dashboard/career/applications"
+        className="inline-flex items-center text-[#C40503] hover:text-[#A30402] mb-6"
+      >
         <ArrowLeft className="h-4 w-4 mr-2" />
         Back to Applications
       </Link>
@@ -107,13 +114,15 @@ Sarah Johnson`,
                     </h1>
                     <p className="text-gray-500">{application.position}</p>
                   </div>
-                  <Badge className={
-                    application.status === "Shortlisted"
-                      ? "bg-green-100 text-green-800"
-                      : application.status === "Under Review"
-                      ? "bg-[#C40503] text-white"
-                      : "bg-red-100 text-red-800"
-                  }>
+                  <Badge
+                    className={
+                      application.status === "Shortlisted"
+                        ? "bg-green-100 text-green-800"
+                        : application.status === "Under Review"
+                        ? "bg-[#C40503] text-white"
+                        : "bg-red-100 text-red-800"
+                    }
+                  >
                     {application.status}
                   </Badge>
                 </div>
@@ -146,10 +155,14 @@ Sarah Johnson`,
               {application.workHistory.map((work, index) => (
                 <div key={index} className="border-l-2 border-[#C40503] pl-4">
                   <h3 className="font-semibold">{work.position}</h3>
-                  <p className="text-gray-500">{work.company} • {work.duration}</p>
+                  <p className="text-gray-500">
+                    {work.company} • {work.duration}
+                  </p>
                   <ul className="mt-2 space-y-1">
                     {work.responsibilities.map((resp, idx) => (
-                      <li key={idx} className="text-gray-600 text-sm">• {resp}</li>
+                      <li key={idx} className="text-gray-600 text-sm">
+                        • {resp}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -161,8 +174,10 @@ Sarah Johnson`,
           <section className="bg-white rounded-xl p-6 border border-gray-100">
             <h2 className="text-xl font-semibold mb-4">Cover Letter</h2>
             <div className="prose max-w-none">
-              {application.coverletter.split('\n').map((paragraph, index) => (
-                <p key={index} className="text-gray-600 mb-4">{paragraph}</p>
+              {application.coverletter.split("\n").map((paragraph, index) => (
+                <p key={index} className="text-gray-600 mb-4">
+                  {paragraph}
+                </p>
               ))}
             </div>
           </section>

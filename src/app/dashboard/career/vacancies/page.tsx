@@ -2,7 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, Search, Briefcase, MapPin, Clock, Users } from "lucide-react";
+import {
+  PlusCircle,
+  Search,
+  Briefcase,
+  MapPin,
+  Clock,
+  Users,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { FilterDialog } from "@/components/ui-admin/career/FilterDialog";
 import Link from "next/link";
@@ -19,8 +26,15 @@ export default function JobVacanciesPage() {
       salary: "IDR 5-8 million",
       postedDate: "2 days ago",
       applicants: 12,
-      description: "We are looking for an experienced English teacher to join our growing team. The ideal candidate will have a passion for teaching and be able to create engaging lesson plans that help students improve their English language skills. Experience with both group and individual instruction is required.",
-      requirements: ["Native level English", "Teaching certification", "Bachelor's degree", "Min. 2 years teaching experience", "Strong communication skills"],
+      description:
+        "We are looking for an experienced English teacher to join our growing team. The ideal candidate will have a passion for teaching and be able to create engaging lesson plans that help students improve their English language skills. Experience with both group and individual instruction is required.",
+      requirements: [
+        "Native level English",
+        "Teaching certification",
+        "Bachelor's degree",
+        "Min. 2 years teaching experience",
+        "Strong communication skills",
+      ],
       imageUrl: "/images/careers/english-teacher.jpg",
     },
     {
@@ -32,8 +46,15 @@ export default function JobVacanciesPage() {
       salary: "IDR 4-6 million",
       postedDate: "1 week ago",
       applicants: 8,
-      description: "Join us in shaping young minds through mathematics education. We're seeking a passionate Mathematics Instructor who can make complex concepts easy to understand. The role involves teaching various levels of mathematics and preparing students for academic excellence.",
-      requirements: ["Mathematics degree", "Teaching experience", "Good communication skills", "Patient and detail-oriented", "Ability to work with different age groups"],
+      description:
+        "Join us in shaping young minds through mathematics education. We're seeking a passionate Mathematics Instructor who can make complex concepts easy to understand. The role involves teaching various levels of mathematics and preparing students for academic excellence.",
+      requirements: [
+        "Mathematics degree",
+        "Teaching experience",
+        "Good communication skills",
+        "Patient and detail-oriented",
+        "Ability to work with different age groups",
+      ],
       imageUrl: "/images/careers/math-teacher.jpg",
     },
   ];
@@ -43,7 +64,9 @@ export default function JobVacanciesPage() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Job Vacancies</h1>
-          <p className="text-gray-500 mt-1">Find and manage available positions</p>
+          <p className="text-gray-500 mt-1">
+            Find and manage available positions
+          </p>
         </div>
         <Button className="bg-[#C40503] hover:bg-[#A30402]">
           <PlusCircle className="mr-2 h-4 w-4" />
@@ -115,7 +138,9 @@ export default function JobVacanciesPage() {
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-[#C40503] font-semibold">{job.salary}</span>
+                <span className="text-[#C40503] font-semibold">
+                  {job.salary}
+                </span>
                 <Link href={`/dashboard/career/vacancies/${job.id}`}>
                   <Button variant="outline">View Details</Button>
                 </Link>

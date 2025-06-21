@@ -62,7 +62,9 @@ export default function JobApplicationsPage() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Job Applications</h1>
-          <p className="text-gray-500 mt-1">Manage and track job applications</p>
+          <p className="text-gray-500 mt-1">
+            Manage and track job applications
+          </p>
         </div>
       </div>
 
@@ -110,7 +112,9 @@ export default function JobApplicationsPage() {
                   <h3 className="text-lg font-semibold text-gray-900">
                     {application.applicant.name}
                   </h3>
-                  <p className="text-sm text-gray-500">{application.position}</p>
+                  <p className="text-sm text-gray-500">
+                    {application.position}
+                  </p>
                 </div>
               </div>
               <Badge
@@ -141,7 +145,9 @@ export default function JobApplicationsPage() {
               </div>
               <div className="flex items-center text-gray-600">
                 <Clock className="h-4 w-4 mr-2" />
-                <span className="text-sm">Applied {application.appliedDate}</span>
+                <span className="text-sm">
+                  Applied {application.appliedDate}
+                </span>
               </div>
             </div>
 
@@ -162,7 +168,8 @@ export default function JobApplicationsPage() {
               </Button>
               <Button variant="outline" size="sm">
                 Schedule Interview
-              </Button>              <Link href={`/dashboard/career/applications/${application.id}`}>
+              </Button>{" "}
+              <Link href={`/dashboard/career/applications/${application.id}`}>
                 <Button className="bg-[#C40503] hover:bg-[#A30402]" size="sm">
                   View Details
                 </Button>

@@ -2,11 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, Users, BriefcaseIcon, GraduationCap, DollarSign, ArrowLeft } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  Users,
+  BriefcaseIcon,
+  GraduationCap,
+  DollarSign,
+  ArrowLeft,
+} from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 
-export default function JobVacancyDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function JobVacancyDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const resolvedParams = use(params);
 
   // Dummy data - In real app, fetch based on resolvedParams.id
@@ -19,14 +31,15 @@ export default function JobVacancyDetailPage({ params }: { params: Promise<{ id:
     salary: "IDR 5-8 million",
     postedDate: "2 days ago",
     applicants: 12,
-    description: "We are looking for an experienced English teacher to join our growing team. The ideal candidate will have a passion for teaching and be able to create engaging lesson plans that help students improve their English language skills.",
+    description:
+      "We are looking for an experienced English teacher to join our growing team. The ideal candidate will have a passion for teaching and be able to create engaging lesson plans that help students improve their English language skills.",
     fullDescription: [
       "As an English Teacher at Shine Education, you will be responsible for:",
       "• Creating and delivering engaging English lessons for students of various levels",
       "• Developing curriculum and learning materials",
       "• Assessing student progress and maintaining accurate records",
       "• Providing regular feedback to students and parents",
-      "• Participating in school events and teacher development programs"
+      "• Participating in school events and teacher development programs",
     ],
     requirements: [
       "Native level English proficiency",
@@ -34,7 +47,7 @@ export default function JobVacancyDetailPage({ params }: { params: Promise<{ id:
       "Valid teaching certification",
       "Minimum 2 years of teaching experience",
       "Strong communication and interpersonal skills",
-      "Experience with modern teaching methodologies"
+      "Experience with modern teaching methodologies",
     ],
     benefits: [
       "Competitive salary package",
@@ -42,14 +55,17 @@ export default function JobVacancyDetailPage({ params }: { params: Promise<{ id:
       "Annual performance bonus",
       "Professional development opportunities",
       "Work-life balance",
-      "Modern teaching facilities"
+      "Modern teaching facilities",
     ],
     imageUrl: "/images/careers/english-teacher.jpg",
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <Link href="/dashboard/career/vacancies" className="inline-flex items-center text-[#C40503] hover:text-[#A30402] mb-6">
+      <Link
+        href="/dashboard/career/vacancies"
+        className="inline-flex items-center text-[#C40503] hover:text-[#A30402] mb-6"
+      >
         <ArrowLeft className="h-4 w-4 mr-2" />
         Back to Vacancies
       </Link>
@@ -82,7 +98,9 @@ export default function JobVacancyDetailPage({ params }: { params: Promise<{ id:
             <p className="text-gray-600 mb-4">{job.description}</p>
             <div className="space-y-2">
               {job.fullDescription.map((desc, index) => (
-                <p key={index} className="text-gray-600">{desc}</p>
+                <p key={index} className="text-gray-600">
+                  {desc}
+                </p>
               ))}
             </div>
           </section>
@@ -91,7 +109,9 @@ export default function JobVacancyDetailPage({ params }: { params: Promise<{ id:
             <h2 className="text-2xl font-semibold mb-4">Requirements</h2>
             <ul className="list-disc list-inside space-y-2">
               {job.requirements.map((req, index) => (
-                <li key={index} className="text-gray-600">{req}</li>
+                <li key={index} className="text-gray-600">
+                  {req}
+                </li>
               ))}
             </ul>
           </section>
@@ -100,7 +120,9 @@ export default function JobVacancyDetailPage({ params }: { params: Promise<{ id:
             <h2 className="text-2xl font-semibold mb-4">Benefits</h2>
             <ul className="list-disc list-inside space-y-2">
               {job.benefits.map((benefit, index) => (
-                <li key={index} className="text-gray-600">{benefit}</li>
+                <li key={index} className="text-gray-600">
+                  {benefit}
+                </li>
               ))}
             </ul>
           </section>

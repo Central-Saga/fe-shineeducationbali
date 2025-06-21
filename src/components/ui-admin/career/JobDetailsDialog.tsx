@@ -9,7 +9,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, Users, BriefcaseIcon, GraduationCap, DollarSign } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  Users,
+  BriefcaseIcon,
+  GraduationCap,
+  DollarSign,
+} from "lucide-react";
 
 interface JobDetailsDialogProps {
   job: {
@@ -45,7 +52,9 @@ export function JobDetailsDialog({ job }: JobDetailsDialogProps) {
               {job.type}
             </Badge>
           </div>
-          <DialogTitle className="text-2xl font-bold mt-4">{job.title}</DialogTitle>
+          <DialogTitle className="text-2xl font-bold mt-4">
+            {job.title}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="grid md:grid-cols-3 gap-6 mt-4">

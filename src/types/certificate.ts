@@ -55,3 +55,13 @@ export interface CertificateBatchRequest {
   signedBy: Certificate["signedBy"];
   achievementDate: string;
 }
+
+export type CertificateHistory = {
+  id: string;
+  certificateId: string;
+  studentName: string;
+  type: CertificateType;
+  issueDate: string;
+  issuedBy: string;
+  status: "success" | "failed" | "revoked";
+};

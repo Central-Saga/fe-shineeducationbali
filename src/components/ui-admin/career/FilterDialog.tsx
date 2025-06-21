@@ -42,7 +42,7 @@ export function FilterDialog() {
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="space-y-2">
             <Label>Location</Label>
             <Select>
@@ -74,12 +74,7 @@ export function FilterDialog() {
           <div className="space-y-2">
             <Label>Salary Range (in millions IDR)</Label>
             <div className="pt-2">
-              <Slider
-                defaultValue={[4, 15]}
-                max={30}
-                min={1}
-                step={1}
-              />
+              <Slider defaultValue={[4, 15]} max={30} min={1} step={1} />
               <div className="flex justify-between text-sm text-gray-500 mt-1">
                 <span>1M</span>
                 <span>30M</span>
