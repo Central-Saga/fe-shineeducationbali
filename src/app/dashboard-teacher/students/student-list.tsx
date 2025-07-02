@@ -1,19 +1,45 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { StudentList } from "@/components/ui-teacher/students/StudentList";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Search } from "lucide-react";
-import { studentsData } from "@/data/data-admin/user-data/students-data";
+import { UserPlus } from "lucide-react";
+import { assignmentsData } from "@/data/data-teacher/assignments/assignments-data";
+import { studentsData } from "@/data/data-teacher/students-data";
 
-export default function StudentList() {
+// Extract unique classes from the assignment data
+const classes = assignmentsData.map((assignment) => ({
+  id: assignment.id,
+  name: assignment.class
+})).filter((value, index, self) => 
+  self.findIndex(v => v.name === value.name) === index
+);
+
+export default function StudentListPage() {
+  const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
+
+  const handleViewProfile = (id: string) => {
+    console.log("Viewing student profile:", id);
+    setSelectedStudent(id);
+    // Here you would navigate to the student profile page or open a modal
+  };
+
+  const handleViewGrades = (id: string) => {
+    console.log("Viewing student grades:", id);
+    // Here you would navigate to the student grades page or open a modal
+  };
+
+  const handleViewAttendance = (id: string) => {
+    console.log("Viewing student attendance:", id);
+    // Here you would navigate to the student attendance page or open a modal
+  };
+
+  const handleContactStudent = (id: string) => {
+    console.log("Contacting student:", id);
+    // Here you would open a contact form or messaging interface
+  };
+
   return (
     <div className="p-6 space-y-6">
       <Card>
@@ -21,66 +47,23 @@ export default function StudentList() {
           <CardTitle className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
             Daftar Siswa
           </CardTitle>
-          <div className="flex items-center space-x-2">
-            <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-              <input
-                type="text"
-                placeholder="Cari siswa..."
-                className="pl-8 h-9 w-64 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors"
-              />
-            </div>
-            <Button>Tambah Siswa</Button>
-          </div>
+          <Button>
+            <UserPlus className="mr-2 h-4 w-4" />
+            Tambah Siswa
+          </Button>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Nama</TableHead>
-                <TableHead>Kelas</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {studentsData.map((student) => (
-                <TableRow key={student.id}>
-                  <TableCell className="font-medium">{student.id}</TableCell>
-                  <TableCell>{student.name}</TableCell>
-                  <TableCell>{student.class}</TableCell>
-                  <TableCell>{student.email}</TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        student.status === "Active"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {student.status}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">
-                        Edit
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="text-red-600"
-                      >
-                        Hapus
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <StudentList
+            students={studentsData.map(student => ({
+              ...student,
+              status: student.status === 'active' ? 'active' : 'inactive'
+            }))}
+            classes={classes}
+            onViewProfile={handleViewProfile}
+            onViewGrades={handleViewGrades}
+            onViewAttendance={handleViewAttendance}
+            onContactStudent={handleContactStudent}
+          />
         </CardContent>
       </Card>
     </div>

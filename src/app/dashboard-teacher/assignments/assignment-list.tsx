@@ -1,19 +1,66 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { AssignmentList } from "@/components/ui-teacher/assignments/AssignmentList";
+import { AssignmentForm } from "@/components/ui-teacher/assignments/AssignmentForm";
+import { assignmentsData } from "@/data/data-teacher/assignments/assignments-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Plus, FileEdit, Trash2 } from "lucide-react";
-import { assignmentsData } from "@/data/data-teacher/assignments-data";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Plus } from "lucide-react";
 
-export default function AssignmentList() {
+// Transform data to match our component's expected format
+const formattedAssignments = assignmentsData.map((assignment) => ({
+  id: assignment.id,
+  title: assignment.title,
+  className: assignment.class,
+  classId: assignment.id, // Using assignment.id as a classId since it doesn't exist in the data
+  dueDate: assignment.dueDate,
+  submissionCount: assignment.submittedCount || 0,
+  status: (assignment.status === "Active" ? "active" : 
+           assignment.status === "Upcoming" ? "draft" : "expired") as "active" | "draft" | "expired"
+}));
+
+// Extract unique classes from the assignment data
+const classes = assignmentsData.map((assignment) => ({
+  id: assignment.id,
+  name: assignment.class
+})).filter((value, index, self) => 
+  self.findIndex(v => v.name === value.name) === index
+);
+
+export default function AssignmentListPage() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedAssignment, setSelectedAssignment] = useState<string | null>(null);
+
+  const handleView = (id: string) => {
+    console.log("Viewing assignment:", id);
+  };
+
+  const handleEdit = (id: string) => {
+    console.log("Editing assignment:", id);
+    setSelectedAssignment(id);
+    setIsDialogOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    console.log("Deleting assignment:", id);
+    if (confirm("Apakah Anda yakin ingin menghapus tugas ini?")) {
+      // Delete logic would go here
+      alert("Tugas berhasil dihapus!");
+    }
+  };
+
+  const handleDownload = (id: string) => {
+    console.log("Downloading assignment:", id);
+  };
+
+  const handleFormSubmit = (data: any) => {
+    console.log("Form submitted:", data);
+    setIsDialogOpen(false);
+    // Here you would update your data with the new values
+  };
+
   return (
     <div className="p-6 space-y-6">
       <Card>
@@ -21,59 +68,38 @@ export default function AssignmentList() {
           <CardTitle className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
             Daftar Tugas
           </CardTitle>
-          <Button>
+          <Button onClick={() => setIsDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Buat Tugas Baru
           </Button>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Judul</TableHead>
-                <TableHead>Mata Pelajaran</TableHead>
-                <TableHead>Kelas</TableHead>
-                <TableHead>Tenggat</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {assignmentsData.map((assignment) => (
-                <TableRow key={assignment.id}>
-                  <TableCell className="font-medium">
-                    {assignment.title}
-                  </TableCell>
-                  <TableCell>{assignment.subject}</TableCell>
-                  <TableCell>{assignment.class}</TableCell>
-                  <TableCell>{assignment.dueDate}</TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        assignment.status === "Active"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {assignment.status}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex space-x-2">
-                      <Button variant="ghost" size="icon">
-                        <FileEdit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon">
-                        <Trash2 className="h-4 w-4 text-red-500" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <AssignmentList
+            assignments={formattedAssignments}
+            onView={handleView}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onDownload={handleDownload}
+          />
         </CardContent>
       </Card>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogTitle>
+            {selectedAssignment ? "Edit Tugas" : "Buat Tugas Baru"}
+          </DialogTitle>
+          <AssignmentForm
+            classes={classes}
+            onSubmit={handleFormSubmit}
+            initialData={
+              selectedAssignment
+                ? formattedAssignments.find(a => a.id === selectedAssignment)
+                : undefined
+            }
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
