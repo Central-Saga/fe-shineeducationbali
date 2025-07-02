@@ -1,4 +1,4 @@
-"use client";
+    "use client";
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -192,37 +192,36 @@ export default function ProgramList() {
         ) : (
           filtered.map((p) => (
             <Card key={p.id} className="group overflow-hidden hover:shadow-md transition-all duration-300">
-              {/* Program Image Container - Remove default Card padding */}
-              <div className="relative aspect-[4/3] overflow-hidden rounded-t-lg">
+              {/* Program Image */}
+              <div className="relative aspect-[4/3] overflow-hidden ">
                 {p.image ? (
-                  <div className="relative h-full">
+                  <>
                     <img
                       src={p.image}
                       alt={p.title}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                    {/* Improved gradient overlay */}
+                    {/* Multiple layer gradient for better text visibility */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/25" />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" />
-                    
-                    {/* Content overlay */}
-                    <div className="absolute inset-0 flex flex-col justify-between p-4">
-                      {/* Status badge */}
-                      <div className="self-end">
-                        {getStatusBadge(p.status)}
-                      </div>
-                      {/* Title and description */}
-                      <div>
-                        <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg leading-tight">{p.title}</h3>
-                        <p className="text-sm text-white/90 line-clamp-2 drop-shadow-lg leading-relaxed max-w-[90%]">{p.description}</p>
-                      </div>
-                    </div>
-                  </div>
+                  </>
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                     <BookOpen className="h-16 w-16 text-gray-300" />
                   </div>
                 )}
+                {/* Title and description with improved positioning */}
+                <div className="absolute inset-0 flex flex-col justify-between p-6">
+                  {/* Status badge at top */}
+                  <div className="self-end">
+                    {getStatusBadge(p.status)}
+                  </div>
+                  {/* Title and description at bottom */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg leading-tight">{p.title}</h3>
+                    <p className="text-sm text-white/90 line-clamp-2 drop-shadow-lg leading-relaxed max-w-[90%]">{p.description}</p>
+                  </div>
+                </div>
               </div>
 
               <CardContent className="p-6">
