@@ -30,25 +30,23 @@ export default function TeacherDashboardLayout({
         console.log("User data:", user);
         
         // For debugging
-        if (user.peran) {
-          console.log("User role:", user.peran);
+        if (user.role) {
+          console.log("User role:", user.role);
         } else {
           console.log("User has no role defined");
         }
 
-        // Allow access if user has any role - we'll fix specific role checking later
-        // This ensures users can at least access the dashboard
-        setMounted(true);
-        
-        // Uncomment this when role checking is properly working
-        /*
-        if (!user.peran || (Array.isArray(user.peran) && !user.peran.includes("Teacher")) || 
-            (typeof user.peran === 'string' && user.peran !== "Teacher")) {
+        // Check if user has teacher role
+        if (!user.role || 
+            (Array.isArray(user.role) && !user.role.includes("Teacher")) || 
+            (typeof user.role === 'string' && user.role !== "Teacher")) {
           console.log("User is not a teacher, redirecting to login");
           router.push("/auth/login");
           return;
         }
-        */
+        
+        // User is authenticated and has teacher role
+        setMounted(true);
       } catch (error) {
         console.error("Error parsing user data:", error);
         // Don't redirect on parsing error, just log it

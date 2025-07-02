@@ -21,7 +21,7 @@ interface TeacherHeaderProps {
 interface UserData {
   nama: string;
   email: string;
-  peran: string[];
+  role: string[];
 }
 
 export function TeacherHeader({ onLogout }: TeacherHeaderProps) {
@@ -77,7 +77,7 @@ export function TeacherHeader({ onLogout }: TeacherHeaderProps) {
                   {userData?.email || 'Loading...'}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {userData?.peran?.[0] || 'Teacher'}
+                  {userData?.role?.[0] || 'Teacher'}
                 </p>
               </div>
             </DropdownMenuLabel>
