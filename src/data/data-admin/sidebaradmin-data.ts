@@ -54,6 +54,30 @@ export const sidebarAdminNavigation: MenuItem[] = [
       },
     ],
   },
+    {
+    name: "Katalog Program",
+    href: "/dashboard/program",
+    icon: School,
+    submenu: [
+      {
+        name: "Daftar Program",
+        href: "/dashboard/program",
+        description: "Kelola katalog program pembelajaran",
+      },
+    ],
+  },
+  {
+    name: "Classes",
+    href: "/dashboard/class",
+    icon: Users,
+    submenu: [
+      {
+        name: "Class List",
+        href: "/dashboard/class",
+        description: "Kelola daftar kelas dan batch pembelajaran",
+      },
+    ],
+  },
   {
     name: "Courses",
     href: "/dashboard/courses",

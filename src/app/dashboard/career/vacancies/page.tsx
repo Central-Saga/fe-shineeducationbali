@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import {
   PlusCircle,
   Search,
-  Briefcase,
+   Briefcase,
   MapPin,
   Clock,
   Users,
