@@ -18,13 +18,17 @@ export default function CertificatesPage() {
   const router = useRouter();
 
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Manajemen Sertifikat
-        </h2>
+    <div className="flex-1 space-y-6 p-5 md:p-8">
+      <div className="flex items-center justify-between bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+            Manajemen Sertifikat
+          </h2>
+          <p className="text-gray-500 mt-2">
+            Kelola sertifikat pembelajaran dan penghargaan siswa
+          </p>
+        </div>
         <div className="flex items-center space-x-2">
-          {" "}
           <Button
             variant="outline"
             size="sm"

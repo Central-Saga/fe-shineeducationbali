@@ -105,113 +105,124 @@ export default function StudentsPage() {
   }, [students]);
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
-        Manajemen Siswa
-      </h1>
+    <div className="space-y-6 p-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Manajemen Siswa
+          </h1>
+          <p className="text-gray-500 mt-1">Kelola akun dan data siswa</p>
+        </div>
+        <Button 
+          className="bg-[#C40503] hover:bg-[#a50402] text-white flex items-center gap-2 w-full sm:w-auto"
+          onClick={() => router.push("/dashboard/users/students/add")}
+        >
+          <Plus className="h-4 w-4" />
+          Tambah Siswa
+        </Button>
+      </div>
 
       {/* Statistics Section */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="border-none shadow-md bg-gradient-to-br from-[#C40503] to-[#ef4444] text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-6">
             <CardTitle className="text-sm font-medium">Total Siswa</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-2 pb-6">
             <div className="text-2xl font-bold">{stats.total}</div>
+            <p className="text-sm opacity-80 mt-1">Semua siswa terdaftar</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="border-none shadow-md bg-gradient-to-br from-[#DAA625] to-[#fbbf24] text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-6">
             <CardTitle className="text-sm font-medium">Siswa Aktif</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-2 pb-6">
             <div className="text-2xl font-bold">{stats.active}</div>
+            <p className="text-sm opacity-80 mt-1">Siswa dengan status aktif</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="border-none shadow-md bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-6">
             <CardTitle className="text-sm font-medium">TK/SD/SMP</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-2 pb-6">
             <div className="text-2xl font-bold">
               {stats.byLevel.TK + stats.byLevel.SD + stats.byLevel.SMP}
             </div>
+            <p className="text-sm opacity-80 mt-1">Jenjang dasar & menengah</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="border-none shadow-md bg-gradient-to-br from-purple-500 to-purple-600 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-6">
             <CardTitle className="text-sm font-medium">SMA/SMK/UMUM</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-2 pb-6">
             <div className="text-2xl font-bold">
               {stats.byLevel["SMA/SMK"] + stats.byLevel.UMUM}
             </div>
+            <p className="text-sm opacity-80 mt-1">Jenjang atas & umum</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Filters Section */}
-      <div className="flex items-center gap-4">
-        <div className="flex-1 flex items-center gap-4">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-            <Input
-              placeholder="Cari siswa..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8"
-            />
-          </div>{" "}
-          <Select
-            value={selectedLevel}
-            onValueChange={(value: EducationLevel | "all") =>
-              setSelectedLevel(value)
-            }
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Jenjang Pendidikan" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Semua Jenjang</SelectItem>
-              <SelectItem value="TK">TK</SelectItem>
-              <SelectItem value="SD">SD</SelectItem>
-              <SelectItem value="SMP">SMP</SelectItem>
-              <SelectItem value="SMA">SMA</SelectItem>
-              <SelectItem value="SMK">SMK</SelectItem>
-              <SelectItem value="UMUM">UMUM</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select
-            value={selectedStatus}
-            onValueChange={(value: "active" | "inactive" | "all") =>
-              setSelectedStatus(value)
-            }
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Semua Status</SelectItem>
-              <SelectItem value="active">Aktif</SelectItem>
-              <SelectItem value="inactive">Nonaktif</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <Button
-          className="bg-[#C40503] hover:bg-[#b30402]"
-          onClick={() => router.push("/dashboard/users/students/add")}
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Tambah Siswa
-        </Button>
-      </div>
+      <Card className="border border-gray-200 shadow-sm">
+        <CardContent className="p-6">
+          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
+            <div className="relative flex-1 w-full">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Input
+                placeholder="Cari siswa..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-8 bg-white w-full"
+              />
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+              <Select
+                value={selectedLevel}
+                onValueChange={(value: EducationLevel | "all") =>
+                  setSelectedLevel(value)
+                }
+              >
+                <SelectTrigger className="w-full sm:w-[180px] bg-white">
+                  <SelectValue placeholder="Jenjang Pendidikan" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Jenjang</SelectItem>
+                  <SelectItem value="TK">TK</SelectItem>
+                  <SelectItem value="SD">SD</SelectItem>
+                  <SelectItem value="SMP">SMP</SelectItem>
+                  <SelectItem value="SMA/SMK">SMA/SMK</SelectItem>
+                  <SelectItem value="UMUM">UMUM</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select
+                value={selectedStatus}
+                onValueChange={(value: "active" | "inactive" | "all") =>
+                  setSelectedStatus(value)
+                }
+              >
+                <SelectTrigger className="w-[180px] bg-white">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Status</SelectItem>
+                  <SelectItem value="active">Aktif</SelectItem>
+                  <SelectItem value="inactive">Nonaktif</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Students Table */}
-      <Card>
+      <Card className="border-none shadow-md">
         <CardContent className="p-0">
-          {" "}
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-gray-50">
               <TableRow>
                 <TableHead className="text-center w-12">Inisial</TableHead>
                 <TableHead className="text-center">Nama</TableHead>
@@ -227,19 +238,30 @@ export default function StudentsPage() {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center py-4">
-                    Memuat data...
+                  <TableCell colSpan={9} className="text-center py-4">
+                    <div className="flex justify-center items-center space-x-2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#C40503]"></div>
+                      <span>Memuat data...</span>
+                    </div>
                   </TableCell>
                 </TableRow>
               ) : filteredStudents.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center py-4">
-                    Tidak ada data siswa
+                  <TableCell colSpan={9} className="text-center py-8">
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="text-gray-400 mb-2">
+                        <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <p className="text-gray-500 font-medium">Tidak ada data siswa</p>
+                      <p className="text-gray-400 text-sm">Coba ubah filter atau tambahkan siswa baru</p>
+                    </div>
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredStudents.map((student) => (
-                  <TableRow key={student.id}>
+                  <TableRow key={student.id} className="hover:bg-gray-50">
                     <TableCell className="font-medium text-center">
                       <div className="flex items-center justify-center gap-2">
                         {student.profilePhoto ? (
@@ -249,15 +271,15 @@ export default function StudentsPage() {
                             className="h-8 w-8 rounded-full object-cover"
                           />
                         ) : (
-                          <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
-                            <span className="text-sm text-gray-600">
+                          <div className="h-8 w-8 rounded-full bg-[#DAA625]/10 flex items-center justify-center">
+                            <span className="text-sm text-[#DAA625] font-medium">
                               {student.name.charAt(0)}
                             </span>
                           </div>
                         )}
                       </div>
                     </TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center font-medium">
                       {student.name}
                     </TableCell>
                     <TableCell className="text-center">
@@ -267,11 +289,12 @@ export default function StudentsPage() {
                       {student.phoneNumber}
                     </TableCell>
                     <TableCell className="text-center">
-                      {student.educationLevel}
+                      <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 border-none">
+                        {student.educationLevel}
+                      </Badge>
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="flex flex-wrap gap-1 justify-center">
-                        {" "}
                         {student.packages?.length > 0 ? (
                           student.packages.map((pkg) => (
                             <Badge
@@ -279,7 +302,11 @@ export default function StudentsPage() {
                               variant={
                                 pkg.type === "regular" ? "default" : "secondary"
                               }
-                              className="whitespace-nowrap"
+                              className={`whitespace-nowrap ${
+                                pkg.type === "regular" 
+                                  ? "bg-[#DAA625]/10 text-[#DAA625] hover:bg-[#DAA625]/10 border-[#DAA625]/20" 
+                                  : "bg-[#C40503]/10 text-[#C40503] hover:bg-[#C40503]/10 border-[#C40503]/20"
+                              }`}
                             >
                               {pkg.name}
                             </Badge>
@@ -291,7 +318,6 @@ export default function StudentsPage() {
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="flex flex-col gap-1">
-                        {" "}
                         {student.packages?.length > 0 ? (
                           student.packages.flatMap((pkg) =>
                             pkg.courses.map((course) => (
@@ -317,8 +343,8 @@ export default function StudentsPage() {
                         }
                         className={
                           student.status === "active"
-                            ? "bg-green-100 text-green-800 hover:bg-green-100"
-                            : "bg-gray-100 text-gray-800 hover:bg-gray-100"
+                            ? "bg-green-100 text-green-800 hover:bg-green-100 border-none"
+                            : "bg-[#C40503]/10 text-[#C40503] hover:bg-[#C40503]/10 border-none"
                         }
                       >
                         {student.status === "active" ? "Aktif" : "Nonaktif"}
@@ -331,7 +357,7 @@ export default function StudentsPage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-8 w-8 p-0"
+                              className="h-8 w-8 p-0 hover:bg-gray-100"
                             >
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
@@ -357,11 +383,11 @@ export default function StudentsPage() {
                                 )
                               }
                             >
-                              <Edit2 className="h-4 w-4 mr-2 text-amber-600" />
+                              <Edit2 className="h-4 w-4 mr-2 text-[#DAA625]" />
                               Edit
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              className="text-red-600"
+                              className="text-[#C40503]"
                               onClick={() => {
                                 setSelectedStudent(student);
                                 setDeleteDialogOpen(true);
@@ -415,7 +441,7 @@ export default function StudentsPage() {
                   setDeleteLoading(false);
                 }
               }}
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-[#C40503] hover:bg-[#a50402] text-white"
             >
               {deleteLoading ? "Menghapus..." : "Hapus"}
             </AlertDialogAction>

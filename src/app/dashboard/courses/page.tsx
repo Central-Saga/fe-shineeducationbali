@@ -8,7 +8,17 @@ export const metadata: Metadata = {
 
 export default function CoursesPage() {
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
+    <div className="flex-1 space-y-6 p-5 md:p-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+            Manajemen Kursus
+          </h2>
+          <p className="text-gray-500 mt-2">
+            Kelola kursus, kategori, dan materi pembelajaran
+          </p>
+        </div>
+      </div>
       <div className="flex-1">
         <CourseList />
       </div>
