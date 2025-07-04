@@ -141,7 +141,7 @@ export default function LoginPage() {
       // Simpan token
       document.cookie = `access_token=token_${Date.now()}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
 
-      // Simpan data pengguna dengan struktur yang diperbarui
+      // Simpan data pengguna dengan struktur yang seragam
       const userData = JSON.stringify({
         nama: user.nama,
         email: user.email,
@@ -149,11 +149,11 @@ export default function LoginPage() {
         permissions: user.permissions,
       });
 
-      // Set cookie data pengguna
-      document.cookie = `data_pengguna=${userData}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
-
-      // Simpan di localStorage
+      // Simpan di localStorage untuk penggunaan client-side
       localStorage.setItem("pengguna", userData);
+
+      // Simpan juga di cookie untuk middleware
+      document.cookie = `data_pengguna=${userData}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
 
       // Debug log
       console.log("Data pengguna tersimpan:", {

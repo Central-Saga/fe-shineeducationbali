@@ -1,17 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { sidebarAdminNavigation } from "@/data/data-admin/sidebaradmin-data";
+import { sidebarAdminNavigation, MenuItem } from "@/data/data-admin/sidebaradmin-data";
 
 export function AdminSidebar() {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string[]>([]);
+  const [filteredNavigation, setFilteredNavigation] = useState<MenuItem[]>(sidebarAdminNavigation);
+
+  useEffect(() => {
+    // Get user data from localStorage
+    if (typeof window !== "undefined") {
+      const userData = localStorage.getItem("pengguna");
+      if (userData) {
+        try {
+          const user = JSON.parse(userData);
+          const roles = Array.isArray(user.role) ? user.role : [user.role];
+          setUserRole(roles);
+          
+          // For now, we show all menu items for Admin and Super Admin
+          // If specific filtering is needed, it can be implemented here
+          console.log("User roles for sidebar:", roles);
+        } catch (error) {
+          console.error("Error parsing user data for sidebar:", error);
+        }
+      }
+    }
+  }, []);
 
   const toggleMenu = (menuName: string) => {
     setOpenMenu((current) => (current === menuName ? null : menuName));
@@ -67,17 +89,49 @@ export function AdminSidebar() {
             <div className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-2 flex items-center">
               <span className="w-1 h-4 bg-[#C40503] rounded-full mr-2"></span>
               MENU UTAMA
+              {userRole.includes("Super Admin") && (
+                <span className="ml-2 px-2 py-0.5 text-[10px] bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white rounded-full">
+                  SUPER ADMIN
+                </span>
+              )}
             </div>
           </div>
         </div>
         <nav className="flex flex-col gap-1.5">
           {sidebarAdminNavigation.map((item) => {
-            const isActive =
-              item.submenu?.some((subitem) => pathname === subitem.href) ??
-              pathname === item.href;
+            // Check if the current user has permission to see this menu item
+            if (item.roles && !item.roles.some(role => userRole.includes(role))) {
+              return null; // Don't show this menu item if user doesn't have the required role
+            }
 
-            const hasSubmenu = item.submenu && item.submenu.length > 0;
-            const isOpen = isMenuOpen(item.name);
+            // Create a deep copy of the item for modification
+            const menuItem = { ...item };
+            
+            // If item has submenu, filter its submenu items based on user role
+            if (menuItem.submenu && menuItem.submenu.length > 0) {
+              menuItem.submenu = menuItem.submenu
+                .filter(subitem => {
+                  // Keep the item if no roles specified or user has one of the required roles
+                  return !subitem.roles || subitem.roles.some(role => userRole.includes(role));
+                })
+                .map(subitem => {
+                  // Add view-only badge for items with view permission for Admin
+                  if (subitem.permission === "view" && !userRole.includes("Super Admin")) {
+                    return {
+                      ...subitem,
+                      description: subitem.description + " (View Only)" // Add view-only indicator
+                    };
+                  }
+                  return subitem;
+                });
+            }
+
+            const isActive =
+              menuItem.submenu?.some((subitem) => pathname === subitem.href) ??
+              pathname === menuItem.href;
+
+            const hasSubmenu = menuItem.submenu && menuItem.submenu.length > 0;
+            const isOpen = isMenuOpen(menuItem.name);
 
             return (
               <div key={item.name} className="relative group">

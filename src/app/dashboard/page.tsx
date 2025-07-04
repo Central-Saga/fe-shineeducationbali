@@ -84,7 +84,7 @@ export default function DashboardPage() {
     },
   ];
   return (
-    <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
+    <div className="flex-1 space-y-6 p-6 md:py-8">
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
           Dashboard Admin
@@ -103,7 +103,7 @@ export default function DashboardPage() {
               index === 2 ? "bg-gradient-to-r from-[#C40503] to-[#DAA625]" : 
               "bg-gradient-to-r from-[#DAA625] to-[#C40503]"
             }`}></div>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-5">
               <CardTitle className="text-sm font-medium">{stat.name}</CardTitle>
               <div className={`p-2 rounded-full ${
                 index === 0 ? "bg-red-50" : 
@@ -119,9 +119,9 @@ export default function DashboardPage() {
                 }`} />
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-2 pb-5">
               <div className="text-2xl font-bold">{stat.value}</div>
-              <p className={`text-xs ${
+              <p className={`text-xs mt-1 ${
                 stat.trend === "up" ? "text-green-600" : 
                 stat.trend === "down" ? "text-red-600" : 
                 "text-gray-500"
@@ -138,14 +138,14 @@ export default function DashboardPage() {
         {/* Recent Activities */}
         <Card className="col-span-4 border-none shadow-md overflow-hidden">
           <div className="h-1 w-full bg-[#C40503]"></div>
-          <CardHeader className="bg-gradient-to-r from-white to-red-50/30 pb-3">
+          <CardHeader className="bg-gradient-to-r from-white to-red-50/30 pb-3 pt-5">
             <div className="flex justify-between items-center">
               <div>
                 <CardTitle className="flex items-center gap-2 text-[#C40503]">
                   <Activity className="h-5 w-5" />
                   Aktivitas Terkini
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="mt-1">
                   Ada {recentActivities.length} aktivitas terbaru hari ini
                 </CardDescription>
               </div>
@@ -154,12 +154,12 @@ export default function DashboardPage() {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent className="p-0 py-2">
             <div className="divide-y divide-gray-100">
               {recentActivities.map((activity, index) => (
                 <div
                   key={index}
-                  className="flex items-start gap-4 p-4 hover:bg-red-50/30 transition-colors"
+                  className="flex items-start gap-4 p-4 py-4.5 hover:bg-red-50/30 transition-colors"
                 >
                   <Avatar className="h-10 w-10 border-2 border-red-100">
                     <AvatarFallback className={`${
@@ -195,22 +195,22 @@ export default function DashboardPage() {
         {/* Popular Courses */}
         <Card className="col-span-3 border-none shadow-md overflow-hidden">
           <div className="h-1 w-full bg-[#DAA625]"></div>
-          <CardHeader className="bg-gradient-to-r from-white to-amber-50/30 pb-3">
+          <CardHeader className="bg-gradient-to-r from-white to-amber-50/30 pb-3 pt-5">
             <div className="flex justify-between items-center">
               <div>
                 <CardTitle className="flex items-center gap-2 text-[#DAA625]">
                   <BookOpen className="h-5 w-5" />
                   Kursus Populer
                 </CardTitle>
-                <CardDescription>5 kursus dengan peserta terbanyak</CardDescription>
+                <CardDescription className="mt-1">5 kursus dengan peserta terbanyak</CardDescription>
               </div>
               <div className="bg-white border border-amber-100 rounded-full px-3 py-1 text-xs font-medium text-[#DAA625] shadow-sm">
                 Lihat Detail
               </div>
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-5">
+          <CardContent className="pt-2 pb-5">
+            <div className="space-y-6">
               {[
                 { name: "Bahasa Inggris", students: 45, progress: 90 },
                 { name: "Matematika", students: 38, progress: 75 },
@@ -218,16 +218,16 @@ export default function DashboardPage() {
                 { name: "Komputer", students: 28, progress: 55 },
                 { name: "Bahasa Mandarin", students: 25, progress: 50 },
               ].map((course, index) => (
-                <div key={index} className="space-y-2">
+                <div key={index} className="space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    <div className="flex items-center gap-3.5">
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center ${
                         index === 0 ? "bg-yellow-100" : 
                         index === 1 ? "bg-gray-100" : 
                         index === 2 ? "bg-amber-100" : 
                         "bg-red-50"
                       }`}>
-                        <Award className={`h-4 w-4 ${
+                        <Award className={`h-4.5 w-4.5 ${
                           index === 0 ? "text-yellow-500" : 
                           index === 1 ? "text-gray-500" : 
                           index === 2 ? "text-amber-600" : 
@@ -238,7 +238,7 @@ export default function DashboardPage() {
                         <p className="text-sm font-medium leading-none">
                           {course.name}
                         </p>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-gray-500 mt-1.5">
                           {course.students} murid terdaftar
                         </p>
                       </div>
@@ -274,7 +274,7 @@ export default function DashboardPage() {
         {/* Calendar & Upcoming Events */}
         <Card className="border-none shadow-md overflow-hidden">
           <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-3 pt-5">
             <div className="flex justify-between items-center">
               <CardTitle className="text-gray-800">Kalender & Acara</CardTitle>
               <div className="bg-[#C40503] text-white rounded-full px-3 py-1 text-xs font-medium">
@@ -282,22 +282,22 @@ export default function DashboardPage() {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-0">
-            <div className="bg-red-50/50 p-4">
-              <div className="text-sm font-medium text-[#C40503] mb-2">Acara Mendatang</div>
+          <CardContent className="p-0 pb-4">
+            <div className="bg-red-50/50 p-4 py-5">
+              <div className="text-sm font-medium text-[#C40503] mb-3">Acara Mendatang</div>
               <div className="space-y-3">
                 {[
                   { date: "5 Jul", title: "Rapat Guru", time: "09:00 - 11:00" },
                   { date: "12 Jul", title: "Ujian Tengah Semester", time: "08:00 - 12:00" },
                   { date: "20 Jul", title: "Pertemuan Orang Tua", time: "13:00 - 15:00" }
                 ].map((event, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm">
-                    <div className="bg-[#C40503] text-white rounded px-2 py-1 text-center w-12">
+                  <div key={i} className="flex items-center gap-3 bg-white p-3.5 rounded-lg shadow-sm">
+                    <div className="bg-[#C40503] text-white rounded px-2 py-1.5 text-center w-12">
                       <div className="text-xs font-bold">{event.date}</div>
                     </div>
                     <div>
                       <div className="text-sm font-medium">{event.title}</div>
-                      <div className="text-xs text-gray-500">{event.time}</div>
+                      <div className="text-xs text-gray-500 mt-0.5">{event.time}</div>
                     </div>
                   </div>
                 ))}
@@ -309,10 +309,10 @@ export default function DashboardPage() {
         {/* Quick Stats */}
         <Card className="border-none shadow-md overflow-hidden">
           <div className="h-1 w-full bg-[#DAA625]"></div>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-3 pt-5">
             <CardTitle className="text-gray-800">Performa Siswa</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-2 pb-5">
             <div className="space-y-4">
               {[
                 { name: "Kehadiran", value: "92%", change: "+2%", isUp: true },
@@ -357,25 +357,25 @@ export default function DashboardPage() {
         {/* Notes or Announcements */}
         <Card className="border-none shadow-md overflow-hidden">
           <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
-          <CardHeader className="pb-3 bg-gradient-to-r from-white to-red-50/20">
+          <CardHeader className="pb-3 pt-5 bg-gradient-to-r from-white to-red-50/20">
             <CardTitle className="text-gray-800">Pengumuman Terbaru</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
-            <div className="p-4 border-b border-gray-100 bg-amber-50/20">
+          <CardContent className="p-0 pb-0">
+            <div className="p-5 border-b border-gray-100 bg-amber-50/20">
               <div className="font-medium text-[#C40503]">Perubahan Jadwal Semester</div>
               <div className="text-xs text-gray-600 mt-1">Diposting 2 hari lalu</div>
               <p className="text-sm mt-2">
                 Jadwal semester baru telah dirilis. Semua guru diminta untuk memeriksa dan mengkonfirmasi ketersediaan.
               </p>
             </div>
-            <div className="p-4 border-b border-gray-100">
+            <div className="p-5 border-b border-gray-100">
               <div className="font-medium text-[#DAA625]">Rapat Tahunan</div>
               <div className="text-xs text-gray-600 mt-1">Diposting 5 hari lalu</div>
               <p className="text-sm mt-2">
                 Rapat tahunan akan diadakan pada tanggal 15 Juli 2025. Kehadiran seluruh staf diwajibkan.
               </p>
             </div>
-            <div className="flex justify-center p-3 bg-gray-50">
+            <div className="flex justify-center p-4 bg-gray-50">
               <button className="text-xs text-[#C40503] font-medium hover:underline">
                 Lihat Semua Pengumuman
               </button>

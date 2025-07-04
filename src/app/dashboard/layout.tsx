@@ -19,10 +19,11 @@ export default function DashboardLayout({
   useEffect(() => {
     // Check for authentication on client-side
     if (typeof window !== "undefined") {
+      // Get user data from localStorage - primary source
       const userData = localStorage.getItem("pengguna");
 
       if (!userData) {
-        console.log("No user data found, redirecting to login");
+        console.log("No user data found in localStorage, redirecting to login");
         router.push("/auth/login");
         return;
       }
@@ -30,25 +31,23 @@ export default function DashboardLayout({
       try {
         const user = JSON.parse(userData);
 
-        // Check if user has admin role
-        if (
-          !user.role ||
-          (Array.isArray(user.role) &&
-            !user.role.includes("Admin") &&
-            !user.role.includes("Super Admin")) ||
-          (typeof user.role === "string" &&
-            user.role !== "Admin" &&
-            user.role !== "Super Admin")
-        ) {
+        // Check if user has admin role (support both array and string formats)
+        const hasAdminRole = 
+          Array.isArray(user.role) 
+            ? user.role.some((role: string) => ["Admin", "Super Admin"].includes(role))
+            : ["Admin", "Super Admin"].includes(user.role);
+
+        if (!user.role || !hasAdminRole) {
           console.log("User is not an admin, redirecting to login");
           router.push("/auth/login");
           return;
         }
 
+        console.log("Admin user authenticated successfully");
         setMounted(true);
       } catch (error) {
         console.error("Error parsing user data:", error);
-        setMounted(true);
+        router.push("/auth/login");
       }
     } else {
       setMounted(true);
