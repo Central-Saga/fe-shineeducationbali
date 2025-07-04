@@ -17,6 +17,8 @@ export interface SubMenuItem {
   name: string;
   href: string;
   description?: string;
+  permission?: string; // 'view' or 'edit' or undefined (defaults to full access)
+  roles?: string[]; // which roles can see this menu item
 }
 
 export interface MenuItem {
@@ -24,6 +26,8 @@ export interface MenuItem {
   href: string;
   icon: any; // Using any for Lucide icons
   submenu?: SubMenuItem[];
+  permission?: string; // 'view' or 'edit' or undefined (defaults to full access)
+  roles?: string[]; // which roles can see this menu item
 }
 
 export const sidebarAdminNavigation: MenuItem[] = [
@@ -37,6 +41,18 @@ export const sidebarAdminNavigation: MenuItem[] = [
     href: "/dashboard/users",
     icon: Users,
     submenu: [
+      {
+        name: "All Users",
+        href: "/dashboard/users",
+        description: "Manage all user accounts in the system",
+      },
+      {
+        name: "Admin & Teacher",
+        href: "/dashboard/users/users",
+        description: "Manage admin and teacher accounts",
+        permission: "view", // Admin hanya bisa view, Super Admin bisa edit (default)
+        roles: ["Admin", "Super Admin"], // Hanya Admin dan Super Admin yang bisa melihat menu ini
+      },
       {
         name: "Student",
         href: "/dashboard/users/students",

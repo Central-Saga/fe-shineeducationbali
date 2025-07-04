@@ -1,0 +1,238 @@
+"use client";
+
+import { useState } from "react";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
+import { Calendar as CalendarIcon, Search } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+
+export default function DailyAttendancePage() {
+  const [date, setDate] = useState<Date>(new Date());
+  const [selectedClass, setSelectedClass] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  // Dummy data for attendance
+  const attendanceData = [
+    {
+      id: 1,
+      studentName: "Kadek Ayu Putri",
+      class: "english-basic",
+      schedule: "09:00 - 10:30",
+      status: "HADIR",
+      time: "08:55",
+      notes: "",
+    },
+    {
+      id: 2,
+      studentName: "I Made Wirawan",
+      class: "math-elementary",
+      schedule: "10:30 - 12:00",
+      status: "HADIR",
+      time: "10:25",
+      notes: "Terlambat 5 menit",
+    },
+    {
+      id: 3,
+      studentName: "Ni Putu Devi",
+      class: "computer-science",
+      schedule: "13:00 - 14:30",
+      status: "IZIN",
+      time: "-",
+      notes: "Sakit",
+    },
+    {
+      id: 4,
+      studentName: "I Nyoman Artha",
+      class: "english-intermediate",
+      schedule: "14:30 - 16:00",
+      status: "ALPHA",
+      time: "-",
+      notes: "Tidak ada keterangan",
+    },
+    {
+      id: 5,
+      studentName: "Wayan Budiarta",
+      class: "math-elementary",
+      schedule: "16:00 - 17:30",
+      status: "SAKIT",
+      time: "-",
+      notes: "Demam",
+    },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <Card className="border border-gray-200 shadow-sm">
+        <CardHeader className="pb-3">
+          <CardTitle>Kehadiran Harian</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col md:flex-row gap-5 mb-6">
+            <div className="w-full md:w-auto flex flex-col">
+              <p className="text-sm text-gray-500 mb-2">Pilih Tanggal</p>
+              <div className="grid gap-2">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      id="date"
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] justify-start text-left font-normal bg-white",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? (
+                        format(date, "PPP", { locale: id })
+                      ) : (
+                        <span>Pilih tanggal</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={(date) => date && setDate(date)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+
+            <div className="w-full md:w-auto flex flex-col">
+              <p className="text-sm text-gray-500 mb-2">Filter Kelas</p>
+              <Select value={selectedClass} onValueChange={setSelectedClass}>
+                <SelectTrigger className="w-[240px] bg-white">
+                  <SelectValue placeholder="Pilih kelas" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Kelas</SelectItem>
+                  <SelectItem value="english-basic">Bahasa Inggris Dasar</SelectItem>
+                  <SelectItem value="math-elementary">Matematika SD</SelectItem>
+                  <SelectItem value="computer-science">Computer Science</SelectItem>
+                  <SelectItem value="english-intermediate">Bahasa Inggris Lanjutan</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex-grow md:ml-auto relative">
+              <p className="text-sm text-gray-500 mb-2">Pencarian</p>
+              <div className="relative">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                  placeholder="Cari nama siswa..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-8 bg-white"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader className="bg-gray-50">
+                <TableRow>
+                  <TableHead>Nama</TableHead>
+                  <TableHead>Kelas</TableHead>
+                  <TableHead>Jadwal</TableHead>
+                  <TableHead className="text-center">Status</TableHead>
+                  <TableHead className="text-center">Waktu Masuk</TableHead>
+                  <TableHead className="text-right">Aksi</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {attendanceData
+                  .filter(
+                    (student) =>
+                      student.studentName
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) &&
+                      (selectedClass === "all" ||
+                        student.class === selectedClass)
+                  )
+                  .map((student) => (
+                    <TableRow key={student.id} className="hover:bg-gray-50">
+                      <TableCell className="font-medium">
+                        {student.studentName}
+                      </TableCell>
+                      <TableCell>{student.class}</TableCell>
+                      <TableCell>{student.schedule}</TableCell>
+                      <TableCell className="text-center">
+                        <Badge
+                          className={`
+                            ${
+                              student.status === "HADIR"
+                                ? "bg-green-100 text-green-800"
+                                : ""
+                            }
+                            ${
+                              student.status === "IZIN"
+                                ? "bg-[#DAA625]/10 text-[#DAA625]"
+                                : ""
+                            }
+                            ${
+                              student.status === "SAKIT"
+                                ? "bg-blue-100 text-blue-800"
+                                : ""
+                            }
+                            ${
+                              student.status === "ALPHA"
+                                ? "bg-[#C40503]/10 text-[#C40503]"
+                                : ""
+                            }
+                            border-none
+                          `}
+                        >
+                          {student.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {student.time}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8 px-3"
+                        >
+                          Ubah Status
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

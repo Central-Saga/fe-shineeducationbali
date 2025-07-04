@@ -58,7 +58,8 @@ export async function middleware(request: NextRequest) {
   try {
     // Parse user data
     const userData = JSON.parse(userDataStr);
-    console.log("👤 User roles:", userData.peran);
+    const userRoles = Array.isArray(userData.role) ? userData.role : [userData.role];
+    console.log("👤 User roles:", userRoles);
 
     // Cek apakah path butuh proteksi
     const protectedPath = Object.keys(rolePermissions).find((path) =>
@@ -68,13 +69,13 @@ export async function middleware(request: NextRequest) {
     if (protectedPath) {
       const allowedRoles = rolePermissions[protectedPath];
       const hasPermission = allowedRoles.some((role) =>
-        userData.peran.includes(role)
+        userRoles.includes(role)
       );
 
       console.log("🔒 Access check:", {
         path: protectedPath,
         required: allowedRoles,
-        userRoles: userData.peran,
+        userRoles,
         granted: hasPermission,
       });
 

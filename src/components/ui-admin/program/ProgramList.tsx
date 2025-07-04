@@ -29,6 +29,7 @@ export default function ProgramList() {
   const [programs, setPrograms] = useState<Program[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState<string>("all");
 
   useEffect(() => {
     // Dummy data, replace with API call
@@ -116,84 +117,123 @@ export default function ProgramList() {
     // TODO: Implement delete functionality
   };
 
+  // Filter options by status
+  const filterPrograms = (programs: Program[]) => {
+    if (activeFilter === 'all') return programs;
+    if (activeFilter === 'active') return programs.filter(p => p.status === 'ACTIVE');
+    if (activeFilter === 'inactive') return programs.filter(p => p.status === 'INACTIVE');
+    return programs;
+  };
+
+  const filteredPrograms = filterPrograms(
+    programs.filter(
+      (p) =>
+        p.title.toLowerCase().includes(search.toLowerCase()) ||
+        p.description.toLowerCase().includes(search.toLowerCase())
+    )
+  );
+
   return (
     <div className="space-y-6">
-      {/* Statistik */}
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap gap-3 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
+        <Button 
+          variant={activeFilter === 'all' ? "default" : "outline"} 
+          onClick={() => setActiveFilter('all')}
+          className={activeFilter === 'all' ? "bg-[#C40503] hover:bg-[#A60000]" : ""}
+        >
+          Semua Program
+        </Button>
+        <Button 
+          variant={activeFilter === 'active' ? "default" : "outline"} 
+          onClick={() => setActiveFilter('active')}
+          className={activeFilter === 'active' ? "bg-[#C40503] hover:bg-[#A60000]" : ""}
+        >
+          Program Aktif
+        </Button>
+        <Button 
+          variant={activeFilter === 'inactive' ? "default" : "outline"} 
+          onClick={() => setActiveFilter('inactive')}
+          className={activeFilter === 'inactive' ? "bg-[#C40503] hover:bg-[#A60000]" : ""}
+        >
+          Program Non-Aktif
+        </Button>
+      </div>
+      
+      {/* Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Program</CardTitle>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
+        <Card className="overflow-hidden border-none shadow-md">
+          <div className="h-1 w-full bg-[#C40503] "></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
+            <CardTitle className="text-sm font-medium ">Total Program</CardTitle>
+            <div className="p-2 rounded-full bg-red-50">
+              <BookOpen className="h-4 w-4 text-[#C40503]" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{programs.length}</div>
+            <div className="text-2xl font-bold pb-5">{programs.length}</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="overflow-hidden border-none shadow-md">
+          <div className="h-1 w-full bg-[#DAA625]"></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
             <CardTitle className="text-sm font-medium">Total Siswa</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 rounded-full bg-amber-50">
+              <Users className="h-4 w-4 text-[#DAA625]" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold pb-5">
               {programs.reduce((a, b) => a + b.student_count, 0)}
             </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="overflow-hidden border-none shadow-md">
+          <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
             <CardTitle className="text-sm font-medium">Total Guru</CardTitle>
-            <GraduationCap className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 rounded-full bg-orange-50">
+              <GraduationCap className="h-4 w-4 text-orange-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold pb-5">
               {programs.reduce((a, b) => a + b.teacher_count, 0)}
             </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="overflow-hidden border-none shadow-md">
+          <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
             <CardTitle className="text-sm font-medium">Total Kursus</CardTitle>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
+            <div className="p-2 rounded-full bg-rose-50">
+              <BookOpen className="h-4 w-4 text-rose-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold pb-5">
               {programs.reduce((a, b) => a + b.courses.length, 0)}
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Search & Add */}
-      <div className="flex gap-4 items-center">
-        <div className="flex-1">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              placeholder="Cari program..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-        </div>
-        <Button className="bg-[#C40503] hover:bg-[#A30402]">
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Tambah Program
-        </Button>
-      </div>
-
       {/* Program Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.length === 0 ? (
-          <div className="col-span-full text-center py-10 bg-white rounded-lg border">
-            <div className="text-gray-400">Tidak ada data program.</div>
+        {filteredPrograms.length === 0 ? (
+          <div className="col-span-full flex flex-col items-center justify-center py-10 bg-white rounded-lg border border-gray-200 shadow-sm">
+            <BookOpen className="h-16 w-16 text-gray-300 mb-4" />
+            <h3 className="text-lg font-medium text-gray-700">Tidak ada program ditemukan</h3>
+            <p className="text-sm text-gray-500 mt-2">Silakan ubah filter atau kata kunci pencarian Anda</p>
           </div>
         ) : (
-          filtered.map((p) => (
-            <Card key={p.id} className="group overflow-hidden hover:shadow-md transition-all duration-300">
+          filteredPrograms.map((p) => (
+            <Card key={p.id} className="group overflow-hidden border-none shadow-md hover:shadow-lg transition-all duration-300">
+              {/* Program Banner */}
+              <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+              
               {/* Program Image */}
-              <div className="relative aspect-[4/3] overflow-hidden ">
+              <div className="relative aspect-[16/9] overflow-hidden">
                 {p.image ? (
                   <>
                     <img
@@ -214,12 +254,20 @@ export default function ProgramList() {
                 <div className="absolute inset-0 flex flex-col justify-between p-6">
                   {/* Status badge at top */}
                   <div className="self-end">
-                    {getStatusBadge(p.status)}
+                    {p.status === "ACTIVE" ? (
+                      <Badge className="bg-green-100 text-green-800 border-green-200 font-medium px-3 py-1">
+                        Aktif
+                      </Badge>
+                    ) : (
+                      <Badge className="bg-gray-100 text-gray-800 border-gray-200 font-medium px-3 py-1">
+                        Non-Aktif
+                      </Badge>
+                    )}
                   </div>
                   {/* Title and description at bottom */}
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg leading-tight">{p.title}</h3>
-                    <p className="text-sm text-white/90 line-clamp-2 drop-shadow-lg leading-relaxed max-w-[90%]">{p.description}</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-lg leading-tight">{p.title}</h3>
+                    <p className="text-sm text-white/90 line-clamp-2 drop-shadow-lg leading-relaxed max-w-[95%]">{p.description}</p>
                   </div>
                 </div>
               </div>
@@ -228,60 +276,82 @@ export default function ProgramList() {
                 {/* Statistics with improved layout */}
                 <div className="grid grid-cols-3 gap-4 mb-4">
                   <div className="text-center">
-                    <p className="text-lg font-semibold text-primary">{p.courses.length}</p>
-                    <p className="text-xs text-muted-foreground">Kursus</p>
+                    <p className="text-lg font-semibold text-[#C40503]">{p.courses.length}</p>
+                    <p className="text-xs text-gray-500">Kursus</p>
                   </div>
-                  <div className="text-center border-x">
-                    <p className="text-lg font-semibold text-primary">{p.student_count}</p>
-                    <p className="text-xs text-muted-foreground">Siswa</p>
+                  <div className="text-center border-x border-gray-100">
+                    <p className="text-lg font-semibold text-[#DAA625]">{p.student_count}</p>
+                    <p className="text-xs text-gray-500">Siswa</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-lg font-semibold text-primary">{p.teacher_count}</p>
-                    <p className="text-xs text-muted-foreground">Guru</p>
+                    <p className="text-lg font-semibold text-[#C40503]">{p.teacher_count}</p>
+                    <p className="text-xs text-gray-500">Guru</p>
                   </div>
                 </div>
 
                 {/* Program details with improved spacing */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">
+                    <Calendar className="h-4 w-4 text-[#DAA625]" />
+                    <span className="text-sm text-gray-600">
                       {p.start_date} - {p.end_date}
                     </span>
                   </div>
 
-                  {/* Level and Course badges */}
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="bg-primary/5">
+                  {/* Level badge */}
+                  <div className="flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4 text-[#C40503]" />
+                    <Badge variant="outline" className="bg-red-50 text-[#C40503] border-red-100">
                       Level: {p.level}
                     </Badge>
+                  </div>
+
+                  {/* Course badges */}
+                  <div className="flex flex-wrap gap-2 mt-2">
                     {p.courses.slice(0, 3).map((course, i) => (
-                      <Badge key={i} variant="secondary" className="text-xs">
+                      <Badge key={i} variant="secondary" className="bg-amber-50 text-amber-700 hover:bg-amber-100 transition-colors">
                         {course}
                       </Badge>
                     ))}
                     {p.courses.length > 3 && (
-                      <Badge variant="secondary" className="text-xs">
-                        +{p.courses.length - 3}
+                      <Badge variant="secondary" className="bg-gray-100 text-gray-600">
+                        +{p.courses.length - 3} lainnya
                       </Badge>
                     )}
                   </div>
                 </div>
 
-                {/* Action buttons with improved spacing */}
-                <div className="flex justify-end items-center gap-2 mt-4 pt-4 border-t">
-                  <Button variant="ghost" size="sm" onClick={() => handleDetail(p)}>
+                {/* Action buttons with improved styling */}
+                <div className="flex justify-between items-center gap-2 mt-4 pt-4 border-t">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => handleDetail(p)}
+                    className="text-[#C40503] hover:text-[#A30402] hover:bg-red-50"
+                  >
                     <Eye className="h-4 w-4 mr-1" />
                     Detail
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => handleEdit(p)}>
-                    <Edit2 className="h-4 w-4 mr-1" />
-                    Edit
-                  </Button>
-                  <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" onClick={() => handleDelete(p)}>
-                    <Trash2 className="h-4 w-4 mr-1" />
-                    Hapus
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleEdit(p)}
+                      className="border-[#DAA625] text-[#DAA625] hover:text-[#DAA625] hover:bg-amber-50"
+                    >
+                      <Edit2 className="h-4 w-4 mr-1" />
+                      Edit
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleDelete(p)}
+                      className="border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                    >
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      Hapus
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>

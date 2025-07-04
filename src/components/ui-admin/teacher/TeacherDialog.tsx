@@ -66,6 +66,7 @@ interface TeacherDialogProps {
   onOpenChange: (open: boolean) => void;
   mode?: "create" | "edit";
   teacher?: Teacher;
+  onSubmit?: (data: any) => Promise<void>;
 }
 
 export function TeacherDialog({
@@ -73,6 +74,7 @@ export function TeacherDialog({
   onOpenChange,
   mode = "create",
   teacher,
+  onSubmit: onSubmitProp,
 }: TeacherDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(teacher?.profilePhoto || null);
@@ -110,13 +112,21 @@ export function TeacherDialog({
   async function onSubmit(data: TeacherFormData) {
     try {
       setIsLoading(true);
-      if (mode === "create") {
-        await teacherService.createTeacher(data);
-        toast.success("Guru berhasil ditambahkan");
-      } else if (teacher?.id) {
-        await teacherService.updateTeacher(teacher.id, data);
-        toast.success("Data guru berhasil diperbarui");
+      
+      if (onSubmitProp) {
+        // Use the provided callback if it exists
+        await onSubmitProp(data);
+      } else {
+        // Default behavior
+        if (mode === "create") {
+          await teacherService.createTeacher(data);
+          toast.success("Guru berhasil ditambahkan");
+        } else if (teacher?.id) {
+          await teacherService.updateTeacher(teacher.id, data);
+          toast.success("Data guru berhasil diperbarui");
+        }
       }
+      
       onOpenChange(false);
     } catch (error) {
       console.error(error);
@@ -472,7 +482,11 @@ export function TeacherDialog({
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                 Batal
               </Button>
-              <Button type="submit" disabled={isLoading}>
+              <Button 
+                type="submit" 
+                disabled={isLoading}
+                className="bg-[#C40503] hover:bg-[#a50402] text-white"
+              >
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {mode === "create" ? "Tambah" : "Simpan"}
               </Button>
