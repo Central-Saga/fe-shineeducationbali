@@ -24,10 +24,12 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { name: "Beranda", href: "#" },
-    { name: "Program", href: "#" },
-    { name: "Tentang Kami", href: "#" },
-    { name: "Blog", href: "#" },
+    { name: "Beranda", href: "/" },
+    { name: "Program", href: "/programs" },
+    { name: "Tentang Kami", href: "/about" },
+    { name: "Blog", href: "/blog" },
+    { name: "Lowongan Kerja", href: "/job-vacancies" },
+    { name: "Lamaran Kerja", href: "/job-applications" },
   ];
 
   return (
