@@ -180,7 +180,7 @@ export const sidebarAdminNavigation: MenuItem[] = [
       {
         name: "Transaksi",
         href: "/dashboard/payments/transactions",
-        description: "Kelola transaksi pembayaran siswa",
+        description: "Kelola transaksi pembayaran siswa & Gaji Guru",
       },
       {
         name: "Laporan Keuangan",
@@ -216,11 +216,11 @@ export const sidebarAdminNavigation: MenuItem[] = [
       },
     ],
   },
-  {
-    name: "Reports",
-    href: "/dashboard/reports",
-    icon: FilePieChart,
-  },
+  // {
+  //   name: "Reports",
+  //   href: "/dashboard/reports",
+  //   icon: FilePieChart,
+  // },
   {
     name: "Settings",
     href: "/dashboard/settings",
