@@ -27,107 +27,107 @@ export const sidebarTeacherNavigation = [
     icon: Home,
   },
   {
-    name: "Kelas",
+    name: "Classes",
     icon: BookOpen,
     submenu: [
       {
-        name: "Daftar Kelas",
+        name: "Class List",
         href: "/dashboard-teacher/classes",
-        description: "Lihat semua kelas yang Anda ajar"
+        description: "View all classes you teach"
       },
       {
-        name: "Jadwal",
+        name: "Schedule",
         href: "/dashboard-teacher/schedule",
-        description: "Jadwal mengajar Anda"
+        description: "Your teaching schedule"
       }
     ]
   },
   {
-    name: "Siswa",
+    name: "Students",
     icon: Users,
     submenu: [
       {
-        name: "Daftar Siswa",
+        name: "Student List",
         href: "/dashboard-teacher/students",
-        description: "Siswa dalam kelas Anda"
+        description: "Students in your classes"
       },
       {
-        name: "Kehadiran",
+        name: "Attendance",
         href: "/dashboard-teacher/attendance",
-        description: "Rekam kehadiran siswa"
+        description: "Record student attendance"
       }
     ]
   },
   {
-    name: "Pembelajaran",
+    name: "Learning",
     icon: GraduationCap,
     submenu: [
       {
-        name: "Materi",
+        name: "Materials",
         href: "/dashboard-teacher/materials",
-        description: "Upload dan kelola materi ajar"
+        description: "Upload and manage teaching materials"
       },
       {
-        name: "Tugas",
+        name: "Assignments",
         href: "/dashboard-teacher/assignments",
-        description: "Buat dan periksa tugas"
+        description: "Create and check assignments"
       },
       {
-        name: "Nilai",
+        name: "Grades",
         href: "/dashboard-teacher/grades",
-        description: "Input dan kelola nilai siswa"
+        description: "Input and manage student grades"
       }
     ]
   },
   {
-    name: "Absensi & Cuti",
+    name: "Attendance & Leave",
     icon: Clock,
     submenu: [
       {
-        name: "Kehadiran Saya",
+        name: "My Attendance",
         href: "/dashboard-teacher/attendance/my-attendance",
-        description: "Catat dan lihat absensi harian Anda"
+        description: "Record and view your daily attendance"
       },
       {
-        name: "Rekap Kehadiran",
+        name: "Attendance Summary",
         href: "/dashboard-teacher/attendance/summary",
-        description: "Lihat rekap kehadiran bulanan"
+        description: "View monthly attendance summary"
       },
       {
-        name: "Pengajuan Cuti",
+        name: "Leave Request",
         href: "/dashboard-teacher/attendance/leave-request",
-        description: "Ajukan dan kelola pengajuan cuti Anda"
+        description: "Submit and manage your leave requests"
       }
     ]
   },
   {
-    name: "Gaji & Tunjangan",
+    name: "Salary & Benefits",
     icon: Wallet,
     submenu: [
       {
-        name: "Slip Gaji",
+        name: "Payslip",
         href: "/dashboard-teacher/salary/payslip",
-        description: "Lihat dan unduh slip gaji bulanan"
+        description: "View and download monthly payslips"
       },
       {
-        name: "Riwayat Pembayaran",
+        name: "Payment History",
         href: "/dashboard-teacher/salary/history",
-        description: "Lihat riwayat pembayaran gaji"
+        description: "View salary payment history"
       },
       {
-        name: "Tunjangan",
+        name: "Benefits",
         href: "/dashboard-teacher/salary/benefits",
-        description: "Informasi tunjangan dan benefit"
+        description: "Information on allowances and benefits"
       }
     ]
   },
   // {
-  //   name: "Laporan",
+  //   name: "Reports",
   //   icon: LineChart,
   //   href: "/dashboard-teacher/reports",
   // },
   {
-    name: "Pengaturan",
+    name: "Settings",
     icon: Settings,
     href: "/dashboard-teacher/settings",
   }

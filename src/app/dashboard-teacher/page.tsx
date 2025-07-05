@@ -91,12 +91,12 @@ export default function TeacherOverview() {
       <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-[#C40503] to-[#DAA625] p-6 md:p-8 text-white shadow-md">
         <div className="relative z-10">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">Selamat Datang, {teacherData.nama || "Guru"}</h1>
-          <p className="text-white/90 max-w-xl text-sm md:text-base">
+          <p className="text-white/90 max-w-xl text-sm md:text-base pb-3">
             Pantau kelas, tugas, dan perkembangan siswa Anda dari dashboard ini. 
             <br className="hidden md:block" />
             Hari ini {new Date().toLocaleDateString('id-ID', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}.
           </p>
-          <div className="flex flex-wrap gap-3 mt-5">
+          <div className="flex flex-wrap gap-3 ">
             <Link href="/dashboard-teacher/assignments/new">
               <Button className="bg-white text-[#C40503] hover:bg-white/90 border-0 shadow-sm">
                 <FileText className="mr-3 h-4 w-4" /> Buat Tugas Baru
@@ -118,13 +118,13 @@ export default function TeacherOverview() {
       {/* Stat Cards */}
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
         <Card className="border-t-4 border-t-[#C40503] shadow-sm hover:shadow transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 mt-5">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 ">
             <CardTitle className="text-sm font-medium ">Total Kelas</CardTitle>
             <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center">
               <BookOpen className="h-4 w-4 text-[#C40503]" />
             </div>
           </CardHeader>
-          <CardContent className="pb-5">
+          <CardContent className="">
             <div className="text-2xl font-bold mb-5">{classesData.length}</div>
             <Link 
               href="/dashboard-teacher/classes"
@@ -137,7 +137,7 @@ export default function TeacherOverview() {
         </Card>
 
         <Card className="border-t-4 border-t-[#DAA625] shadow-sm hover:shadow transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 mt-5">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 ">
             <CardTitle className="text-sm font-medium">
               Total Siswa
             </CardTitle>
@@ -145,7 +145,7 @@ export default function TeacherOverview() {
               <Users className="h-4 w-4 text-[#DAA625]" />
             </div>
           </CardHeader>
-          <CardContent className="pb-5">
+          <CardContent className="">
             <div className="text-2xl font-bold mb-5">{totalStudents}</div>
             <Link 
               href="/dashboard-teacher/students" 
@@ -158,7 +158,7 @@ export default function TeacherOverview() {
         </Card>
 
         <Card className="border-t-4 border-t-[#C40503] shadow-sm hover:shadow transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 mt-5">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 ">
             <CardTitle className="text-sm font-medium">
               Tugas Aktif
             </CardTitle>
@@ -166,7 +166,7 @@ export default function TeacherOverview() {
               <FileText className="h-4 w-4 text-[#C40503]" />
             </div>
           </CardHeader>
-          <CardContent className="pb-5">
+          <CardContent className="">
             <div className="text-2xl font-bold mb-5">{pendingAssignments}</div>
             <Link 
               href="/dashboard-teacher/assignments" 
@@ -179,13 +179,13 @@ export default function TeacherOverview() {
         </Card>
 
         <Card className="border-t-4 border-t-[#DAA625] shadow-sm hover:shadow transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 mt-5">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 ">
             <CardTitle className="text-sm font-medium">Progress Materi</CardTitle>
             <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center">
               <LineChart className="h-4 w-4 text-[#DAA625]" />
             </div>
           </CardHeader>
-          <CardContent className="pb-5">
+          <CardContent className="">
             <div className="text-2xl font-bold mb-2">{averageProgress}%</div>
             <Progress className="mt-2 mb-3" value={averageProgress} />
           </CardContent>
@@ -224,7 +224,7 @@ export default function TeacherOverview() {
         {/* Schedule Tab */}
         <TabsContent value="schedule" className="mt-0">
           <Card className="shadow-sm">
-            <CardHeader className="bg-white pb-4 mt-5">
+            <CardHeader className="bg-white pb-4 ">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-lg font-semibold flex items-center">
                   <Calendar className="mr-3 h-5 w-5 text-[#C40503]" /> 
@@ -293,7 +293,7 @@ export default function TeacherOverview() {
         {/* Assignments Tab */}
         <TabsContent value="assignments" className="mt-0">
           <Card>
-            <CardHeader className="bg-slate-50 mt-5">
+            <CardHeader className="bg-slate-50 ">
               <div className="flex justify-between items-center">
                 <CardTitle className="text-lg font-semibold flex items-center">
                   <FileText className="mr-3 h-5 w-5 text-[#DAA625]" /> 
@@ -376,7 +376,7 @@ export default function TeacherOverview() {
         {/* Top Students Tab */}
         <TabsContent value="students" className="mt-0">
           <Card>
-            <CardHeader className="bg-slate-50 mt-5">
+            <CardHeader className="bg-slate-50 ">
               <CardTitle className="text-lg font-semibold flex items-center">
                 <GraduationCap className="mr-3 h-5 w-5 text-[#C40503]" /> 
                 Siswa Berprestasi
@@ -421,9 +421,9 @@ export default function TeacherOverview() {
 
       {/* Recent Activity Section */}
       <Card className="border-t-4 border-t-[#C40503] shadow-sm mt-8">
-        <CardHeader className="bg-white pb-5">
+        <CardHeader className="bg-white ">
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center text-lg font-semibold mt-5">
+            <CardTitle className="flex items-center text-lg font-semibold ">
               <Bell className="mr-3 h-5 w-5 text-[#C40503]" />
               Aktivitas Terbaru
             </CardTitle>

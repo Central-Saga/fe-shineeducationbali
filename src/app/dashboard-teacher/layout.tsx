@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Sheet } from "@/components/ui/sheet";
 import { TeacherSidebar } from "@/components/ui-teacher/layout/TeacherSidebar";
 import { TeacherHeader } from "@/components/ui-teacher/layout/TeacherHeader";
@@ -12,21 +12,22 @@ export default function TeacherDashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Cek autentikasi hanya jika di browser (client-side)
+    // Check authentication only if in browser (client-side)
     if (typeof window !== "undefined") {
-      const dataPengguna = localStorage.getItem("pengguna");
+      const userData = localStorage.getItem("pengguna");
       
-      if (!dataPengguna) {
+      if (!userData) {
         console.log("No user data found, redirecting to login");
         router.push("/auth/login");
         return;
       }
 
       try {
-        const user = JSON.parse(dataPengguna);
+        const user = JSON.parse(userData);
         console.log("User data:", user);
         
         // For debugging
@@ -73,7 +74,7 @@ export default function TeacherDashboardLayout({
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-gray-900">
       {/* Desktop Sidebar - hidden on mobile */}
       <div className="hidden md:flex h-full">
         <TeacherSidebar />
@@ -86,7 +87,10 @@ export default function TeacherDashboardLayout({
         
         {/* Main scrollable area */}
         <div className="flex-1 overflow-auto">
-          <main className="p-6">{children}</main>
+          <div className="absolute top-0 right-0 w-full h-64 bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/5 -z-10" />
+          <main className="p-8 max-w-11xl mx-auto relative">
+            {children}
+          </main>
         </div>
       </div>
     </div>

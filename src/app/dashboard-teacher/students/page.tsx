@@ -19,6 +19,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { 
+  BookOpen,
+  CalendarCheck,
   ChevronDown, 
   ChevronUp, 
   Download,
@@ -27,6 +29,7 @@ import {
   Plus, 
   Search, 
   User,
+  Users as UsersIcon,
   UserPlus
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -95,63 +98,71 @@ export default function StudentsPage() {
   });
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
-          Daftar Siswa
-        </h1>
-        <Link href="/dashboard-teacher/students/add">
-          <Button className="bg-[#C40503] hover:bg-[#A60000]">
-            <UserPlus className="mr-3 h-4 w-4" />
-            Tambah Siswa
-          </Button>
-        </Link>
-      </div>
-
+    <div className="space-y-8">
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="shadow-sm hover:shadow transition-shadow">
-          <CardHeader className="py-3 pb-0">
-            <CardTitle className="text-sm font-medium text-gray-500">Total Siswa</CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3 pt-2">
-            <div className="text-2xl font-bold text-[#C40503]">{studentsData.length}</div>
-            <p className="text-xs text-gray-500 mt-1">Di semua kelas</p>
-          </CardContent>
-        </Card>
-        <Card className="shadow-sm hover:shadow transition-shadow">
-          <CardHeader className="py-3 pb-0">
-            <CardTitle className="text-sm font-medium text-gray-500">Siswa Aktif</CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3 pt-2">
-            <div className="text-2xl font-bold text-[#DAA625]">
-              {studentsData.filter(s => s.status === "active").length}
+        <Card className="bg-gradient-to-br from-[#C40503]/10 to-[#C40503]/5 border-none shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col">
+                <p className="text-sm font-medium text-gray-500">Total Students</p>
+                <p className="text-3xl font-bold text-[#C40503]">{studentsData.length}</p>
+              </div>
+              <div className="h-12 w-12 rounded-full bg-[#C40503]/10 flex items-center justify-center">
+                <UsersIcon className="h-6 w-6 text-[#C40503]" />
+              </div>
             </div>
-            <p className="text-xs text-gray-500 mt-1">Siswa</p>
           </CardContent>
         </Card>
-        <Card className="shadow-sm hover:shadow transition-shadow">
-          <CardHeader className="py-3 pb-0">
-            <CardTitle className="text-sm font-medium text-gray-500">Rata-rata Kehadiran</CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3 pt-2">
-            <div className="text-2xl font-bold text-gray-700">
-              {Math.round(studentsData.reduce((sum, s) => sum + s.attendance, 0) / studentsData.length)}%
+        
+        <Card className="bg-gradient-to-br from-[#DAA625]/10 to-[#DAA625]/5 border-none shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col">
+                <p className="text-sm font-medium text-gray-500">Active Students</p>
+                <p className="text-3xl font-bold text-[#DAA625]">
+                  {studentsData.filter(s => s.status === "active").length}
+                </p>
+              </div>
+              <div className="h-12 w-12 rounded-full bg-[#DAA625]/10 flex items-center justify-center">
+                <User className="h-6 w-6 text-[#DAA625]" />
+              </div>
             </div>
-            <p className="text-xs text-gray-500 mt-1">Kehadiran</p>
           </CardContent>
         </Card>
-        <Card className="shadow-sm hover:shadow transition-shadow">
-          <CardHeader className="py-3 pb-0">
-            <CardTitle className="text-sm font-medium text-gray-500">Siswa Berprestasi</CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3 pt-2">
-            <div className="text-2xl font-bold text-gray-700">
-              {studentsData.filter(s => s.grade === "A" || s.grade === "A-").length}
+        
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100/50 border-none shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col">
+                <p className="text-sm font-medium text-gray-500">Classes</p>
+                <p className="text-3xl font-bold text-purple-700">
+                  {classes.length}
+                </p>
+              </div>
+              <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center">
+                <BookOpen className="h-6 w-6 text-purple-700" />
+              </div>
             </div>
-            <p className="text-xs text-gray-500 mt-1">Grade A</p>
           </CardContent>
         </Card>
+        
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100/50 border-none shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col">
+                <p className="text-sm font-medium text-gray-500">Avg. Attendance</p>
+                <p className="text-3xl font-bold text-blue-700">
+                  {Math.round(studentsData.reduce((acc, s) => acc + s.attendance, 0) / studentsData.length)}%
+                </p>
+              </div>
+              <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+                <CalendarCheck className="h-6 w-6 text-blue-700" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
       </div>
 
       {/* Student List */}
@@ -302,24 +313,29 @@ export default function StudentsPage() {
         </CardContent>
         <CardFooter className="border-t pt-4 flex justify-between">
           <p className="text-sm text-gray-500">
-            Menampilkan {filteredStudents.length} dari {studentsData.length} siswa
+            Showing {filteredStudents.length} of {studentsData.length} students
           </p>
-          <Button variant="outline" className="text-[#C40503]">
+          <Button 
+            variant="outline" 
+            className="text-[#C40503] border-[#C40503]/20 hover:bg-[#C40503]/5 rounded-full"
+          >
             <Download className="mr-2 h-4 w-4" />
-            Ekspor Data Siswa
+            Export Student Data
           </Button>
         </CardFooter>
       </Card>
 
       {/* Class Overview */}
-      <Card className="shadow-sm">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg font-semibold">Ringkasan Kelas</CardTitle>
+      <Card className="shadow-md border-none overflow-hidden">
+        <CardHeader className="pb-3 bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/5">
+          <CardTitle className="text-lg font-semibold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+            Class Overview
+          </CardTitle>
           <CardDescription>
-            Distribusi siswa per kelas
+            Student distribution by class
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {classes.map(className => {
               const classStudents = studentsData.filter(s => s.class === className);

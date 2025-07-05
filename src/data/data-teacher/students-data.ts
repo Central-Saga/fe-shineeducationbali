@@ -1,9 +1,9 @@
-// Data dummy untuk siswa
+// Sample student data
 export const studentsData = [
   {
     id: "STD001",
-    name: "Ahmad Fauzan",
-    email: "ahmad.fauzan@student.shineeducation.com",
+    name: "John Davis",
+    email: "john.davis@student.shineeducation.com",
     phone: "082112345678",
     class: "X-A",
     grade: "A",
@@ -13,8 +13,8 @@ export const studentsData = [
   },
   {
     id: "STD002",
-    name: "Anisa Putri",
-    email: "anisa.putri@student.shineeducation.com",
+    name: "Emily Wilson",
+    email: "emily.wilson@student.shineeducation.com",
     phone: "082223456789",
     class: "X-A",
     grade: "A-",
@@ -24,8 +24,8 @@ export const studentsData = [
   },
   {
     id: "STD003",
-    name: "Budi Santoso",
-    email: "budi.santoso@student.shineeducation.com",
+    name: "Michael Brown",
+    email: "michael.brown@student.shineeducation.com",
     phone: "082334567890",
     class: "X-B",
     grade: "B+",
