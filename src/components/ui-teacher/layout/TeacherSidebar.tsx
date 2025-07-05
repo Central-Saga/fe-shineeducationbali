@@ -85,10 +85,31 @@ export function TeacherSidebar() {
         <nav className="flex-1 p-4 overflow-y-auto">
           <div className="flex flex-col gap-1">
             {sidebarTeacherNavigation.map((item: NavItem) => {
+              // Fixed active state logic to prevent conflicts between similar paths
               const isActive = (
-                (item.submenu?.some((subitem: SubMenuItem) => 
-                  pathname === subitem.href || pathname.startsWith(`${subitem.href}/`))
-                ) || 
+                (item.submenu?.some((subitem: SubMenuItem) => {
+                  // Check for exact match first
+                  if (pathname === subitem.href) return true;
+                  
+                  // For paths like /attendance/my-attendance, ensure we don't also highlight /attendance submenu item
+                  if (pathname.startsWith(`${subitem.href}/`)) {
+                    // Special case for student attendance vs teacher attendance paths
+                    if (subitem.href === "/dashboard-teacher/attendance" && 
+                        (pathname.includes("/my-attendance") || 
+                         pathname.includes("/summary") || 
+                         pathname.includes("/leave-request"))) {
+                      return false;
+                    }
+                    // Special case for grades
+                    if (subitem.href === "/dashboard-teacher/grades" && 
+                        pathname.includes("/summary")) {
+                      return false;
+                    }
+                    return true;
+                  }
+                  
+                  return false;
+                })) || 
                 (item.href && (pathname === item.href || pathname.startsWith(`${item.href}/`)))
               );
 
@@ -147,7 +168,14 @@ export function TeacherSidebar() {
                           href={subitem.href}
                           className={cn(
                             "text-sm flex flex-col gap-1 rounded-lg px-3 py-2 transition-all",
-                            pathname === subitem.href || pathname.startsWith(`${subitem.href}/`)
+                            pathname === subitem.href || 
+                            (pathname.startsWith(`${subitem.href}/`) && 
+                             !(subitem.href === "/dashboard-teacher/attendance" && 
+                                (pathname.includes("/my-attendance") || 
+                                 pathname.includes("/summary") || 
+                                 pathname.includes("/leave-request"))) &&
+                             !(subitem.href === "/dashboard-teacher/grades" && 
+                                pathname.includes("/summary")))
                               ? "text-red-600 font-medium"
                               : "text-gray-500 hover:text-gray-900"
                           )}
