@@ -10,7 +10,7 @@ import {
   Filter,
   UserPlus,
   Users,
-  User as UserIcon,
+  User,
   Shield,
   GraduationCap,
   Mail,
@@ -50,21 +50,36 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
-import { mockDetailedUsers, User } from "@/data/data-admin/users-data";
 
-interface UsersManagementProps {
+// User type definition
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: "active" | "inactive" | "pending";
+  avatar?: string;
+  phone?: string;
+  lastActive?: string;
+  createdAt: string;
+  permissions?: string[];
+  department?: string;
+  position?: string;
+}
+
+interface UserListProps {
   title: string;
   description: string;
   userType: "all" | "admin" | "teacher" | "student";
   showRoleFilter?: boolean;
 }
 
-export default function UsersManagement({
+export default function UserList({
   title,
   description,
   userType,
   showRoleFilter = true,
-}: UsersManagementProps) {
+}: UserListProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -73,26 +88,143 @@ export default function UsersManagement({
   const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
+    // In a real app, you would fetch users from an API based on userType
+    // Here we'll use dummy data
+    const dummyUsers: User[] = [
+      {
+        id: "USR001",
+        name: "John Smith",
+        email: "john.smith@shineeducation.com",
+        role: "Super Admin",
+        status: "active",
+        avatar: "/images/avatars/admin1.png",
+        phone: "+62812345678",
+        lastActive: "2025-07-05T09:30:00",
+        createdAt: "2023-01-10",
+        permissions: ["view_all", "edit_all", "delete", "manage_users"],
+        department: "Management",
+        position: "IT Director",
+      },
+      {
+        id: "USR002",
+        name: "Sarah Johnson",
+        email: "sarah.johnson@shineeducation.com",
+        role: "Admin",
+        status: "active",
+        avatar: "/images/avatars/admin2.png",
+        phone: "+62823456789",
+        lastActive: "2025-07-04T15:45:00",
+        createdAt: "2023-02-15",
+        permissions: ["view_all", "edit_limited", "manage_students"],
+        department: "Administration",
+        position: "Office Manager",
+      },
+      {
+        id: "USR003",
+        name: "Michael Brown",
+        email: "michael.brown@shineeducation.com",
+        role: "Teacher",
+        status: "active",
+        avatar: "/images/avatars/teacher1.png",
+        phone: "+62834567890",
+        lastActive: "2025-07-05T08:15:00",
+        createdAt: "2023-03-20",
+        permissions: ["view_classes", "edit_grades", "manage_attendance"],
+        department: "Education",
+        position: "Senior Teacher",
+      },
+      {
+        id: "USR004",
+        name: "Emily Wilson",
+        email: "emily.wilson@shineeducation.com",
+        role: "Teacher",
+        status: "inactive",
+        avatar: "/images/avatars/teacher2.png",
+        phone: "+62845678901",
+        lastActive: "2025-07-01T10:30:00",
+        createdAt: "2023-04-05",
+        permissions: ["view_classes", "edit_grades"],
+        department: "Education",
+        position: "Junior Teacher",
+      },
+      {
+        id: "USR005",
+        name: "David Lee",
+        email: "david.lee@shineeducation.com",
+        role: "Student",
+        status: "active",
+        avatar: "/images/avatars/student1.png",
+        phone: "+62856789012",
+        lastActive: "2025-07-05T11:20:00",
+        createdAt: "2023-05-12",
+        permissions: ["view_courses"],
+        department: "Student",
+        position: "Student",
+      },
+      {
+        id: "USR006",
+        name: "Jennifer Lopez",
+        email: "jennifer.lopez@shineeducation.com",
+        role: "Student",
+        status: "pending",
+        avatar: "/images/avatars/student2.png",
+        phone: "+62867890123",
+        lastActive: "2025-07-03T14:10:00",
+        createdAt: "2023-06-18",
+        permissions: ["view_courses"],
+        department: "Student",
+        position: "Student",
+      },
+      {
+        id: "USR007",
+        name: "Robert Davis",
+        email: "robert.davis@shineeducation.com",
+        role: "Admin",
+        status: "active",
+        avatar: "/images/avatars/admin3.png",
+        phone: "+62878901234",
+        lastActive: "2025-07-05T07:45:00",
+        createdAt: "2023-07-22",
+        permissions: ["view_all", "edit_limited"],
+        department: "Finance",
+        position: "Financial Manager",
+      },
+      {
+        id: "USR008",
+        name: "Linda Miller",
+        email: "linda.miller@shineeducation.com",
+        role: "Teacher",
+        status: "active",
+        avatar: "/images/avatars/teacher3.png",
+        phone: "+62889012345",
+        lastActive: "2025-07-04T13:25:00",
+        createdAt: "2023-08-30",
+        permissions: ["view_classes", "edit_grades", "manage_attendance"],
+        department: "Education",
+        position: "Teacher",
+      },
+    ];
+
     // Filter users based on userType
     let filteredUsers: User[] = [];
     switch (userType) {
       case "admin":
-        filteredUsers = mockDetailedUsers.filter(user => 
+        filteredUsers = dummyUsers.filter(user => 
           user.role === "Admin" || user.role === "Super Admin"
         );
         break;
       case "teacher":
-        filteredUsers = mockDetailedUsers.filter(user => 
+        filteredUsers = dummyUsers.filter(user => 
           user.role === "Teacher"
         );
         break;
       case "student":
-        filteredUsers = mockDetailedUsers.filter(user => 
+        filteredUsers = dummyUsers.filter(user => 
           user.role === "Student"
         );
         break;
       default:
-        filteredUsers = mockDetailedUsers;
+        filteredUsers = dummyUsers;
     }
 
     setUsers(filteredUsers);
@@ -148,8 +280,6 @@ export default function UsersManagement({
   const today = new Date();
   const todayStr = today.toISOString().split('T')[0];
   const recentUsers = users.filter(user => {
-    if (!user.createdAt) return false;
-    
     const createdDate = new Date(user.createdAt);
     const diffTime = Math.abs(today.getTime() - createdDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -173,9 +303,7 @@ export default function UsersManagement({
   };
 
   // Format date to readable format
-  const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return "N/A";
-    
+  const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
@@ -204,9 +332,9 @@ export default function UsersManagement({
       case "teacher":
         return <GraduationCap className="h-4 w-4 text-blue-600" />;
       case "student":
-        return <UserIcon className="h-4 w-4 text-purple-600" />;
+        return <User className="h-4 w-4 text-purple-600" />;
       default:
-        return <UserIcon className="h-4 w-4 text-gray-600" />;
+        return <User className="h-4 w-4 text-gray-600" />;
     }
   };
 
@@ -248,7 +376,7 @@ export default function UsersManagement({
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
             <CardTitle className="text-sm font-medium">Active Users</CardTitle>
             <div className="p-2 rounded-full bg-amber-50">
-              <UserIcon className="h-4 w-4 text-[#DAA625]" />
+              <User className="h-4 w-4 text-[#DAA625]" />
             </div>
           </CardHeader>
           <CardContent>
@@ -397,7 +525,7 @@ export default function UsersManagement({
                 ) : userType === "teacher" ? (
                   <GraduationCap className="h-5 w-5 text-[#C40503]" />
                 ) : userType === "student" ? (
-                  <UserIcon className="h-5 w-5 text-[#C40503]" />
+                  <User className="h-5 w-5 text-[#C40503]" />
                 ) : (
                   <Users className="h-5 w-5 text-[#C40503]" />
                 )}

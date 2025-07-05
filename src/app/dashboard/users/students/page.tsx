@@ -1,7 +1,13 @@
 "use client";
 
-import StudentsManagement from "@/components/ui-admin/students/StudentsManagement";
+import UsersManagement from "@/components/ui-admin/users/UsersManagement";
 
 export default function StudentsPage() {
-  return <StudentsManagement />;
+  return (
+    <UsersManagement 
+      userType="student"
+      title="Student Management"
+      description="Manage student data and class placement"
+    />
+  );
 }
