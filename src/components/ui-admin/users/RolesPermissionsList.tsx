@@ -50,6 +50,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // Define types
 interface Role {
@@ -112,14 +113,6 @@ export default function RolesPermissionsList() {
         userCount: 350,
         permissions: [2, 4],
         isDefault: true,
-      },
-      {
-        id: "5",
-        name: "Parent",
-        description: "Limited access to view child's progress and communicate with teachers",
-        userCount: 180,
-        permissions: [2, 4],
-        isDefault: false,
       },
     ];
 
@@ -268,15 +261,15 @@ export default function RolesPermissionsList() {
   const getRoleBadge = (role: string) => {
     switch (role.toLowerCase()) {
       case "super admin":
-        return <Badge className="bg-red-50 text-[#C40503] border-red-100">{role}</Badge>;
+        return <Badge className="bg-red-100 text-[#C40503] font-medium border-red-200 hover:bg-red-200 hover:text-[#C40503]">{role}</Badge>;
       case "admin":
-        return <Badge className="bg-amber-50 text-amber-700 border-amber-100">{role}</Badge>;
+        return <Badge className="bg-amber-100 text-amber-800 font-medium border-amber-200 hover:bg-amber-200 hover:text-amber-900">{role}</Badge>;
       case "teacher":
-        return <Badge className="bg-blue-50 text-blue-700 border-blue-100">{role}</Badge>;
+        return <Badge className="bg-blue-100 text-blue-800 font-medium border-blue-200 hover:bg-blue-200 hover:text-blue-900">{role}</Badge>;
       case "student":
-        return <Badge className="bg-purple-50 text-purple-700 border-purple-100">{role}</Badge>;
+        return <Badge className="bg-purple-100 text-purple-800 font-medium border-purple-200 hover:bg-purple-200 hover:text-purple-900">{role}</Badge>;
       default:
-        return <Badge className="bg-gray-50 text-gray-700 border-gray-100">{role}</Badge>;
+        return <Badge className="bg-gray-100 text-gray-800 font-medium border-gray-200 hover:bg-gray-200 hover:text-gray-900">{role}</Badge>;
     }
   };
 
@@ -290,92 +283,115 @@ export default function RolesPermissionsList() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
-          Roles & Permissions Management
-        </h2>
-        <div className="bg-white p-2 rounded-lg shadow-sm border border-gray-100">
-          <span className="text-sm font-medium text-gray-700">
-            {totalRoles} Roles Available
-          </span>
+    <div className="space-y-8 px-6 py-3 max-w-[90rem] mx-auto bg-gradient-to-b from-white to-gray-50/30">
+      {/* Header with breadcrumbs */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+            Roles & Permissions Management
+          </h1>
+          <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
+            <Link href="/dashboard" className="hover:text-[#C40503] transition-colors">
+              Dashboard
+            </Link>
+            <span className="text-gray-400">/</span>
+            <Link href="/dashboard/users" className="hover:text-[#C40503] transition-colors">
+              User Management
+            </Link>
+            <span className="text-gray-400">/</span>
+            <span className="text-gray-600">Roles & Permissions</span>
+          </div>
         </div>
       </div>
       
       {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="overflow-hidden border-none shadow-md">
-          <div className="h-1 w-full bg-[#C40503]"></div>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-red-50/20">
+          <div className="h-1.5 w-full bg-gradient-to-r from-[#C40503] to-[#C40503]/70"></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
             <CardTitle className="text-sm font-medium">Total Roles</CardTitle>
-            <div className="p-2 rounded-full bg-red-50">
+            <div className="p-2.5 rounded-full bg-red-50 hover:bg-red-100 transition-all duration-300">
               <Shield className="h-4 w-4 text-[#C40503]" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold pb-5">{totalRoles}</div>
+            <div className="text-3xl font-bold pb-2">{totalRoles}</div>
+            <div className="text-xs text-gray-500 flex items-center gap-1.5">
+              <span className="inline-block h-2 w-2 rounded-full bg-[#C40503]"></span>
+              System roles available
+            </div>
           </CardContent>
         </Card>
         
-        <Card className="overflow-hidden border-none shadow-md">
-          <div className="h-1 w-full bg-[#DAA625]"></div>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
+        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-amber-50/20">
+          <div className="h-1.5 w-full bg-gradient-to-r from-[#DAA625] to-[#DAA625]/70"></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
             <CardTitle className="text-sm font-medium">Total Permissions</CardTitle>
-            <div className="p-2 rounded-full bg-amber-50">
+            <div className="p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 transition-all duration-300">
               <Key className="h-4 w-4 text-[#DAA625]" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold pb-5">{totalPermissions}</div>
+            <div className="text-3xl font-bold pb-2">{totalPermissions}</div>
+            <div className="text-xs text-gray-500 flex items-center gap-1.5">
+              <span className="inline-block h-2 w-2 rounded-full bg-[#DAA625]"></span>
+              Available system permissions
+            </div>
           </CardContent>
         </Card>
         
-        <Card className="overflow-hidden border-none shadow-md">
-          <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
+        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-blue-50/20">
+          <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-blue-600/70"></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <div className="p-2 rounded-full bg-blue-50">
+            <div className="p-2.5 rounded-full bg-blue-50 hover:bg-blue-100 transition-all duration-300">
               <Users className="h-4 w-4 text-blue-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold pb-5">{totalUsers}</div>
+            <div className="text-3xl font-bold pb-2">{totalUsers}</div>
+            <div className="text-xs text-gray-500 flex items-center gap-1.5">
+              <span className="inline-block h-2 w-2 rounded-full bg-blue-600"></span>
+              Total users across all roles
+            </div>
           </CardContent>
         </Card>
         
-        <Card className="overflow-hidden border-none shadow-md">
-          <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
+        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-purple-50/20">
+          <div className="h-1.5 w-full bg-gradient-to-r from-purple-600 to-purple-600/70"></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
             <CardTitle className="text-sm font-medium">Default Role</CardTitle>
-            <div className="p-2 rounded-full bg-purple-50">
+            <div className="p-2.5 rounded-full bg-purple-50 hover:bg-purple-100 transition-all duration-300">
               <UserCog className="h-4 w-4 text-purple-600" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold pb-5">{defaultRole}</div>
+            <div className="text-3xl font-bold pb-2">{defaultRole}</div>
+            <div className="text-xs text-gray-500 flex items-center gap-1.5">
+              <span className="inline-block h-2 w-2 rounded-full bg-purple-600"></span>
+              Default role for new users
+            </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Main Card with Tabs */}
-      <Card className="shadow-md border-none overflow-hidden">
-        <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
-        <CardHeader className="pb-3 pt-5 bg-gradient-to-r from-white to-red-50/10">
+      <Card className="shadow-md border-none overflow-hidden hover:shadow-lg transition-all duration-300">
+        <div className="h-1.5 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+        <CardHeader className="pb-3 pt-5 bg-gradient-to-br from-white to-red-50/10">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <CardTitle className="text-xl font-semibold flex items-center gap-2">
                 <Shield className="h-5 w-5 text-[#C40503]" />
                 Access Control
               </CardTitle>
-              <CardDescription>Manage roles and permissions across the system</CardDescription>
+              <CardDescription className="flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></span>
+                Manage roles and permissions across the system
+              </CardDescription>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button className="bg-[#C40503] hover:bg-[#A60000]">
-                <PlusCircle className="h-4 w-4 mr-2" />
-                Create New Role
-              </Button>
               <Button variant="outline" className="text-[#C40503] border-[#C40503]/20 hover:bg-[#C40503]/5">
                 <Download className="h-4 w-4 mr-2" />
                 Export Data
@@ -387,16 +403,16 @@ export default function RolesPermissionsList() {
         <CardContent className="p-0 pb-4">
           <Tabs defaultValue="roles" className="w-full" onValueChange={setActiveTab} value={activeTab}>
             <div className="px-4 pt-4">
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-2 shadow-sm">
                 <TabsTrigger 
                   value="roles" 
-                  className={activeTab === "roles" ? "data-[state=active]:bg-[#C40503] data-[state=active]:text-white" : ""}
+                  className={`${activeTab === "roles" ? "bg-gradient-to-r from-[#C40503] to-[#C40503]/90 text-white shadow-sm" : ""} transition-all duration-300`}
                 >
                   Roles
                 </TabsTrigger>
                 <TabsTrigger 
                   value="permissions" 
-                  className={activeTab === "permissions" ? "data-[state=active]:bg-[#C40503] data-[state=active]:text-white" : ""}
+                  className={`${activeTab === "permissions" ? "bg-gradient-to-r from-[#C40503] to-[#C40503]/90 text-white shadow-sm" : ""} transition-all duration-300`}
                 >
                   Permissions
                 </TabsTrigger>
@@ -408,10 +424,10 @@ export default function RolesPermissionsList() {
               <div className="p-4 border-b border-gray-100 bg-gray-50/50">
                 <div className="flex flex-col md:flex-row gap-3">
                   <div className="relative flex-1">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 transition-all group-focus-within:text-[#C40503]" />
                     <Input
                       placeholder="Search roles by name, description..."
-                      className="pl-9"
+                      className="pl-9 border-gray-200 focus-visible:border-[#C40503]/30 focus-visible:ring-[#C40503]/20 transition-all hover:border-gray-300 group"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -531,10 +547,10 @@ export default function RolesPermissionsList() {
               <div className="p-4 border-b border-gray-100 bg-gray-50/50">
                 <div className="flex flex-col md:flex-row gap-3">
                   <div className="relative flex-1">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 transition-all group-focus-within:text-[#C40503]" />
                     <Input
                       placeholder="Search permissions by name, code, description..."
-                      className="pl-9"
+                      className="pl-9 border-gray-200 focus-visible:border-[#C40503]/30 focus-visible:ring-[#C40503]/20 transition-all hover:border-gray-300 group"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -625,7 +641,7 @@ export default function RolesPermissionsList() {
                                 <div className="text-sm text-gray-600 mt-1">{permission.description}</div>
                                 <div className="flex flex-wrap gap-1 mt-2">
                                   {roles.filter(r => r.permissions.includes(permission.id)).map(r => (
-                                    <Badge key={r.id} className="bg-gray-100 text-gray-800 border-gray-200">
+                                    <Badge key={r.id} className="bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200 hover:text-gray-900 transition-colors">
                                       {r.name}
                                     </Badge>
                                   ))}
