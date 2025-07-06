@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import LearningBackground from "../animations/LearningBackground";
+import { ParallaxImage, ScrollingTextReveal } from "@/components/animations/ScrollAnimations";
+import { MagneticButton, LiquidButton } from "@/components/animations/MicroAnimations";
 
 const HeroSection = () => {
   const [isWaving, setIsWaving] = useState(false);
@@ -22,7 +24,7 @@ const HeroSection = () => {
       <LearningBackground />
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-          {/* Text Content */}
+          {/* Text Content with ScrollingTextReveal for titles */}
           <motion.div
             className="lg:w-1/2 text-center lg:text-left lg:pr-8"
             initial={{ opacity: 0, x: -50 }}
@@ -46,26 +48,25 @@ const HeroSection = () => {
                 <span className="text-2xl cursor-pointer">👋</span>{" "}
               </h2>
             </motion.div>
-            <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
+
+            <div className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               <div>
-                <motion.span
+                <ScrollingTextReveal
+                  text="Shine Education"
                   className="text-[#C40503] inline-block"
-                  whileHover={{
-                    scale: 1.05,
-                    textShadow: "0 0 8px rgba(196, 5, 3, 0.3)",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Shine Education
-                </motion.span>
+                  threshold={0.5}
+                  staggerChildren={0.03}
+                  duration={0.5}
+                />
               </div>
               <div className="text-[#DAA625] relative inline-block mt-2">
-                Bimbingan Belajar
+                <ScrollingTextReveal
+                  text="Bimbingan Belajar"
+                  threshold={0.5}
+                  staggerChildren={0.02}
+                  duration={0.5}
+                  delay={0.5}
+                />
                 <motion.span
                   className="absolute -top-6 -right-6 text-3xl"
                   animate={{
@@ -81,7 +82,8 @@ const HeroSection = () => {
                   ✨
                 </motion.span>
               </div>
-            </motion.h1>
+            </div>
+
             <motion.p
               className="text-gray-600 text-lg mb-8 max-w-xl"
               initial={{ opacity: 0, y: 20 }}
@@ -97,37 +99,39 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button className="bg-gradient-to-r from-[#DAA625] to-[#F6C94A] text-white px-8 py-6 rounded-full text-lg font-semibold hover:shadow-lg transition-all duration-300 hover:shadow-[#C40503]/20 flex items-center gap-2">
+              <MagneticButton>
+                <LiquidButton
+                  color="#DAA625"
+                  hoverColor="#C40503"
+                  size="lg"
+                  className="text-white text-lg font-semibold flex items-center gap-2"
+                >
                   Mulai Belajar <span className="text-xl">🎓</span>
-                </Button>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  variant="outline"
-                  className="px-8 py-6 rounded-full text-lg font-semibold border-2 border-[#C40503] text-[#C40503] hover:bg-[#C40503] hover:text-white transition-all duration-300 flex items-center gap-2"
+                </LiquidButton>
+              </MagneticButton>
+              
+              <MagneticButton className="mt-4 lg:mt-0">
+                <LiquidButton
+                  color="#ffffff"
+                  hoverColor="#C40503"
+                  size="lg"
+                  className="border-2 border-[#C40503] text-[#C40503] hover:text-white text-lg font-semibold flex items-center gap-2"
                 >
                   Pelajari Selengkapnya <span className="text-xl">📚</span>
-                </Button>
-              </motion.div>
-            </motion.div>{" "}
+                </LiquidButton>
+              </MagneticButton>
+            </motion.div>
           </motion.div>
-          {/* Hero Image */}
-          <div className="lg:w-1/2">
+
+          {/* Hero Image with Parallax effect */}
+          <div className="lg:w-1/2 relative">
             <div className="w-full max-w-[600px] mx-auto">
-              <Image
+              <ParallaxImage
                 src="/pichome/hero-section3.svg"
                 alt="Students Learning"
-                width={600}
-                height={400}
                 className="w-full h-auto"
-                priority
+                speed={0.1}
+                imgClassName="w-full h-auto"
               />
             </div>
           </div>
