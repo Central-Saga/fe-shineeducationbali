@@ -615,55 +615,7 @@ export default function RolesPermissionsList() {
                 </div>
               </div>
               
-              {/* Permissions List by Category */}
-              <div className="px-4 pt-6 space-y-6">
-                <h3 className="text-lg font-medium mb-2">Permission Details</h3>
-                {Object.entries(permissionsByCategory).map(([category, perms]) => (
-                  <Card key={category} className="shadow-sm border">
-                    <CardHeader className="bg-gray-50 py-3">
-                      <CardTitle className="text-sm font-medium flex items-center gap-2">
-                        <Key className="h-4 w-4 text-[#DAA625]" />
-                        {category}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                      <div className="divide-y divide-gray-100">
-                        {perms.map((permission) => (
-                          <div key={permission.id} className="p-4 hover:bg-gray-50">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <div className="font-medium text-gray-900 flex items-center gap-2">
-                                  {permission.name}
-                                  <code className="text-xs bg-gray-100 px-2 py-0.5 rounded text-gray-700">
-                                    {permission.code}
-                                  </code>
-                                </div>
-                                <div className="text-sm text-gray-600 mt-1">{permission.description}</div>
-                                <div className="flex flex-wrap gap-1 mt-2">
-                                  {roles.filter(r => r.permissions.includes(permission.id)).map(r => (
-                                    <Badge key={r.id} className="bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200 hover:text-gray-900 transition-colors">
-                                      {r.name}
-                                    </Badge>
-                                  ))}
-                                </div>
-                              </div>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-8 p-0 px-2"
-                                onClick={() => handlePermissionEdit(permission)}
-                              >
-                                <Edit2 className="h-4 w-4 mr-1 text-[#DAA625]" />
-                                Edit
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+
             </TabsContent>
           </Tabs>
         </CardContent>
