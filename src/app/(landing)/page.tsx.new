@@ -1,0 +1,476 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import Navbar from "@/components/ui-home/Navbar";
+import HeroSection from "@/components/ui-home/HeroSection";
+import About from "@/components/ui-home/About";
+import Program from "@/components/ui-home/Program";
+import Langganan from "@/components/ui-home/Langganan";
+import Footer from "@/components/ui-home/Footer";
+import {
+  WaveEffect,
+  FloatingBubbles,
+  DynamicBackground,
+} from "@/components/animations/BackgroundAnimations";
+import {
+  GradientBlob,
+  FloatingElement,
+  PulseElement,
+  DotGrid,
+  FadeIn,
+  ParallaxSection,
+  AnimatedLine,
+  TypingAnimation,
+  CleanHoverCard,
+  Spotlight,
+} from "@/components/animations/MicroAnimations";
+
+interface FloatingItemProps {
+  width: number;
+  height: number;
+  left: string;
+  top: string;
+  color1: string;
+  color2: string;
+  shape: "book" | "pencil" | "graduation" | "lightbulb";
+}
+
+// Modern, clean interactive background
+const InteractiveBackground = () => {
+  return (
+    <>
+      {/* Clean geometric pattern background */}
+      <div className="fixed inset-0 -z-10">
+        <svg className="w-full h-full opacity-5">
+          <pattern
+            id="pattern"
+            x="0"
+            y="0"
+            width="40"
+            height="40"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M20 0L40 20L20 40L0 20Z"
+              fill="none"
+              stroke="rgba(120, 120, 120, 0.15)"
+              strokeWidth="0.5"
+            />
+          </pattern>
+          <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern)" />
+        </svg>
+      </div>
+      
+      {/* Subtle floating elements - reduced number and opacity */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: `${Math.random() * 4 + 2}rem`,
+              height: `${Math.random() * 4 + 2}rem`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              background: `rgba(255, 255, 255, ${Math.random() * 0.02 + 0.01})`,
+              backdropFilter: "blur(1px)",
+            }}
+            animate={{
+              x: [0, Math.random() * 20 - 10],
+              y: [0, Math.random() * 20 - 10],
+              rotate: [0, Math.random() * 30 - 15],
+              scale: [1, Math.random() * 0.1 + 0.95],
+            }}
+            transition={{
+              duration: Math.random() * 15 + 20,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* More subtle animated lines */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute h-px"
+            style={{
+              width: `${Math.random() * 200 + 100}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              background: `linear-gradient(90deg, transparent, rgba(200, 200, 200, 0.1), transparent)`,
+              transform: `rotate(${Math.random() * 180}deg)`,
+            }}
+            animate={{
+              opacity: [0, 0.2, 0],
+              scale: [0.7, 1, 0.7],
+              x: [-30, 30, -30],
+            }}
+            transition={{
+              duration: Math.random() * 15 + 25,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 3,
+            }}
+          />
+        ))}
+      </div>
+    </>
+  );
+};
+
+// Refined, more subtle particles
+const ParticlesSection = () => {
+  // Create an array of different particle configurations - fewer, more subtle particles
+  const particles = Array.from({ length: 5 }, (_, i) => ({
+    size: Math.random() * 0.8 + 0.6, // Smaller: 0.6-1.4rem
+    left: Math.random() * 25, // 0-25rem
+    top: Math.random() * 15, // 0-15rem
+    duration: Math.random() * 2 + 4, // 4-6s - slower
+    delay: i * 0.5, // More staggered delay
+    color1: i % 2 === 0 
+      ? `rgba(${220 + Math.random() * 35}, ${220 + Math.random() * 35}, ${255}, 0.15)` // Lighter blue tints
+      : `rgba(${255}, ${220 + Math.random() * 35}, ${220 + Math.random() * 35}, 0.15)`, // Lighter red tints
+    color2: i % 2 === 0 
+      ? `rgba(${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${255}, 0.08)` // Even lighter blue tints
+      : `rgba(${255}, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, 0.08)`, // Even lighter red tints
+  }));
+
+  return (
+    <motion.div className="absolute right-10 top-[180vh]">
+      {particles.map((particle, i) => (
+        <motion.div
+          key={i}
+          className="absolute"
+          style={{
+            width: `${particle.size}rem`,
+            height: `${particle.size}rem`,
+            left: `${particle.left}rem`,
+            top: `${particle.top}rem`,
+          }}
+          animate={{
+            y: [-3, 3], // Smaller movement
+            x: [-2, 2], // Smaller movement
+            opacity: [0.15, 0.3, 0.15], // Lower opacity range
+          }}
+          transition={{
+            duration: particle.duration,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: particle.delay,
+          }}
+        >
+          <div
+            className="w-full h-full rounded-full"
+            style={{
+              background: `radial-gradient(circle at 30% 30%, ${particle.color1}, ${particle.color2})`,
+              boxShadow: `0 0 8px ${particle.color1}20`, // Lighter shadow
+              backdropFilter: "blur(1px)", // Less blur
+            }}
+          />
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+};
+
+export default function Home() {
+  const [items, setItems] = useState<FloatingItemProps[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const shapes: FloatingItemProps["shape"][] = [
+      "book",
+      "pencil",
+      "graduation",
+      "lightbulb",
+    ];
+    
+    // More subtle and modern colors
+    const colors1 = ["#f0f9ff", "#fff7ed", "#f5f3ff", "#f0fdf4"];
+    const colors2 = ["#bae6fd", "#fed7aa", "#ddd6fe", "#bbf7d0"];
+    
+    const positions = [20, 40, 60, 80];
+    const newItems = Array(4)
+      .fill(null)
+      .map((_, index) => ({
+        width: 6, // Slightly smaller
+        height: 6, // Slightly smaller
+        left: `${positions[index]}%`,
+        top: `${(100 / 4) * (index + 1)}vh`,
+        color1: colors1[index % colors1.length],
+        color2: colors2[index % colors2.length],
+        shape: shapes[index % shapes.length],
+      }));
+
+    setItems(newItems);
+  }, []);
+
+  return (
+    <main className="relative overflow-hidden">
+      {/* Elegant spotlight effect following cursor */}
+      <Spotlight size={400} opacity={0.08} />
+      
+      <div className="relative">
+        <InteractiveBackground />
+        
+        {/* Clean dot grid background pattern */}
+        <DotGrid 
+          columns={20} 
+          rows={15} 
+          gap={40} 
+          dotSize={2} 
+          className="fixed inset-0 -z-10" 
+          color="rgba(200, 200, 200, 0.2)" 
+        />
+        
+        {/* Subtle gradient blobs */}
+        <GradientBlob 
+          className="-z-10 left-[5%] top-[15%]" 
+          colors={["#f0f9ff", "#e0f2fe", "#bae6fd"]} 
+          size="30rem" 
+          opacity={0.05} 
+          duration={20} 
+        />
+        <GradientBlob 
+          className="-z-10 right-[10%] top-[45%]" 
+          colors={["#fff7ed", "#ffedd5", "#fed7aa"]} 
+          size="40rem" 
+          opacity={0.05} 
+          duration={25}
+          delay={2}
+        />
+        <GradientBlob 
+          className="-z-10 left-[20%] top-[65%]" 
+          colors={["#f5f3ff", "#ede9fe", "#ddd6fe"]} 
+          size="35rem" 
+          opacity={0.05} 
+          duration={22}
+          delay={1}
+        />
+        
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          {mounted &&
+            items.map((item, index) => (
+              <motion.div
+                key={index}
+                className="absolute"
+                style={{
+                  width: `${item.width}rem`,
+                  height: `${item.height}rem`,
+                  left: item.left,
+                  top: item.top,
+                  clipPath:
+                    item.shape === "book"
+                      ? "polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)"
+                      : item.shape === "pencil"
+                      ? "polygon(20% 0%, 80% 0%, 100% 90%, 50% 100%, 0% 90%)"
+                      : item.shape === "graduation"
+                      ? "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
+                      : "circle(50% at 50% 50%)", // lightbulb default
+                  background: `linear-gradient(45deg, ${item.color1}, ${item.color2})`,
+                  boxShadow: `0 0 15px ${item.color2}22`,
+                  backdropFilter: "blur(2px)",
+                  WebkitBackdropFilter: "blur(2px)",
+                }}
+                animate={{
+                  y: [-10, 10],
+                  x: [-5, 5],
+                  rotate: [-3, 3],
+                  scale: [0.98, 1.02],
+                  opacity: [0.3, 0.5, 0.3],
+                }}
+                transition={{
+                  duration: 4 + index * 0.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  times: [0, 0.5, 1],
+                  delay: index * 0.3,
+                }}
+              />
+            ))}
+        </div>
+        
+        {/* Program Section Animation - Simple Stars */}
+        <motion.div
+          className="absolute left-20 top-[120vh]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <div className="relative">
+            <motion.div
+              className="absolute w-3 h-3 bg-yellow-300/20 rounded-full blur-sm"
+              animate={{
+                scale: [1, 1.5, 1],
+                opacity: [0.2, 0.5, 0.2],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <motion.div
+              className="absolute w-2 h-2 bg-red-300/20 rounded-full left-8 top-2 blur-sm"
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.2, 0.4, 0.2],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 0.5,
+              }}
+            />
+          </div>
+        </motion.div>
+        
+        {/* Fun Interactive Particles */}
+        <ParticlesSection />
+
+        {/* Animated decorative lines */}
+        <div className="absolute left-10 bottom-[10vh] -z-10">
+          {[...Array(3)].map((_, i) => (
+            <AnimatedLine 
+              key={i}
+              length={40 + i * 20} 
+              angle={i * 30} 
+              duration={4 + i} 
+              color={`rgba(${200 + i * 20}, ${100 + i * 30}, ${150 + i * 20}, 0.07)`}
+              className={`mb-${3 + i}`}
+            />
+          ))}
+        </div>
+        
+        <div className="absolute right-10 top-[40vh] -z-10">
+          {[...Array(3)].map((_, i) => (
+            <AnimatedLine 
+              key={i}
+              length={30 + i * 25} 
+              angle={-i * 25} 
+              duration={3 + i * 1.5} 
+              color={`rgba(${100 + i * 30}, ${150 + i * 20}, ${200 + i * 20}, 0.07)`}
+              className={`mt-${3 + i}`}
+            />
+          ))}
+        </div>
+        
+        {/* Dynamic Background Animation - More refined and subtle */}
+        <motion.div
+          className="fixed inset-0 -z-20 overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ duration: 1 }}
+        >
+          {/* Clean glass panels - fewer, more subtle */}
+          <div className="absolute inset-0">
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute rounded-xl"
+                style={{
+                  width: Math.random() * 50 + 30 + "px", 
+                  height: Math.random() * 50 + 30 + "px",
+                  left: `${(i % 4) * 25}%`,
+                  top: `${Math.floor(i / 4) * 50}%`,
+                  background: "rgba(255, 255, 255, 0.01)",
+                  backdropFilter: "blur(1px)",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255, 255, 255, 0.02)",
+                }}
+                animate={{
+                  rotate: [0, 180],
+                  scale: [1, i % 2 ? 1.05 : 0.95, 1],
+                  opacity: [0.01, 0.03, 0.01],
+                }}
+                transition={{
+                  duration: 25 + i * 3,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: i * 0.8,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Subtle radial gradient pulse - more refined */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at center, transparent 0%, rgba(255,255,255,0.003) 70%, transparent 100%)",
+            }}
+            animate={{
+              scale: [1, 1.05, 1],
+              opacity: [0.05, 0.1, 0.05],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </motion.div>
+      </div>
+      
+      <Navbar />
+
+      {/* Hero section with fade in animation */}
+      <FadeIn direction="up" duration={0.8} delay={0.2}>
+        <HeroSection />
+      </FadeIn>
+      
+      {/* Program section with parallax effect */}
+      <ParallaxSection speed={0.1} className="relative">
+        {/* Decorative animated lines */}
+        <div className="absolute left-0 top-[10%] -z-5 opacity-30">
+          <AnimatedLine length={100} angle={30} duration={4} color="rgba(219, 39, 119, 0.1)" />
+          <AnimatedLine length={70} angle={-20} duration={5} color="rgba(79, 70, 229, 0.1)" className="ml-20 mt-10" />
+        </div>
+        <div className="absolute right-0 top-[20%] -z-5 opacity-30">
+          <AnimatedLine length={120} angle={-30} duration={6} color="rgba(249, 115, 22, 0.1)" />
+          <AnimatedLine length={80} angle={15} duration={4.5} color="rgba(16, 185, 129, 0.1)" className="mr-30 mt-15" />
+        </div>
+        
+        <FadeIn direction="up" duration={0.8}>
+          <Program />
+        </FadeIn>
+      </ParallaxSection>
+      
+      {/* About section with fade in and floating elements */}
+      <div className="relative">
+        {/* Decorative floating elements */}
+        <FloatingElement className="absolute -left-20 top-20 -z-1" duration={5}>
+          <div className="w-40 h-40 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 opacity-20 blur-2xl" />
+        </FloatingElement>
+        <FloatingElement className="absolute -right-10 bottom-20 -z-1" duration={6} delay={1}>
+          <div className="w-32 h-32 rounded-full bg-gradient-to-r from-amber-50 to-orange-50 opacity-20 blur-2xl" />
+        </FloatingElement>
+        
+        <FadeIn direction="up" duration={0.7}>
+          <About />
+        </FadeIn>
+      </div>
+      
+      {/* Langganan section with pulse animation */}
+      <div className="relative overflow-hidden">
+        <PulseElement className="absolute inset-0 -z-1" intensity={0.03} duration={8}>
+          <div className="w-full h-full bg-gradient-to-r from-gray-50 to-gray-100 opacity-30" />
+        </PulseElement>
+        
+        <FadeIn direction="up" duration={0.7}>
+          <Langganan />
+        </FadeIn>
+      </div>
+      
+      <Footer />
+    </main>
+  );
+}

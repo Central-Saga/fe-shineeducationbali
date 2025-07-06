@@ -251,15 +251,15 @@ export default function Home() {
       
       <Navbar />
 
-      {/* Hero section with parallax scrolling and zoom effects */}
+      {/* Enhanced Hero section with advanced parallax scrolling and zoom effects */}
       <ZoomParallaxSection 
         className="w-full" 
-        startScale={1.15} 
+        startScale={1.2} 
         endScale={1}
         bgImage="/backgrounds/wave-header.svg"
       >
-        <div className="relative">
-          {/* Parallax background for hero section */}
+        <div className="relative overflow-hidden">
+          {/* Multi-layered parallax background for hero section */}
           <div className="absolute inset-0 -z-10">
             <ParallaxImage 
               src="/backgrounds/wave-header.svg" 
@@ -269,10 +269,18 @@ export default function Home() {
             />
           </div>
           
-          {/* Decorative glass elements with parallax */}
-          <ParallaxScrollScene className="absolute inset-0 -z-5 overflow-hidden" depth={3} mouseInfluence={0.02}>
+          {/* Subtle particles in background */}
+          <div className="absolute inset-0 -z-5">
+            <ClientOnly>
+              <RandomParticles count={15} />
+            </ClientOnly>
+          </div>
+          
+          {/* Enhanced decorative glass elements with parallax */}
+          <ParallaxScrollScene className="absolute inset-0 -z-5 overflow-hidden" depth={5} mouseInfluence={0.03}>
+            {/* Larger glass elements */}
             <GlassCard 
-              className="absolute top-24 left-24 w-16 h-16 opacity-50" 
+              className="absolute top-20 left-[5%] w-24 h-24 opacity-40 rotate-12" 
               depth="light"
               color="blue"
             >
@@ -280,9 +288,34 @@ export default function Home() {
             </GlassCard>
             
             <GlassCard 
-              className="absolute top-40 right-32 w-24 h-24 opacity-60" 
+              className="absolute top-[40%] right-[8%] w-32 h-32 opacity-50" 
               depth="light"
               color="purple"
+            >
+              <div className="w-full h-full"></div>
+            </GlassCard>
+            
+            {/* Smaller glass elements */}
+            <GlassCard 
+              className="absolute top-[30%] left-[20%] w-16 h-16 opacity-30 -rotate-6" 
+              depth="light"
+              color="emerald"
+            >
+              <div className="w-full h-full"></div>
+            </GlassCard>
+            
+            <GlassCard 
+              className="absolute bottom-[20%] right-[25%] w-20 h-20 opacity-35 rotate-12" 
+              depth="light"
+              color="amber"
+            >
+              <div className="w-full h-full"></div>
+            </GlassCard>
+            
+            <GlassCard 
+              className="absolute bottom-[10%] left-[10%] w-12 h-12 opacity-40 rotate-45" 
+              depth="light"
+              color="blue"
             >
               <div className="w-full h-full"></div>
             </GlassCard>
@@ -370,9 +403,31 @@ export default function Home() {
           sectionTitle="About Us" 
           sectionNumber={1} 
           theme="blue"
-          className="mb-16"
+          className="mb-16 p-8 rounded-2xl bg-white/5 backdrop-blur-sm"
         >
-          <About />
+          <div className="relative">
+            {/* Decorative accent pattern */}
+            <div className="absolute -right-4 -top-4 w-24 h-24 opacity-10">
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="2" />
+                <circle cx="50" cy="50" r="30" stroke="currentColor" strokeWidth="2" />
+                <circle cx="50" cy="50" r="20" stroke="currentColor" strokeWidth="2" />
+              </svg>
+            </div>
+            
+            <About />
+            
+            {/* Bottom decorative element */}
+            <div className="absolute -left-2 -bottom-2 w-32 h-8 opacity-10">
+              <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 15 H100" stroke="currentColor" strokeWidth="2" />
+                <path d="M20 5 L20 25" stroke="currentColor" strokeWidth="2" />
+                <path d="M40 0 L40 30" stroke="currentColor" strokeWidth="2" />
+                <path d="M60 5 L60 25" stroke="currentColor" strokeWidth="2" />
+                <path d="M80 0 L80 30" stroke="currentColor" strokeWidth="2" />
+              </svg>
+            </div>
+          </div>
         </StoryRevealSection>
       </ScrollSequence>
       
