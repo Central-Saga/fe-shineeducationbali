@@ -9,7 +9,15 @@ import {
   Award,
   LineChart,
   Settings,
-  BookOpenCheck
+  BookOpenCheck,
+  Clock,
+  Wallet,
+  CalendarRange,
+  BarChart4,
+  FileHeart,
+  Receipt,
+  History,
+  Gift
 } from "lucide-react";
 
 export const sidebarTeacherNavigation = [
@@ -19,65 +27,107 @@ export const sidebarTeacherNavigation = [
     icon: Home,
   },
   {
-    name: "Kelas",
+    name: "Classes",
     icon: BookOpen,
     submenu: [
       {
-        name: "Daftar Kelas",
+        name: "Class List",
         href: "/dashboard-teacher/classes",
-        description: "Lihat semua kelas yang Anda ajar"
+        description: "View all classes you teach"
       },
       {
-        name: "Jadwal",
+        name: "Schedule",
         href: "/dashboard-teacher/schedule",
-        description: "Jadwal mengajar Anda"
+        description: "Your teaching schedule"
       }
     ]
   },
   {
-    name: "Siswa",
+    name: "Students",
     icon: Users,
     submenu: [
       {
-        name: "Daftar Siswa",
+        name: "Student List",
         href: "/dashboard-teacher/students",
-        description: "Siswa dalam kelas Anda"
+        description: "Students in your classes"
       },
       {
-        name: "Kehadiran",
+        name: "Attendance",
         href: "/dashboard-teacher/attendance",
-        description: "Rekam kehadiran siswa"
+        description: "Record student attendance"
       }
     ]
   },
   {
-    name: "Pembelajaran",
+    name: "Learning",
     icon: GraduationCap,
     submenu: [
       {
-        name: "Materi",
+        name: "Materials",
         href: "/dashboard-teacher/materials",
-        description: "Upload dan kelola materi ajar"
+        description: "Upload and manage teaching materials"
       },
       {
-        name: "Tugas",
+        name: "Assignments",
         href: "/dashboard-teacher/assignments",
-        description: "Buat dan periksa tugas"
+        description: "Create and check assignments"
       },
       {
-        name: "Nilai",
+        name: "Grades",
         href: "/dashboard-teacher/grades",
-        description: "Input dan kelola nilai siswa"
+        description: "Input and manage student grades"
       }
     ]
   },
   {
-    name: "Laporan",
-    icon: LineChart,
-    href: "/dashboard-teacher/reports",
+    name: "Attendance & Leave",
+    icon: Clock,
+    submenu: [
+      {
+        name: "My Attendance",
+        href: "/dashboard-teacher/attendance/my-attendance",
+        description: "Record and view your daily attendance"
+      },
+      {
+        name: "Attendance Summary",
+        href: "/dashboard-teacher/attendance/summary",
+        description: "View monthly attendance summary"
+      },
+      {
+        name: "Leave Request",
+        href: "/dashboard-teacher/attendance/leave-request",
+        description: "Submit and manage your leave requests"
+      }
+    ]
   },
   {
-    name: "Pengaturan",
+    name: "Salary & Benefits",
+    icon: Wallet,
+    submenu: [
+      {
+        name: "Payslip",
+        href: "/dashboard-teacher/salary/payslip",
+        description: "View and download monthly payslips"
+      },
+      {
+        name: "Payment History",
+        href: "/dashboard-teacher/salary/history",
+        description: "View salary payment history"
+      },
+      {
+        name: "Benefits",
+        href: "/dashboard-teacher/salary/benefits",
+        description: "Information on allowances and benefits"
+      }
+    ]
+  },
+  // {
+  //   name: "Reports",
+  //   icon: LineChart,
+  //   href: "/dashboard-teacher/reports",
+  // },
+  {
+    name: "Settings",
     icon: Settings,
     href: "/dashboard-teacher/settings",
   }

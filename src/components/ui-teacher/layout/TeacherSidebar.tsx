@@ -63,34 +63,91 @@ export function TeacherSidebar() {
   }, [pathname]);
 
   return (
-    <ScrollArea className="w-64 h-full bg-white border-r dark:bg-gray-900 dark:border-gray-800 overflow-hidden">
+    <ScrollArea className="w-64 h-full bg-gradient-to-b from-white to-gray-50 border-r dark:bg-gray-900 dark:border-gray-800 overflow-hidden">
       <div className="flex flex-col h-full">
-        <div className="flex h-14 items-center border-b px-6 bg-white dark:bg-gray-900">
-          <Link
-            className="flex items-center gap-2 font-semibold"
-            href="/dashboard-teacher"
-          >
-            <Image
-              src="/pichome/logo.png"
-              alt="Shine Education Logo"
-              width={100}
-              height={100}
-              className="h-8 w-auto object-contain"
-              priority
-              quality={100}
-            />
-          </Link>
+        <div className="relative flex h-20 items-center border-b px-6 overflow-hidden">
+          <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#C40503] to-[#DAA625]">
+              <svg 
+                className="absolute bottom-0 left-0 right-0 w-full" 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 1440 320"
+                preserveAspectRatio="none"
+                style={{ height: "40%" }}
+              >
+                <path 
+                  fill="white" 
+                  fillOpacity="1" 
+                  d="M0,224L60,229.3C120,235,240,245,360,250.7C480,256,600,256,720,234.7C840,213,960,171,1080,165.3C1200,160,1320,192,1380,208L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <div className="relative z-10">
+            <Link
+              className="flex items-center gap-2 font-semibold"
+              href="/dashboard-teacher"
+            >
+              <Image
+                src="/pichome/logo.png"
+                alt="Shine Education Logo"
+                width={100}
+                height={100}
+                className="h-12 w-auto object-contain"
+                priority
+                quality={100}
+              />
+            </Link>
+          </div>
         </div>
         
-        <nav className="flex-1 p-4 overflow-y-auto">
-          <div className="flex flex-col gap-1">
+        <nav className="flex-1 p-5 overflow-y-auto">
+          <div className="flex flex-col gap-2">
             {sidebarTeacherNavigation.map((item: NavItem) => {
-              const isActive = (
-                (item.submenu?.some((subitem: SubMenuItem) => 
-                  pathname === subitem.href || pathname.startsWith(`${subitem.href}/`))
-                ) || 
-                (item.href && (pathname === item.href || pathname.startsWith(`${item.href}/`)))
-              );
+              // Improved active state logic to prevent conflicts between similar paths
+              const isActive = (() => {
+                // For dashboard item, it should only be active on exact match
+                if (item.href === "/dashboard-teacher" && item.name === "Dashboard") {
+                  return pathname === "/dashboard-teacher";
+                }
+                
+                // For items with submenu, check if any submenu item is active
+                if (item.submenu?.length) {
+                  return item.submenu.some((subitem) => {
+                    // Check for exact match first
+                    if (pathname === subitem.href) return true;
+                    
+                    // For paths like /attendance/my-attendance, ensure proper highlighting
+                    if (pathname.startsWith(`${subitem.href}/`)) {
+                      // Handle special cases
+                      if (subitem.href === "/dashboard-teacher/attendance" && 
+                          (pathname.includes("/my-attendance") || 
+                          pathname.includes("/summary") || 
+                          pathname.includes("/leave-request"))) {
+                        return false;
+                      }
+                      // Special case for grades
+                      if (subitem.href === "/dashboard-teacher/grades" && 
+                          pathname.includes("/summary")) {
+                        return false;
+                      }
+                      return true;
+                    }
+                    return false;
+                  });
+                }
+                
+                // For items without submenu but with href, check exact match or path start
+                if (item.href) {
+                  // Dashboard should only be active on exact match
+                  if (item.href === "/dashboard-teacher") {
+                    return pathname === "/dashboard-teacher";
+                  }
+                  return pathname === item.href || pathname.startsWith(`${item.href}/`);
+                }
+                
+                return false;
+              })();
 
               const hasSubmenu = item.submenu && item.submenu.length > 0;
               const isOpen = isMenuOpen(item.name);
@@ -101,10 +158,10 @@ export function TeacherSidebar() {
                     // Menu items with submenu
                     <div
                       className={cn(
-                        "flex items-center justify-between gap-3 rounded-lg px-3 py-2 transition-all cursor-pointer",
+                        "flex items-center justify-between gap-3 rounded-lg px-4 py-3 transition-all cursor-pointer",
                         isActive
-                          ? "bg-red-50 text-red-600"
-                          : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                          ? "bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10 text-[#C40503] font-medium shadow-sm"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
                       )}
                       onClick={() => toggleMenu(item.name)}
                     >
@@ -125,10 +182,10 @@ export function TeacherSidebar() {
                     <Link href={item.href || "#"}>
                       <div
                         className={cn(
-                          "flex items-center justify-between gap-3 rounded-lg px-3 py-2 transition-all",
+                          "flex items-center justify-between gap-3 rounded-lg px-4 py-3 transition-all",
                           isActive
-                            ? "bg-red-50 text-red-600"
-                            : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                            ? "bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10 text-[#C40503] font-medium shadow-sm"
+                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
                         )}
                       >
                         <div className="flex items-center gap-4">
@@ -140,21 +197,28 @@ export function TeacherSidebar() {
                   )}
                   
                   {hasSubmenu && isOpen && item.submenu && (
-                    <div className="ml-6 mt-1 flex flex-col gap-1">
+                    <div className="ml-7 mt-1 flex flex-col gap-2 pl-2 border-l-2 border-gray-200">
                       {item.submenu.map((subitem: SubMenuItem) => (
                         <Link
                           key={subitem.name}
                           href={subitem.href}
                           className={cn(
-                            "text-sm flex flex-col gap-1 rounded-lg px-3 py-2 transition-all",
-                            pathname === subitem.href || pathname.startsWith(`${subitem.href}/`)
-                              ? "text-red-600 font-medium"
-                              : "text-gray-500 hover:text-gray-900"
+                            "text-sm flex flex-col gap-1 rounded-lg px-4 py-2.5 transition-all",
+                            pathname === subitem.href || 
+                            (pathname.startsWith(`${subitem.href}/`) && 
+                             !(subitem.href === "/dashboard-teacher/attendance" && 
+                                (pathname.includes("/my-attendance") || 
+                                 pathname.includes("/summary") || 
+                                 pathname.includes("/leave-request"))) &&
+                             !(subitem.href === "/dashboard-teacher/grades" && 
+                                pathname.includes("/summary")))
+                              ? "text-[#C40503] font-medium bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/5"
+                              : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
                           )}
                         >
-                          <span>{subitem.name}</span>
+                          <span className="font-medium">{subitem.name}</span>
                           {subitem.description && (
-                            <span className="text-xs text-gray-400">
+                            <span className="text-xs text-gray-500">
                               {subitem.description}
                             </span>
                           )}

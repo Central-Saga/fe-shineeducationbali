@@ -236,7 +236,7 @@ export default function RegisterPage() {
         transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
       >
         <Card className="relative bg-white/95 backdrop-blur-md shadow-xl border-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5 " />
           <CardHeader className="space-y-1 relative">
             {/* Logo Animation */}
             <motion.div
@@ -245,7 +245,7 @@ export default function RegisterPage() {
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: "spring", duration: 1.5, bounce: 0.5 }}
             >
-              <div className="relative">
+              <div className="relative py-5">
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-full blur-2xl"
                   animate={{
@@ -277,7 +277,7 @@ export default function RegisterPage() {
               <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
                 Bergabung dengan Shine Education
               </CardTitle>
-              <CardDescription className="text-center mt-2 text-[#C40503]/80">
+              <CardDescription className="text-center mt-2 text-[#C40503]/80 pb-5">
                 Mulai petualangan belajarmu bersama kami! ✨
               </CardDescription>
             </motion.div>
@@ -383,7 +383,7 @@ export default function RegisterPage() {
               </motion.div>
             </form>
           </CardContent>{" "}
-          <CardFooter className="flex justify-center">
+          <CardFooter className="flex justify-center py-5">
             <div className="text-sm text-center">
               <motion.div
                 initial={{ opacity: 0 }}

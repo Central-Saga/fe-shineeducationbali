@@ -47,13 +47,6 @@ export const sidebarAdminNavigation: MenuItem[] = [
         description: "Manage all user accounts in the system",
       },
       {
-        name: "Admin & Teacher",
-        href: "/dashboard/users/users",
-        description: "Manage admin and teacher accounts",
-        permission: "view", // Admin hanya bisa view, Super Admin bisa edit (default)
-        roles: ["Admin", "Super Admin"], // Hanya Admin dan Super Admin yang bisa melihat menu ini
-      },
-      {
         name: "Student",
         href: "/dashboard/users/students",
         description: "Manage student data and class placement",
@@ -103,11 +96,6 @@ export const sidebarAdminNavigation: MenuItem[] = [
         name: "Courses List",
         href: "/dashboard/courses",
         description: "Kelola daftar kursus yang tersedia",
-      },
-      {
-        name: "Kategori",
-        href: "/dashboard/courses/categories",
-        description: "Atur kategori kursus",
       },
     ],
   },
@@ -180,7 +168,7 @@ export const sidebarAdminNavigation: MenuItem[] = [
       {
         name: "Transaksi",
         href: "/dashboard/payments/transactions",
-        description: "Kelola transaksi pembayaran siswa",
+        description: "Kelola transaksi pembayaran siswa & Gaji Guru",
       },
       {
         name: "Laporan Keuangan",
@@ -216,11 +204,11 @@ export const sidebarAdminNavigation: MenuItem[] = [
       },
     ],
   },
-  {
-    name: "Reports",
-    href: "/dashboard/reports",
-    icon: FilePieChart,
-  },
+  // {
+  //   name: "Reports",
+  //   href: "/dashboard/reports",
+  //   icon: FilePieChart,
+  // },
   {
     name: "Settings",
     href: "/dashboard/settings",

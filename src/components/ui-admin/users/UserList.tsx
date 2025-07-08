@@ -10,7 +10,7 @@ import {
   Filter,
   UserPlus,
   Users,
-  User as UserIcon,
+  User,
   Shield,
   GraduationCap,
   Mail,
@@ -50,21 +50,36 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
-import { mockDetailedUsers, User } from "@/data/data-admin/users-data";
 
-interface UsersManagementProps {
+// User type definition
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: "active" | "inactive" | "pending";
+  avatar?: string;
+  phone?: string;
+  lastActive?: string;
+  createdAt: string;
+  permissions?: string[];
+  department?: string;
+  position?: string;
+}
+
+interface UserListProps {
   title: string;
   description: string;
   userType: "all" | "admin" | "teacher" | "student";
   showRoleFilter?: boolean;
 }
 
-export default function UsersManagement({
+export default function UserList({
   title,
   description,
   userType,
   showRoleFilter = true,
-}: UsersManagementProps) {
+}: UserListProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -73,26 +88,143 @@ export default function UsersManagement({
   const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
+    // In a real app, you would fetch users from an API based on userType
+    // Here we'll use dummy data
+    const dummyUsers: User[] = [
+      {
+        id: "USR001",
+        name: "John Smith",
+        email: "john.smith@shineeducation.com",
+        role: "Super Admin",
+        status: "active",
+        avatar: "/images/avatars/admin1.png",
+        phone: "+62812345678",
+        lastActive: "2025-07-05T09:30:00",
+        createdAt: "2023-01-10",
+        permissions: ["view_all", "edit_all", "delete", "manage_users"],
+        department: "Management",
+        position: "IT Director",
+      },
+      {
+        id: "USR002",
+        name: "Sarah Johnson",
+        email: "sarah.johnson@shineeducation.com",
+        role: "Admin",
+        status: "active",
+        avatar: "/images/avatars/admin2.png",
+        phone: "+62823456789",
+        lastActive: "2025-07-04T15:45:00",
+        createdAt: "2023-02-15",
+        permissions: ["view_all", "edit_limited", "manage_students"],
+        department: "Administration",
+        position: "Office Manager",
+      },
+      {
+        id: "USR003",
+        name: "Michael Brown",
+        email: "michael.brown@shineeducation.com",
+        role: "Teacher",
+        status: "active",
+        avatar: "/images/avatars/teacher1.png",
+        phone: "+62834567890",
+        lastActive: "2025-07-05T08:15:00",
+        createdAt: "2023-03-20",
+        permissions: ["view_classes", "edit_grades", "manage_attendance"],
+        department: "Education",
+        position: "Senior Teacher",
+      },
+      {
+        id: "USR004",
+        name: "Emily Wilson",
+        email: "emily.wilson@shineeducation.com",
+        role: "Teacher",
+        status: "inactive",
+        avatar: "/images/avatars/teacher2.png",
+        phone: "+62845678901",
+        lastActive: "2025-07-01T10:30:00",
+        createdAt: "2023-04-05",
+        permissions: ["view_classes", "edit_grades"],
+        department: "Education",
+        position: "Junior Teacher",
+      },
+      {
+        id: "USR005",
+        name: "David Lee",
+        email: "david.lee@shineeducation.com",
+        role: "Student",
+        status: "active",
+        avatar: "/images/avatars/student1.png",
+        phone: "+62856789012",
+        lastActive: "2025-07-05T11:20:00",
+        createdAt: "2023-05-12",
+        permissions: ["view_courses"],
+        department: "Student",
+        position: "Student",
+      },
+      {
+        id: "USR006",
+        name: "Jennifer Lopez",
+        email: "jennifer.lopez@shineeducation.com",
+        role: "Student",
+        status: "pending",
+        avatar: "/images/avatars/student2.png",
+        phone: "+62867890123",
+        lastActive: "2025-07-03T14:10:00",
+        createdAt: "2023-06-18",
+        permissions: ["view_courses"],
+        department: "Student",
+        position: "Student",
+      },
+      {
+        id: "USR007",
+        name: "Robert Davis",
+        email: "robert.davis@shineeducation.com",
+        role: "Admin",
+        status: "active",
+        avatar: "/images/avatars/admin3.png",
+        phone: "+62878901234",
+        lastActive: "2025-07-05T07:45:00",
+        createdAt: "2023-07-22",
+        permissions: ["view_all", "edit_limited"],
+        department: "Finance",
+        position: "Financial Manager",
+      },
+      {
+        id: "USR008",
+        name: "Linda Miller",
+        email: "linda.miller@shineeducation.com",
+        role: "Teacher",
+        status: "active",
+        avatar: "/images/avatars/teacher3.png",
+        phone: "+62889012345",
+        lastActive: "2025-07-04T13:25:00",
+        createdAt: "2023-08-30",
+        permissions: ["view_classes", "edit_grades", "manage_attendance"],
+        department: "Education",
+        position: "Teacher",
+      },
+    ];
+
     // Filter users based on userType
     let filteredUsers: User[] = [];
     switch (userType) {
       case "admin":
-        filteredUsers = mockDetailedUsers.filter(user => 
+        filteredUsers = dummyUsers.filter(user => 
           user.role === "Admin" || user.role === "Super Admin"
         );
         break;
       case "teacher":
-        filteredUsers = mockDetailedUsers.filter(user => 
+        filteredUsers = dummyUsers.filter(user => 
           user.role === "Teacher"
         );
         break;
       case "student":
-        filteredUsers = mockDetailedUsers.filter(user => 
+        filteredUsers = dummyUsers.filter(user => 
           user.role === "Student"
         );
         break;
       default:
-        filteredUsers = mockDetailedUsers;
+        filteredUsers = dummyUsers;
     }
 
     setUsers(filteredUsers);
@@ -148,8 +280,6 @@ export default function UsersManagement({
   const today = new Date();
   const todayStr = today.toISOString().split('T')[0];
   const recentUsers = users.filter(user => {
-    if (!user.createdAt) return false;
-    
     const createdDate = new Date(user.createdAt);
     const diffTime = Math.abs(today.getTime() - createdDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -173,9 +303,7 @@ export default function UsersManagement({
   };
 
   // Format date to readable format
-  const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return "N/A";
-    
+  const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
   };
@@ -184,13 +312,13 @@ export default function UsersManagement({
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "active":
-        return <Badge className="bg-green-100 text-green-800 border-green-200 hover:bg-green-200 hover:text-green-900 transition-colors font-medium">{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
+        return <Badge className="bg-green-100 text-green-800 border-green-200">Active</Badge>;
       case "inactive":
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200 hover:text-gray-900 transition-colors font-medium">{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
+        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">Inactive</Badge>;
       case "pending":
-        return <Badge className="bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200 hover:text-amber-900 transition-colors font-medium">{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
+        return <Badge className="bg-amber-100 text-amber-800 border-amber-200">Pending</Badge>;
       default:
-        return <Badge className="hover:bg-gray-200 transition-colors">{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
+        return <Badge>{status}</Badge>;
     }
   };
 
@@ -204,9 +332,9 @@ export default function UsersManagement({
       case "teacher":
         return <GraduationCap className="h-4 w-4 text-blue-600" />;
       case "student":
-        return <UserIcon className="h-4 w-4 text-purple-600" />;
+        return <User className="h-4 w-4 text-purple-600" />;
       default:
-        return <UserIcon className="h-4 w-4 text-gray-600" />;
+        return <User className="h-4 w-4 text-gray-600" />;
     }
   };
 
@@ -214,117 +342,73 @@ export default function UsersManagement({
   const getRoleBadge = (role: string) => {
     switch (role.toLowerCase()) {
       case "super admin":
-        return <Badge className="bg-red-100 text-[#C40503] font-medium border-red-200 hover:bg-red-200 hover:text-[#C40503]">{role}</Badge>;
+        return <Badge className="bg-red-50 text-[#C40503] border-red-200">{role}</Badge>;
       case "admin":
-        return <Badge className="bg-amber-100 text-amber-800 font-medium border-amber-200 hover:bg-amber-200 hover:text-amber-900">{role}</Badge>;
+        return <Badge className="bg-amber-50 text-[#DAA625] border-amber-200">{role}</Badge>;
       case "teacher":
-        return <Badge className="bg-blue-100 text-blue-800 font-medium border-blue-200 hover:bg-blue-200 hover:text-blue-900">{role}</Badge>;
+        return <Badge className="bg-blue-50 text-blue-700 border-blue-200">{role}</Badge>;
       case "student":
-        return <Badge className="bg-purple-100 text-purple-800 font-medium border-purple-200 hover:bg-purple-200 hover:text-purple-900">{role}</Badge>;
+        return <Badge className="bg-purple-50 text-purple-700 border-purple-200">{role}</Badge>;
       default:
-        return <Badge variant="outline" className="hover:bg-gray-100">{role}</Badge>;
+        return <Badge variant="outline">{role}</Badge>;
     }
   };
 
   return (
-    <div className="space-y-8 px-6 py-10 max-w-[90rem] mx-auto bg-gradient-to-b from-white to-gray-50/30">
-      {/* Header with breadcrumbs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent ">
-            {title}
-          </h1>
-          <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
-            <Link href="/dashboard" className="hover:text-[#C40503] transition-colors">
-              Dashboard
-            </Link>
-            <span className="text-gray-400">/</span>
-            <Link href="/dashboard/users" className="hover:text-[#C40503] transition-colors">
-              User Management
-            </Link>
-            {userType !== "all" && (
-              <>
-                <span className="text-gray-400">/</span>
-                <span className="text-gray-600">{title}</span>
-              </>
-            )}
-          </div>
-        </div>
-        <Button className="bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:from-[#a30300] hover:to-[#b58a1f] shadow-sm transition-all duration-300">
-          <UserPlus className="h-4 w-4 mr-2" />
-          Add New {userType === "admin" ? "Admin" : userType === "teacher" ? "Teacher" : userType === "student" ? "Student" : "User"}
-        </Button>
-      </div>
-      
+    <div className="space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-red-50/20">
-          <div className="h-1.5 w-full bg-gradient-to-r from-[#C40503] to-[#C40503]/70"></div>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="overflow-hidden border-none shadow-md">
+          <div className="h-1 w-full bg-[#C40503]"></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <div className="p-2.5 rounded-full bg-red-50 hover:bg-red-100 transition-all duration-300">
+            <div className="p-2 rounded-full bg-red-50">
               <Users className="h-4 w-4 text-[#C40503]" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold pb-2">{stats.total}</div>
-            <div className="text-xs text-gray-500 flex items-center gap-1.5">
-              <span className="inline-block h-2 w-2 rounded-full bg-[#C40503]"></span>
-              Total {userType !== "all" ? userType : "user"} accounts
-            </div>
+            <div className="text-2xl font-bold pb-5">{stats.total}</div>
           </CardContent>
         </Card>
         
-        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-amber-50/20">
-          <div className="h-1.5 w-full bg-gradient-to-r from-[#DAA625] to-[#DAA625]/70"></div>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+        <Card className="overflow-hidden border-none shadow-md">
+          <div className="h-1 w-full bg-[#DAA625]"></div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
             <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-            <div className="p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 transition-all duration-300">
-              <UserIcon className="h-4 w-4 text-[#DAA625]" />
+            <div className="p-2 rounded-full bg-amber-50">
+              <User className="h-4 w-4 text-[#DAA625]" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold pb-2">{stats.active}</div>
-            <div className="text-xs text-gray-500 flex items-center gap-1.5">
-              <span className="inline-block h-2 w-2 rounded-full bg-[#DAA625]"></span>
-              {Math.round((stats.active / stats.total) * 100) || 0}% of users are active
-            </div>
+            <div className="text-2xl font-bold pb-5">{stats.active}</div>
           </CardContent>
         </Card>
         
         {userType === "all" && (
           <>
-            <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-blue-50/20">
-              <div className="h-1.5 w-full bg-gradient-to-r from-blue-500 to-blue-500/70"></div>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+            <Card className="overflow-hidden border-none shadow-md">
+              <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
                 <CardTitle className="text-sm font-medium">New Users (30d)</CardTitle>
-                <div className="p-2.5 rounded-full bg-blue-50 hover:bg-blue-100 transition-all duration-300">
+                <div className="p-2 rounded-full bg-blue-50">
                   <UserPlus className="h-4 w-4 text-blue-600" />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold pb-2">{recentUsers.length}</div>
-                <div className="text-xs text-gray-500 flex items-center gap-1.5">
-                  <span className="inline-block h-2 w-2 rounded-full bg-blue-500"></span>
-                  {Math.round((recentUsers.length / stats.total) * 100) || 0}% growth in 30 days
-                </div>
+                <div className="text-2xl font-bold pb-5">{recentUsers.length}</div>
               </CardContent>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-purple-50/20">
-              <div className="h-1.5 w-full bg-gradient-to-r from-purple-500 to-purple-500/70"></div>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+            <Card className="overflow-hidden border-none shadow-md">
+              <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
                 <CardTitle className="text-sm font-medium">Pending Approvals</CardTitle>
-                <div className="p-2.5 rounded-full bg-purple-50 hover:bg-purple-100 transition-all duration-300">
+                <div className="p-2 rounded-full bg-purple-50">
                   <Clock className="h-4 w-4 text-purple-600" />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold pb-2">{stats.pending}</div>
-                <div className="text-xs text-gray-500 flex items-center gap-1.5">
-                  <span className="inline-block h-2 w-2 rounded-full bg-purple-500"></span>
-                  Users waiting for approval
-                </div>
+                <div className="text-2xl font-bold pb-5">{stats.pending}</div>
               </CardContent>
             </Card>
           </>
@@ -332,31 +416,31 @@ export default function UsersManagement({
         
         {userType === "admin" && (
           <>
-            <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-red-50/20">
-              <div className="h-1.5 w-full bg-gradient-to-r from-[#C40503] to-[#C40503]/70"></div>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+            <Card className="overflow-hidden border-none shadow-md">
+              <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
                 <CardTitle className="text-sm font-medium">Super Admins</CardTitle>
-                <div className="p-2.5 rounded-full bg-red-50 hover:bg-red-100 transition-all duration-300">
+                <div className="p-2 rounded-full bg-red-50">
                   <ShieldCheck className="h-4 w-4 text-[#C40503]" />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold pb-2">
+                <div className="text-2xl font-bold pb-5">
                   {users.filter(u => u.role === "Super Admin").length}
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-amber-50/20">
-              <div className="h-1.5 w-full bg-gradient-to-r from-[#DAA625] to-[#DAA625]/70"></div>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+            <Card className="overflow-hidden border-none shadow-md">
+              <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
                 <CardTitle className="text-sm font-medium">Admins</CardTitle>
-                <div className="p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 transition-all duration-300">
+                <div className="p-2 rounded-full bg-amber-50">
                   <Shield className="h-4 w-4 text-[#DAA625]" />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold pb-2">
+                <div className="text-2xl font-bold pb-5">
                   {users.filter(u => u.role === "Admin").length}
                 </div>
               </CardContent>
@@ -366,31 +450,31 @@ export default function UsersManagement({
         
         {userType === "teacher" && (
           <>
-            <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-blue-50/20">
-              <div className="h-1.5 w-full bg-gradient-to-r from-blue-500 to-blue-500/70"></div>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+            <Card className="overflow-hidden border-none shadow-md">
+              <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
                 <CardTitle className="text-sm font-medium">Senior Teachers</CardTitle>
-                <div className="p-2.5 rounded-full bg-blue-50 hover:bg-blue-100 transition-all duration-300">
+                <div className="p-2 rounded-full bg-blue-50">
                   <GraduationCap className="h-4 w-4 text-blue-600" />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold pb-2">
+                <div className="text-2xl font-bold pb-5">
                   {users.filter(u => u.position === "Senior Teacher").length}
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-green-50/20">
-              <div className="h-1.5 w-full bg-gradient-to-r from-green-500 to-green-500/70"></div>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+            <Card className="overflow-hidden border-none shadow-md">
+              <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
                 <CardTitle className="text-sm font-medium">Junior Teachers</CardTitle>
-                <div className="p-2.5 rounded-full bg-green-50 hover:bg-green-100 transition-all duration-300">
+                <div className="p-2 rounded-full bg-green-50">
                   <GraduationCap className="h-4 w-4 text-green-600" />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold pb-2">
+                <div className="text-2xl font-bold pb-5">
                   {users.filter(u => u.position === "Junior Teacher").length}
                 </div>
               </CardContent>
@@ -400,37 +484,29 @@ export default function UsersManagement({
         
         {userType === "student" && (
           <>
-            <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-purple-50/20">
-              <div className="h-1.5 w-full bg-gradient-to-r from-purple-500 to-purple-500/70"></div>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+            <Card className="overflow-hidden border-none shadow-md">
+              <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
                 <CardTitle className="text-sm font-medium">New Students (30d)</CardTitle>
-                <div className="p-2.5 rounded-full bg-purple-50 hover:bg-purple-100 transition-all duration-300">
+                <div className="p-2 rounded-full bg-purple-50">
                   <UserPlus className="h-4 w-4 text-purple-600" />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold pb-2">{recentUsers.length}</div>
-                <div className="text-xs text-gray-500 flex items-center gap-1.5">
-                  <span className="inline-block h-2 w-2 rounded-full bg-purple-500"></span>
-                  {Math.round((recentUsers.length / stats.total) * 100) || 0}% growth in 30 days
-                </div>
+                <div className="text-2xl font-bold pb-5">{recentUsers.length}</div>
               </CardContent>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-amber-50/20">
-              <div className="h-1.5 w-full bg-gradient-to-r from-[#DAA625] to-[#DAA625]/70"></div>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
+            <Card className="overflow-hidden border-none shadow-md">
+              <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
                 <CardTitle className="text-sm font-medium">Pending Registration</CardTitle>
-                <div className="p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 transition-all duration-300">
+                <div className="p-2 rounded-full bg-amber-50">
                   <Clock className="h-4 w-4 text-amber-600" />
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold pb-2">{stats.pending}</div>
-                <div className="text-xs text-gray-500 flex items-center gap-1.5">
-                  <span className="inline-block h-2 w-2 rounded-full bg-amber-500"></span>
-                  Users waiting for registration
-                </div>
+                <div className="text-2xl font-bold pb-5">{stats.pending}</div>
               </CardContent>
             </Card>
           </>
@@ -438,24 +514,48 @@ export default function UsersManagement({
       </div>
 
       {/* Main Card */}
-      <Card className="shadow-md border-none overflow-hidden hover:shadow-lg transition-all duration-300">
-        <div className="h-1.5 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
-        <CardHeader className="pb-3 pt-5 bg-gradient-to-br from-white to-red-50/10">
-          <div className="flex flex-col lg:flex-row lg:justify-between space-y-4 lg:space-y-0 lg:items-center">
+      <Card className="shadow-md border-none overflow-hidden">
+        <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+        <CardHeader className="pb-3 pt-5 bg-gradient-to-r from-white to-red-50/10">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <CardTitle className="mb-1.5 font-bold text-gray-800">{title}</CardTitle>
-              <CardDescription className="text-sm text-gray-500 flex items-center gap-1.5">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></span>
-                {description}
-              </CardDescription>
+              <CardTitle className="text-xl font-semibold flex items-center gap-2">
+                {userType === "admin" ? (
+                  <Shield className="h-5 w-5 text-[#C40503]" />
+                ) : userType === "teacher" ? (
+                  <GraduationCap className="h-5 w-5 text-[#C40503]" />
+                ) : userType === "student" ? (
+                  <User className="h-5 w-5 text-[#C40503]" />
+                ) : (
+                  <Users className="h-5 w-5 text-[#C40503]" />
+                )}
+                {title}
+              </CardTitle>
+              <CardDescription>{description}</CardDescription>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+            
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button className="bg-[#C40503] hover:bg-[#A60000]">
+                <UserPlus className="h-4 w-4 mr-2" />
+                Add New User
+              </Button>
+              <Button variant="outline" className="text-[#C40503] border-[#C40503]/20 hover:bg-[#C40503]/5">
+                <Download className="h-4 w-4 mr-2" />
+                Export Data
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CardContent className="p-0 pb-4">
+          {/* Search and Filters */}
+          <div className="p-4 border-b border-gray-100 bg-gray-50/50">
+            <div className="flex flex-col md:flex-row gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 transition-all group-focus-within:text-[#C40503]" />
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
                 <Input
-                  type="search"
                   placeholder="Search users by name, email or ID..."
-                  className="pl-9 pr-4 border-gray-200 focus-visible:border-[#C40503]/30 focus-visible:ring-[#C40503]/20 transition-all hover:border-gray-300 group"
+                  className="pl-9"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -496,36 +596,33 @@ export default function UsersManagement({
               </div>
             </div>
           </div>
-        </CardHeader>
-        
-        <CardContent className="p-0 pb-4">
           
           {/* Tabs - Only show for All Users */}
           {userType === "all" && (
             <div className="px-4 pt-4">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="bg-white border shadow-sm rounded-md">
+                <TabsList className="bg-white border">
                   <TabsTrigger 
                     value="all"
-                    className={`${activeTab === "all" ? "bg-gradient-to-r from-red-50 to-red-100/50 text-[#C40503] shadow-sm" : ""} transition-all duration-300`}
+                    className={activeTab === "all" ? "text-[#C40503]" : ""}
                   >
                     All Users
                   </TabsTrigger>
                   <TabsTrigger 
                     value="admin"
-                    className={`${activeTab === "admin" ? "bg-gradient-to-r from-red-50 to-red-100/50 text-[#C40503] shadow-sm" : ""} transition-all duration-300`}
+                    className={activeTab === "admin" ? "text-[#C40503]" : ""}
                   >
                     Admins
                   </TabsTrigger>
                   <TabsTrigger 
                     value="teacher"
-                    className={`${activeTab === "teacher" ? "bg-gradient-to-r from-red-50 to-red-100/50 text-[#C40503] shadow-sm" : ""} transition-all duration-300`}
+                    className={activeTab === "teacher" ? "text-[#C40503]" : ""}
                   >
                     Teachers
                   </TabsTrigger>
                   <TabsTrigger 
                     value="student"
-                    className={`${activeTab === "student" ? "bg-gradient-to-r from-red-50 to-red-100/50 text-[#C40503] shadow-sm" : ""} transition-all duration-300`}
+                    className={activeTab === "student" ? "text-[#C40503]" : ""}
                   >
                     Students
                   </TabsTrigger>
@@ -547,24 +644,24 @@ export default function UsersManagement({
                 <p className="text-sm text-gray-500 mt-2">Try adjusting your search or filter to find what you're looking for</p>
               </div>
             ) : (
-              <div className="rounded-md border border-gray-200 overflow-hidden shadow-sm">
+              <div className="rounded-md border overflow-hidden">
                 <Table>
-                  <TableHeader className="bg-gray-50/80">
-                    <TableRow className="hover:bg-gray-50/90">
-                      <TableHead className="w-[250px] font-medium">User</TableHead>
-                      {userType === "all" && <TableHead className="font-medium">Role</TableHead>}
-                      <TableHead className="font-medium">Status</TableHead>
-                      <TableHead className="font-medium">Last Active</TableHead>
-                      <TableHead className="font-medium">Created</TableHead>
-                      <TableHead className="text-right font-medium">Actions</TableHead>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[250px]">User</TableHead>
+                      {userType === "all" && <TableHead>Role</TableHead>}
+                      <TableHead>Status</TableHead>
+                      <TableHead>Last Active</TableHead>
+                      <TableHead>Created</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredUsers.map((user) => (
-                      <TableRow key={user.id} className="transition-colors hover:bg-gray-50/70">
+                      <TableRow key={user.id}>
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-3">
-                            <Avatar className="h-9 w-9 border border-gray-200 transition-transform hover:scale-110">
+                            <Avatar className="h-9 w-9 border border-gray-200">
                               <AvatarImage src={user.avatar} alt={user.name} />
                               <AvatarFallback className="bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white">
                                 {user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase()}
@@ -572,9 +669,9 @@ export default function UsersManagement({
                             </Avatar>
                             <div>
                               <div className="font-medium">{user.name}</div>
-                              <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-0.5">
-                                <Mail className="h-3 w-3 text-[#C40503]/80" />
-                                <span className="hover:text-[#C40503] transition-colors">{user.email}</span>
+                              <div className="text-xs text-gray-500 flex items-center gap-1">
+                                <Mail className="h-3 w-3" />
+                                {user.email}
                               </div>
                             </div>
                           </div>
@@ -610,26 +707,26 @@ export default function UsersManagement({
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-8 w-8 p-0 transition-all hover:bg-blue-100/60 hover:text-blue-700"
+                              className="h-8 w-8 p-0"
                               onClick={() => handleView(user)}
                             >
-                              <EyeIcon className="h-4 w-4" />
+                              <EyeIcon className="h-4 w-4 text-gray-500" />
                             </Button>
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-8 w-8 p-0 transition-all hover:bg-amber-100/60 hover:text-[#DAA625]"
+                              className="h-8 w-8 p-0"
                               onClick={() => handleEdit(user)}
                             >
-                              <Edit2 className="h-4 w-4" />
+                              <Edit2 className="h-4 w-4 text-[#DAA625]" />
                             </Button>
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-8 w-8 p-0 transition-all hover:bg-red-100/60 hover:text-red-700"
+                              className="h-8 w-8 p-0"
                               onClick={() => handleDelete(user)}
                             >
-                              <Trash2 className="h-4 w-4" />
+                              <Trash2 className="h-4 w-4 text-red-500" />
                             </Button>
                           </div>
                         </TableCell>

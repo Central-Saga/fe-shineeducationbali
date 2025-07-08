@@ -244,6 +244,100 @@ export default function ProgramsPage() {
         </div>
       </section>
 
+      {/* CTA Section */}
+      <section className="py-16 md:py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-xl p-8 md:p-12 shadow-xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <div>
+                <motion.h2 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  className="text-3xl md:text-4xl font-bold text-white mb-4"
+                >
+                  Siap Bergabung Dengan Program Kami?
+                </motion.h2>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="text-white/90 mb-6"
+                >
+                  Daftarkan putra-putri Anda sekarang dan rasakan manfaat dari program pendidikan berkualitas kami.
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className="flex flex-wrap gap-4"
+                >
+                  <Button className="bg-white text-[#C40503] hover:bg-gray-100">
+                    Daftar Sekarang
+                  </Button>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className="relative"
+                  >
+                    <Button 
+                      className="bg-[#0047AB] text-white border-2 border-white shadow-lg relative overflow-hidden group"
+                    >
+                      <span className="relative z-10 flex items-center">
+                        <svg 
+                          className="w-5 h-5 mr-2 animate-pulse" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24" 
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth="2" 
+                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                          />
+                        </svg>
+                        Hubungi Kami
+                      </span>
+                      <span className="absolute inset-0 bg-white/20 transform translate-y-full transition-transform group-hover:translate-y-0 duration-300"></span>
+                    </Button>
+                    <div className="absolute -right-1 -top-1 w-6 h-6 bg-yellow-400 rounded-full animate-bounce flex items-center justify-center">
+                      <span className="text-xs font-bold">!</span>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </div>
+              <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="hidden md:block"
+              >
+                <div className="relative h-64">
+                  <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden">
+                    <div className="p-6 h-full flex items-center justify-center">
+                      <div className="text-center">
+                        <svg className="w-16 h-16 mx-auto text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 14l9-5-9-5-9 5 9 5z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                        </svg>
+                        <h3 className="text-xl font-bold text-white mt-4">Jadwal Fleksibel</h3>
+                        <p className="text-white/80 mt-2">Tersedia pilihan jadwal pagi, siang, dan sore untuk menyesuaikan kebutuhan Anda.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials Section */}
       <section className="py-16 bg-gray-50/80 backdrop-blur-sm">
         <div className="container mx-auto px-4">
@@ -392,72 +486,6 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-xl p-8 md:p-12 shadow-xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div>
-                <motion.h2 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className="text-3xl md:text-4xl font-bold text-white mb-4"
-                >
-                  Siap Bergabung Dengan Program Kami?
-                </motion.h2>
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="text-white/90 mb-6"
-                >
-                  Daftarkan putra-putri Anda sekarang dan rasakan manfaat dari program pendidikan berkualitas kami.
-                </motion.p>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  className="flex flex-wrap gap-4"
-                >
-                  <Button className="bg-white text-[#C40503] hover:bg-gray-100">
-                    Daftar Sekarang
-                  </Button>
-                  <Button variant="outline" className="border-white text-white hover:bg-white/10">
-                    Hubungi Kami
-                  </Button>
-                </motion.div>
-              </div>
-              <motion.div 
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="hidden md:block"
-              >
-                <div className="relative h-64">
-                  <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden">
-                    <div className="p-6 h-full flex items-center justify-center">
-                      <div className="text-center">
-                        <svg className="w-16 h-16 mx-auto text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 14l9-5-9-5-9 5 9 5z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                        </svg>
-                        <h3 className="text-xl font-bold text-white mt-4">Jadwal Fleksibel</h3>
-                        <p className="text-white/80 mt-2">Tersedia pilihan jadwal pagi, siang, dan sore untuk menyesuaikan kebutuhan Anda.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Program Detail Modal */}
       {selectedProgram && (

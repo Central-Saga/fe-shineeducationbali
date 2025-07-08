@@ -42,46 +42,259 @@ export function AdminSidebar() {
   const isMenuOpen = (menuName: string) => openMenu === menuName;
 
   return (
-    <ScrollArea className="flex flex-col h-full bg-gradient-to-b from-[#f8f8f8] to-white">
-      {/* Logo Section with Wave Background */}
-      <div className="relative py-4 px-4 overflow-hidden">
-        {/* Wave background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#C40503] to-[#DAA625] overflow-hidden">
-          <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path 
-              d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" 
-              fill="white" 
-              fillOpacity="0.15"
-            ></path>
-            <path 
-              d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" 
-              fill="white" 
-              fillOpacity="0.1"
-            ></path>
-          </svg>
+    <ScrollArea className="flex flex-col h-full relative">
+      {/* Elegant radial gradient background with subtle noise texture */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#f8f8f8] to-white"></div>
+      <div className="absolute inset-0 opacity-20" 
+        style={{ 
+          background: "radial-gradient(circle at center, rgba(218,166,37,0.1) 0%, rgba(196,5,3,0.05) 70%, rgba(255,255,255,0) 100%)"
+        }}
+      />
+      <div className="absolute inset-0 opacity-5" 
+        style={{ 
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E\")",
+          animation: "noisePan 20s linear infinite"
+        }} 
+      />
+      {/* Premium Branded Header with Dynamic Elements */}
+      <div className="relative pt-5 pb-6 z-10">
+        {/* Dynamic background with premium gradients */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Vibrant gradient base */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 via-white to-[#DAA625]/5"></div>
+          
+          {/* Elegant gradient pattern overlay */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute inset-0 bg-gradient-radial-advanced"></div>
+            <div className="absolute inset-0 bg-noise-subtle"></div>
+          </div>
+          
+          {/* Decorative accent line */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C40503] via-[#DAA625] to-[#C40503]"></div>
+          
+          {/* Dynamic accent corner shapes */}
+          <div className="absolute top-0 left-0 w-16 h-16 bg-[#C40503]/10 rounded-br-full blur-sm"></div>
+          <div className="absolute top-0 right-0 w-16 h-16 bg-[#DAA625]/10 rounded-bl-full blur-sm"></div>
+          
+          {/* Bottom accent shape */}
+          <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-[#C40503]/10 to-transparent"></div>
+          
+          {/* Animated particles */}
+          <div className="particle bg-[#C40503] absolute"></div>
+          <div className="particle bg-[#DAA625] absolute animation-delay-100"></div>
+          <div className="particle bg-[#C40503] absolute animation-delay-200"></div>
+          <div className="particle bg-[#DAA625] absolute animation-delay-300"></div>
+          <div className="particle bg-[#C40503] absolute animation-delay-400"></div>
+          
+          {/* Subtle animated pulsing circles */}
+          <div className="absolute left-1/4 top-1/3">
+            <div className="w-24 h-24 rounded-full border border-[#C40503]/5 animate-ping-slow opacity-30"></div>
+          </div>
+          <div className="absolute right-1/4 bottom-1/3">
+            <div className="w-16 h-16 rounded-full border border-[#DAA625]/5 animate-ping-slower opacity-30"></div>
+          </div>
         </div>
         
-        {/* Logo centered on the wave background */}
-        <Link
-          className="flex items-center justify-center relative z-10"
-          href="/dashboard"
-        >
-          <div className="bg-white rounded-lg p-2 shadow-lg">
-            <Image
-              src="/pichome/logo.png"
-              alt="Shine Education Logo"
-              width={120}
-              height={120}
-              className="h-12 w-auto object-contain"
-              priority
-              quality={100}
-            />
-          </div>
-        </Link>
+        {/* Modern elegant logo display with paper fold effect */}
+        <div className="relative mx-auto w-full max-w-[180px] z-10">
+          <Link href="/dashboard" className="block">
+            <div className="relative group">
+              {/* Paper-like texture background */}
+              <div className="absolute inset-0 rounded-xl overflow-hidden">
+                <div className="absolute inset-0 bg-white paper-texture"></div>
+                
+                {/* Subtle grid pattern */}
+                <div className="absolute inset-0 grid-pattern opacity-5"></div>
+                
+                {/* Subtle corner accents */}
+                <div className="absolute top-0 left-0 w-10 h-10">
+                  <div className="absolute w-full h-full corner-accent-tl"></div>
+                </div>
+                <div className="absolute top-0 right-0 w-10 h-10">
+                  <div className="absolute w-full h-full corner-accent-tr"></div>
+                </div>
+                <div className="absolute bottom-0 left-0 w-10 h-10">
+                  <div className="absolute w-full h-full corner-accent-bl"></div>
+                </div>
+                <div className="absolute bottom-0 right-0 w-10 h-10">
+                  <div className="absolute w-full h-full corner-accent-br"></div>
+                </div>
+              </div>
+              
+              {/* Fold effect overlay */}
+              <div className="absolute inset-0">
+                <div className="absolute top-0 right-0 w-12 h-12 paper-fold-tr"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 paper-fold-bl"></div>
+              </div>
+              
+              {/* Elegant border with accent colors */}
+              <div className="absolute inset-0 rounded-xl border border-gray-200 shadow-sm">
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+                <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-[#C40503] to-transparent"></div>
+                <div className="absolute inset-y-0 right-0 w-1 bg-gradient-to-b from-[#DAA625] to-transparent"></div>
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-[#C40503] to-transparent"></div>
+              </div>
+              
+              {/* Inner logo container */}
+              <div className="relative p-4 transition-all duration-300">
+                {/* Dynamic highlight on hover */}
+                <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <div className="absolute inset-0 light-sweep"></div>
+                </div>
+                
+                {/* The actual logo with embossed effect */}
+                <div className="relative transform group-hover:scale-105 transition-all duration-300">
+                  <div className="relative">
+                    <div className="absolute inset-0 transform translate-y-px translate-x-px opacity-30 blur-[1px]">
+                      <Image
+                        src="/pichome/logo.png"
+                        alt="Shine Education Logo Shadow"
+                        width={150}
+                        height={150}
+                        className="w-full h-auto object-contain"
+                        priority
+                        quality={90}
+                      />
+                    </div>
+                    <Image
+                      src="/pichome/logo.png"
+                      alt="Shine Education Logo"
+                      width={150}
+                      height={150}
+                      className="w-full h-auto object-contain relative z-10"
+                      priority
+                      quality={100}
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Interactive shadow on hover */}
+              <div className="absolute -bottom-3 inset-x-5 h-8 opacity-30 rounded-full blur-md bg-black/10 transform origin-center scale-90 group-hover:scale-100 transition-all duration-300"></div>
+            </div>
+          </Link>
+        </div>
+        
+        {/* Advanced animation styles */}
+        <style jsx global>{`
+          /* Particles animation */
+          .particle {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-animation 8s ease-in-out infinite;
+          }
+          
+          @keyframes particle-animation {
+            0% { transform: translate(10vw, 10vh) scale(0); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translate(calc(10vw - 20px), calc(10vh - 50px)) scale(1); opacity: 0; }
+          }
+          
+          /* Particle positioning */
+          .particle:nth-child(1) { top: 20%; left: 20%; }
+          .particle:nth-child(2) { top: 25%; right: 30%; }
+          .particle:nth-child(3) { bottom: 30%; left: 15%; }
+          .particle:nth-child(4) { bottom: 20%; right: 20%; }
+          .particle:nth-child(5) { top: 40%; left: 40%; }
+          
+          /* Animation delays */
+          .animation-delay-100 { animation-delay: 1s; }
+          .animation-delay-200 { animation-delay: 2s; }
+          .animation-delay-300 { animation-delay: 3s; }
+          .animation-delay-400 { animation-delay: 4s; }
+          
+          /* Ping animations */
+          @keyframes ping-slow {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+          }
+          
+          @keyframes ping-slower {
+            0% { transform: scale(0.9); opacity: 0.4; }
+            50% { transform: scale(1.3); opacity: 0.2; }
+            100% { transform: scale(0.9); opacity: 0.4; }
+          }
+          
+          @keyframes noisePan {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+          }
+          
+          .animate-ping-slow {
+            animation: ping-slow 7s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+          }
+          
+          .animate-ping-slower {
+            animation: ping-slower 9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+          }
+          
+          /* Paper Texture Effect */
+          .paper-texture {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+            background-size: 300px 300px;
+          }
+          
+          .grid-pattern {
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+          }
+          
+          /* Paper Fold Effects */
+          .paper-fold-tr {
+            background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.03) 50%);
+            border-radius: 0 0 0 10px;
+            box-shadow: -1px 1px 2px rgba(0, 0, 0, 0.05);
+          }
+          
+          .paper-fold-bl {
+            background: linear-gradient(315deg, transparent 50%, rgba(0, 0, 0, 0.02) 50%);
+            border-radius: 0 10px 0 0;
+            box-shadow: 1px -1px 2px rgba(0, 0, 0, 0.05);
+          }
+          
+          /* Corner Accents */
+          .corner-accent-tl {
+            background: radial-gradient(circle at 0 0, transparent 70%, rgba(196, 5, 3, 0.1) 100%);
+          }
+          
+          .corner-accent-tr {
+            background: radial-gradient(circle at 100% 0, transparent 70%, rgba(218, 166, 37, 0.1) 100%);
+          }
+          
+          .corner-accent-bl {
+            background: radial-gradient(circle at 0 100%, transparent 70%, rgba(218, 166, 37, 0.1) 100%);
+          }
+          
+          .corner-accent-br {
+            background: radial-gradient(circle at 100% 100%, transparent 70%, rgba(196, 5, 3, 0.1) 100%);
+          }
+          
+          /* Light Sweep Animation */
+          .light-sweep {
+            background: linear-gradient(90deg, 
+              transparent, 
+              rgba(255, 255, 255, 0), 
+              rgba(255, 255, 255, 0.4), 
+              rgba(255, 255, 255, 0), 
+              transparent);
+            background-size: 200% 100%;
+            animation: sweep 2s ease-in-out infinite;
+          }
+          
+          @keyframes sweep {
+            0% { background-position: -100% 0; }
+            100% { background-position: 200% 0; }
+          }
+        `}</style>
       </div>
       
       {/* Navigation Section */}
-      <div className="flex-1 px-3 py-4 mt-2">
+      <div className="flex-1 px-3 py-4 mt-2 relative z-10">
         <div className="relative mb-6">
           <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
           <div className="absolute left-0 w-1/3 h-px bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>

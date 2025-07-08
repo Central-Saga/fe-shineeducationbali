@@ -1,7 +1,13 @@
 "use client";
 
-import TeachersManagement from "@/components/ui-admin/teacher/TeachersManagement";
+import UsersManagement from "@/components/ui-admin/users/UsersManagement";
 
 export default function TeachersPage() {
-  return <TeachersManagement />;
+  return (
+    <UsersManagement 
+      userType="teacher"
+      title="Teacher Management"
+      description="Manage teacher data and teaching schedule"
+    />
+  );
 }

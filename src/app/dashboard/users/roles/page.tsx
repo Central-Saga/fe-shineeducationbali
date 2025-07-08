@@ -1,7 +1,7 @@
 "use client";
 
-import RolesManagement from "@/components/ui-admin/roles/RolesManagement";
+import RolesPermissionsList from "@/components/ui-admin/users/RolesPermissionsList";
 
 export default function RolesPage() {
-  return <RolesManagement />;
+  return <RolesPermissionsList />;
 }

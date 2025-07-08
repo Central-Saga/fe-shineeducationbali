@@ -297,7 +297,7 @@ export default function LoginPage() {
           <Card className="bg-white/90 shadow-2xl border-0 backdrop-blur-md relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5" />
 
-            <CardHeader className="space-y-1 text-center relative">
+            <CardHeader className="space-y-1 text-center relative py-5">
               {" "}
               <motion.h2
                 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent"
