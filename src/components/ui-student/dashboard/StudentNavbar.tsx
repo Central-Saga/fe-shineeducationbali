@@ -54,6 +54,12 @@ export function StudentNavbar({
         <div className="flex-1 flex justify-center">
           <div className="flex items-center gap-8">
             <Link
+              href="/dashboard-student"
+              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
+            >
+              Dashboard
+            </Link>
+            <Link
               href="/dashboard-student/academy"
               className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
             >
