@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { StudentNavbar } from "@/components/ui-student/dashboard/StudentNavbar";
+import { StudentNavbar } from "@/components/ui-student/layout/StudentNavbar";
 
 export default function StudentDashboardLayout({
   children,

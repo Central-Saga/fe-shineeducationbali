@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { StudentNavbar } from "@/components/ui-student/dashboard/StudentNavbar";
+import { StudentNavbar } from "@/components/ui-student/layout/StudentNavbar";
 import { StudentHero } from "@/components/ui-student/dashboard/StudentHero";
 import { StatisticsCards } from "@/components/ui-student/dashboard/StatisticsCards";
 import { ClassSchedule } from "@/components/ui-student/dashboard/ClassSchedule";
