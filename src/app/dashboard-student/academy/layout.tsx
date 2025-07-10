@@ -7,7 +7,7 @@ export default function AcademyLayout({
 }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="w-11/12 mx-auto px-4 md:px-6">
         {children}
       </div>
     </div>
