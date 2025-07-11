@@ -59,12 +59,12 @@ export function StudentNavbar({
             >
               Dashboard
             </Link>
-            <Link
+            {/* <Link
               href="/dashboard-student/academy"
               className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
             >
               Academy
-            </Link>
+            </Link> */}
             <Link
               href="/dashboard-student/classes"
               className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"

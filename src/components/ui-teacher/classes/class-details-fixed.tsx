@@ -15,12 +15,6 @@ import {
 import { ArrowLeft, FileText, Plus, User, Calendar } from "lucide-react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
-
-// State interfaces for meeting attendance visibility
-interface MeetingAttendanceState {
-  [meetingId: string]: boolean;
-}
 
 interface ClassDetailsProps {
   classData: {
@@ -59,22 +53,8 @@ interface ClassDetailsProps {
 }
 
 export function ClassDetails({ classData }: ClassDetailsProps) {
-  const [attendanceState, setAttendanceState] = useState<MeetingAttendanceState>({
-    meeting1: false,
-    meeting2: false,
-    meeting3: false,
-    meeting4: false,
-  });
-
-  const toggleAttendance = (meetingId: string) => {
-    setAttendanceState((prev) => ({
-      ...prev,
-      [meetingId]: !prev[meetingId],
-    }));
-  };
-
   return (
-    <div className="py-6 space-y-6 w-full">
+    <div className="container py-6 max-w-5xl space-y-6">
       <div className="flex items-center justify-between">
         <Link href="/dashboard-teacher/classes">
           <Button variant="outline" size="sm" className="flex items-center gap-2">
@@ -228,7 +208,6 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
-                    {/* Meeting content */}
                     {/* Pertemuan 1 */}
                     <div className="border rounded-lg overflow-hidden">
                       <div className="flex justify-between items-center p-4 bg-[#C40503]/5 border-b">
@@ -256,7 +235,7 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                           </div>
                           <div className="flex items-center">
                             <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             <span>Kehadiran: 18/25 hadir (72%)</span>
                           </div>
@@ -319,102 +298,124 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                           <Button 
                             variant="outline" 
                             className="text-[#C40503]"
-                            onClick={() => toggleAttendance("meeting1")}
+                            onClick={() => {
+                              // This will be handled by state in a real implementation
+                              alert('Menampilkan kehadiran untuk Pertemuan 1');
+                            }}
                           >
-                            {attendanceState.meeting1 ? "Sembunyikan Kehadiran" : "Lihat Kehadiran"}
+                            Lihat Kehadiran
                           </Button>
                           <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
                             Edit Pertemuan
                           </Button>
                         </div>
                         
-                        {/* Attendance Section - Toggled by state */}
-                        {attendanceState.meeting1 && (
-                          <div className="mt-6 pt-6 border-t">
-                            <h4 className="text-lg font-medium mb-4 flex items-center">
-                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        {/* Attendance Section - Would be toggled by state in real implementation */}
+                        <div className="mt-6 pt-6 border-t">
+                          <h4 className="text-lg font-medium mb-4 flex items-center">
+                            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            Absensi Pertemuan 1 - 11 Juli 2025
+                          </h4>
+                          
+                          {/* Attendance Summary Stats */}
+                          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
+                            <div className="flex items-center justify-center p-3 bg-gray-50 rounded-lg">
+                              <div className="text-center">
+                                <div className="text-xl font-bold">25</div>
+                                <div className="text-xs text-gray-500">Total</div>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-center p-3 bg-green-50 rounded-lg">
+                              <div className="text-center">
+                                <div className="text-xl font-bold text-green-600">18</div>
+                                <div className="text-xs text-green-500">Hadir</div>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-center p-3 bg-red-50 rounded-lg">
+                              <div className="text-center">
+                                <div className="text-xl font-bold text-red-600">4</div>
+                                <div className="text-xs text-red-500">Tidak Hadir</div>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-center p-3 bg-yellow-50 rounded-lg">
+                              <div className="text-center">
+                                <div className="text-xl font-bold text-yellow-600">3</div>
+                                <div className="text-xs text-yellow-500">Terlambat</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="mb-4">
+                            <div className="relative">
+                              <svg className="w-4 h-4 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                               </svg>
-                              Absensi Pertemuan 1 - 11 Juli 2025
-                            </h4>
-                            
-                            {/* Attendance Summary Stats */}
-                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
-                              <div className="flex items-center justify-center p-3 bg-gray-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold">25</div>
-                                  <div className="text-xs text-gray-500">Total</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-green-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-green-600">18</div>
-                                  <div className="text-xs text-green-500">Hadir</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-red-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-red-600">4</div>
-                                  <div className="text-xs text-red-500">Tidak Hadir</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-yellow-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-yellow-600">3</div>
-                                  <div className="text-xs text-yellow-500">Terlambat</div>
-                                </div>
-                              </div>
+                              <input 
+                                type="text" 
+                                placeholder="Cari siswa berdasarkan nama..." 
+                                className="px-4 py-2 pl-10 w-full border rounded-md"
+                              />
                             </div>
-                            
-                            <div className="mb-4">
-                              <div className="relative">
-                                <svg className="w-4 h-4 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <input 
-                                  type="text" 
-                                  placeholder="Cari siswa berdasarkan nama..." 
-                                  className="px-4 py-2 pl-10 w-full border rounded-md"
-                                />
-                              </div>
-                            </div>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                              {classData.students?.slice(0, 6).map((student, index) => (
-                                <div key={student.id} className="flex items-center justify-between border p-3 rounded-lg">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-gray-500 w-6 text-xs md:text-sm">{index + 1}.</span>
-                                    <span className="font-medium text-sm">{student.name}</span>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                            {classData.students?.slice(0, 6).map((student, index) => (
+                              <div key={student.id} className="flex items-center justify-between border p-3 rounded-lg">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-gray-500 w-6 text-xs md:text-sm">{index + 1}.</span>
+                                  <span className="font-medium text-sm">{student.name}</span>
+                                </div>
+                                
+                                <div className="flex items-center gap-2">
+                                  <div className="flex items-center space-x-1">
+                                    <input 
+                                      type="radio" 
+                                      id={`present-${student.id}-p1`} 
+                                      name={`attendance-${student.id}-p1`}
+                                      className="w-3 h-3 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500"
+                                      defaultChecked={index < 4}
+                                    />
+                                    <label htmlFor={`present-${student.id}-p1`} className="text-green-600 text-xs">H</label>
                                   </div>
                                   
-                                  <div className="flex items-center">
-                                    <div className="flex items-center">
-                                      <input 
-                                        type="checkbox" 
-                                        id={`attendance-${student.id}-p1`}
-                                        className="h-4 w-4 text-green-600 bg-gray-100 rounded border-gray-300 focus:ring-green-500"
-                                        defaultChecked={index < 4}
-                                      />
-                                      <label htmlFor={`attendance-${student.id}-p1`} className="ml-2 text-sm font-medium">
-                                        <span className={index < 4 ? "text-green-600" : "text-gray-600"}>Hadir</span>
-                                      </label>
-                                    </div>
+                                  <div className="flex items-center space-x-1">
+                                    <input 
+                                      type="radio" 
+                                      id={`absent-${student.id}-p1`} 
+                                      name={`attendance-${student.id}-p1`}
+                                      className="w-3 h-3 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500"
+                                      defaultChecked={index === 4}
+                                    />
+                                    <label htmlFor={`absent-${student.id}-p1`} className="text-red-600 text-xs">A</label>
+                                  </div>
+                                  
+                                  <div className="flex items-center space-x-1">
+                                    <input 
+                                      type="radio" 
+                                      id={`late-${student.id}-p1`} 
+                                      name={`attendance-${student.id}-p1`}
+                                      className="w-3 h-3 text-yellow-600 bg-gray-100 border-gray-300 focus:ring-yellow-500"
+                                      defaultChecked={index === 5}
+                                    />
+                                    <label htmlFor={`late-${student.id}-p1`} className="text-yellow-600 text-xs">T</label>
                                   </div>
                                 </div>
-                              ))}
-                            </div>
-                               <div className="flex justify-between items-center">
-                            <Link href={`/dashboard-teacher/attendance/meeting/${classData.id}/1`}>
-                              <Button variant="outline" size="sm">
-                                Lihat Semua Siswa
-                              </Button>
-                            </Link>
+                              </div>
+                            ))}
+                          </div>
+                          
+                          <div className="flex justify-between items-center">
+                            <Button variant="outline" size="sm">
+                              Lihat Semua Siswa
+                            </Button>
                             <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
                               Simpan Kehadiran
                             </Button>
                           </div>
-                          </div>
-                        )}
+                        </div>
+                      </div>
                     </div>
                     
                     {/* Pertemuan 2 */}
@@ -487,106 +488,13 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                         </div>
                         
                         <div className="mt-4 flex justify-end gap-2">
-                          <Button 
-                            variant="outline" 
-                            className="text-[#C40503]"
-                            onClick={() => toggleAttendance("meeting2")}
-                          >
-                            {attendanceState.meeting2 ? "Sembunyikan Kehadiran" : "Lihat Kehadiran"}
+                          <Button variant="outline" className="text-[#C40503]">
+                            Lihat Kehadiran
                           </Button>
                           <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
                             Edit Pertemuan
                           </Button>
                         </div>
-                        
-                        {/* Attendance Section for Meeting 2 - Toggled by state */}
-                        {attendanceState.meeting2 && (
-                          <div className="mt-6 pt-6 border-t">
-                            <h4 className="text-lg font-medium mb-4 flex items-center">
-                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                              </svg>
-                              Absensi Pertemuan 2 - 18 Juli 2025
-                            </h4>
-                            
-                            {/* Attendance Summary Stats */}
-                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
-                              <div className="flex items-center justify-center p-3 bg-gray-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold">25</div>
-                                  <div className="text-xs text-gray-500">Total</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-green-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-green-600">21</div>
-                                  <div className="text-xs text-green-500">Hadir</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-red-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-red-600">2</div>
-                                  <div className="text-xs text-red-500">Tidak Hadir</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-yellow-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-yellow-600">2</div>
-                                  <div className="text-xs text-yellow-500">Terlambat</div>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div className="mb-4">
-                              <div className="relative">
-                                <svg className="w-4 h-4 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <input 
-                                  type="text" 
-                                  placeholder="Cari siswa berdasarkan nama..." 
-                                  className="px-4 py-2 pl-10 w-full border rounded-md"
-                                />
-                              </div>
-                            </div>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                              {classData.students?.slice(0, 6).map((student, index) => (
-                                <div key={`meeting2-${student.id}`} className="flex items-center justify-between border p-3 rounded-lg">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-gray-500 w-6 text-xs md:text-sm">{index + 1}.</span>
-                                    <span className="font-medium text-sm">{student.name}</span>
-                                  </div>
-                                  
-                                  <div className="flex items-center">
-                                    <div className="flex items-center">
-                                      <input 
-                                        type="checkbox" 
-                                        id={`attendance-${student.id}-p2`}
-                                        className="h-4 w-4 text-green-600 bg-gray-100 rounded border-gray-300 focus:ring-green-500"
-                                        defaultChecked={index < 5}
-                                      />
-                                      <label htmlFor={`attendance-${student.id}-p2`} className="ml-2 text-sm font-medium">
-                                        <span className={index < 5 ? "text-green-600" : "text-gray-600"}>Hadir</span>
-                                      </label>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                            
-                            <div className="flex justify-between items-center">
-                              <Link href={`/dashboard-teacher/attendance/meeting/${classData.id}/2`}>
-                                <Button variant="outline" size="sm">
-                                  Lihat Semua Siswa
-                                </Button>
-                              </Link>
-                              <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                                Simpan Kehadiran
-                              </Button>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                     
@@ -650,8 +558,8 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                                     </svg>
                                   </div>
                                   <div>
-                                    <h5 className="font-medium">Presentasi Metode Eliminasi dan Substitusi</h5>
-                                    <p className="text-sm text-gray-500">PowerPoint - 3.5 MB</p>
+                                    <h5 className="font-medium">Presentasi Metode Cramer</h5>
+                                    <p className="text-sm text-gray-500">PowerPoint - 2.9 MB</p>
                                   </div>
                                 </div>
                               </CardContent>
@@ -677,39 +585,13 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                         </div>
                         
                         <div className="mt-4 flex justify-end gap-2">
-                          <Button 
-                            variant="outline" 
-                            className="text-[#C40503]"
-                            onClick={() => toggleAttendance("meeting3")}
-                          >
-                            {attendanceState.meeting3 ? "Sembunyikan Kehadiran" : "Lihat Kehadiran"}
+                          <Button variant="outline" className="text-[#C40503]">
+                            Lihat Kehadiran
                           </Button>
                           <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
                             Edit Pertemuan
                           </Button>
                         </div>
-                        
-                        {/* Attendance Section for Meeting 3 - Toggled by state */}
-                        {attendanceState.meeting3 && (
-                          <div className="mt-6 pt-6 border-t">
-                            <h4 className="text-lg font-medium mb-4 flex items-center">
-                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                              </svg>
-                              Absensi Pertemuan 3 - 25 Juli 2025
-                            </h4>
-                            
-                            <div className="flex items-center justify-center p-6 bg-blue-50 rounded-lg mb-6">
-                              <div className="text-center">
-                                <div className="text-xl font-bold text-blue-600 mb-2">Pertemuan Hari Ini</div>
-                                <p className="text-blue-600">Kelas belum dimulai. Anda dapat menandai kehadiran siswa saat kelas berlangsung.</p>
-                                <Button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white">
-                                  Mulai Kelas dan Catat Kehadiran
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                     
@@ -766,39 +648,12 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                         </div>
                         
                         <div className="mt-4 flex justify-end gap-2">
-                          <Button 
-                            variant="outline" 
-                            className="text-gray-500"
-                            onClick={() => toggleAttendance("meeting4")}
-                            disabled
-                          >
-                            Lihat Kehadiran
-                          </Button>
                           <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
                             Edit Pertemuan
                           </Button>
                         </div>
-                        
-                        {/* Attendance Section for Meeting 4 - Toggled by state */}
-                        {attendanceState.meeting4 && (
-                          <div className="mt-6 pt-6 border-t">
-                            <h4 className="text-lg font-medium mb-4 flex items-center">
-                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                              </svg>
-                              Absensi Pertemuan 4 - 1 Agustus 2025
-                            </h4>
-                            
-                            <div className="flex items-center justify-center p-6 bg-gray-50 rounded-lg mb-6">
-                              <div className="text-center">
-                                <div className="text-xl font-bold text-gray-600 mb-2">Pertemuan Belum Dijadwalkan</div>
-                                <p className="text-gray-600">Pertemuan ini belum dimulai. Fitur absensi akan aktif pada tanggal pertemuan.</p>
-                              </div>
-                            </div>
-                          </div>
-                        )}
                       </div>
-                    </div></div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
