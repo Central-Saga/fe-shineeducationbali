@@ -5,13 +5,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, BookOpen, FileText } from 'lucide-react';
 import { ClassSession } from '@/data/data-student/classes-data';
+import Link from 'next/link';
 
 interface ClassCardProps {
   session: ClassSession;
   isExpanded?: boolean;
+  onToggle?: () => void;
 }
 
-export function ClassCard({ session, isExpanded = false }: ClassCardProps) {
+export function ClassCard({ session, isExpanded = false, onToggle }: ClassCardProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'upcoming':
@@ -89,11 +91,20 @@ export function ClassCard({ session, isExpanded = false }: ClassCardProps) {
                   Materi Pembelajaran
                 </h4>
                 <ul className="pl-6 list-disc text-sm text-gray-600">
-                  {session.materials.map((material, index) => (
-                    <li key={index} className="mb-1">
-                      <a href="#" className="hover:text-[#C40503]">{material}</a>
-                    </li>
-                  ))}
+                  {session.materials.map((material, index) => {
+                    // Check if material is a string or an object
+                    const isString = typeof material === 'string';
+                    const materialId = isString ? index.toString() : (material as any).id || index.toString();
+                    const materialTitle = isString ? material : (material as any).title;
+                    
+                    return (
+                      <li key={index} className="mb-1">
+                        <Link href={`/dashboard-student/materials/${materialId}`} className="hover:text-[#C40503]">
+                          {materialTitle}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
               
@@ -128,26 +139,45 @@ export function ClassCard({ session, isExpanded = false }: ClassCardProps) {
         
         <div className="border-t border-gray-100 p-4">
           <div className="flex justify-between">
-            <button className="text-sm text-[#C40503] hover:underline">
-              {isExpanded ? 'Tutup Detail' : 'Lihat Detail'}
-            </button>
+            <div className="flex items-center">
+              <button onClick={(e) => {
+                e.stopPropagation();
+                onToggle?.();
+              }} className="text-sm text-[#C40503] hover:underline mr-4">
+                {isExpanded ? 'Tutup Detail' : 'Lihat Detail'}
+              </button>
+              
+              <Link 
+                href={`/dashboard-student/classes/${session.id}`} 
+                className="text-sm text-[#DAA625] hover:underline"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Detail Lengkap
+              </Link>
+            </div>
             
             {session.status === 'upcoming' && (
-              <button className="text-sm font-medium text-white bg-[#C40503] px-4 py-1 rounded hover:bg-[#a60402] transition-colors">
-                Masuk Kelas
-              </button>
+              <Link href={session.meetingLink ? session.meetingLink : `/dashboard-student/classes/${session.id}`}>
+                <button className="text-sm font-medium text-white bg-[#C40503] px-4 py-1 rounded hover:bg-[#a60402] transition-colors">
+                  Masuk Kelas
+                </button>
+              </Link>
             )}
             
             {session.status === 'ongoing' && (
-              <button className="text-sm font-medium text-white bg-green-600 px-4 py-1 rounded hover:bg-green-700 transition-colors">
-                Masuk Kelas
-              </button>
+              <Link href={session.meetingLink ? session.meetingLink : `/dashboard-student/classes/${session.id}`}>
+                <button className="text-sm font-medium text-white bg-green-600 px-4 py-1 rounded hover:bg-green-700 transition-colors">
+                  Masuk Kelas
+                </button>
+              </Link>
             )}
             
             {session.status === 'completed' && (
-              <button className="text-sm font-medium text-gray-600 bg-gray-100 px-4 py-1 rounded hover:bg-gray-200 transition-colors">
-                Rekaman Kelas
-              </button>
+              <Link href={session.recordingUrl ? session.recordingUrl : `/dashboard-student/classes/${session.id}`}>
+                <button className="text-sm font-medium text-gray-600 bg-gray-100 px-4 py-1 rounded hover:bg-gray-200 transition-colors">
+                  Rekaman Kelas
+                </button>
+              </Link>
             )}
           </div>
         </div>

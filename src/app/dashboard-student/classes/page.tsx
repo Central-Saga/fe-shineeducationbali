@@ -104,10 +104,11 @@ export default function ClassesPage() {
           {selectedDayClasses.length > 0 ? (
             <div className="space-y-4">
               {selectedDayClasses.map((session) => (
-                <div key={session.id} onClick={() => toggleExpandClass(session.id)}>
+                <div key={session.id}>
                   <ClassCard 
                     session={session}
                     isExpanded={expandedClassId === session.id}
+                    onToggle={() => toggleExpandClass(session.id)}
                   />
                 </div>
               ))}
@@ -141,10 +142,11 @@ export default function ClassesPage() {
           {filteredPastClasses.length > 0 ? (
             <div className="space-y-4">
               {filteredPastClasses.map((session) => (
-                <div key={session.id} onClick={() => toggleExpandClass(session.id)}>
+                <div key={session.id}>
                   <ClassCard 
                     session={session}
                     isExpanded={expandedClassId === session.id}
+                    onToggle={() => toggleExpandClass(session.id)}
                   />
                 </div>
               ))}

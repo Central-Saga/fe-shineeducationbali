@@ -1,3 +1,10 @@
+export interface ClassMaterial {
+  id: string;
+  title: string;
+  type?: string;
+  url?: string;
+}
+
 export interface ClassSession {
   id: string;
   title: string;
@@ -9,7 +16,9 @@ export interface ClassSession {
   teacherAvatar?: string;
   location: string;
   description: string;
-  materials: string[];
+  materials: (string | ClassMaterial)[];
+  meetingLink?: string;
+  recordingUrl?: string;
   assignments?: {
     id: string;
     title: string;
@@ -44,6 +53,7 @@ export const studentClasses: ClassSchedule[] = [
         location: 'Ruang Belajar 101',
         description: 'Pengenalan konsep aljabar linear dan aplikasinya',
         materials: ['Modul Aljabar Linear', 'Latihan Soal'],
+        meetingLink: 'https://meet.example.com/aljabar-linear',
         assignments: [
           {
             id: 'a1',
@@ -65,6 +75,7 @@ export const studentClasses: ClassSchedule[] = [
         location: 'Ruang Belajar 102',
         description: 'Belajar tenses dan struktur kalimat dalam bahasa Inggris',
         materials: ['Modul Grammar', 'Worksheet'],
+        meetingLink: 'https://meet.example.com/grammar-basics',
         assignments: [
           {
             id: 'a2',
@@ -168,6 +179,7 @@ export const pastClasses: ClassSession[] = [
     location: 'Ruang Belajar 101',
     description: 'Pembahasan tentang cara menyelesaikan persamaan kuadrat',
     materials: ['Modul Persamaan Kuadrat', 'Latihan Soal'],
+    recordingUrl: 'https://recordings.example.com/persamaan-kuadrat',
     assignments: [
       {
         id: 'pa1',
