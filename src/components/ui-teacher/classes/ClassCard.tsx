@@ -70,14 +70,16 @@ export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceC
               <span>{formattedDate}, {session.timeStart} - {session.timeEnd}</span>
             </div>
             
-            <div className="flex items-center text-sm text-gray-600">
-              <MapPin className="h-4 w-4 mr-2 text-[#C40503]" />
-              <span>{session.location}</span>
-            </div>
-            
-            <div className="flex items-center text-sm text-gray-600">
-              <Users className="h-4 w-4 mr-2 text-[#DAA625]" />
-              <span>{session.studentCount} Siswa</span>
+            <div className="grid grid-cols-2 gap-x-4">
+              <div className="flex items-center text-sm text-gray-600">
+                <MapPin className="h-4 w-4 mr-2 text-[#C40503]" />
+                <span>{session.location}</span>
+              </div>
+              
+              <div className="flex items-center text-sm text-gray-600">
+                <Users className="h-4 w-4 mr-2 text-[#DAA625]" />
+                <span>{session.studentCount} Siswa</span>
+              </div>
             </div>
 
             <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -185,13 +187,23 @@ export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceC
                 {isExpanded ? 'Tutup Detail' : 'Lihat Detail'}
               </button>
               
-              <Link 
-                href={`/dashboard-teacher/classes/${session.id}`} 
-                className="text-sm text-[#DAA625] hover:underline"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Detail Lengkap
-              </Link>
+              <div className="flex gap-2">
+                <Link 
+                  href={`/dashboard-teacher/classes/${session.id}`} 
+                  className="text-sm text-[#DAA625] hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Detail Lengkap
+                </Link>
+                <span className="text-gray-300">|</span>
+                <Link 
+                  href={`/dashboard-teacher/meetings?classId=${session.id}`} 
+                  className="text-sm text-[#C40503] hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Pertemuan
+                </Link>
+              </div>
             </div>
             
             {session.status === 'upcoming' && (

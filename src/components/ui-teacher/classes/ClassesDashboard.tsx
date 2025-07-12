@@ -4,13 +4,16 @@ import React, { useState, useEffect } from 'react';
 import { TeacherClassSchedule, teacherClasses, TeacherClassSession } from '@/data/data-teacher/classes-data';
 import { ClassCard } from '@/components/ui-teacher/classes/ClassCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, Clock, Filter, Search, Plus } from 'lucide-react';
+import { Calendar, Clock, Filter, Search, Plus, X, School, BookOpen, Users, Map } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScheduleTab } from '@/components/ui-teacher/classes/ScheduleTab';
 import { AttendanceModal } from '@/components/ui-teacher/classes/AttendanceModal';
 import { getStudentsByClassId, ClassStudentMapping } from '@/data/data-teacher/class-student-map';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 export function ClassesDashboard() {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
@@ -22,6 +25,9 @@ export function ClassesDashboard() {
   const [attendanceModalOpen, setAttendanceModalOpen] = useState(false);
   const [selectedClassForAttendance, setSelectedClassForAttendance] = useState<TeacherClassSession | null>(null);
   const [studentAttendanceData, setStudentAttendanceData] = useState<ClassStudentMapping | undefined>(undefined);
+  
+  // State untuk modal buat kelas baru
+  const [newClassModalOpen, setNewClassModalOpen] = useState(false);
   
   // Check URL for tab parameter
   useEffect(() => {
@@ -95,22 +101,25 @@ export function ClassesDashboard() {
   const completedSessions = allSessions.filter(session => session.status === 'completed');
   
   return (
-    <div className="container py-6 max-w-5xl">
+    <div className="container py-6 max-w-7xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Kelas Saya</h1>
-          <p className="text-sm text-gray-600">{currentDate.toLocaleDateString('id-ID', {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-          })}</p>
+          <div className="flex items-center gap-2 mb-1">
+            <div className="h-6 w-1.5 bg-gradient-to-b from-[#C40503] to-[#DAA625] rounded-full"></div>
+            <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#C40503] to-[#DAA625]">Kelas Saya</h1>
+          </div>
+          <p className="text-sm text-gray-600 ml-3.5 flex items-center">
+            <Calendar className="h-3.5 w-3.5 mr-1.5 text-[#C40503]" />
+            {currentDate.toLocaleDateString('id-ID', {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric'
+            })}
+          </p>
         </div>
         
-        <Button className="bg-[#C40503] hover:bg-[#a60402]">
-          <Plus className="h-4 w-4 mr-2" />
-          Buat Kelas Baru
-        </Button>
+        {/* Button removed as teachers can't create classes directly - they're assigned by admin */}
       </div>
       
       <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -255,8 +264,90 @@ export function ClassesDashboard() {
         </TabsContent>
         
         <TabsContent value="calendar" className="mt-0">
-          <div className="bg-gray-50 border rounded-lg p-6 text-center">
-            <p className="text-gray-500">Tampilan kalender akan segera tersedia</p>
+          <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
+            <div className="bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/5 p-4 border-b">
+              <h3 className="font-medium text-gray-800 flex items-center">
+                <Calendar className="h-4 w-4 mr-2 text-[#C40503]" />
+                Kalender Kelas Bulanan
+              </h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Tampilan kalender memudahkan Anda melihat semua jadwal kelas dalam format bulanan dan mengelola ketersediaan waktu
+              </p>
+            </div>
+            
+            <div className="p-4">
+              <div className="grid grid-cols-7 gap-1 mb-2">
+                {['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'].map((day) => (
+                  <div key={day} className="text-xs font-medium text-gray-500 text-center py-2">
+                    {day}
+                  </div>
+                ))}
+              </div>
+              
+              <div className="grid grid-cols-7 gap-1">
+                {Array.from({ length: 31 }).map((_, i) => {
+                  const day = i + 1;
+                  const hasClass = allSessions.some(session => {
+                    const sessionDate = new Date(session.date);
+                    return sessionDate.getDate() === day && sessionDate.getMonth() === currentDate.getMonth();
+                  });
+                  
+                  const hasUpcomingClass = upcomingSessions.some(session => {
+                    const sessionDate = new Date(session.date);
+                    return sessionDate.getDate() === day && sessionDate.getMonth() === currentDate.getMonth();
+                  });
+                  
+                  const hasOngoingClass = ongoingSessions.some(session => {
+                    const sessionDate = new Date(session.date);
+                    return sessionDate.getDate() === day && sessionDate.getMonth() === currentDate.getMonth();
+                  });
+                  
+                  return (
+                    <div 
+                      key={day} 
+                      className={`relative aspect-square flex flex-col items-center justify-center rounded-md border ${
+                        day === currentDate.getDate() 
+                          ? 'border-[#C40503] bg-[#C40503]/5' 
+                          : hasClass ? 'border-[#DAA625]/30 bg-[#DAA625]/5' : 'border-gray-200'
+                      } ${day > 28 ? 'opacity-60' : ''} hover:bg-gray-50 transition-colors cursor-pointer`}
+                    >
+                      <span className={`text-sm ${day === currentDate.getDate() ? 'font-bold text-[#C40503]' : 'font-medium text-gray-700'}`}>
+                        {day}
+                      </span>
+                      
+                      {hasClass && (
+                        <div className="flex gap-0.5 mt-1">
+                          {hasUpcomingClass && <div className="h-1.5 w-1.5 rounded-full bg-blue-500"></div>}
+                          {hasOngoingClass && <div className="h-1.5 w-1.5 rounded-full bg-green-500"></div>}
+                          {!hasUpcomingClass && !hasOngoingClass && <div className="h-1.5 w-1.5 rounded-full bg-gray-400"></div>}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              
+              <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-600">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                  <span>Akan Datang</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                  <span>Berlangsung</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 rounded-full bg-gray-400"></div>
+                  <span>Selesai</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="border-t p-3 bg-gray-50">
+              <div className="text-xs text-gray-500 italic text-center">
+                Klik pada tanggal untuk melihat detail kelas pada hari tersebut
+              </div>
+            </div>
           </div>
         </TabsContent>
         
@@ -275,6 +366,8 @@ export function ClassesDashboard() {
           onSave={handleSaveAttendance}
         />
       )}
+      
+      {/* Modal removed since teachers don't create classes */}
     </div>
   );
 }

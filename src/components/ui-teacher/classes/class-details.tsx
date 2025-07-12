@@ -59,19 +59,7 @@ interface ClassDetailsProps {
 }
 
 export function ClassDetails({ classData }: ClassDetailsProps) {
-  const [attendanceState, setAttendanceState] = useState<MeetingAttendanceState>({
-    meeting1: false,
-    meeting2: false,
-    meeting3: false,
-    meeting4: false,
-  });
-
-  const toggleAttendance = (meetingId: string) => {
-    setAttendanceState((prev) => ({
-      ...prev,
-      [meetingId]: !prev[meetingId],
-    }));
-  };
+  // Tidak lagi membutuhkan state untuk toggle kehadiran karena akan dikelola di halaman pertemuan
 
   return (
     <div className="py-6 space-y-6 w-full">
@@ -82,14 +70,7 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
             Kembali
           </Button>
         </Link>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            Edit Kelas
-          </Button>
-          <Button size="sm" className="bg-[#DAA625] hover:bg-[#b88d1c]">
-            Mulai Kelas
-          </Button>
-        </div>
+        {/* Removed Edit Kelas and Mulai Kelas buttons since teachers don't edit classes directly */}
       </div>
 
       <Card>
@@ -219,12 +200,17 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
               <Card>
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-center">
-                    <CardTitle>Pertemuan Kelas</CardTitle>
-                    <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Tambah Pertemuan
-                    </Button>
+                    <CardTitle>Jadwal Pertemuan Kelas</CardTitle>
+                    <Link href={`/dashboard-teacher/meetings/create?classId=${classData.id}`}>
+                      <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Tambah Pertemuan
+                      </Button>
+                    </Link>
                   </div>
+                  <p className="text-sm text-gray-500 mt-2">
+                    Tambahkan jadwal pertemuan baru - materi, absensi, dan tugas dapat ditambahkan di dalam halaman pertemuan
+                  </p>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
@@ -261,160 +247,16 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                             <span>Kehadiran: 18/25 hadir (72%)</span>
                           </div>
                         </div>
-                        
-                        <h4 className="font-medium mb-3">Materi Pertemuan</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          <Link href="/dashboard-teacher/materials/m1">
-                            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="bg-[#C40503]/10 p-2 rounded-md">
-                                    <FileText className="h-6 w-6 text-[#C40503]" />
-                                  </div>
-                                  <div>
-                                    <h5 className="font-medium">Modul Aljabar Linear</h5>
-                                    <p className="text-sm text-gray-500">PDF - 3.2 MB</p>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                          <Link href="/dashboard-teacher/materials/m2">
-                            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="bg-[#DAA625]/10 p-2 rounded-md">
-                                    <svg className="h-6 w-6 text-[#DAA625]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                                    </svg>
-                                  </div>
-                                  <div>
-                                    <h5 className="font-medium">Presentasi Matriks dan Operasinya</h5>
-                                    <p className="text-sm text-gray-500">PowerPoint - 4.7 MB</p>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                          <Link href="/dashboard-teacher/materials/m3">
-                            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="bg-blue-100 p-2 rounded-md">
-                                    <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                    </svg>
-                                  </div>
-                                  <div>
-                                    <h5 className="font-medium">Latihan Soal Aljabar Linear</h5>
-                                    <p className="text-sm text-gray-500">PDF - 1.5 MB</p>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                        </div>
-                        
-                        <div className="mt-4 flex justify-end gap-2">
-                          <Button 
-                            variant="outline" 
-                            className="text-[#C40503]"
-                            onClick={() => toggleAttendance("meeting1")}
-                          >
-                            {attendanceState.meeting1 ? "Sembunyikan Kehadiran" : "Lihat Kehadiran"}
-                          </Button>
-                          <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                            Edit Pertemuan
-                          </Button>
-                        </div>
-                        
-                        {/* Attendance Section - Toggled by state */}
-                        {attendanceState.meeting1 && (
-                          <div className="mt-6 pt-6 border-t">
-                            <h4 className="text-lg font-medium mb-4 flex items-center">
-                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                              </svg>
-                              Absensi Pertemuan 1 - 11 Juli 2025
-                            </h4>
-                            
-                            {/* Attendance Summary Stats */}
-                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
-                              <div className="flex items-center justify-center p-3 bg-gray-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold">25</div>
-                                  <div className="text-xs text-gray-500">Total</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-green-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-green-600">18</div>
-                                  <div className="text-xs text-green-500">Hadir</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-red-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-red-600">4</div>
-                                  <div className="text-xs text-red-500">Tidak Hadir</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-yellow-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-yellow-600">3</div>
-                                  <div className="text-xs text-yellow-500">Terlambat</div>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div className="mb-4">
-                              <div className="relative">
-                                <svg className="w-4 h-4 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <input 
-                                  type="text" 
-                                  placeholder="Cari siswa berdasarkan nama..." 
-                                  className="px-4 py-2 pl-10 w-full border rounded-md"
-                                />
-                              </div>
-                            </div>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                              {classData.students?.slice(0, 6).map((student, index) => (
-                                <div key={student.id} className="flex items-center justify-between border p-3 rounded-lg">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-gray-500 w-6 text-xs md:text-sm">{index + 1}.</span>
-                                    <span className="font-medium text-sm">{student.name}</span>
-                                  </div>
-                                  
-                                  <div className="flex items-center">
-                                    <div className="flex items-center">
-                                      <input 
-                                        type="checkbox" 
-                                        id={`attendance-${student.id}-p1`}
-                                        className="h-4 w-4 text-green-600 bg-gray-100 rounded border-gray-300 focus:ring-green-500"
-                                        defaultChecked={index < 4}
-                                      />
-                                      <label htmlFor={`attendance-${student.id}-p1`} className="ml-2 text-sm font-medium">
-                                        <span className={index < 4 ? "text-green-600" : "text-gray-600"}>Hadir</span>
-                                      </label>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                               <div className="flex justify-between items-center">
-                            <Link href={`/dashboard-teacher/attendance/meeting/${classData.id}/1`}>
-                              <Button variant="outline" size="sm">
-                                Lihat Semua Siswa
-                              </Button>
-                            </Link>
-                            <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                              Simpan Kehadiran
+
+                        <div className="mt-4 flex flex-wrap justify-end gap-2">
+                          <Link href="/dashboard-teacher/meetings/meeting1">
+                            <Button className="bg-green-600 hover:bg-green-700 text-white">
+                              Masuk Pertemuan
                             </Button>
-                          </div>
-                          </div>
-                        )}
+                          </Link>
+                        </div>
+                        
+                        {/* Bagian kehadiran sudah dipindahkan ke halaman pertemuan */}
                     </div>
                     
                     {/* Pertemuan 2 */}
@@ -450,156 +292,29 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                           </div>
                         </div>
                         
-                        <h4 className="font-medium mb-3">Materi Pertemuan</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          <Link href="/dashboard-teacher/materials/m4">
-                            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="bg-[#C40503]/10 p-2 rounded-md">
-                                    <FileText className="h-6 w-6 text-[#C40503]" />
-                                  </div>
-                                  <div>
-                                    <h5 className="font-medium">Modul Sistem Persamaan Linear</h5>
-                                    <p className="text-sm text-gray-500">PDF - 2.8 MB</p>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                          <Link href="/dashboard-teacher/materials/m5">
-                            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="bg-[#DAA625]/10 p-2 rounded-md">
-                                    <svg className="h-6 w-6 text-[#DAA625]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                                    </svg>
-                                  </div>
-                                  <div>
-                                    <h5 className="font-medium">Presentasi Metode Eliminasi dan Substitusi</h5>
-                                    <p className="text-sm text-gray-500">PowerPoint - 3.5 MB</p>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
+                        <div className="mt-4 flex flex-wrap justify-end gap-2">
+                          <Link href="/dashboard-teacher/meetings/meeting2">
+                            <Button className="bg-green-600 hover:bg-green-700 text-white">
+                              Masuk Pertemuan
+                            </Button>
                           </Link>
                         </div>
-                        
-                        <div className="mt-4 flex justify-end gap-2">
-                          <Button 
-                            variant="outline" 
-                            className="text-[#C40503]"
-                            onClick={() => toggleAttendance("meeting2")}
-                          >
-                            {attendanceState.meeting2 ? "Sembunyikan Kehadiran" : "Lihat Kehadiran"}
-                          </Button>
-                          <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                            Edit Pertemuan
-                          </Button>
                         </div>
                         
-                        {/* Attendance Section for Meeting 2 - Toggled by state */}
-                        {attendanceState.meeting2 && (
-                          <div className="mt-6 pt-6 border-t">
-                            <h4 className="text-lg font-medium mb-4 flex items-center">
-                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                              </svg>
-                              Absensi Pertemuan 2 - 18 Juli 2025
-                            </h4>
-                            
-                            {/* Attendance Summary Stats */}
-                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
-                              <div className="flex items-center justify-center p-3 bg-gray-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold">25</div>
-                                  <div className="text-xs text-gray-500">Total</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-green-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-green-600">21</div>
-                                  <div className="text-xs text-green-500">Hadir</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-red-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-red-600">2</div>
-                                  <div className="text-xs text-red-500">Tidak Hadir</div>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3 bg-yellow-50 rounded-lg">
-                                <div className="text-center">
-                                  <div className="text-xl font-bold text-yellow-600">2</div>
-                                  <div className="text-xs text-yellow-500">Terlambat</div>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div className="mb-4">
-                              <div className="relative">
-                                <svg className="w-4 h-4 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <input 
-                                  type="text" 
-                                  placeholder="Cari siswa berdasarkan nama..." 
-                                  className="px-4 py-2 pl-10 w-full border rounded-md"
-                                />
-                              </div>
-                            </div>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                              {classData.students?.slice(0, 6).map((student, index) => (
-                                <div key={`meeting2-${student.id}`} className="flex items-center justify-between border p-3 rounded-lg">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-gray-500 w-6 text-xs md:text-sm">{index + 1}.</span>
-                                    <span className="font-medium text-sm">{student.name}</span>
-                                  </div>
-                                  
-                                  <div className="flex items-center">
-                                    <div className="flex items-center">
-                                      <input 
-                                        type="checkbox" 
-                                        id={`attendance-${student.id}-p2`}
-                                        className="h-4 w-4 text-green-600 bg-gray-100 rounded border-gray-300 focus:ring-green-500"
-                                        defaultChecked={index < 5}
-                                      />
-                                      <label htmlFor={`attendance-${student.id}-p2`} className="ml-2 text-sm font-medium">
-                                        <span className={index < 5 ? "text-green-600" : "text-gray-600"}>Hadir</span>
-                                      </label>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                            
-                            <div className="flex justify-between items-center">
-                              <Link href={`/dashboard-teacher/attendance/meeting/${classData.id}/2`}>
-                                <Button variant="outline" size="sm">
-                                  Lihat Semua Siswa
-                                </Button>
-                              </Link>
-                              <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                                Simpan Kehadiran
-                              </Button>
-                            </div>
-                          </div>
-                        )}
+                        {/* Bagian kehadiran sudah dipindahkan ke halaman pertemuan */}
                       </div>
                     </div>
                     
                     {/* Pertemuan 3 */}
-                    <div className="border rounded-lg overflow-hidden">
-                      <div className="flex justify-between items-center p-4 bg-[#C40503]/5 border-b">
-                        <h3 className="text-lg font-medium flex items-center">
+                    <div className="border rounded-lg overflow-hidden border-blue-200">
+                      <div className="flex justify-between items-center p-4 bg-blue-50 border-b">
+                        <h3 className="text-lg font-medium flex items-center text-blue-800">
                           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
                           Pertemuan 3 - Determinan dan Matriks Invers
                         </h3>
-                        <Badge className="bg-blue-100 text-blue-800">Hari Ini</Badge>
+                        <Badge className="bg-blue-100 text-blue-800 font-medium">Hari Ini</Badge>
                       </div>
                       <div className="p-4">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -623,93 +338,29 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                           </div>
                         </div>
                         
-                        <h4 className="font-medium mb-3">Materi Pertemuan</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          <Link href="/dashboard-teacher/materials/m6">
-                            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="bg-[#C40503]/10 p-2 rounded-md">
-                                    <FileText className="h-6 w-6 text-[#C40503]" />
-                                  </div>
-                                  <div>
-                                    <h5 className="font-medium">Modul Determinan dan Matriks Invers</h5>
-                                    <p className="text-sm text-gray-500">PDF - 3.4 MB</p>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                          <Link href="/dashboard-teacher/materials/m7">
-                            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="bg-[#DAA625]/10 p-2 rounded-md">
-                                    <svg className="h-6 w-6 text-[#DAA625]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                                    </svg>
-                                  </div>
-                                  <div>
-                                    <h5 className="font-medium">Presentasi Metode Eliminasi dan Substitusi</h5>
-                                    <p className="text-sm text-gray-500">PowerPoint - 3.5 MB</p>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                          <Link href="/dashboard-teacher/materials/m8">
-                            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="bg-blue-100 p-2 rounded-md">
-                                    <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                    </svg>
-                                  </div>
-                                  <div>
-                                    <h5 className="font-medium">Latihan Soal Determinan</h5>
-                                    <p className="text-sm text-gray-500">PDF - 1.8 MB</p>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                        </div>
-                        
-                        <div className="mt-4 flex justify-end gap-2">
-                          <Button 
-                            variant="outline" 
-                            className="text-[#C40503]"
-                            onClick={() => toggleAttendance("meeting3")}
-                          >
-                            {attendanceState.meeting3 ? "Sembunyikan Kehadiran" : "Lihat Kehadiran"}
-                          </Button>
-                          <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                            Edit Pertemuan
-                          </Button>
-                        </div>
-                        
-                        {/* Attendance Section for Meeting 3 - Toggled by state */}
-                        {attendanceState.meeting3 && (
-                          <div className="mt-6 pt-6 border-t">
-                            <h4 className="text-lg font-medium mb-4 flex items-center">
-                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                              </svg>
-                              Absensi Pertemuan 3 - 25 Juli 2025
-                            </h4>
-                            
-                            <div className="flex items-center justify-center p-6 bg-blue-50 rounded-lg mb-6">
-                              <div className="text-center">
-                                <div className="text-xl font-bold text-blue-600 mb-2">Pertemuan Hari Ini</div>
-                                <p className="text-blue-600">Kelas belum dimulai. Anda dapat menandai kehadiran siswa saat kelas berlangsung.</p>
-                                <Button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white">
-                                  Mulai Kelas dan Catat Kehadiran
-                                </Button>
-                              </div>
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                          <div className="flex items-start">
+                            <svg className="w-6 h-6 text-blue-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div>
+                              <h4 className="font-medium text-blue-800 mb-1">Pertemuan Hari Ini</h4>
+                              <p className="text-blue-600 text-sm">
+                                Pertemuan ini dijadwalkan untuk hari ini. Anda dapat memulai pertemuan, mengambil absensi, dan mengunggah materi sebelum atau sesudah pertemuan.
+                              </p>
                             </div>
                           </div>
-                        )}
+                        </div>
+
+                        <div className="flex flex-wrap justify-end gap-2 mt-4">
+                          <Link href="/dashboard-teacher/meetings/meeting3">
+                            <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
+                              Masuk Pertemuan
+                            </Button>
+                          </Link>
+                        </div>
+                        
+                        {/* Bagian kehadiran sudah dipindahkan ke halaman pertemuan */}
                       </div>
                     </div>
                     
@@ -765,40 +416,17 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                           </Link>
                         </div>
                         
-                        <div className="mt-4 flex justify-end gap-2">
-                          <Button 
-                            variant="outline" 
-                            className="text-gray-500"
-                            onClick={() => toggleAttendance("meeting4")}
-                            disabled
-                          >
-                            Lihat Kehadiran
-                          </Button>
-                          <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                            Edit Pertemuan
-                          </Button>
+                        <div className="mt-4 flex flex-wrap justify-end gap-2">
+                          <Link href="/dashboard-teacher/meetings/meeting4">
+                            <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
+                              Masuk Pertemuan
+                            </Button>
+                          </Link>
                         </div>
                         
-                        {/* Attendance Section for Meeting 4 - Toggled by state */}
-                        {attendanceState.meeting4 && (
-                          <div className="mt-6 pt-6 border-t">
-                            <h4 className="text-lg font-medium mb-4 flex items-center">
-                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                              </svg>
-                              Absensi Pertemuan 4 - 1 Agustus 2025
-                            </h4>
-                            
-                            <div className="flex items-center justify-center p-6 bg-gray-50 rounded-lg mb-6">
-                              <div className="text-center">
-                                <div className="text-xl font-bold text-gray-600 mb-2">Pertemuan Belum Dijadwalkan</div>
-                                <p className="text-gray-600">Pertemuan ini belum dimulai. Fitur absensi akan aktif pada tanggal pertemuan.</p>
-                              </div>
-                            </div>
-                          </div>
-                        )}
+                        {/* Bagian kehadiran sudah dipindahkan ke halaman pertemuan */}
                       </div>
-                    </div></div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
