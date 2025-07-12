@@ -103,11 +103,6 @@ export const sidebarTeacherNavigation = [
         href: "/dashboard-teacher/salary/history",
         description: "View salary payment history"
       },
-      {
-        name: "Benefits",
-        href: "/dashboard-teacher/salary/benefits",
-        description: "Information on allowances and benefits"
-      }
     ]
   },
   // {
