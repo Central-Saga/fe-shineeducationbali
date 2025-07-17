@@ -6,7 +6,7 @@ import { ClassCard } from "@/components/ui-student/classes/ClassCard";
 import { CalendarView } from "@/components/ui-student/classes/CalendarView";
 import { studentClasses, pastClasses } from "@/data/data-student/classes-data";
 import { Input } from "@/components/ui/input";
-import { Search, CalendarDays, Clock, MapPin, User } from "lucide-react";
+import { Search, CalendarDays, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function ClassesPage() {
@@ -90,7 +90,7 @@ export default function ClassesPage() {
           selectedDayId={selectedDayId}
         />
       )}
-
+      
       {/* Sortby dropdown for classes */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
         <div className="flex items-center gap-3">
@@ -153,32 +153,12 @@ export default function ClassesPage() {
           return (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {classList.map((session) => (
-                <div key={session.id} className="border-2 border-[#C40503]/30 rounded-2xl p-6 flex flex-col gap-4 bg-gradient-to-br from-white via-[#f8fafc] to-[#f3f4f6] shadow-lg hover:shadow-xl transition-shadow duration-200 relative overflow-hidden group">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-bold text-xl text-[#C40503] group-hover:text-[#a30402] transition-colors duration-200">{session.title}</span>
-                    {session.status && (
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${session.status === 'upcoming' ? 'bg-blue-100 text-blue-700' : session.status === 'ongoing' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>{session.status === 'upcoming' ? 'Akan Datang' : session.status === 'ongoing' ? 'Sedang Berlangsung' : 'Selesai'}</span>
-                    )}
-                  </div>
-                  <div className="text-sm text-gray-600 mb-1 line-clamp-2">{session.description}</div>
-                  <div className="flex items-center gap-4 mb-2 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4 text-[#DAA625]" />
-                      <span>{session.date}, {session.timeStart} - {session.timeEnd}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <MapPin className="h-4 w-4 text-[#C40503]" />
-                      <span>{session.location}</span>
-                    </div>
-                  </div>
-                  {session.instructor && (
-                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                      <User className="h-4 w-4 text-[#DAA625]" />
-                      <span>{session.instructor.name}</span>
-                    </div>
-                  )}
-                  <button className="inline-block mt-auto px-5 py-2 bg-[#C40503] text-white rounded-xl hover:bg-[#a30402] text-base font-bold shadow-lg transition-colors duration-200">Lihat Detail</button>
-                  <div className="absolute right-0 top-0 w-24 h-24 bg-[#C40503]/10 rounded-bl-full pointer-events-none" />
+                <div key={session.id} className="border-2 border-[#C40503]/30 rounded-2xl p-6 bg-gradient-to-br from-white via-[#f8fafc] to-[#f3f4f6] shadow-lg hover:shadow-xl transition-shadow duration-200">
+                  <ClassCard 
+                    session={session}
+                    isExpanded={expandedClassId === session.id}
+                    onToggle={() => toggleExpandClass(session.id)}
+                  />
                 </div>
               ))}
             </div>
