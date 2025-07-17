@@ -6,13 +6,14 @@ import { ClassCard } from "@/components/ui-student/classes/ClassCard";
 import { CalendarView } from "@/components/ui-student/classes/CalendarView";
 import { studentClasses, pastClasses } from "@/data/data-student/classes-data";
 import { Input } from "@/components/ui/input";
-import { Search, CalendarDays, Clock } from "lucide-react";
+import { Search, CalendarDays, Clock, MapPin, User } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function ClassesPage() {
   const [selectedDayId, setSelectedDayId] = useState<string | null>(studentClasses[0]?.id || null);
   const [expandedClassId, setExpandedClassId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState<string>("upcoming");
 
   // Get the selected day's classes
   const selectedDayClasses = studentClasses.find(schedule => schedule.id === selectedDayId)?.sessions || [];
@@ -81,54 +82,35 @@ export default function ClassesPage() {
           </CardContent>
         </Card>
       </div>
-      
-      <Tabs defaultValue="upcoming" className="mb-8">
-        <TabsList className="mb-6">
-          <TabsTrigger value="upcoming" className="text-sm">
-            Kelas Mendatang
-          </TabsTrigger>
-          <TabsTrigger value="past" className="text-sm">
-            Kelas Selesai
-          </TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="upcoming">
-          {/* Calendar View for Upcoming Classes */}
-          <CalendarView 
-            schedules={studentClasses}
-            onSelectDay={setSelectedDayId}
-            selectedDayId={selectedDayId}
-          />
-          
-          {/* Selected Day Classes */}
-          {selectedDayClasses.length > 0 ? (
-            <div className="space-y-4">
-              {selectedDayClasses.map((session) => (
-                <div key={session.id}>
-                  <ClassCard 
-                    session={session}
-                    isExpanded={expandedClassId === session.id}
-                    onToggle={() => toggleExpandClass(session.id)}
-                  />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Tidak ada kelas pada hari ini</h3>
-              <p className="text-gray-600 mb-4">
-                Pilih tanggal lain atau periksa jadwal lengkap di kalender
-              </p>
-              <button className="bg-[#C40503] text-white px-4 py-2 rounded hover:bg-[#a60402] transition-colors">
-                Lihat Semua Jadwal
-              </button>
-            </div>
-          )}
-        </TabsContent>
-        
-        <TabsContent value="past">
-          {/* Search for Past Classes */}
-          <div className="relative mb-6">
+            {/* Calendar View for Upcoming Classes */}
+      {sortBy === "upcoming" && (
+        <CalendarView 
+          schedules={studentClasses}
+          onSelectDay={setSelectedDayId}
+          selectedDayId={selectedDayId}
+        />
+      )}
+
+      {/* Sortby dropdown for classes */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+        <div className="flex items-center gap-3">
+          <label htmlFor="sortby" className="font-semibold text-gray-700 text-lg flex items-center gap-2">
+            <svg width="20" height="20" fill="none" stroke="#C40503" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 6h18M3 12h12M3 18h6"/></svg>
+            Urutkan:
+          </label>
+          <select
+            id="sortby"
+            className="border border-[#C40503] rounded-lg px-4 py-2 pr-8 text-base font-medium text-gray-700 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#C40503] appearance-none"
+            value={sortBy}
+            onChange={e => setSortBy(e.target.value)}
+          >
+            <option value="upcoming">Kelas Mendatang</option>
+            <option value="past">Kelas Selesai</option>
+            <option value="all">Semua</option>
+          </select>
+        </div>
+        {sortBy === "past" && (
+          <div className="relative w-full md:w-64">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input 
               placeholder="Cari kelas sebelumnya..." 
@@ -137,30 +119,72 @@ export default function ClassesPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          
-          {/* Past Classes List */}
-          {filteredPastClasses.length > 0 ? (
-            <div className="space-y-4">
-              {filteredPastClasses.map((session) => (
-                <div key={session.id}>
-                  <ClassCard 
-                    session={session}
-                    isExpanded={expandedClassId === session.id}
-                    onToggle={() => toggleExpandClass(session.id)}
-                  />
+        )}
+      </div>
+
+      {/* Class List */}
+      <div className="mt-6">
+        {(() => {
+          let classList: any[] = [];
+          if (sortBy === "upcoming") {
+            classList = selectedDayClasses;
+          } else if (sortBy === "past") {
+            classList = filteredPastClasses;
+          } else {
+            // Gabungkan semua kelas
+            classList = [
+              ...studentClasses.flatMap(sch => sch.sessions),
+              ...pastClasses
+            ];
+          }
+          if (classList.length === 0) {
+            return (
+              <div className="text-center py-12 bg-gray-50 rounded-lg">
+                <h3 className="text-lg font-medium text-gray-900 mb-2">Tidak ada kelas ditemukan</h3>
+                <p className="text-gray-600 mb-4">
+                  {sortBy === "upcoming" ? "Pilih tanggal lain atau periksa jadwal lengkap di kalender" : "Coba gunakan kata kunci lain untuk pencarian"}
+                </p>
+                <button className="bg-[#C40503] text-white px-4 py-2 rounded hover:bg-[#a60402] transition-colors">
+                  Lihat Semua Jadwal
+                </button>
+              </div>
+            );
+          }
+          return (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {classList.map((session) => (
+                <div key={session.id} className="border-2 border-[#C40503]/30 rounded-2xl p-6 flex flex-col gap-4 bg-gradient-to-br from-white via-[#f8fafc] to-[#f3f4f6] shadow-lg hover:shadow-xl transition-shadow duration-200 relative overflow-hidden group">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-bold text-xl text-[#C40503] group-hover:text-[#a30402] transition-colors duration-200">{session.title}</span>
+                    {session.status && (
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${session.status === 'upcoming' ? 'bg-blue-100 text-blue-700' : session.status === 'ongoing' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>{session.status === 'upcoming' ? 'Akan Datang' : session.status === 'ongoing' ? 'Sedang Berlangsung' : 'Selesai'}</span>
+                    )}
+                  </div>
+                  <div className="text-sm text-gray-600 mb-1 line-clamp-2">{session.description}</div>
+                  <div className="flex items-center gap-4 mb-2 text-sm">
+                    <div className="flex items-center gap-1">
+                      <Clock className="h-4 w-4 text-[#DAA625]" />
+                      <span>{session.date}, {session.timeStart} - {session.timeEnd}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-4 w-4 text-[#C40503]" />
+                      <span>{session.location}</span>
+                    </div>
+                  </div>
+                  {session.instructor && (
+                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                      <User className="h-4 w-4 text-[#DAA625]" />
+                      <span>{session.instructor.name}</span>
+                    </div>
+                  )}
+                  <button className="inline-block mt-auto px-5 py-2 bg-[#C40503] text-white rounded-xl hover:bg-[#a30402] text-base font-bold shadow-lg transition-colors duration-200">Lihat Detail</button>
+                  <div className="absolute right-0 top-0 w-24 h-24 bg-[#C40503]/10 rounded-bl-full pointer-events-none" />
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Tidak ada kelas yang ditemukan</h3>
-              <p className="text-gray-600">
-                Coba gunakan kata kunci lain untuk pencarian
-              </p>
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
+          );
+        })()}
+      </div>
       
       {/* Quick Access Section */}
       <div className="mt-12">

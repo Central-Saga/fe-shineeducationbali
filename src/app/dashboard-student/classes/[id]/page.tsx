@@ -10,19 +10,21 @@ import { ClassAssignments } from '@/components/ui-student/class-detail/ClassAssi
 import { ClassDiscussion } from '@/components/ui-student/class-detail/ClassDiscussion';
 import { ClassAnnouncements } from '@/components/ui-student/class-detail/ClassAnnouncements';
 import { ClassAttendance } from '@/components/ui-student/class-detail/ClassAttendance';
+import { ClassMeetingsList } from '@/components/ui-student/class-detail/ClassMeetingsList';
+import { MeetingCardMedium } from '@/components/ui-student/class-detail/MeetingCardMedium';
 import Link from 'next/link';
 import { ChevronLeft, Clock, MapPin, User, BookOpen, FileText } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
 export default function ClassDetailPage() {
-  // Type assertion for params to handle newer versions of Next.js
+  // Use the useParams hook safely with Next.js 13+
   const params = useParams();
-  const paramsObj = params as { id: string };
-  const classId = paramsObj.id;
+  // Convert the params object to a string and unwrap it properly
+  const classId = typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : '';
   const classDetail = getClassDetail(classId);
   
-  const [activeTab, setActiveTab] = useState('detail');
+  const [activeTab, setActiveTab] = useState('pertemuan');
 
   // Redirect or show error if class not found
   if (!classDetail) {
@@ -121,158 +123,108 @@ export default function ClassDetailPage() {
             
             <p className="text-gray-700 mb-5">{classDetail.description}</p>
           </div>
-          
-          <div className="border-t border-gray-100 p-6">
-            <div className="mb-5">
-              <h2 className="font-semibold text-lg mb-3 flex items-center">
-                <BookOpen className="h-5 w-5 text-[#C40503] mr-2" />
-                Materi Pembelajaran
-              </h2>
-              <ul className="pl-7 list-disc space-y-1">
-                {classDetail.materials.slice(0, 3).map(material => (
-                  <li key={material.id}>
-                    <a href="#" onClick={() => setActiveTab('materials')} className="hover:text-[#C40503] hover:underline">
-                      {material.title}
-                    </a>
-                  </li>
-                ))}
-                {classDetail.materials.length > 3 && (
-                  <li className="text-sm text-gray-500">
-                    <a href="#" onClick={() => setActiveTab('materials')} className="hover:text-[#C40503] hover:underline">
-                      +{classDetail.materials.length - 3} materi lainnya
-                    </a>
-                  </li>
-                )}
-              </ul>
-            </div>
-            
-            <div className="mb-5">
-              <h2 className="font-semibold text-lg mb-3 flex items-center">
-                <FileText className="h-5 w-5 text-[#DAA625] mr-2" />
-                Tugas
-              </h2>
-              {classDetail.assignments.length > 0 ? (
-                <div className="space-y-3">
-                  {classDetail.assignments.map((assignment) => (
-                    <div key={assignment.id} className="p-3 bg-gray-50 rounded-lg">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="font-medium">{assignment.title}</p>
-                          <p className="text-sm text-gray-500">Tenggat: {new Date(assignment.dueDate).toLocaleDateString('id-ID')}</p>
-                        </div>
-                        <Badge className={
-                          assignment.status === 'graded' ? 'bg-green-100 text-green-700' : 
-                          assignment.status === 'submitted' ? 'bg-blue-100 text-blue-700' : 
-                          'bg-yellow-100 text-yellow-700'
-                        }>
-                          {assignment.status === 'graded' ? 'Dinilai' : 
-                           assignment.status === 'submitted' ? 'Dikumpulkan' : 'Belum Dikumpulkan'}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-500 text-sm">Tidak ada tugas untuk kelas ini</p>
-              )}
-            </div>
-            
-            <div className="flex justify-between items-center">
-              <Button 
-                variant="outline"
-                className="text-[#C40503] border-[#C40503] hover:bg-[#C40503]/10"
-                onClick={() => setActiveTab('detail')}
-              >
-                Lihat Detail Lengkap
-              </Button>
-              
-              {classDetail.status === 'upcoming' && (
-                <Link href={classDetail.meetingLink || '#'}>
-                  <Button className="bg-[#C40503] hover:bg-[#a60402]">
-                    Masuk Kelas
-                  </Button>
-                </Link>
-              )}
-              
-              {classDetail.status === 'ongoing' && (
-                <Link href={classDetail.meetingLink || '#'}>
-                  <Button className="bg-green-600 hover:bg-green-700">
-                    Masuk Kelas Sekarang
-                  </Button>
-                </Link>
-              )}
-              
-              {classDetail.status === 'completed' && classDetail.recordingUrl && (
-                <Link href={classDetail.recordingUrl}>
-                  <Button className="bg-[#DAA625] hover:bg-[#b88d1c]">
-                    Tonton Rekaman
-                  </Button>
-                </Link>
-              )}
-            </div>
-          </div>
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
-        <TabsList className="mb-6">
-          <TabsTrigger value="detail" className="text-sm">
-            Detail
-          </TabsTrigger>
-          <TabsTrigger value="materials" className="text-sm">
-            Materi
-          </TabsTrigger>
-          <TabsTrigger value="assignments" className="text-sm">
-            Tugas
-          </TabsTrigger>
-          <TabsTrigger value="discussion" className="text-sm">
-            Diskusi
-          </TabsTrigger>
-          <TabsTrigger value="announcements" className="text-sm">
-            Pengumuman
-          </TabsTrigger>
-          <TabsTrigger value="attendance" className="text-sm">
-            Kehadiran
-          </TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="detail">
-          <ClassDetailHeader classDetail={classDetail} />
-          
-          {/* Optional syllabus section */}
-          <div className="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
-            <h2 className="text-lg font-bold mb-4">Silabus Kelas</h2>
-            <p className="text-gray-700">
-              {classDetail.syllabus || 
-               `Silabus lengkap untuk kelas ${classDetail.title} akan segera ditambahkan. 
-               Silakan hubungi pengajar untuk informasi lebih lanjut.`}
-            </p>
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="materials">
-          <ClassMaterials materials={classDetail.materials} />
-        </TabsContent>
-        
-        <TabsContent value="assignments">
-          <ClassAssignments assignments={classDetail.assignments} />
-        </TabsContent>
-        
-        <TabsContent value="discussion">
-          <ClassDiscussion discussion={classDetail.discussion} />
-        </TabsContent>
-        
-        <TabsContent value="announcements">
-          <ClassAnnouncements announcements={classDetail.announcements} />
-        </TabsContent>
-        
-        <TabsContent value="attendance">
-          <ClassAttendance 
-            studentAttendance={classDetail.studentAttendance} 
-            attendanceSessions={classDetail.attendanceSessions || []} 
-          />
-        </TabsContent>
-      </Tabs>
+      {/* Hanya tampilkan detail pertemuan, materi/tugas/kehadiran/diskusi/pengumuman dipindahkan ke halaman detail pertemuan */}
+      <div className="mt-8">
+        {/* Dropdown sortby untuk meeting */}
+        {(() => {
+          const meetings = [
+            {
+              id: "meeting1",
+              title: "Pertemuan 1: Pengenalan Aljabar",
+              description: "Pengenalan dasar-dasar aljabar dan konsep awal",
+              date: "2024-07-10",
+              timeStart: "08:00",
+              timeEnd: "10:00",
+              location: "Ruang Belajar 101",
+              status: "completed",
+              attendanceStatus: "present"
+            },
+            {
+              id: "meeting2",
+              title: "Pertemuan 2: Aljabar Linear",
+              description: "Konsep aljabar linear dan aplikasinya",
+              date: "2024-07-17",
+              timeStart: "08:00",
+              timeEnd: "10:00",
+              location: "Ruang Belajar 101",
+              status: "completed",
+              attendanceStatus: "present"
+            },
+            {
+              id: "meeting3",
+              title: "Pertemuan 3: Matriks dan Determinan",
+              description: "Pendalaman matriks dan cara menghitung determinan",
+              date: "2024-07-24",
+              timeStart: "08:00",
+              timeEnd: "10:00",
+              location: "Ruang Belajar 101",
+              status: "ongoing",
+              attendanceStatus: "present"
+            },
+            {
+              id: "meeting4",
+              title: "Pertemuan 4: Transformasi Linear",
+              description: "Konsep transformasi linear dan aplikasinya",
+              date: "2024-07-31",
+              timeStart: "08:00",
+              timeEnd: "10:00",
+              location: "Ruang Belajar 101",
+              status: "upcoming"
+            }
+          ];
+          const [sortBy, setSortBy] = React.useState<string>("all");
+          let filteredMeetings = meetings;
+          if (sortBy === "upcoming") filteredMeetings = meetings.filter(m => m.status === "upcoming");
+          else if (sortBy === "ongoing") filteredMeetings = meetings.filter(m => m.status === "ongoing");
+          else if (sortBy === "completed") filteredMeetings = meetings.filter(m => m.status === "completed");
+          // Urutkan: upcoming, ongoing, completed, lalu tanggal
+          const statusOrder = { upcoming: 0, ongoing: 1, completed: 2 };
+          filteredMeetings = filteredMeetings.slice().sort((a, b) => {
+            const statusA = statusOrder[a.status as keyof typeof statusOrder] ?? 99;
+            const statusB = statusOrder[b.status as keyof typeof statusOrder] ?? 99;
+            if (statusA !== statusB) return statusA - statusB;
+            return new Date(a.date).getTime() - new Date(b.date).getTime();
+          });
+          return (
+            <>
+              <div className="flex items-center gap-4 mb-6">
+                <label htmlFor="sortby" className="font-semibold text-gray-700 text-lg flex items-center gap-2">
+                  <svg width="20" height="20" fill="none" stroke="#C40503" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 6h18M3 12h12M3 18h6"/></svg>
+                  Urutkan:
+                </label>
+                <div className="relative">
+                  <select
+                    id="sortby"
+                    className="border border-[#C40503] rounded-lg px-4 py-2 pr-8 text-base font-medium text-gray-700 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#C40503] appearance-none"
+                    value={sortBy}
+                    onChange={e => setSortBy(e.target.value)}
+                  >
+                    <option value="all">Semua</option>
+                    <option value="ongoing">Sedang Berlangsung</option>
+                    <option value="upcoming">Akan Datang</option>
+                    <option value="completed">Selesai</option>
+                  </select>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <svg width="18" height="18" fill="none" stroke="#C40503" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                  </span>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredMeetings.length === 0 ? (
+                  <div className="text-gray-500 col-span-full text-center py-8">Tidak ada pertemuan.</div>
+                ) : (
+                  filteredMeetings.map(meeting => (
+                    <MeetingCardMedium key={meeting.id} meeting={meeting} classId={classDetail.id} />
+                  ))
+                )}
+              </div>
+            </>
+          );
+        })()}
+      </div>
     </div>
   );
 }

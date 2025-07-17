@@ -179,32 +179,6 @@ export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceC
         
         <div className="border-t border-gray-100 p-4">
           <div className="flex justify-between">
-            <div className="flex items-center">
-              <button onClick={(e) => {
-                e.stopPropagation();
-                onToggle?.();
-              }} className="text-sm text-[#C40503] hover:underline mr-4">
-                {isExpanded ? 'Tutup Detail' : 'Lihat Detail'}
-              </button>
-              
-              <div className="flex gap-2">
-                <Link 
-                  href={`/dashboard-teacher/classes/${session.id}`} 
-                  className="text-sm text-[#DAA625] hover:underline"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  Detail Lengkap
-                </Link>
-                <span className="text-gray-300">|</span>
-                <Link 
-                  href={`/dashboard-teacher/meetings?classId=${session.id}`} 
-                  className="text-sm text-[#C40503] hover:underline"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  Pertemuan
-                </Link>
-              </div>
-            </div>
             
             {session.status === 'upcoming' && (
               <div className="flex gap-2">
@@ -219,9 +193,9 @@ export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceC
                 >
                   Persiapan Kelas
                 </button>
-                <Link href={session.meetingLink ? session.meetingLink : `/dashboard-teacher/classes/${session.id}`}>
+                <Link href={`/dashboard-teacher/classes/${session.id}`}>
                   <button className="text-sm font-medium text-white bg-[#C40503] px-4 py-1 rounded hover:bg-[#a60402] transition-colors">
-                    Mulai Kelas
+                    Detail Kelas
                   </button>
                 </Link>
               </div>
@@ -240,9 +214,9 @@ export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceC
                 >
                   Absensi
                 </button>
-                <Link href={session.meetingLink ? session.meetingLink : `/dashboard-teacher/classes/${session.id}`}>
+                <Link href={`/dashboard-teacher/classes/${session.id}`}>
                   <button className="text-sm font-medium text-white bg-green-600 px-4 py-1 rounded hover:bg-green-700 transition-colors">
-                    Lanjutkan Kelas
+                    Detail Kelas
                   </button>
                 </Link>
               </div>
@@ -255,9 +229,9 @@ export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceC
                     Nilai
                   </button>
                 </Link>
-                <Link href={session.recordingUrl ? session.recordingUrl : `/dashboard-teacher/classes/${session.id}`}>
+                <Link href={`/dashboard-teacher/classes/${session.id}`}>
                   <button className="text-sm font-medium text-gray-600 bg-gray-100 px-4 py-1 rounded hover:bg-gray-200 transition-colors">
-                    Rekaman Kelas
+                    Detail Kelas
                   </button>
                 </Link>
               </div>

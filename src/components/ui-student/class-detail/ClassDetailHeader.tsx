@@ -4,9 +4,28 @@ import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, Video, Users, Globe } from 'lucide-react';
-import { ClassDetailData } from '@/data/data-student/class-detail-data';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import Link from 'next/link';
+
+// Define the interface for the ClassDetailData
+interface ClassDetailData {
+  id: string;
+  title: string;
+  subject: string;
+  date: string;
+  timeStart: string;
+  timeEnd: string;
+  status: 'upcoming' | 'ongoing' | 'completed';
+  description: string;
+  location: string;
+  meetingNumber?: number;
+  totalMeetings?: number;
+  instructor: {
+    name: string;
+    subject: string;
+  };
+  attendees: Array<any>;
+}
 
 interface ClassDetailHeaderProps {
   classDetail: ClassDetailData;
@@ -26,6 +45,19 @@ export function ClassDetailHeader({ classDetail }: ClassDetailHeaderProps) {
     }
   };
 
+  const getMeetingStatusLabel = (status: string) => {
+    switch (status) {
+      case 'upcoming':
+        return 'Akan Datang';
+      case 'ongoing':
+        return 'Sedang Berlangsung';
+      case 'completed':
+        return 'Telah Selesai';
+      default:
+        return 'Unknown';
+    }
+  };
+
   const formattedDate = new Date(classDetail.date).toLocaleDateString('id-ID', {
     weekday: 'long',
     day: 'numeric',
@@ -36,41 +68,44 @@ export function ClassDetailHeader({ classDetail }: ClassDetailHeaderProps) {
   return (
     <Card className="overflow-hidden border-[#C40503]/20">
       <CardContent className="p-6">
+        <div className="mb-4">
+          <p className="text-lg text-gray-600 mb-1">{classDetail.subject}</p>
+          <div className="flex items-center gap-3 mb-2">
+            <h1 className="text-2xl font-bold text-gray-800">
+              Pertemuan {classDetail.meetingNumber || 1} - {classDetail.title}
+            </h1>
+            <Badge className={getStatusColor(classDetail.status)}>
+              {getMeetingStatusLabel(classDetail.status)}
+            </Badge>
+          </div>
+        </div>
+        
         <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl font-bold text-gray-800">{classDetail.title}</h1>
-              <Badge className={getStatusColor(classDetail.status)}>
-                {classDetail.status === 'upcoming' ? 'Akan Datang' : 
-                 classDetail.status === 'ongoing' ? 'Sedang Berlangsung' : 'Selesai'}
-              </Badge>
-            </div>
-            <p className="text-lg text-gray-600 mb-2">{classDetail.subject}</p>
             <p className="text-gray-600">{classDetail.description}</p>
           </div>
           
           <div className="flex flex-col gap-2 md:text-right">
             {classDetail.status === 'upcoming' && (
-              <Link href={classDetail.meetingLink || '#'}>
+              <Link href={`/dashboard-student/classes/${classDetail.id}`}>
                 <Button className="bg-[#C40503] hover:bg-[#a60402]">
-                  Masuk Kelas
+                  Detail Pertemuan
                 </Button>
               </Link>
             )}
             
             {classDetail.status === 'ongoing' && (
-              <Link href={classDetail.meetingLink || '#'}>
+              <Link href={`/dashboard-student/classes/${classDetail.id}`}>
                 <Button className="bg-green-600 hover:bg-green-700">
-                  Masuk Kelas Sekarang
+                  Detail Pertemuan
                 </Button>
               </Link>
             )}
             
-            {classDetail.status === 'completed' && classDetail.recordingUrl && (
-              <Link href={classDetail.recordingUrl}>
+            {classDetail.status === 'completed' && (
+              <Link href={`/dashboard-student/classes/${classDetail.id}`}>
                 <Button className="bg-[#DAA625] hover:bg-[#b88d1c]">
-                  <Video className="h-4 w-4 mr-2" />
-                  Tonton Rekaman
+                  Detail Pertemuan
                 </Button>
               </Link>
             )}
@@ -95,22 +130,15 @@ export function ClassDetailHeader({ classDetail }: ClassDetailHeaderProps) {
               </div>
             </div>
             
-            {classDetail.meetingLink && (
-              <div className="flex items-center gap-3">
-                <Globe className="h-5 w-5 text-[#DAA625]" />
-                <div>
-                  <p className="text-sm text-gray-500">Link Meeting</p>
-                  <a 
-                    href={classDetail.meetingLink} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-[#C40503] hover:underline"
-                  >
-                    {classDetail.meetingLink}
-                  </a>
-                </div>
+            <div className="flex items-center gap-3">
+              <Globe className="h-5 w-5 text-[#DAA625]" />
+              <div>
+                <p className="text-sm text-gray-500">Pertemuan</p>
+                <p className="text-gray-700">
+                  {classDetail.meetingNumber || 1} dari {classDetail.totalMeetings || 12}
+                </p>
               </div>
-            )}
+            </div>
           </div>
           
           <div className="space-y-4">

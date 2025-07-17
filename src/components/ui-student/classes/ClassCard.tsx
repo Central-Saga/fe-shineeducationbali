@@ -147,35 +147,29 @@ export function ClassCard({ session, isExpanded = false, onToggle }: ClassCardPr
                 {isExpanded ? 'Tutup Detail' : 'Lihat Detail'}
               </button>
               
-              <Link 
-                href={`/dashboard-student/classes/${session.id}`} 
-                className="text-sm text-[#DAA625] hover:underline"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Detail Lengkap
-              </Link>
+
             </div>
             
             {session.status === 'upcoming' && (
-              <Link href={session.meetingLink ? session.meetingLink : `/dashboard-student/classes/${session.id}`}>
+              <Link href={`/dashboard-student/classes/${session.id}`}>
                 <button className="text-sm font-medium text-white bg-[#C40503] px-4 py-1 rounded hover:bg-[#a60402] transition-colors">
-                  Masuk Kelas
+                  Detail Kelas
                 </button>
               </Link>
             )}
             
             {session.status === 'ongoing' && (
-              <Link href={session.meetingLink ? session.meetingLink : `/dashboard-student/classes/${session.id}`}>
+              <Link href={`/dashboard-student/classes/${session.id}`}>
                 <button className="text-sm font-medium text-white bg-green-600 px-4 py-1 rounded hover:bg-green-700 transition-colors">
-                  Masuk Kelas
+                  Detail Kelas
                 </button>
               </Link>
             )}
             
             {session.status === 'completed' && (
-              <Link href={session.recordingUrl ? session.recordingUrl : `/dashboard-student/classes/${session.id}`}>
+              <Link href={`/dashboard-student/classes/${session.id}`}>
                 <button className="text-sm font-medium text-gray-600 bg-gray-100 px-4 py-1 rounded hover:bg-gray-200 transition-colors">
-                  Rekaman Kelas
+                  Detail Kelas
                 </button>
               </Link>
             )}

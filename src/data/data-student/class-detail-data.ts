@@ -1,5 +1,7 @@
 import { ClassSession } from "./classes-data";
 
+
+// Tambahkan deklarasi ClassAttendee agar tidak error
 export interface ClassAttendee {
   id: string;
   name: string;
@@ -50,6 +52,14 @@ export interface ClassAssignment {
     url: string;
     size: string;
   }[];
+}
+
+export interface ClassAnnouncement {
+  id: string;
+  title: string;
+  content: string;
+  date: string;
+  isImportant?: boolean;
 }
 
 export interface ClassDiscussionMessage {
@@ -552,6 +562,7 @@ export const classDetailData: ClassDetailData[] = [
     ]
   }
 ];
+
 
 // Function to get class detail by ID
 export const getClassDetail = (id: string): ClassDetailData | undefined => {
