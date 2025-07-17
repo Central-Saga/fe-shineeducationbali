@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { StudentNavbar } from "@/components/ui-student/dashboard/StudentNavbar";
+import { StudentNavbar } from "@/components/ui-student/layout/StudentNavbar";
 
 export default function StudentDashboardLayout({
   children,
@@ -50,7 +50,7 @@ export default function StudentDashboardLayout({
       <div className="pt-16">
         {" "}
         {/* Tambahkan padding atas untuk memperhitungkan tinggi navbar tetap */}
-        <main className="max-w-7xl mx-auto p-8">{children}</main>
+        <main className="max-w-11/12 mx-auto">{children}</main>
       </div>
     </div>
   );

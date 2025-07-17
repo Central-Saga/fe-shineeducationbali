@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { StudentNavbar } from "@/components/ui-student/dashboard/StudentNavbar";
+import { StudentNavbar } from "@/components/ui-student/layout/StudentNavbar";
 import { StudentHero } from "@/components/ui-student/dashboard/StudentHero";
 import { StatisticsCards } from "@/components/ui-student/dashboard/StatisticsCards";
 import { ClassSchedule } from "@/components/ui-student/dashboard/ClassSchedule";
 import { LearningProgress } from "@/components/ui-student/dashboard/LearningProgress";
 import { AssignmentsAndGrades } from "@/components/ui-student/dashboard/AssignmentsAndGrades";
+import { motion } from "framer-motion";
 
 interface StudentData {
   nama: string;
@@ -100,23 +101,58 @@ export default function StudentOverview() {
   return (
     <>
       <StudentNavbar studentName={studentData.nama} />
-      <div className="pt-10 px-2 min-h-screen bg-gray-50">
-        <div className="max-w-full mx-auto space-y-4">
-          <StudentHero studentName={studentData.nama} learningStreak={7} />
+      <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 space-y-6">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <StudentHero studentName={studentData.nama} learningStreak={7} />
+          </motion.div>
 
-          <StatisticsCards
-            enrolledClasses={5}
-            pendingAssignments={3}
-            averageGrade="85%"
-            studyHours="24h"
-          />
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <StatisticsCards
+              enrolledClasses={5}
+              pendingAssignments={3}
+              averageGrade="85%"
+              studyHours="24h"
+            />
+          </motion.div>
 
-          <ClassSchedule schedule={mockSchedule} />
-          <LearningProgress progress={learningProgress} />
-          <AssignmentsAndGrades
-            assignments={mockAssignments}
-            grades={mockGrades}
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="lg:col-span-2"
+            >
+              <ClassSchedule schedule={mockSchedule} />
+            </motion.div>
+            
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <LearningProgress progress={learningProgress} />
+            </motion.div>
+            
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <AssignmentsAndGrades
+                assignments={mockAssignments}
+                grades={mockGrades}
+              />
+            </motion.div>
+          </div>
         </div>
       </div>
     </>

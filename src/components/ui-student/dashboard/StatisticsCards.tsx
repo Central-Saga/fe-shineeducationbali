@@ -2,6 +2,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import { BookOpen, CheckSquare, PieChart, Clock } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface StatisticsProps {
   enrolledClasses: number;
@@ -18,52 +20,85 @@ export function StatisticsCards({
 }: StatisticsProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-      <Card className="bg-gradient-to-br from-blue-50 to-blue-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium flex items-center gap-2">
-            <Image
-              src="/icons/book.svg"
-              alt="Classes"
-              width={20}
-              height={20}
-              className="opacity-70"
-            />
-            Kelas Terdaftar
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-blue-700">
-            {enrolledClasses}
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div
+        whileHover={{ y: -5 }}
+        transition={{ type: "spring", stiffness: 300 }}
+      >
+        <Card className="bg-gradient-to-br from-[#C40503]/5 to-[#C40503]/10 border border-[#C40503]/20 overflow-hidden relative shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-[#C40503]" />
+              Kelas Terdaftar
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-[#C40503]">
+              {enrolledClasses}
+            </div>
+            <p className="text-xs text-gray-500 mt-1">Kelas aktif saat ini</p>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Tugas Menunggu</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{pendingAssignments}</div>
-        </CardContent>
-      </Card>
+      <motion.div
+        whileHover={{ y: -5 }}
+        transition={{ type: "spring", stiffness: 300 }}
+      >
+        <Card className="bg-gradient-to-br from-[#DAA625]/5 to-[#DAA625]/10 border border-[#DAA625]/20 overflow-hidden relative shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <CheckSquare className="h-5 w-5 text-[#DAA625]" />
+              Tugas Menunggu
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-[#DAA625]">
+              {pendingAssignments}
+            </div>
+            <p className="text-xs text-gray-500 mt-1">Perlu dikerjakan segera</p>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Rata-rata Nilai</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{averageGrade}</div>
-        </CardContent>
-      </Card>
+      <motion.div
+        whileHover={{ y: -5 }}
+        transition={{ type: "spring", stiffness: 300 }}
+      >
+        <Card className="bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5 border border-gray-200 overflow-hidden relative shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <PieChart className="h-5 w-5 text-[#C40503]" />
+              Rata-rata Nilai
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-gray-800">
+              {averageGrade}
+            </div>
+            <p className="text-xs text-gray-500 mt-1">Prestasi belajar</p>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Jam Belajar</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{studyHours}</div>
-        </CardContent>
-      </Card>
+      <motion.div
+        whileHover={{ y: -5 }}
+        transition={{ type: "spring", stiffness: 300 }}
+      >
+        <Card className="bg-gradient-to-br from-[#DAA625]/5 to-[#C40503]/5 border border-gray-200 overflow-hidden relative shadow-md">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <Clock className="h-5 w-5 text-[#DAA625]" />
+              Jam Belajar
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-gray-800">
+              {studyHours}
+            </div>
+            <p className="text-xs text-gray-500 mt-1">Minggu ini</p>
+          </CardContent>
+        </Card>
+      </motion.div>
     </div>
   );
 }

@@ -24,6 +24,19 @@ import {
   BookOpenCheck
 } from "lucide-react";
 
+// Custom animation styles
+const floatingAnimations = {
+  slow: {
+    animation: 'float 6s ease-in-out infinite',
+  },
+  medium: {
+    animation: 'float 4s ease-in-out infinite',
+  },
+  fast: {
+    animation: 'float 3s ease-in-out infinite',
+  },
+};
+
 // Get teacher navigation data from our data file
 // Define types for our navigation items
 interface SubMenuItem {
@@ -63,42 +76,34 @@ export function TeacherSidebar() {
   }, [pathname]);
 
   return (
-    <ScrollArea className="w-64 h-full bg-gradient-to-b from-white to-gray-50 border-r dark:bg-gray-900 dark:border-gray-800 overflow-hidden">
+    <ScrollArea className="w-64 h-full bg-white dark:bg-gray-900 dark:border-gray-800 overflow-hidden">
       <div className="flex flex-col h-full">
-        <div className="relative flex h-20 items-center border-b px-6 overflow-hidden">
-          <div className="absolute inset-0 w-full h-full">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#C40503] to-[#DAA625]">
-              <svg 
-                className="absolute bottom-0 left-0 right-0 w-full" 
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 1440 320"
-                preserveAspectRatio="none"
-                style={{ height: "40%" }}
-              >
-                <path 
-                  fill="white" 
-                  fillOpacity="1" 
-                  d="M0,224L60,229.3C120,235,240,245,360,250.7C480,256,600,256,720,234.7C840,213,960,171,1080,165.3C1200,160,1320,192,1380,208L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-                ></path>
-              </svg>
-            </div>
-          </div>
-          <div className="relative z-10">
-            <Link
-              className="flex items-center gap-2 font-semibold"
-              href="/dashboard-teacher"
-            >
-              <Image
-                src="/pichome/logo.png"
-                alt="Shine Education Logo"
-                width={100}
-                height={100}
-                className="h-12 w-auto object-contain"
-                priority
-                quality={100}
-              />
+        <div className="relative">
+          {/* Simple, clean teacher header */}
+          <div className="bg-[#C40503] pt-5 pb-4">
+            {/* Simple accent line */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-[#DAA625]"></div>
+            
+            <Link href="/dashboard-teacher" className="block">
+              <div className="relative mx-auto" style={{ width: "120px" }}>
+                {/* Clean logo presentation with optimal size */}
+                <div className="bg-white rounded-md p-2.5 shadow-sm mx-auto">
+                  <Image
+                    src="/pichome/logo.png"
+                    alt="Shine Education"
+                    width={115}
+                    height={115}
+                    className="w-full h-auto object-contain"
+                    priority
+                    quality={100}
+                  />
+                </div>
+              </div>
             </Link>
           </div>
+          
+          {/* Clean divider */}
+          <div className="h-[1px] bg-gray-200 w-full"></div>
         </div>
         
         <nav className="flex-1 p-5 overflow-y-auto">

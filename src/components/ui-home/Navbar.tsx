@@ -6,13 +6,14 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,8 +29,10 @@ const Navbar = () => {
     { name: "Program", href: "/programs" },
     { name: "About Us", href: "/about" },
     { name: "Blog", href: "/blog" },
-    { name: "Job Vacancies", href: "/job-vacancies" },
-    { name: "Job Applications", href: "/job-applications" },
+    { name: "Lainnya", href: "#", isDropdown: true, subItems: [
+      { name: "Job Vacancies", href: "/job-vacancies" },
+      { name: "Job Applications", href: "/job-applications" },
+    ]},
   ];
 
   return (
@@ -116,13 +119,48 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ y: -2 }}
+                  className="relative"
                 >
-                  <Link
-                    href={item.href}
-                    className="text-gray-600 hover:text-[#C40503] transition-colors duration-300"
-                  >
-                    {item.name}
-                  </Link>
+                  {item.isDropdown ? (
+                    <div 
+                      className="relative cursor-pointer"
+                      onMouseEnter={() => setIsDropdownOpen(true)}
+                      onMouseLeave={() => setIsDropdownOpen(false)}
+                    >
+                      <div className="flex items-center text-gray-600 hover:text-[#C40503] transition-colors duration-300">
+                        {item.name}
+                        <ChevronDown className="ml-1 h-4 w-4" />
+                      </div>
+                      
+                      {isDropdownOpen && (
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          className="absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+                        >
+                          <div className="py-1">
+                            {item.subItems?.map((subItem) => (
+                              <Link
+                                key={subItem.name}
+                                href={subItem.href}
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#C40503]"
+                              >
+                                {subItem.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className="text-gray-600 hover:text-[#C40503] transition-colors duration-300"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </motion.div>
               ))}
             </div>
@@ -241,13 +279,33 @@ const Navbar = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <Link
-                      href={item.href}
-                      className="text-gray-600 hover:text-[#C40503] transition-colors duration-300 block py-2"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
+                    {item.isDropdown ? (
+                      <div className="flex flex-col">
+                        <div className="text-gray-600 font-medium py-2">
+                          {item.name}
+                        </div>
+                        <div className="ml-4 flex flex-col gap-2">
+                          {item.subItems?.map((subItem) => (
+                            <Link
+                              key={subItem.name}
+                              href={subItem.href}
+                              className="text-gray-600 hover:text-[#C40503] transition-colors duration-300 block py-1"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              {subItem.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="text-gray-600 hover:text-[#C40503] transition-colors duration-300 block py-2"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
                   </motion.div>
                 ))}
                 <div className="flex flex-col gap-2 pt-4 border-t">

@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { Calendar, Clock, User } from "lucide-react";
 
 interface ScheduleItem {
   subject: string;
@@ -17,23 +19,47 @@ interface ClassScheduleProps {
 
 export function ClassSchedule({ schedule }: ClassScheduleProps) {
   return (
-    <Card className="p-6 bg-white shadow-sm">
-      <h2 className="text-xl font-semibold mb-4 text-center">
-        Jadwal Kelas Minggu Ini 🎯
-      </h2>
+    <Card className="p-6 bg-white shadow-md rounded-xl border border-gray-100 overflow-hidden">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+          <Calendar className="h-5 w-5 text-[#C40503]" />
+          Jadwal Kelas Minggu Ini
+        </h2>
+        
+        <motion.div
+          className="bg-[#C40503]/10 text-[#C40503] text-sm px-3 py-1 rounded-full font-medium"
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          transition={{ 
+            repeat: Infinity, 
+            repeatType: "reverse", 
+            duration: 1.5 
+          }}
+        >
+          Up Next
+        </motion.div>
+      </div>
+      
       <div className="space-y-4">
         {schedule.map((scheduleItem, index) => (
-          <div
+          <motion.div
             key={index}
-            className="p-4 rounded-xl bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-100 hover:shadow-md transition-all duration-300"
+            whileHover={{ scale: 1.02, x: 5 }}
+            className={`p-4 rounded-xl border border-gray-100 hover:shadow-md transition-all duration-300 ${
+              index === 0 
+                ? "bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/10 border-[#C40503]/20" 
+                : "bg-gradient-to-r from-gray-50 to-white"
+            }`}
           >
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-white p-2 shadow-sm">
+              <div className={`w-12 h-12 rounded-full p-2 shadow-sm ${
+                index === 0 ? "bg-[#C40503]/10" : "bg-white"
+              }`}>
                 <Image
                   src={scheduleItem.icon}
                   alt={scheduleItem.subject}
-                  width={32}
-                  height={32}
+                  width={40}
+                  height={40}
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -41,18 +67,26 @@ export function ClassSchedule({ schedule }: ClassScheduleProps) {
                 <h3 className="font-semibold text-gray-800">
                   {scheduleItem.subject}
                 </h3>
-                <p className="text-sm text-gray-600">{scheduleItem.teacher}</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs font-medium bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
+                <div className="flex items-center gap-1 text-sm text-gray-600">
+                  <User className="h-3 w-3" />
+                  <p>{scheduleItem.teacher}</p>
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                    index === 0 
+                      ? "bg-[#C40503]/10 text-[#C40503]" 
+                      : "bg-gray-100 text-gray-600"
+                  }`}>
                     {scheduleItem.day}
                   </span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-gray-500 flex items-center">
+                    <Clock className="h-3 w-3 mr-1" />
                     {scheduleItem.time}
                   </span>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </Card>

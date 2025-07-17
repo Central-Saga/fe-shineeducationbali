@@ -31,15 +31,25 @@ export const sidebarTeacherNavigation = [
     icon: BookOpen,
     submenu: [
       {
-        name: "Class List",
+        name: "Class Management",
         href: "/dashboard-teacher/classes",
         description: "View all classes you teach"
       },
-      {
-        name: "Schedule",
-        href: "/dashboard-teacher/schedule",
-        description: "Your teaching schedule"
-      }
+      //       {
+      //   name: "Materials",
+      //   href: "/dashboard-teacher/materials",
+      //   description: "Upload and manage teaching materials"
+      // },
+      // {
+      //   name: "Assignments",
+      //   href: "/dashboard-teacher/assignments",
+      //   description: "Create and check assignments"
+      // },
+      // {
+      //   name: "Grades",
+      //   href: "/dashboard-teacher/grades",
+      //   description: "Input and manage student grades"
+      // }
     ]
   },
   {
@@ -55,27 +65,6 @@ export const sidebarTeacherNavigation = [
         name: "Attendance",
         href: "/dashboard-teacher/attendance",
         description: "Record student attendance"
-      }
-    ]
-  },
-  {
-    name: "Learning",
-    icon: GraduationCap,
-    submenu: [
-      {
-        name: "Materials",
-        href: "/dashboard-teacher/materials",
-        description: "Upload and manage teaching materials"
-      },
-      {
-        name: "Assignments",
-        href: "/dashboard-teacher/assignments",
-        description: "Create and check assignments"
-      },
-      {
-        name: "Grades",
-        href: "/dashboard-teacher/grades",
-        description: "Input and manage student grades"
       }
     ]
   },
@@ -114,11 +103,6 @@ export const sidebarTeacherNavigation = [
         href: "/dashboard-teacher/salary/history",
         description: "View salary payment history"
       },
-      {
-        name: "Benefits",
-        href: "/dashboard-teacher/salary/benefits",
-        description: "Information on allowances and benefits"
-      }
     ]
   },
   // {
