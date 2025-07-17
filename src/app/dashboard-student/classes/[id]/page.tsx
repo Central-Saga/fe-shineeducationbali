@@ -1,3 +1,4 @@
+// ...existing code...
 "use client";
 
 import React, { useState } from 'react';
@@ -32,8 +33,7 @@ export default function ClassDetailPage() {
     item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const [showDiscussion, setShowDiscussion] = useState(false);
-  const [showAssignmentDetail, setShowAssignmentDetail] = useState(false);
+
   // Next.js 15+ params is a Promise, must unwrap with React.use()
   const paramsPromise = useParams();
   const [classId, setClassId] = useReactState('');
@@ -49,6 +49,29 @@ export default function ClassDetailPage() {
     });
     return () => { isMounted = false; };
   }, [paramsPromise]);
+
+  // Checkbox progress tugas & materi, simpan ke localStorage agar sinkron dengan ClassCard
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const totalItems = filteredAssignments.length + filteredMaterials.length;
+  useEffect(() => {
+    if (typeof window !== 'undefined' && classId) {
+      const saved = localStorage.getItem('classProgress_' + classId);
+      setCheckedItems(saved ? JSON.parse(saved) : []);
+    }
+  }, [classId]);
+  const handleCheckItem = (id: string) => {
+    setCheckedItems(prev => {
+      const updated = prev.includes(id)
+        ? prev.filter(itemId => itemId !== id)
+        : [...prev, id];
+      if (typeof window !== 'undefined' && classId) {
+        localStorage.setItem('classProgress_' + classId, JSON.stringify(updated));
+      }
+      return updated;
+    });
+  };
+  const [showDiscussion, setShowDiscussion] = useState(false);
+  const [showAssignmentDetail, setShowAssignmentDetail] = useState(false);
   const classDetail = getClassDetail(classId);
   const [activeTab, setActiveTab] = useState('pertemuan');
 
@@ -162,7 +185,7 @@ export default function ClassDetailPage() {
       </div>
 
       {/* Card Tugas & Materi */}
-      {/* Gabungan Card Tugas & Materi */}
+      {/* Gabungan Card Tugas & Materi dengan checkbox, inisialisasi setelah classId valid */}
       <div className="mt-8 flex justify-center">
         <div className="w-full max-w-7xl bg-white border border-[#f3bcbc] rounded-2xl shadow-lg p-6 flex flex-col gap-8">
           <h2 className="text-2xl font-bold text-[#C40503] mb-2">Tugas & Materi Pembelajaran</h2>
@@ -183,8 +206,14 @@ export default function ClassDetailPage() {
               {filteredAssignments.length === 0 && (
                 <li className="text-gray-500 italic">Tidak ada tugas ditemukan.</li>
               )}
-              {filteredAssignments.map((assignment: any) => (
+              {classId && filteredAssignments.map((assignment: any) => (
                 <li key={assignment.id} className="flex items-center gap-4 p-4 rounded-xl bg-white border border-[#f3bcbc] shadow-sm hover:shadow-md transition-shadow">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems.includes(assignment.id)}
+                    onChange={() => handleCheckItem(assignment.id)}
+                    className="accent-[#C40503] w-5 h-5 rounded focus:ring-[#C40503] mr-2"
+                  />
                   <div className="flex-shrink-0 bg-[#fff7f7] rounded-lg p-3 flex items-center justify-center">
                     <FileText className="h-7 w-7 text-[#C40503]" />
                   </div>
@@ -208,8 +237,14 @@ export default function ClassDetailPage() {
               {filteredMaterials.length === 0 && (
                 <li className="text-gray-500 italic">Tidak ada materi ditemukan.</li>
               )}
-              {filteredMaterials.map((material: any) => (
-                <li key={material.id} className="p-4 rounded-xl bg-white border border-[#f3e6bc] flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+              {classId && filteredMaterials.map((material: any) => (
+                <li key={material.id} className="flex items-center gap-4 p-4 rounded-xl bg-white border border-[#f3e6bc] shadow-sm hover:shadow-md transition-shadow">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems.includes(material.id)}
+                    onChange={() => handleCheckItem(material.id)}
+                    className="accent-[#DAA625] w-5 h-5 rounded focus:ring-[#DAA625] mr-2"
+                  />
                   <span className="font-bold text-base text-[#DAA625]">{material.title}</span>
                   <div className="text-gray-700 text-sm">{material.description}</div>
                   <a href={material.fileUrl} className="text-[#DAA625] underline text-sm font-semibold">Download Materi</a>
@@ -219,6 +254,7 @@ export default function ClassDetailPage() {
           </div>
         </div>
       </div>
+  {/* Simpan jumlah tugas & materi ke localStorage agar progress bar di ClassCard selalu sesuai */}
 
       {/* Modal/Tabel Diskusi Join Grup */}
       {showDiscussion && (
