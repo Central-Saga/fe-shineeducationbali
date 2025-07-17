@@ -16,6 +16,22 @@ import { ChevronLeft, Clock, MapPin, User, BookOpen, FileText } from 'lucide-rea
 import { Badge } from '@/components/ui/badge';
 
 export default function ClassDetailPage() {
+  // Import dummy data dengan named exports
+  // eslint-disable-next-line
+  const { studentAssignments, studentMaterials } = require('@/data/data-student/student-materials-assignments');
+
+  // State untuk search tugas & materi
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filter tugas & materi berdasarkan search
+  const filteredAssignments = (studentAssignments ?? []).filter((item: any) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const filteredMaterials = (studentMaterials ?? []).filter((item: any) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   const [showDiscussion, setShowDiscussion] = useState(false);
   const [showAssignmentDetail, setShowAssignmentDetail] = useState(false);
   // Next.js 15+ params is a Promise, must unwrap with React.use()
@@ -81,10 +97,8 @@ export default function ClassDetailPage() {
     }
   };
 
-  // Import dummy data with correct named exports
-  // @ts-ignore
-  // eslint-disable-next-line
-  const { studentAssignments, studentMaterials } = require('@/data/data-student/student-materials-assignments');
+
+  // ...existing code...
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -150,25 +164,38 @@ export default function ClassDetailPage() {
       {/* Card Tugas & Materi */}
       {/* Gabungan Card Tugas & Materi */}
       <div className="mt-8 flex justify-center">
-        <div className="w-full max-w-7xl bg-white border-2 border-[#f3bcbc] rounded-2xl shadow p-8 flex flex-col gap-8">
-          <h2 className="text-2xl font-bold text-[#C40503] mb-4">Tugas & Materi Pembelajaran</h2>
+        <div className="w-full max-w-7xl bg-white border border-[#f3bcbc] rounded-2xl shadow-lg p-6 flex flex-col gap-8">
+          <h2 className="text-2xl font-bold text-[#C40503] mb-2">Tugas & Materi Pembelajaran</h2>
+          {/* Search Bar */}
+          <div className="mb-4 flex items-center gap-2">
+            <input
+              type="text"
+              className="w-full px-4 py-2 border border-[#f3bcbc] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C40503] text-gray-800 bg-white shadow"
+              placeholder="Cari tugas atau materi..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+          </div>
           {/* Section Tugas */}
           <div>
-            <h3 className="text-xl font-bold text-[#C40503] mb-2">Tugas dari Guru</h3>
+            <h3 className="text-lg font-bold text-[#C40503] mb-2">Tugas dari Guru</h3>
             <ul className="space-y-4">
-              {(studentAssignments ?? []).map((assignment: any) => (
-                <li key={assignment.id} className="flex items-center gap-5 p-4 rounded-xl bg-[#fff7f7] border border-[#f3bcbc]">
+              {filteredAssignments.length === 0 && (
+                <li className="text-gray-500 italic">Tidak ada tugas ditemukan.</li>
+              )}
+              {filteredAssignments.map((assignment: any) => (
+                <li key={assignment.id} className="flex items-center gap-4 p-4 rounded-xl bg-white border border-[#f3bcbc] shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex-shrink-0 bg-[#fff7f7] rounded-lg p-3 flex items-center justify-center">
                     <FileText className="h-7 w-7 text-[#C40503]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-bold text-lg text-[#C40503]">{assignment.title}</span>
+                      <span className="font-bold text-base text-[#C40503]">{assignment.title}</span>
                     </div>
                     <div className="text-gray-700 text-sm">{assignment.description}</div>
                   </div>
                   <Link href={`/dashboard-student/classes/${classId}/assignment-detail?id=${assignment.id}`}>
-                    <button className="bg-[#C40503] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#a30402] transition-colors">Lihat Detail</button>
+                    <button className="bg-[#C40503] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#a30402] transition-colors text-sm">Lihat Detail</button>
                   </Link>
                 </li>
               ))}
@@ -176,11 +203,14 @@ export default function ClassDetailPage() {
           </div>
           {/* Section Materi */}
           <div>
-            <h3 className="text-xl font-bold text-[#DAA625] mb-2">Materi Pembelajaran</h3>
+            <h3 className="text-lg font-bold text-[#DAA625] mb-2">Materi Pembelajaran</h3>
             <ul className="space-y-4">
-              {(studentMaterials ?? []).map((material: any) => (
-                <li key={material.id} className="p-4 rounded-xl bg-[#fffbe7] border border-[#f3e6bc] flex flex-col gap-2">
-                  <span className="font-bold text-lg text-[#DAA625]">{material.title}</span>
+              {filteredMaterials.length === 0 && (
+                <li className="text-gray-500 italic">Tidak ada materi ditemukan.</li>
+              )}
+              {filteredMaterials.map((material: any) => (
+                <li key={material.id} className="p-4 rounded-xl bg-white border border-[#f3e6bc] flex flex-col gap-2 shadow-sm hover:shadow-md transition-shadow">
+                  <span className="font-bold text-base text-[#DAA625]">{material.title}</span>
                   <div className="text-gray-700 text-sm">{material.description}</div>
                   <a href={material.fileUrl} className="text-[#DAA625] underline text-sm font-semibold">Download Materi</a>
                 </li>
