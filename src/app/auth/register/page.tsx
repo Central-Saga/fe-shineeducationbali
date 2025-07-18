@@ -28,13 +28,7 @@ interface FloatingEmoji {
   duration: number;
 }
 
-interface FormField {
-  id: keyof typeof FormData;
-  label: string;
-  type: string;
-  placeholder: string;
-  icon: string;
-}
+
 
 type FieldId = keyof FormData;
 
@@ -120,7 +114,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const [activeField, setActiveField] = useState("");
   const [floatingEmojis, setFloatingEmojis] = useState<FloatingEmoji[]>([]);
-  const [currentStep, setCurrentStep] = useState(0);
+
   const [formData, setFormData] = useState<FormData>({
     namaLengkap: "",
     email: "",
@@ -177,7 +171,7 @@ export default function RegisterPage() {
       // TODO: Send registration data to API
       console.log("Register attempt:", registrationData);
       router.push("/auth/login");
-    } catch (err) {
+    } catch {
       setError("Terjadi kesalahan saat mendaftar. Silakan coba lagi.");
     }
   };

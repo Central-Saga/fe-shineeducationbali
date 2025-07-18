@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-
 const About = () => {
   const listItems = [
     "Meningkatkan prestasi akademik",

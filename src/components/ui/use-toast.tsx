@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
+
 import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
@@ -10,8 +10,8 @@ const TOAST_REMOVE_DELAY = 1000000
 
 type ToasterToast = {
   id: string
-  title?: React.ReactNode
-  description?: React.ReactNode
+  title?: string
+  description?: string
   action?: React.ReactNode
   variant?: "default" | "destructive"
 }
@@ -191,16 +191,16 @@ export function Toaster() {
 
   return (
     <ToastProvider>
-      {state.toasts.map(function ({ id, title, description, action, ...props }) {
+      {state.toasts.map(function (toast) {
         return (
-          <Toast key={id} {...props}>
+          <Toast key={toast.id} {...toast}>
             <div className="grid gap-1">
-              {title && <ToastTitle>{title}</ToastTitle>}
-              {description && (
-                <ToastDescription>{description}</ToastDescription>
+              {toast.title && <ToastTitle>{toast.title}</ToastTitle>}
+              {toast.description && (
+                <ToastDescription>{toast.description}</ToastDescription>
               )}
             </div>
-            {action}
+            {toast.action}
             <ToastClose />
           </Toast>
         )

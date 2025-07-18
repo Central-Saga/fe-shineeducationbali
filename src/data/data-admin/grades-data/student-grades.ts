@@ -1,6 +1,6 @@
-import { SubjectName, StatusType, Grade } from "@/types/grade";
+import { SubjectName, StatusType, GradeDisplay } from "@/types/grade";
 
-export const studentGrades: Grade[] = [
+export const studentGrades: GradeDisplay[] = [
   {
     id: "INB0001081",
     studentName: "Kadek Ayu Putri",

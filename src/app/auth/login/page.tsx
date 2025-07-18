@@ -395,7 +395,7 @@ export default function LoginPage() {
                   </Button>
                 </motion.div>
                 <div className="text-center text-sm py-5">
-                  <span className="text-gray-500">Don't have an account? </span>
+                  <span className="text-gray-500">Don&apos;t have an account? </span>
                   <motion.div
                     className="inline-block"
                     whileHover={{ scale: 1.1 }}

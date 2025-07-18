@@ -11,7 +11,7 @@ export type TeacherFormData = {
   specialization: string[];
   yearsOfExperience: number;
   certifications: string[];
-  profilePhoto: string;
+  profilePhoto: string | null;
   schedule: Record<string, string[]>;
 };
 
@@ -29,7 +29,7 @@ export const defaultTeacherValues: TeacherFormData = {
   yearsOfExperience: 0,
   certifications: [],
   status: "ACTIVE",
-  profilePhoto: "",
+  profilePhoto: null,
   schedule: {},
 };
 
@@ -43,6 +43,6 @@ export const defaultTeacherFormValues: TeacherFormData = {
   yearsOfExperience: 0,
   certifications: [],
   status: "ACTIVE",
-  profilePhoto: "",
+  profilePhoto: null,
   schedule: {},
 };

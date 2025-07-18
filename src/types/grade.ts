@@ -14,13 +14,28 @@ export type SubjectName =
 
 export type StatusType = "SELESAI" | "PENDING" | "TIDAK_LULUS";
 
-export interface Grade {
+// Interface untuk data grade yang digunakan di UI (data lama)
+export interface GradeDisplay {
   id: string;
   studentName: string;
   subject: SubjectName;
   level: "TK" | "SD" | "SMP" | "SMA/SMK" | "UMUM";
   averageScore: number;
   status: StatusType;
+}
+
+// Interface untuk service (data baru)
+export interface Grade {
+  id: string;
+  studentId: string;
+  courseId: string;
+  teacherId: string;
+  components: GradeComponents;
+  finalGrade: number;
+  status: "DRAFT" | "PUBLISHED";
+  comments?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface SubjectGradeConfig {
@@ -58,4 +73,37 @@ export interface StudentDetail {
       completionDate: string;
     }>;
   };
+}
+
+// Tipe-tipe yang dibutuhkan oleh grade.service.ts
+export interface GradeFormData {
+  studentId: string;
+  courseId: string;
+  teacherId: string;
+  components: GradeComponents;
+  comments?: string;
+}
+
+export interface GradeTemplate {
+  id: string;
+  courseId: string;
+  name: string;
+  components: Array<{
+    name: string;
+    weight: number;
+    required: boolean;
+    description?: string;
+  }>;
+}
+
+export interface GradeSummary {
+  courseId: string;
+  courseName: string;
+  finalGrade: number;
+  status: "DRAFT" | "PUBLISHED";
+  lastUpdated: string;
+}
+
+export interface GradeComponents {
+  [key: string]: number;
 }

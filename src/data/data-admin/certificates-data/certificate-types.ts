@@ -25,7 +25,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Kursus Bahasa Inggris - Basic",
     courseType: "ENGLISH",
     description: "Sertifikat penyelesaian kursus Bahasa Inggris tingkat dasar",
-    levels: ["SD", "SMP", "SMA"],
+    levels: ["SD", "SMP", "SMA/SMK"],
     templateId: "tpl-english-basic",
     validityPeriod: 24, // 2 years
     metadata: {
@@ -49,7 +49,7 @@ export const certificateTypes: CertificateType[] = [
     courseType: "ENGLISH",
     description:
       "Sertifikat penyelesaian kursus Bahasa Inggris tingkat menengah",
-    levels: ["SMP", "SMA"],
+    levels: ["SMP", "SMA/SMK"],
     templateId: "tpl-english-intermediate",
     validityPeriod: 24,
     metadata: {
@@ -72,7 +72,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Kursus Bahasa Inggris - Advanced",
     courseType: "ENGLISH",
     description: "Sertifikat penyelesaian kursus Bahasa Inggris tingkat lanjut",
-    levels: ["SMA"],
+    levels: ["SMA/SMK"],
     templateId: "tpl-english-advanced",
     validityPeriod: 24,
     metadata: {
@@ -97,7 +97,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Kursus Komputer - Basic",
     courseType: "COMPUTER",
     description: "Sertifikat penyelesaian kursus Komputer tingkat dasar",
-    levels: ["SD", "SMP", "SMA"],
+    levels: ["SD", "SMP", "SMA/SMK"],
     templateId: "tpl-computer-basic",
     validityPeriod: 24,
     metadata: {
@@ -120,7 +120,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Kursus Komputer - Intermediate",
     courseType: "COMPUTER",
     description: "Sertifikat penyelesaian kursus Komputer tingkat menengah",
-    levels: ["SMP", "SMA"],
+    levels: ["SMP", "SMA/SMK"],
     templateId: "tpl-computer-intermediate",
     validityPeriod: 24,
     metadata: {
@@ -143,7 +143,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Kursus Komputer - Advanced",
     courseType: "COMPUTER",
     description: "Sertifikat penyelesaian kursus Komputer tingkat lanjut",
-    levels: ["SMA"],
+    levels: ["SMA/SMK"],
     templateId: "tpl-computer-advanced",
     validityPeriod: 24,
     metadata: {
@@ -168,7 +168,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Kursus Matematika - Basic",
     courseType: "CODING",
     description: "Sertifikat penyelesaian kursus Matematika tingkat dasar",
-    levels: ["SD", "SMP", "SMA"],
+    levels: ["SD", "SMP", "SMA/SMK"],
     templateId: "tpl-math-basic",
     validityPeriod: 24,
     metadata: {
@@ -191,7 +191,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Kursus Matematika - Intermediate",
     courseType: "CODING",
     description: "Sertifikat penyelesaian kursus Matematika tingkat menengah",
-    levels: ["SMP", "SMA", "SMK"],
+    levels: ["SMP", "SMA/SMK"],
     templateId: "tpl-math-intermediate",
     validityPeriod: 24,
     metadata: {
@@ -214,7 +214,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Kursus Matematika - Advanced",
     courseType: "CODING",
     description: "Sertifikat penyelesaian kursus Matematika tingkat lanjut",
-    levels: ["SMA"],
+    levels: ["SMA/SMK"],
     templateId: "tpl-math-advanced",
     validityPeriod: 24,
     metadata: {
@@ -239,7 +239,7 @@ export const certificateTypes: CertificateType[] = [
     name: "Sertifikat Prestasi",
     courseType: "COMPUTER",
     description: "Sertifikat untuk pencapaian atau prestasi khusus",
-    levels: ["SD", "SMP", "SMA"],
+    levels: ["SD", "SMP", "SMA/SMK"],
     templateId: "tpl-achievement",
     validityPeriod: 0, // tidak ada kadaluarsa
     metadata: {

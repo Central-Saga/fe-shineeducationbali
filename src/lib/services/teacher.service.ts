@@ -9,7 +9,7 @@ const dummyTeachers: Teacher[] = [
     phoneNumber: "081234567890",
     profilePhoto: null,
     subjects: ["Matematika", "Fisika"],
-    educationLevel: ["SMP", "SMA"],
+    educationLevel: ["SMP", "SMA/SMK"],
     status: "ACTIVE",
     specialization: ["Matematika", "Fisika"],
     yearsOfExperience: 5,
@@ -27,7 +27,7 @@ const dummyTeachers: Teacher[] = [
     phoneNumber: "081345678901",
     profilePhoto: null,
     subjects: ["Bahasa Inggris"],
-    educationLevel: ["SD", "SMP", "SMA"],
+    educationLevel: ["SD", "SMP", "SMA/SMK"],
     status: "ACTIVE",
     specialization: ["English Literature", "TOEFL Preparation"],
     yearsOfExperience: 7,
@@ -45,7 +45,7 @@ const dummyTeachers: Teacher[] = [
     phoneNumber: "081456789012",
     profilePhoto: null,
     subjects: ["IPA", "Biologi", "Kimia"],
-    educationLevel: ["SMP", "SMA"],
+    educationLevel: ["SMP", "SMA/SMK"],
     status: "ACTIVE",
     specialization: ["Sains", "Biologi", "Kimia"],
     yearsOfExperience: 4,
@@ -63,7 +63,7 @@ const dummyTeachers: Teacher[] = [
     phoneNumber: "081567890123",
     profilePhoto: null,
     subjects: ["Bahasa Indonesia", "Sastra"],
-    educationLevel: ["SD", "SMP", "SMA"],
+    educationLevel: ["SD", "SMP", "SMA/SMK"],
     status: "INACTIVE",
     specialization: ["Bahasa Indonesia", "Sastra Indonesia"],
     yearsOfExperience: 6,
@@ -80,7 +80,7 @@ const dummyTeachers: Teacher[] = [
     phoneNumber: "081678901234",
     profilePhoto: null,
     subjects: ["IPS", "Sejarah", "Geografi"],
-    educationLevel: ["SMP", "SMA"],
+    educationLevel: ["SMP", "SMA/SMK"],
     status: "ACTIVE",
     specialization: ["Ilmu Sosial", "Sejarah", "Geografi"],
     yearsOfExperience: 8,
@@ -116,8 +116,6 @@ class TeacherService {
     const newTeacher: Teacher = {
       ...data,
       id: `TCH${newId}`,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     };
     dummyTeachers.push(newTeacher);
     return newTeacher;
@@ -131,7 +129,6 @@ class TeacherService {
     dummyTeachers[index] = {
       ...dummyTeachers[index],
       ...data,
-      updatedAt: new Date(),
     };
     return dummyTeachers[index];
   }

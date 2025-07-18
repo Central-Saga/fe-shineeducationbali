@@ -20,14 +20,14 @@ class PDFGeneratorService {
     const replacements = {
       "{type}":
         certificate.type === "COURSE_COMPLETION" ? "Completion" : "Achievement",
-      "{studentName}": certificate.studentId, // Will be replaced with actual name
-      "{courseName}": certificate.metadata.courseName || "",
+      "{studentName}": certificate.studentName || certificate.studentId,
+      "{courseName}": certificate.courseName || certificate.metadata?.courseName || "",
       "{achievementDate}": new Date(
-        certificate.achievementDate
+        certificate.issueDate
       ).toLocaleDateString("id-ID"),
-      "{signatureUrl}": certificate.signedBy.signature,
-      "{signerName}": certificate.signedBy.name,
-      "{signerPosition}": certificate.signedBy.position,
+      "{signatureUrl}": certificate.signedBy || "",
+      "{signerName}": certificate.teacherName || certificate.signedBy || "",
+      "{signerPosition}": "Teacher",
       "{certificateId}": certificate.id,
       "{issueDate}": new Date(certificate.issueDate).toLocaleDateString(
         "id-ID"

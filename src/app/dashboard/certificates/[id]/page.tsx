@@ -3,11 +3,12 @@ import { Heading } from "@/components/ui-admin/shared/Heading";
 import { CertificatePreview } from "@/components/ui-admin/certificates/certificate-preview";
 import { CertificateActions } from "@/components/ui-admin/certificates/certificate-actions";
 
-export default function CertificateDetailsPage({
+export default async function CertificateDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   return (
     <div className="p-6">
       <Heading
@@ -16,10 +17,10 @@ export default function CertificateDetailsPage({
       />
       <div className="grid gap-6 mt-6">
         <Card className="p-6">
-          <CertificatePreview certificateId={params.id} />
+          <CertificatePreview certificateId={id} />
         </Card>
         <Card className="p-6">
-          <CertificateActions certificateId={params.id} />
+          <CertificateActions certificateId={id} />
         </Card>
       </div>
     </div>

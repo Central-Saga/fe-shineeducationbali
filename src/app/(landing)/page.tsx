@@ -226,7 +226,6 @@ export default function Home() {
             duration: 4,
             repeat: Infinity,
             ease: "easeInOut",
-            yoyo: true,
           }}
         >
           <div className="w-full h-[80%] bg-gradient-to-b from-[#FF6B6B]/40 to-[#FF9999]/40 rounded-full" />

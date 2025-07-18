@@ -17,8 +17,6 @@ import { mockGradeDetails } from "@/data/data-admin/grades-data/grades-data";
 export default function SubjectDetailPage() {
   const router = useRouter();
   const params = useParams();
-  const subjectId = params.subjectId as string;
-
   const handlePrintCertificate = (studentId: string) => {
     console.log("Printing certificate for:", studentId);
   };

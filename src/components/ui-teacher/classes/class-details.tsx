@@ -15,8 +15,6 @@ import {
 import { ArrowLeft, FileText, Plus, User, Calendar } from "lucide-react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
-
 // State interfaces for meeting attendance visibility
 interface MeetingAttendanceState {
   [meetingId: string]: boolean;

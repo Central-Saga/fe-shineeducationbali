@@ -59,7 +59,7 @@ const formSchema = z.object({
   yearsOfExperience: z.number().min(0, "Pengalaman tidak boleh negatif"),
   certifications: z.array(z.string()),
   status: z.enum(["ACTIVE", "INACTIVE"] as const),
-  profilePhoto: z.string().min(1, "Foto profil harus diupload"),
+  profilePhoto: z.union([z.string(), z.null()]),
   schedule: z.record(z.string(), z.array(z.string())),
 });
 

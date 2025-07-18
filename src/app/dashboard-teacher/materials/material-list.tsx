@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { materialsData } from "@/data/data-teacher/materials-data";
+import { materialsData } from "@/data/data-teacher/materials/materials-data";
 import { Plus, Download, FileText, Video } from "lucide-react";
 
 export default function MaterialList() {
@@ -36,8 +36,8 @@ export default function MaterialList() {
                   <h3 className="mt-4 font-semibold">{material.title}</h3>
                   <p className="text-sm text-gray-500">{material.subject}</p>
                   <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
-                    <span>Uploaded: {material.uploadDate}</span>
-                    <span>{material.size}</span>
+                    <span>Uploaded: {material.uploadedDate}</span>
+                    <span>{material.fileSize}</span>
                   </div>
                 </CardContent>
               </Card>
