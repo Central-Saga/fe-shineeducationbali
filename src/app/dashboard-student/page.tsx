@@ -124,35 +124,24 @@ export default function StudentOverview() {
             />
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="lg:col-span-2"
-            >
-              <ClassSchedule schedule={mockSchedule} />
-            </motion.div>
-            
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <LearningProgress progress={learningProgress} />
-            </motion.div>
-            
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <AssignmentsAndGrades
-                assignments={mockAssignments}
-                grades={mockGrades}
-              />
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <ClassSchedule schedule={mockSchedule} />
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <AssignmentsAndGrades
+              assignments={mockAssignments}
+              grades={mockGrades}
+            />
+          </motion.div>
         </div>
       </div>
     </>

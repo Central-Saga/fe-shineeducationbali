@@ -135,8 +135,8 @@ export default function ClassDetailPage() {
         </Link>
         
         {/* Class Card - similar to the screenshot */}
-        <div className="border rounded-lg overflow-hidden mb-8">
-          <div className="p-6">
+        <div className="border rounded-lg overflow-hidden mb-8 bg-[url('/public/backgrounds/wave-header.svg')] bg-cover bg-center bg-no-repeat">
+          <div className="p-6 bg-white/80 backdrop-blur-sm rounded-lg">
             <div className="flex justify-between items-start mb-3">
               <div>
                 <div className="flex items-center gap-3 mb-1">
@@ -180,6 +180,12 @@ export default function ClassDetailPage() {
               </div>
             </div>
             <p className="text-gray-700 mb-5">{classDetail.description}</p>
+            {/* Link untuk melihat absensi siswa */}
+            <div className="mt-4">
+              <Link href={`/dashboard-student/classes/${classId}/attendance`} className="inline-block text-[#DAA625] font-semibold underline hover:text-[#C40503] transition-colors">
+                Lihat Absensi Siswa di Kelas Ini
+              </Link>
+            </div>
           </div>
         </div>
       </div>

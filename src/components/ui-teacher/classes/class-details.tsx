@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowLeft, FileText, Plus, User, Calendar } from "lucide-react";
+import { ArrowLeft, FileText, Plus, User, Calendar, Clock, MapPin, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
@@ -37,6 +37,7 @@ interface ClassDetailsProps {
     status: string;
     description?: string;
     syllabus?: string[];
+    groupLink?: string;
     students?: Array<{
       id: string;
       name: string;
@@ -170,15 +171,44 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                   </div>
                 </div>
               )}
+              
+              {/* Bagian edit deskripsi dan link grup */}
+              <div className="mt-6 space-y-4">
+                <h3 className="text-lg font-semibold mb-3 text-[#C40503]">Edit Informasi</h3>
+                {/* Link Grup - Editable */}
+                <div>
+                  <label htmlFor="groupLink" className="block text-sm font-medium text-gray-700 mb-1">Link Grup</label>
+                  <input 
+                    type="text"
+                    id="groupLink"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C40503]"
+                    placeholder="Masukkan link grup kelas (WhatsApp, MS Teams, dll)"
+                    defaultValue={classData.groupLink}
+                  />
+                </div>
+                
+                {/* Deskripsi Kelas - Editable */}
+                <div>
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kelas</label>
+                  <textarea
+                    id="description"
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C40503]"
+                    defaultValue={classData.description}
+                  />
+                  <p className="mt-1 text-sm text-gray-500">Sebagai pengajar, Anda dapat mengubah deskripsi kelas dan link grup.</p>
+                </div>
+                
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline">Batal</Button>
+                  <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">Simpan Perubahan</Button>
+                </div>
+              </div>
             </div>
           </div>
           
-          <Tabs defaultValue="meetings" className="mt-6">
+          <Tabs defaultValue="students" className="mt-6">
             <TabsList className="bg-gray-100">
-              <TabsTrigger value="meetings" className="data-[state=active]:bg-white">
-                <Calendar className="h-4 w-4 mr-2" />
-                Pertemuan
-              </TabsTrigger>
               <TabsTrigger value="students" className="data-[state=active]:bg-white">
                 <User className="h-4 w-4 mr-2" />
                 Siswa
@@ -195,242 +225,6 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                 Nilai
               </TabsTrigger>
             </TabsList>
-            
-            <TabsContent value="meetings" className="mt-4">
-              <Card>
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-center">
-                    <CardTitle>Jadwal Pertemuan Kelas</CardTitle>
-                    <Link href={`/dashboard-teacher/meetings/create?classId=${classData.id}`}>
-                      <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Tambah Pertemuan
-                      </Button>
-                    </Link>
-                  </div>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Tambahkan jadwal pertemuan baru - materi, absensi, dan tugas dapat ditambahkan di dalam halaman pertemuan
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    {/* Meeting content */}
-                    {/* Pertemuan 1 */}
-                    <div className="border rounded-lg overflow-hidden">
-                      <div className="flex justify-between items-center p-4 bg-[#C40503]/5 border-b">
-                        <h3 className="text-lg font-medium flex items-center">
-                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          Pertemuan 1 - Pengenalan Aljabar Linear
-                        </h3>
-                        <Badge className="bg-green-100 text-green-800">Telah Selesai</Badge>
-                      </div>
-                      <div className="p-4">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>Tanggal: 11 Juli 2025</span>
-                          </div>
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Waktu: 08:00 - 09:30</span>
-                          </div>
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                            <span>Kehadiran: 18/25 hadir (72%)</span>
-                          </div>
-                        </div>
-
-                        <div className="mt-4 flex flex-wrap justify-end gap-2">
-                          <Link href="/dashboard-teacher/meetings/meeting1">
-                            <Button className="bg-green-600 hover:bg-green-700 text-white">
-                              Masuk Pertemuan
-                            </Button>
-                          </Link>
-                        </div>
-                        
-                        {/* Bagian kehadiran sudah dipindahkan ke halaman pertemuan */}
-                    </div>
-                    
-                    {/* Pertemuan 2 */}
-                    <div className="border rounded-lg overflow-hidden">
-                      <div className="flex justify-between items-center p-4 bg-[#C40503]/5 border-b">
-                        <h3 className="text-lg font-medium flex items-center">
-                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          Pertemuan 2 - Sistem Persamaan Linear
-                        </h3>
-                        <Badge className="bg-green-100 text-green-800">Telah Selesai</Badge>
-                      </div>
-                      <div className="p-4">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>Tanggal: 18 Juli 2025</span>
-                          </div>
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Waktu: 08:00 - 09:30</span>
-                          </div>
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                            <span>Kehadiran: 21/25 hadir (84%)</span>
-                          </div>
-                        </div>
-                        
-                        <div className="mt-4 flex flex-wrap justify-end gap-2">
-                          <Link href="/dashboard-teacher/meetings/meeting2">
-                            <Button className="bg-green-600 hover:bg-green-700 text-white">
-                              Masuk Pertemuan
-                            </Button>
-                          </Link>
-                        </div>
-                        </div>
-                        
-                        {/* Bagian kehadiran sudah dipindahkan ke halaman pertemuan */}
-                      </div>
-                    </div>
-                    
-                    {/* Pertemuan 3 */}
-                    <div className="border rounded-lg overflow-hidden border-blue-200">
-                      <div className="flex justify-between items-center p-4 bg-blue-50 border-b">
-                        <h3 className="text-lg font-medium flex items-center text-blue-800">
-                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          Pertemuan 3 - Determinan dan Matriks Invers
-                        </h3>
-                        <Badge className="bg-blue-100 text-blue-800 font-medium">Hari Ini</Badge>
-                      </div>
-                      <div className="p-4">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>Tanggal: 25 Juli 2025</span>
-                          </div>
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Waktu: 08:00 - 09:30</span>
-                          </div>
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                            <span>Kehadiran: Belum dimulai</span>
-                          </div>
-                        </div>
-                        
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                          <div className="flex items-start">
-                            <svg className="w-6 h-6 text-blue-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <div>
-                              <h4 className="font-medium text-blue-800 mb-1">Pertemuan Hari Ini</h4>
-                              <p className="text-blue-600 text-sm">
-                                Pertemuan ini dijadwalkan untuk hari ini. Anda dapat memulai pertemuan, mengambil absensi, dan mengunggah materi sebelum atau sesudah pertemuan.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-wrap justify-end gap-2 mt-4">
-                          <Link href="/dashboard-teacher/meetings/meeting3">
-                            <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                              Masuk Pertemuan
-                            </Button>
-                          </Link>
-                        </div>
-                        
-                        {/* Bagian kehadiran sudah dipindahkan ke halaman pertemuan */}
-                      </div>
-                    </div>
-                    
-                    {/* Pertemuan 4 - Mendatang */}
-                    <div className="border rounded-lg overflow-hidden border-dashed">
-                      <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
-                        <h3 className="text-lg font-medium flex items-center text-gray-600">
-                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          Pertemuan 4 - Nilai Eigen dan Vektor Eigen
-                        </h3>
-                        <Badge className="bg-gray-100 text-gray-800">Mendatang</Badge>
-                      </div>
-                      <div className="p-4">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>Tanggal: 1 Agustus 2025</span>
-                          </div>
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Waktu: 08:00 - 09:30</span>
-                          </div>
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                            <span>Kehadiran: Belum dimulai</span>
-                          </div>
-                        </div>
-                        
-                        <h4 className="font-medium mb-3">Materi Pertemuan</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          <Link href="/dashboard-teacher/materials/m9">
-                            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="bg-[#C40503]/10 p-2 rounded-md">
-                                    <FileText className="h-6 w-6 text-[#C40503]" />
-                                  </div>
-                                  <div>
-                                    <h5 className="font-medium">Modul Nilai dan Vektor Eigen</h5>
-                                    <p className="text-sm text-gray-500">PDF - 2.6 MB</p>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                        </div>
-                        
-                        <div className="mt-4 flex flex-wrap justify-end gap-2">
-                          <Link href="/dashboard-teacher/meetings/meeting4">
-                            <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                              Masuk Pertemuan
-                            </Button>
-                          </Link>
-                        </div>
-                        
-                        {/* Bagian kehadiran sudah dipindahkan ke halaman pertemuan */}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
             
             <TabsContent value="students" className="mt-4">
               <Card>

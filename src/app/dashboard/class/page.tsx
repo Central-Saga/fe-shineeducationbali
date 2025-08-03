@@ -5,6 +5,7 @@ import { ClassList } from "@/components/ui-admin/classes/ClassList";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, PlusCircle } from "lucide-react";
+import Link from "next/link";
 
 export default function ClassesPage() {
   return (
@@ -28,10 +29,12 @@ export default function ClassesPage() {
               className="pl-10 w-full md:w-64" 
             />
           </div>
-          <Button className="bg-[#C40503] hover:bg-[#A60000] text-white">
-            <PlusCircle className="h-4 w-4 mr-2" />
-            Tambah Kelas
-          </Button>
+          <Link href="/dashboard/class/add">
+            <Button className="bg-[#C40503] hover:bg-[#A60000] text-white">
+              <PlusCircle className="h-4 w-4 mr-2" />
+              Tambah Kelas
+            </Button>
+          </Link>
         </div>
       </div>
       <ClassList />

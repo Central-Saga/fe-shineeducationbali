@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { PlusCircle, Search, MoreHorizontal, Users, Calendar, BookOpen, GraduationCap } from "lucide-react";
+import Link from "next/link";
 
 // Dummy type, replace with your actual type
 interface Class {
@@ -163,6 +164,7 @@ export function ClassList() {
               <TableHead className="font-medium">Jadwal</TableHead>
               <TableHead className="font-medium">Kapasitas</TableHead>
               <TableHead className="font-medium">Status</TableHead>
+              <TableHead className="font-medium text-right">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -181,7 +183,9 @@ export function ClassList() {
                 <TableRow key={classData.id} className="hover:bg-gray-50">
                   <TableCell>
                     <div>
-                      <div className="font-medium text-[#C40503]">{classData.class_name}</div>
+                      <Link href={`/dashboard/class/${classData.id}`} className="font-medium text-[#C40503] hover:underline">
+                        {classData.class_name}
+                      </Link>
                       {classData.room && (
                         <div className="text-sm text-gray-500">
                           <span className="inline-flex items-center">
@@ -256,6 +260,32 @@ export function ClassList() {
                         Non-Aktif
                       </Badge>
                     )}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end items-center gap-2">
+                      <Link href={`/dashboard/class/edit/${classData.id}`}>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="h-8 border-gray-300 text-[#C40503] hover:bg-[#C40503]/5"
+                        >
+                          Edit
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 border-gray-300 text-gray-600 hover:text-red-600 hover:bg-red-50"
+                        onClick={() => {
+                          if (window.confirm('Apakah Anda yakin ingin menghapus kelas ini?')) {
+                            // Handle delete logic here
+                            alert('Fitur hapus kelas akan segera tersedia');
+                          }
+                        }}
+                      >
+                        Hapus
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))
