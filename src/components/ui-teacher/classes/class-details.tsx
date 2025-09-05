@@ -172,37 +172,31 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                 </div>
               )}
               
-              {/* Bagian edit deskripsi dan link grup */}
+              {/* Informasi tambahan untuk guru */}
               <div className="mt-6 space-y-4">
-                <h3 className="text-lg font-semibold mb-3 text-[#C40503]">Edit Informasi</h3>
-                {/* Link Grup - Editable */}
-                <div>
-                  <label htmlFor="groupLink" className="block text-sm font-medium text-gray-700 mb-1">Link Grup</label>
-                  <input 
-                    type="text"
-                    id="groupLink"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C40503]"
-                    placeholder="Masukkan link grup kelas (WhatsApp, MS Teams, dll)"
-                    defaultValue={classData.groupLink}
-                  />
-                </div>
+                <h3 className="text-lg font-semibold mb-3 text-[#C40503]">Informasi Kelas</h3>
                 
-                {/* Deskripsi Kelas - Editable */}
-                <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kelas</label>
-                  <textarea
-                    id="description"
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C40503]"
-                    defaultValue={classData.description}
-                  />
-                  <p className="mt-1 text-sm text-gray-500">Sebagai pengajar, Anda dapat mengubah deskripsi kelas dan link grup.</p>
-                </div>
+                {/* Link Grup - Read Only */}
+                {classData.groupLink && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Link Grup</label>
+                    <div className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
+                      {classData.groupLink}
+                    </div>
+                    <p className="mt-1 text-sm text-gray-500">Hubungi admin untuk mengubah link grup.</p>
+                  </div>
+                )}
                 
-                <div className="flex justify-end gap-2">
-                  <Button variant="outline">Batal</Button>
-                  <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">Simpan Perubahan</Button>
-                </div>
+                {/* Deskripsi Kelas - Read Only */}
+                {classData.description && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kelas</label>
+                    <div className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
+                      {classData.description}
+                    </div>
+                    <p className="mt-1 text-sm text-gray-500">Hubungi admin untuk mengubah deskripsi kelas.</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

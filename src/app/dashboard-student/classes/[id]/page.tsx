@@ -239,24 +239,33 @@ export default function ClassDetailPage() {
           {/* Section Materi */}
           <div>
             <h3 className="text-lg font-bold text-[#DAA625] mb-2">Materi Pembelajaran</h3>
-            <ul className="space-y-4">
+            <div className="space-y-4">
               {filteredMaterials.length === 0 && (
-                <li className="text-gray-500 italic">Tidak ada materi ditemukan.</li>
+                <div className="text-gray-500 italic text-center py-4">Tidak ada materi ditemukan.</div>
               )}
               {classId && filteredMaterials.map((material: any) => (
-                <li key={material.id} className="flex items-center gap-4 p-4 rounded-xl bg-white border border-[#f3e6bc] shadow-sm hover:shadow-md transition-shadow">
+                <div key={material.id} className="flex items-center gap-4 p-4 rounded-xl bg-white border border-[#f3e6bc] shadow-sm hover:shadow-md transition-shadow">
                   <input
                     type="checkbox"
                     checked={checkedItems.includes(material.id)}
                     onChange={() => handleCheckItem(material.id)}
                     className="accent-[#DAA625] w-5 h-5 rounded focus:ring-[#DAA625] mr-2"
                   />
-                  <span className="font-bold text-base text-[#DAA625]">{material.title}</span>
-                  <div className="text-gray-700 text-sm">{material.description}</div>
-                  <a href={material.fileUrl} className="text-[#DAA625] underline text-sm font-semibold">Download Materi</a>
-                </li>
+                  <div className="flex-1">
+                    <div className="font-bold text-base text-[#DAA625]">{material.title}</div>
+                    <div className="text-gray-700 text-sm">{material.description}</div>
+                  </div>
+                  <a 
+                    href={material.fileUrl} 
+                    className="text-[#DAA625] underline text-sm font-semibold hover:text-[#C40503] transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download Materi
+                  </a>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -52,24 +52,42 @@ export function StudentNavbar({
 
         {/* Navigation Links - Centered */}
         <div className="flex-1 flex justify-center">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-6">
             <Link
               href="/dashboard-student"
               className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
             >
               Dashboard
             </Link>
-            {/* <Link
-              href="/dashboard-student/academy"
-              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
-            >
-              Academy
-            </Link> */}
             <Link
               href="/dashboard-student/classes"
               className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
             >
-              Class
+              Kelas
+            </Link>
+            <Link
+              href="/dashboard-student/materials"
+              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
+            >
+              Materi
+            </Link>
+            <Link
+              href="/dashboard-student/assignments"
+              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
+            >
+              Tugas
+            </Link>
+            <Link
+              href="/dashboard-student/grades"
+              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
+            >
+              Nilai
+            </Link>
+            <Link
+              href="/dashboard-student/attendance"
+              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
+            >
+              Kehadiran
             </Link>
             <Link
               href="/dashboard-student/subscription"

@@ -34,23 +34,26 @@ export const sidebarTeacherNavigation = [
         name: "Class Management",
         href: "/dashboard-teacher/classes",
         description: "View all classes you teach"
-      },
-      //       {
-      //   name: "Materials",
-      //   href: "/dashboard-teacher/materials",
-      //   description: "Upload and manage teaching materials"
-      // },
-      // {
-      //   name: "Assignments",
-      //   href: "/dashboard-teacher/assignments",
-      //   description: "Create and check assignments"
-      // },
-      // {
-      //   name: "Grades",
-      //   href: "/dashboard-teacher/grades",
-      //   description: "Input and manage student grades"
-      // }
+      }
     ]
+  },
+  {
+    name: "Materials",
+    icon: BookOpenCheck,
+    href: "/dashboard-teacher/materials",
+    description: "Upload and manage teaching materials"
+  },
+  {
+    name: "Assignments",
+    icon: FileText,
+    href: "/dashboard-teacher/assignments",
+    description: "Create and check assignments"
+  },
+  {
+    name: "Grades",
+    icon: Award,
+    href: "/dashboard-teacher/grades",
+    description: "Input and manage student grades"
   },
   {
     name: "Students",
@@ -105,11 +108,11 @@ export const sidebarTeacherNavigation = [
       },
     ]
   },
-  // {
-  //   name: "Reports",
-  //   icon: LineChart,
-  //   href: "/dashboard-teacher/reports",
-  // },
+  {
+    name: "Reports",
+    icon: LineChart,
+    href: "/dashboard-teacher/reports",
+  },
   {
     name: "Settings",
     icon: Settings,

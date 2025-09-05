@@ -13,9 +13,10 @@ import { ClassMaterial } from '@/data/data-student/class-detail-data';
 
 interface ClassMaterialsProps {
   materials: ClassMaterial[];
+  classId?: string;
 }
 
-export function ClassMaterials({ materials }: ClassMaterialsProps) {
+export function ClassMaterials({ materials, classId }: ClassMaterialsProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
 

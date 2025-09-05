@@ -97,11 +97,11 @@ export default function AttendancePage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="shadow-sm hover:shadow transition-shadow">
           <CardHeader className="py-3 pb-0">
-            <CardTitle className="text-sm font-medium text-gray-500">Total Kehadiran</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-500">Total Kehadiran Siswa</CardTitle>
           </CardHeader>
           <CardContent className="pb-3 pt-2">
             <div className="text-2xl font-bold text-[#C40503]">{attendanceSummary.totalPresent}</div>
-            <p className="text-xs text-gray-500 mt-1">Siswa</p>
+            <p className="text-xs text-gray-500 mt-1">Siswa Hadir</p>
           </CardContent>
         </Card>
         <Card className="shadow-sm hover:shadow transition-shadow">
@@ -118,7 +118,7 @@ export default function AttendancePage() {
             <CardTitle className="text-sm font-medium text-gray-500">Siswa Tidak Hadir</CardTitle>
           </CardHeader>
           <CardContent className="pb-3 pt-2">
-            <div className="text-2xl font-bold text-gray-700">{attendanceSummary.totalAbsent}</div>
+            <div className="text-2xl font-bold text-red-600">{attendanceSummary.totalAbsent}</div>
             <p className="text-xs text-gray-500 mt-1">Siswa</p>
           </CardContent>
         </Card>
@@ -127,7 +127,7 @@ export default function AttendancePage() {
             <CardTitle className="text-sm font-medium text-gray-500">Siswa Terlambat</CardTitle>
           </CardHeader>
           <CardContent className="pb-3 pt-2">
-            <div className="text-2xl font-bold text-gray-700">{attendanceSummary.totalLate}</div>
+            <div className="text-2xl font-bold text-orange-600">{attendanceSummary.totalLate}</div>
             <p className="text-xs text-gray-500 mt-1">Siswa</p>
           </CardContent>
         </Card>
