@@ -214,142 +214,166 @@ export default function StudentAttendancePage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-[#C40503]">Kehadiran Saya</h1>
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-[#C40503]/10 rounded-lg">
+              <CheckCircle className="h-6 w-6 text-[#C40503]" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900">Kehadiran Saya</h1>
+          </div>
           <p className="text-gray-600">Pantau kehadiran Anda di semua kelas yang diikuti</p>
         </div>
-      </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Total Sesi</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-[#C40503]">{attendanceRecords.length}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Hadir</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">
-              {attendanceRecords.filter(r => r.status === 'present').length}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Tidak Hadir</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-red-600">
-              {attendanceRecords.filter(r => r.status === 'absent').length}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Rata-rata Kehadiran</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-[#DAA625]">
-              {classSummaries.length > 0 
-                ? Math.round(classSummaries.reduce((acc, c) => acc + c.attendanceRate, 0) / classSummaries.length)
-                : 0
-              }%
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Tabs */}
-      <Tabs defaultValue="records" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="records" className="flex items-center">
-            <Calendar className="h-4 w-4 mr-2" />
-            Riwayat Kehadiran
-          </TabsTrigger>
-          <TabsTrigger value="summary" className="flex items-center">
-            <BarChart3 className="h-4 w-4 mr-2" />
-            Ringkasan Kelas
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="records" className="space-y-4">
-          {/* Filters */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Filter className="h-5 w-5 mr-2 text-[#C40503]" />
-                Filter & Pencarian
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1">
-                  <div className="relative">
-                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-                    <Input
-                      placeholder="Cari berdasarkan kelas atau guru..."
-                      className="pl-8"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card className="border-l-4 border-l-[#C40503]">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Total Sesi</p>
+                  <p className="text-3xl font-bold text-[#C40503]">{attendanceRecords.length}</p>
                 </div>
-                <div className="w-48">
-                  <Select value={classFilter} onValueChange={setClassFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Filter Kelas" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Semua Kelas</SelectItem>
-                      {classes.map(cls => (
-                        <SelectItem key={cls.id} value={cls.id}>
-                          {cls.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="w-48">
-                  <Select value={monthFilter} onValueChange={setMonthFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Filter Bulan" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Semua Bulan</SelectItem>
-                      <SelectItem value="1">Januari</SelectItem>
-                      <SelectItem value="2">Februari</SelectItem>
-                      <SelectItem value="3">Maret</SelectItem>
-                      <SelectItem value="4">April</SelectItem>
-                      <SelectItem value="5">Mei</SelectItem>
-                      <SelectItem value="6">Juni</SelectItem>
-                      <SelectItem value="7">Juli</SelectItem>
-                      <SelectItem value="8">Agustus</SelectItem>
-                      <SelectItem value="9">September</SelectItem>
-                      <SelectItem value="10">Oktober</SelectItem>
-                      <SelectItem value="11">November</SelectItem>
-                      <SelectItem value="12">Desember</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="p-3 bg-[#C40503]/10 rounded-lg">
+                  <Calendar className="h-6 w-6 text-[#C40503]" />
                 </div>
               </div>
             </CardContent>
           </Card>
+          <Card className="border-l-4 border-l-green-500">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Hadir</p>
+                  <p className="text-3xl font-bold text-green-600">
+                    {attendanceRecords.filter(r => r.status === 'present').length}
+                  </p>
+                </div>
+                <div className="p-3 bg-green-100 rounded-lg">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-l-4 border-l-red-500">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Tidak Hadir</p>
+                  <p className="text-3xl font-bold text-red-600">
+                    {attendanceRecords.filter(r => r.status === 'absent').length}
+                  </p>
+                </div>
+                <div className="p-3 bg-red-100 rounded-lg">
+                  <XCircle className="h-6 w-6 text-red-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-l-4 border-l-[#DAA625]">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Rata-rata Kehadiran</p>
+                  <p className="text-3xl font-bold text-[#DAA625]">
+                    {classSummaries.length > 0 
+                      ? Math.round(classSummaries.reduce((acc, c) => acc + c.attendanceRate, 0) / classSummaries.length)
+                      : 0
+                    }%
+                  </p>
+                </div>
+                <div className="p-3 bg-[#DAA625]/10 rounded-lg">
+                  <TrendingUp className="h-6 w-6 text-[#DAA625]" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* Attendance Records Table */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Riwayat Kehadiran ({filteredRecords.length})</CardTitle>
-            </CardHeader>
-            <CardContent>
+        {/* Tabs */}
+        <Tabs defaultValue="records" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="records" className="flex items-center">
+              <Calendar className="h-4 w-4 mr-2" />
+              Riwayat Kehadiran
+            </TabsTrigger>
+            <TabsTrigger value="summary" className="flex items-center">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Ringkasan Kelas
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="records" className="space-y-6">
+            {/* Filters */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Filter className="h-5 w-5 mr-2 text-[#C40503]" />
+                  Filter & Pencarian
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1">
+                    <div className="relative">
+                      <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                      <Input
+                        placeholder="Cari berdasarkan kelas atau guru..."
+                        className="pl-8"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-48">
+                    <Select value={classFilter} onValueChange={setClassFilter}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Filter Kelas" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Semua Kelas</SelectItem>
+                        {classes.map(cls => (
+                          <SelectItem key={cls.id} value={cls.id}>
+                            {cls.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="w-48">
+                    <Select value={monthFilter} onValueChange={setMonthFilter}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Filter Bulan" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Semua Bulan</SelectItem>
+                        <SelectItem value="1">Januari</SelectItem>
+                        <SelectItem value="2">Februari</SelectItem>
+                        <SelectItem value="3">Maret</SelectItem>
+                        <SelectItem value="4">April</SelectItem>
+                        <SelectItem value="5">Mei</SelectItem>
+                        <SelectItem value="6">Juni</SelectItem>
+                        <SelectItem value="7">Juli</SelectItem>
+                        <SelectItem value="8">Agustus</SelectItem>
+                        <SelectItem value="9">September</SelectItem>
+                        <SelectItem value="10">Oktober</SelectItem>
+                        <SelectItem value="11">November</SelectItem>
+                        <SelectItem value="12">Desember</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Attendance Records Table */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Riwayat Kehadiran ({filteredRecords.length})</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -419,16 +443,16 @@ export default function StudentAttendancePage() {
                   )}
                 </TableBody>
               </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-        <TabsContent value="summary" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Ringkasan Kehadiran per Kelas</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <TabsContent value="summary" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Ringkasan Kehadiran per Kelas</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -469,10 +493,11 @@ export default function StudentAttendancePage() {
                   ))}
                 </TableBody>
               </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }

@@ -44,16 +44,6 @@ export function StudentNavbar({
   const navigationItems = [
     { href: "/dashboard-student", label: "Beranda", icon: Home, type: "single" },
     { 
-      label: "Personal", 
-      icon: User, 
-      type: "dropdown",
-      children: [
-        { href: "/dashboard-student/grades", label: "Nilai", icon: Award },
-        { href: "/dashboard-student/attendance", label: "Kehadiran", icon: UserCheck },
-        { href: "/dashboard-student/subscription", label: "Langganan", icon: CreditCard },
-      ]
-    },
-    { 
       label: "Academy", 
       icon: GraduationCap, 
       type: "dropdown",
@@ -61,6 +51,16 @@ export function StudentNavbar({
         { href: "/dashboard-student/classes", label: "Kelas", icon: BookOpen },
         { href: "/dashboard-student/assignments", label: "Tugas", icon: FileText },
         { href: "/dashboard-student/materials", label: "Materi", icon: MaterialIcon },
+      ]
+    },
+    { 
+      label: "Personal", 
+      icon: User, 
+      type: "dropdown",
+      children: [
+        { href: "/dashboard-student/grades", label: "Nilai", icon: Award },
+        { href: "/dashboard-student/attendance", label: "Kehadiran", icon: UserCheck },
+        { href: "/dashboard-student/subscription", label: "Langganan", icon: CreditCard },
       ]
     },
   ];

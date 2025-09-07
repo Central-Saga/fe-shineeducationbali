@@ -29,7 +29,9 @@ import {
   Award,
   TrendingUp,
   BarChart3,
-  Download
+  Download,
+  CheckCircle,
+  AlertCircle
 } from "lucide-react";
 
 interface Grade {
@@ -202,124 +204,150 @@ export default function StudentGradesPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-[#C40503]">Nilai Saya</h1>
-          <p className="text-gray-600">Lihat dan pantau nilai dari semua kelas yang Anda ikuti</p>
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-[#C40503]/10 rounded-lg">
+              <Award className="h-6 w-6 text-[#C40503]" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900">Nilai Saya</h1>
+          </div>
+          <p className="text-gray-600 mb-6">Lihat dan pantau nilai dari semua kelas yang Anda ikuti</p>
+          <div className="flex justify-end">
+            <Button onClick={handleDownloadReport} className="bg-[#C40503] hover:bg-[#A60000]">
+              <Download className="h-4 w-4 mr-2" />
+              Download Laporan
+            </Button>
+          </div>
         </div>
-        <Button onClick={handleDownloadReport} className="bg-[#C40503] hover:bg-[#A60000]">
-          <Download className="h-4 w-4 mr-2" />
-          Download Laporan
-        </Button>
-      </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Total Nilai</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-[#C40503]">{grades.length}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Rata-rata Nilai</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-[#DAA625]">
-              {grades.filter(g => g.status === 'graded').length > 0 
-                ? Math.round(grades.filter(g => g.status === 'graded').reduce((acc, g) => acc + g.grade, 0) / grades.filter(g => g.status === 'graded').length)
-                : 0
-              }
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Sudah Dinilai</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">
-              {grades.filter(g => g.status === 'graded').length}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Belum Dinilai</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">
-              {grades.filter(g => g.status === 'pending').length}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Tabs */}
-      <Tabs defaultValue="grades" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="grades" className="flex items-center">
-            <Award className="h-4 w-4 mr-2" />
-            Daftar Nilai
-          </TabsTrigger>
-          <TabsTrigger value="summary" className="flex items-center">
-            <BarChart3 className="h-4 w-4 mr-2" />
-            Ringkasan Kelas
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="grades" className="space-y-4">
-          {/* Filters */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Filter className="h-5 w-5 mr-2 text-[#C40503]" />
-                Filter & Pencarian
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1">
-                  <div className="relative">
-                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-                    <Input
-                      placeholder="Cari berdasarkan tugas atau kelas..."
-                      className="pl-8"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card className="border-l-4 border-l-[#C40503]">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Total Nilai</p>
+                  <p className="text-3xl font-bold text-[#C40503]">{grades.length}</p>
                 </div>
-                <div className="w-48">
-                  <Select value={classFilter} onValueChange={setClassFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Filter Kelas" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Semua Kelas</SelectItem>
-                      {classes.map(cls => (
-                        <SelectItem key={cls.id} value={cls.id}>
-                          {cls.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <div className="p-3 bg-[#C40503]/10 rounded-lg">
+                  <Award className="h-6 w-6 text-[#C40503]" />
                 </div>
               </div>
             </CardContent>
           </Card>
+          <Card className="border-l-4 border-l-[#DAA625]">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Rata-rata Nilai</p>
+                  <p className="text-3xl font-bold text-[#DAA625]">
+                    {grades.filter(g => g.status === 'graded').length > 0 
+                      ? Math.round(grades.filter(g => g.status === 'graded').reduce((acc, g) => acc + g.grade, 0) / grades.filter(g => g.status === 'graded').length)
+                      : 0
+                    }
+                  </p>
+                </div>
+                <div className="p-3 bg-[#DAA625]/10 rounded-lg">
+                  <TrendingUp className="h-6 w-6 text-[#DAA625]" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-l-4 border-l-green-500">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Sudah Dinilai</p>
+                  <p className="text-3xl font-bold text-green-600">
+                    {grades.filter(g => g.status === 'graded').length}
+                  </p>
+                </div>
+                <div className="p-3 bg-green-100 rounded-lg">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-l-4 border-l-yellow-500">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Belum Dinilai</p>
+                  <p className="text-3xl font-bold text-yellow-600">
+                    {grades.filter(g => g.status === 'pending').length}
+                  </p>
+                </div>
+                <div className="p-3 bg-yellow-100 rounded-lg">
+                  <AlertCircle className="h-6 w-6 text-yellow-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* Grades Table */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Daftar Nilai ({filteredGrades.length})</CardTitle>
-            </CardHeader>
-            <CardContent>
+        {/* Tabs */}
+        <Tabs defaultValue="grades" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="grades" className="flex items-center">
+              <Award className="h-4 w-4 mr-2" />
+              Daftar Nilai
+            </TabsTrigger>
+            <TabsTrigger value="summary" className="flex items-center">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Ringkasan Kelas
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="grades" className="space-y-6">
+            {/* Filters */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Filter className="h-5 w-5 mr-2 text-[#C40503]" />
+                  Filter & Pencarian
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1">
+                    <div className="relative">
+                      <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                      <Input
+                        placeholder="Cari berdasarkan tugas atau kelas..."
+                        className="pl-8"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-48">
+                    <Select value={classFilter} onValueChange={setClassFilter}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Filter Kelas" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Semua Kelas</SelectItem>
+                        {classes.map(cls => (
+                          <SelectItem key={cls.id} value={cls.id}>
+                            {cls.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Grades Table */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Daftar Nilai ({filteredGrades.length})</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -399,16 +427,16 @@ export default function StudentGradesPage() {
                   )}
                 </TableBody>
               </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-        <TabsContent value="summary" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Ringkasan Nilai per Kelas</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <TabsContent value="summary" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Ringkasan Nilai per Kelas</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -447,10 +475,11 @@ export default function StudentGradesPage() {
                   ))}
                 </TableBody>
               </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
