@@ -189,7 +189,7 @@ const Navbar = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link href="/auth/register">
-                  <Button className="bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white hover:shadow-lg transition-shadow duration-300 hover:shadow-[#C40503]/20 flex items-center gap-2">
+                  <Button className="bg-[#C40001] text-white hover:shadow-lg transition-shadow duration-300 hover:shadow-[#C40001]/20 flex items-center gap-2">
                     <UserPlus className="h-4 w-4" />
                     Daftar
                   </Button>
@@ -315,7 +315,7 @@ const Navbar = () => {
                   </Link>
                   <Link href="/auth/register">
                     <Button
-                      className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white hover:shadow-lg transition-shadow duration-300 hover:shadow-[#C40503]/20 flex items-center gap-2"
+                      className="w-full bg-[#C40001] text-white hover:shadow-lg transition-shadow duration-300 hover:shadow-[#C40001]/20 flex items-center gap-2"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <UserPlus className="h-4 w-4" />

@@ -88,10 +88,12 @@ const ParticlesSection = () => {
           }}
         >
           <div
-            className={`w-full h-full rounded-full bg-gradient-to-r ${
-              i % 2 === 0
-                ? "from-yellow-200/30 to-orange-200/30"
-                : "from-blue-200/30 to-purple-200/30"
+            className={`w-full h-full rounded-full ${
+              i % 3 === 0
+                ? "bg-[#C40001]/20"
+                : i % 3 === 1
+                ? "bg-[#DAA625]/20"
+                : "bg-[#DAA521]/20"
             }`}
           />
         </motion.div>
@@ -112,8 +114,8 @@ export default function Home() {
       "graduation",
       "lightbulb",
     ];
-    const colors1 = ["#fecaca", "#fed7aa", "#d9f99d", "#bfdbfe"];
-    const colors2 = ["#fca5a5", "#fdba74", "#bef264", "#93c5fd"];
+    const colors1 = ["#C40001", "#DAA625", "#DAA521", "#fecaca"];
+    const colors2 = ["#C40001", "#DAA625", "#DAA521", "#fca5a5"];
     const positions = [20, 40, 60, 80];
     const newItems = Array(4)
       .fill(null)
@@ -153,7 +155,7 @@ export default function Home() {
                       : item.shape === "graduation"
                       ? "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
                       : "circle(50% at 50% 50%)", // lightbulb default
-                  background: `linear-gradient(45deg, ${item.color1}, ${item.color2})`,
+                  background: item.color1,
                   boxShadow: `0 0 20px ${item.color1}33`,
                   backdropFilter: "blur(4px)",
                   WebkitBackdropFilter: "blur(4px)",
@@ -229,8 +231,8 @@ export default function Home() {
             yoyo: true,
           }}
         >
-          <div className="w-full h-[80%] bg-gradient-to-b from-[#FF6B6B]/40 to-[#FF9999]/40 rounded-full" />
-          <div className="w-[2px] h-[20%] mx-auto bg-[#FF6B6B]/40" />
+          <div className="w-full h-[80%] bg-[#C40001]/40 rounded-full" />
+          <div className="w-[2px] h-[20%] mx-auto bg-[#C40001]/40" />
         </motion.div>
         {/* Dynamic Background Animation */}
         <motion.div
@@ -279,8 +281,7 @@ export default function Home() {
                 style={{
                   left: `${i * 10}%`,
                   top: `${50 + (i % 2) * 10}%`,
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                  background: "rgba(255,255,255,0.2)",
                   transform: `rotate(${i * 36}deg)`,
                 }}
                 animate={{
@@ -302,8 +303,7 @@ export default function Home() {
           <motion.div
             className="absolute inset-0"
             style={{
-              background:
-                "radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.02) 100%)",
+              background: "rgba(0,0,0,0.02)",
             }}
             animate={{
               scale: [1, 1.1, 1],

@@ -19,7 +19,7 @@ const HeroSection = () => {
   return (
     <section
       id="hero-section"
-      className="min-h-[90vh] relative overflow-hidden flex items-center bg-gradient-to-b from-white to-blue-50/30"
+      className="min-h-[90vh] relative overflow-hidden flex items-center bg-white"
     >
       <LearningBackground />
       <div className="container mx-auto px-4 py-8 relative z-10">
@@ -104,7 +104,7 @@ const HeroSection = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button className="bg-gradient-to-r from-[#DAA625] to-[#F6C94A] text-white px-8 py-6 rounded-full text-lg font-semibold hover:shadow-lg transition-all duration-300 hover:shadow-[#C40503]/20 flex items-center gap-2">
+                <Button className="bg-[#C40001] text-white px-8 py-6 rounded-full text-lg font-semibold hover:shadow-lg transition-all duration-300 hover:shadow-[#C40001]/20 flex items-center gap-2">
                   <GraduationCap className="h-5 w-5" />
                   Mulai Belajar
                 </Button>

@@ -222,14 +222,14 @@ export default function JobApplicationsPage() {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              <span className="bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+              <span className="text-[#C40001]">
                 Lamaran
-              </span> Kerja
+              </span> <span className="text-[#DAA625]">Kerja</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8">
               Kirim lamaran atau pantau status aplikasi Anda untuk bergabung dengan tim Shine Education.
             </p>
-            <div className="w-24 h-1 bg-gradient-to-r from-[#C40503] to-[#DAA625] mx-auto mb-10"></div>
+            <div className="w-24 h-1 bg-[#C40001] mx-auto mb-10"></div>
           </motion.div>
         </div>
       </section>
@@ -513,7 +513,7 @@ export default function JobApplicationsPage() {
                       <Button 
                         type="submit" 
                         disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:opacity-90 text-white h-12"
+                        className="w-full bg-[#C40001] hover:opacity-90 text-white h-12"
                       >
                         {isSubmitting ? (
                           <>
@@ -577,7 +577,7 @@ export default function JobApplicationsPage() {
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:opacity-90 text-white"
+                    className="w-full bg-[#DAA625] hover:opacity-90 text-white"
                   >
                     Cek Status
                   </Button>

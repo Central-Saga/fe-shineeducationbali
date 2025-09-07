@@ -47,13 +47,13 @@ export function ClassSchedule({ schedule }: ClassScheduleProps) {
             whileHover={{ scale: 1.02, x: 5 }}
             className={`p-4 rounded-xl border border-gray-100 hover:shadow-md transition-all duration-300 ${
               index === 0 
-                ? "bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/10 border-[#C40503]/20" 
-                : "bg-gradient-to-r from-gray-50 to-white"
+                ? "bg-[#C40001]/5 border-[#C40001]/20" 
+                : "bg-white"
             }`}
           >
             <div className="flex items-center gap-3">
               <div className={`w-12 h-12 rounded-full p-2 shadow-sm ${
-                index === 0 ? "bg-[#C40503]/10" : "bg-white"
+                index === 0 ? "bg-[#C40001]/10" : "bg-white"
               }`}>
                 <Image
                   src={scheduleItem.icon}

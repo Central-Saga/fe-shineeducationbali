@@ -23,7 +23,7 @@ export function CourseHeader({ course }: CourseHeaderProps) {
           style={{ objectFit: 'cover' }}
           className="object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <div className="absolute inset-0 bg-black/30"></div>
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
           <Badge className="mb-2 bg-[#DAA625] hover:bg-[#c19621]">
             {course.category}

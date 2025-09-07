@@ -61,7 +61,7 @@ export function LearningProgress({ progress }: LearningProgressProps) {
                 initial={{ width: 0 }}
                 animate={{ width: `${subject.progress}%` }}
                 transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
-                className="h-full bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-full"
+                className="h-full bg-[#C40001] rounded-full"
               />
             </div>
             <p className="text-xs text-gray-500 text-right mt-1">

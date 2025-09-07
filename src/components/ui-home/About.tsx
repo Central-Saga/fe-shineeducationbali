@@ -44,7 +44,7 @@ const About = () => {
           >
             <div className="relative">
               <motion.div
-                className="absolute -inset-4 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-lg blur-xl"
+                className="absolute -inset-4 bg-[#C40001]/20 rounded-lg blur-xl"
                 animate={{
                   scale: [1, 1.1, 1],
                   opacity: [0.5, 0.8, 0.5],
@@ -121,7 +121,7 @@ const About = () => {
                   whileHover={{ x: 10 }}
                 >
                   <motion.div
-                    className="p-1 bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-full mr-3"
+                    className="p-1 bg-[#C40001] rounded-full mr-3"
                     animate={{
                       scale: [1, 1.2, 1],
                     }}

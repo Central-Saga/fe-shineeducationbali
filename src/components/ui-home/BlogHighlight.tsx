@@ -22,13 +22,13 @@ const BlogHighlight = () => {
     <section className="py-16 relative overflow-hidden">
       {/* Animated Background */}
       <motion.div
-        className="absolute inset-0 bg-[radial-gradient(#ff9b9b_1px,transparent_1px)] [background-size:40px_40px]"
+        className="absolute inset-0 bg-red-100/20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.15 }}
         transition={{ duration: 1 }}
       />
       <motion.div
-        className="absolute inset-0 bg-[radial-gradient(#ffdb99_1px,transparent_1px)] [background-size:30px_30px]"
+        className="absolute inset-0 bg-yellow-100/20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.1 }}
         transition={{ duration: 1, delay: 0.5 }}
@@ -97,14 +97,14 @@ const BlogHighlight = () => {
                       className="object-cover transition-transform duration-500 hover:scale-110"
                       fill
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent transition-all duration-300" />
+                    <div className="absolute inset-0 bg-black/20 transition-all duration-300" />
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
                       className="absolute top-4 left-4"
                     >
-                      <span className="px-3 py-1 bg-gradient-to-r from-[#ff6b6b] to-[#ffa06b] text-white text-sm rounded-full shadow-lg">
+                      <span className="px-3 py-1 bg-red-500 text-white text-sm rounded-full shadow-lg">
                         {post.category}
                       </span>
                     </motion.div>
@@ -115,7 +115,7 @@ const BlogHighlight = () => {
                       <span>{post.date}</span>
                       <span>{post.readTime}</span>
                     </div>
-                    <h3 className="text-xl font-semibold mb-3 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent hover:from-[#ff6b6b] hover:to-[#ffa06b] transition-all duration-300">
+                    <h3 className="text-xl font-semibold mb-3 text-gray-800 hover:text-red-500 transition-all duration-300">
                       {post.title}
                     </h3>
                     <p className="text-gray-600 mb-4 line-clamp-2">
@@ -155,7 +155,7 @@ const BlogHighlight = () => {
           {/* Custom Scroll Indicator */}
           <div className="mt-6 mx-auto max-w-md h-1 bg-gray-200/50 backdrop-blur-sm rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-[#ff6b6b] to-[#ffa06b] rounded-full"
+              className="h-full bg-red-500 rounded-full"
               style={{
                 scaleX: useTransform(
                   scrollX,

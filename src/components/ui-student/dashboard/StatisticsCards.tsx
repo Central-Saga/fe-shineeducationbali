@@ -24,15 +24,15 @@ export function StatisticsCards({
         whileHover={{ y: -5 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
-        <Card className="bg-gradient-to-br from-[#C40503]/5 to-[#C40503]/10 border border-[#C40503]/20 overflow-hidden relative shadow-md">
+        <Card className="bg-[#C40001]/5 border border-[#C40001]/20 overflow-hidden relative shadow-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-[#C40503]" />
+              <BookOpen className="h-5 w-5 text-[#C40001]" />
               Kelas Terdaftar
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-[#C40503]">
+            <div className="text-3xl font-bold text-[#C40001]">
               {enrolledClasses}
             </div>
             <p className="text-xs text-gray-500 mt-1">Kelas aktif saat ini</p>
@@ -44,7 +44,7 @@ export function StatisticsCards({
         whileHover={{ y: -5 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
-        <Card className="bg-gradient-to-br from-[#DAA625]/5 to-[#DAA625]/10 border border-[#DAA625]/20 overflow-hidden relative shadow-md">
+        <Card className="bg-[#DAA625]/5 border border-[#DAA625]/20 overflow-hidden relative shadow-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <CheckSquare className="h-5 w-5 text-[#DAA625]" />
@@ -64,10 +64,10 @@ export function StatisticsCards({
         whileHover={{ y: -5 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
-        <Card className="bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5 border border-gray-200 overflow-hidden relative shadow-md">
+        <Card className="bg-[#DAA521]/5 border border-[#DAA521]/20 overflow-hidden relative shadow-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <PieChart className="h-5 w-5 text-[#C40503]" />
+              <PieChart className="h-5 w-5 text-[#DAA521]" />
               Rata-rata Nilai
             </CardTitle>
           </CardHeader>
@@ -84,7 +84,7 @@ export function StatisticsCards({
         whileHover={{ y: -5 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
-        <Card className="bg-gradient-to-br from-[#DAA625]/5 to-[#C40503]/5 border border-gray-200 overflow-hidden relative shadow-md">
+        <Card className="bg-blue-100/50 border border-blue-200 overflow-hidden relative shadow-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Clock className="h-5 w-5 text-[#DAA625]" />

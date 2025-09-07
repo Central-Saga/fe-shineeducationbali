@@ -11,7 +11,7 @@ interface StudentHeroProps {
 
 export function StudentHero({ studentName, learningStreak }: StudentHeroProps) {
   return (
-    <div className="relative bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/10 rounded-3xl p-8 mb-6 overflow-hidden shadow-lg">
+    <div className="relative bg-[#C40001]/5 rounded-3xl p-8 mb-6 overflow-hidden shadow-lg">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(5)].map((_, i) => (

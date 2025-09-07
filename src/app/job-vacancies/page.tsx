@@ -156,14 +156,14 @@ export default function JobVacanciesPage() {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              <span className="bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+              <span className="text-[#C40001]">
                 Lowongan
-              </span> Kerja
+              </span> <span className="text-[#DAA625]">Kerja</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8">
               Bergabunglah dengan tim kami dan jadilah bagian dari perjalanan mencerdaskan generasi penerus bangsa.
             </p>
-            <div className="w-24 h-1 bg-gradient-to-r from-[#C40503] to-[#DAA625] mx-auto mb-10"></div>
+            <div className="w-24 h-1 bg-[#C40001] mx-auto mb-10"></div>
           </motion.div>
         </div>
       </section>
@@ -227,7 +227,7 @@ export default function JobVacanciesPage() {
                     </span>
                     <Button 
                       onClick={() => setSelectedJob(job.id)}
-                      className="bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:opacity-90 text-white"
+                      className="bg-[#C40001] hover:opacity-90 text-white"
                     >
                       Detail
                     </Button>
@@ -318,7 +318,7 @@ export default function JobVacanciesPage() {
       {/* Application CTA */}
       <section className="py-16 bg-gray-50/80 backdrop-blur-sm">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-xl overflow-hidden shadow-xl">
+          <div className="max-w-5xl mx-auto bg-[#C40001] rounded-xl overflow-hidden shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -449,7 +449,7 @@ export default function JobVacanciesPage() {
                       <p className="text-sm text-gray-500">Ditutup: {vacancyData.find(job => job.id === selectedJob)?.endDate}</p>
                     </div>
                     <Link href="/job-applications">
-                      <Button className="bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:opacity-90 text-white">
+                      <Button className="bg-white text-[#C40001] hover:bg-gray-100">
                         Lamar Sekarang
                       </Button>
                     </Link>

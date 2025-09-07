@@ -75,7 +75,7 @@ const Langganan = () => {
               <div className="p-8 flex flex-col h-full relative">
                 {/* Gradient Background */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5 rounded-xl"
+                  className="absolute inset-0 bg-[#C40001]/5 rounded-xl"
                   animate={{
                     opacity: [0.5, 0.8, 0.5],
                   }}
@@ -138,7 +138,7 @@ const Langganan = () => {
                       boxShadow: "0 10px 20px rgba(196, 5, 3, 0.2)",
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white py-3 px-6 rounded-full transition-all duration-300 font-semibold shadow-md"
+                    className="w-full bg-[#C40001] text-white py-3 px-6 rounded-full transition-all duration-300 font-semibold shadow-md"
                   >
                     Pilih Paket
                   </motion.button>
@@ -182,7 +182,7 @@ const Langganan = () => {
                     transition={{ duration: 0.5 }}
                   >
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-full blur-xl"
+                      className="absolute inset-0 bg-[#C40001]/20 rounded-full blur-xl"
                       animate={{
                         scale: [1, 1.2, 1],
                         opacity: [0.5, 0.8, 0.5],
@@ -194,11 +194,11 @@ const Langganan = () => {
                         delay: index * 0.2,
                       }}
                     />
-                    <div className="relative bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10 rounded-full flex items-center justify-center w-full h-full">
+                    <div className="relative bg-[#C40001]/10 rounded-full flex items-center justify-center w-full h-full">
                       <span className="text-2xl">{level.emoji}</span>
                     </div>
                   </motion.div>
-                  <h4 className="font-semibold text-xl mb-2 bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+                  <h4 className="font-semibold text-xl mb-2 text-[#C40001]">
                     {level.level}
                   </h4>
                   <div className="flex items-center justify-center gap-1 text-gray-600">
@@ -220,7 +220,7 @@ const Langganan = () => {
           transition={{ duration: 0.8 }}
           className="mt-16"
         >
-          <h3 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+          <h3 className="text-2xl font-bold text-center mb-8 text-[#C40001]">
             Fasilitas yang Anda Dapatkan
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -252,7 +252,7 @@ const Langganan = () => {
                   >
                     <div className="flex-shrink-0">
                       <motion.div
-                        className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10"
+                        className="w-12 h-12 rounded-full flex items-center justify-center bg-[#C40001]/10"
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.5 }}
                       >
@@ -272,7 +272,7 @@ const Langganan = () => {
                       </motion.div>
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-1 bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+                      <h4 className="font-semibold mb-1 text-[#C40001]">
                         {facility.title}
                       </h4>
                       <p className="text-sm text-gray-600">
@@ -311,7 +311,7 @@ const Langganan = () => {
                   >
                     <div className="flex-shrink-0">
                       <motion.div
-                        className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10"
+                        className="w-12 h-12 rounded-full flex items-center justify-center bg-[#C40001]/10"
                         whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.5 }}
                       >
@@ -331,7 +331,7 @@ const Langganan = () => {
                       </motion.div>
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-1 bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+                      <h4 className="font-semibold mb-1 text-[#C40001]">
                         {facility.title}
                       </h4>
                       <p className="text-sm text-gray-600">

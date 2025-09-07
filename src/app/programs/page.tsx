@@ -105,14 +105,14 @@ export default function ProgramsPage() {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              <span className="bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+              <span className="text-[#C40001]">
                 Program Unggulan
-              </span> Kami
+              </span> <span className="text-[#DAA625]">Kami</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8">
               Shine Education menyediakan beragam program pendidikan berkualitas untuk membantu siswa mencapai potensi terbaik mereka.
             </p>
-            <div className="w-24 h-1 bg-gradient-to-r from-[#C40503] to-[#DAA625] mx-auto mb-10"></div>
+            <div className="w-24 h-1 bg-[#C40001] mx-auto mb-10"></div>
           </motion.div>
         </div>
       </section>
@@ -140,7 +140,7 @@ export default function ProgramsPage() {
                     fill
                     className="object-cover transition-transform duration-300 hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute inset-0 bg-black/30"></div>
                   <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white">
                     {program.title}
                   </h3>
@@ -157,7 +157,7 @@ export default function ProgramsPage() {
                   </ul>
                   <Button 
                     onClick={() => setSelectedProgram(program.id)}
-                    className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:opacity-90 text-white"
+                    className="w-full bg-[#C40001] hover:opacity-90 text-white"
                   >
                     Detail Program
                   </Button>
@@ -247,7 +247,7 @@ export default function ProgramsPage() {
       {/* CTA Section */}
       <section className="py-16 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-xl p-8 md:p-12 shadow-xl">
+          <div className="max-w-5xl mx-auto bg-[#C40001] rounded-xl p-8 md:p-12 shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div>
                 <motion.h2 
@@ -541,7 +541,7 @@ export default function ProgramsPage() {
                 </p>
                 
                 <div className="flex gap-4">
-                  <Button className="bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:opacity-90 text-white">
+                  <Button className="bg-white text-[#C40001] hover:bg-gray-100">
                     Daftar Program
                   </Button>
                   <Button variant="outline">
