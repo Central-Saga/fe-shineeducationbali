@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Check, X, AlertCircle, Clock, Search } from 'lucide-react';
+import { Check, X, AlertCircle, Clock, Search, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -106,11 +106,11 @@ export function AttendanceModal({ isOpen, onClose, classData, studentData, onSav
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold flex flex-wrap items-center gap-2">
             <span>Kehadiran Kelas</span>
-            <span className="text-[#C40503]">{classData.title}</span>
+            <span className="text-[#C40001]">{classData.title}</span>
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
             {classData.date && new Date(classData.date).toLocaleDateString('id-ID', {
@@ -120,6 +120,17 @@ export function AttendanceModal({ isOpen, onClose, classData, studentData, onSav
               year: 'numeric'
             })} | {classData.timeStart} - {classData.timeEnd}
           </DialogDescription>
+          <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-center gap-2 text-sm text-blue-700">
+              <Calendar className="h-4 w-4" />
+              <span className="font-medium">Tanggal Pertemuan:</span>
+              <span>{classData.date && new Date(classData.date).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+              })}</span>
+            </div>
+          </div>
         </DialogHeader>
 
         <div className="mt-4">
@@ -161,8 +172,6 @@ export function AttendanceModal({ isOpen, onClose, classData, studentData, onSav
           <Tabs defaultValue="list" className="w-full">
             <TabsList className="mb-4 w-full">
               <TabsTrigger value="list" className="flex-1">Daftar Siswa</TabsTrigger>
-              <TabsTrigger value="checkbox" className="flex-1">Mode Centang</TabsTrigger>
-              <TabsTrigger value="bulk" className="flex-1">Tampilan Kelompok</TabsTrigger>
             </TabsList>
             
             <TabsContent value="list">
@@ -270,217 +279,12 @@ export function AttendanceModal({ isOpen, onClose, classData, studentData, onSav
                 </div>
               </div>
             </TabsContent>
-            
-            <TabsContent value="checkbox">
-              <div className="mb-4">
-                <div className="relative">
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border rounded-md pl-8"
-                    placeholder="Cari siswa berdasarkan nama..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <Search className="h-4 w-4 absolute left-2.5 top-3 text-gray-400" />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {studentData.students
-                  .filter(student => student.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                  .map((student, index) => (
-                  <div key={student.id} className="flex items-center justify-between border p-3 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <span className="text-gray-500 w-6 text-xs md:text-sm">{index + 1}.</span>
-                      <span className="font-medium text-xs md:text-sm truncate max-w-[120px]" title={student.name}>{student.name}</span>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center space-x-1">
-                        <Checkbox 
-                          id={`present-${student.id}`} 
-                          checked={attendanceRecords[student.id] === 'present'}
-                          onCheckedChange={() => handleAttendanceChange(student.id, 'present')}
-                          className="h-3 w-3 md:h-4 md:w-4 text-green-600 border-green-400 data-[state=checked]:bg-green-600"
-                        />
-                        <Label htmlFor={`present-${student.id}`} className="text-green-600 text-xs">H</Label>
-                      </div>
-                      
-                      <div className="flex items-center space-x-1">
-                        <Checkbox 
-                          id={`absent-${student.id}`} 
-                          checked={attendanceRecords[student.id] === 'absent'}
-                          onCheckedChange={() => handleAttendanceChange(student.id, 'absent')}
-                          className="h-3 w-3 md:h-4 md:w-4 text-red-600 border-red-400 data-[state=checked]:bg-red-600"
-                        />
-                        <Label htmlFor={`absent-${student.id}`} className="text-red-600 text-xs">A</Label>
-                      </div>
-                      
-                      <div className="flex items-center space-x-1">
-                        <Checkbox 
-                          id={`late-${student.id}`} 
-                          checked={attendanceRecords[student.id] === 'late'}
-                          onCheckedChange={() => handleAttendanceChange(student.id, 'late')}
-                          className="h-3 w-3 md:h-4 md:w-4 text-yellow-600 border-yellow-400 data-[state=checked]:bg-yellow-500"
-                        />
-                        <Label htmlFor={`late-${student.id}`} className="text-yellow-600 text-xs">T</Label>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="bulk">
-              <div className="space-y-6">
-                <div className="flex flex-col gap-4">
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-md font-medium">Manajemen Kehadiran Kelompok</h3>
-                    <div className="flex gap-2">
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        className="text-green-600 hover:bg-green-50"
-                        onClick={() => markAll('present')}
-                      >
-                        Semua Hadir
-                      </Button>
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        className="text-yellow-600 hover:bg-yellow-50"
-                        onClick={() => markAll('late')}
-                      >
-                        Semua Terlambat
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="relative">
-                    <input
-                      type="text"
-                      className="w-full px-3 py-2 border rounded-md pl-8"
-                      placeholder="Cari siswa berdasarkan nama..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <Search className="h-4 w-4 absolute left-2.5 top-3 text-gray-400" />
-                    {searchTerm && (
-                      <button 
-                        className="absolute right-2.5 top-2.5 text-gray-400 hover:text-gray-600"
-                        onClick={() => setSearchTerm('')}
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* Kolom Hadir */}
-                  <div className="border rounded-lg p-4 bg-green-50">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-medium text-green-700 flex items-center">
-                        <Check className="h-4 w-4 mr-2" /> 
-                        Hadir ({Object.values(attendanceRecords).filter(status => status === 'present').length})
-                      </h3>
-                    </div>
-                    <div className="space-y-2 max-h-[300px] overflow-y-auto">
-                      {studentData.students
-                        .filter(student => student.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                        .map((student) => (
-                        <div 
-                          key={`present-${student.id}`}
-                          className={`p-2 text-sm border rounded-md flex items-center justify-between cursor-pointer transition-colors
-                            ${attendanceRecords[student.id] === 'present' 
-                              ? 'bg-green-100 border-green-200' 
-                              : 'bg-white border-gray-200 hover:bg-green-50'}`}
-                          onClick={() => handleAttendanceChange(student.id, 'present')}
-                        >
-                          <span className="truncate mr-2">{student.name}</span>
-                          {attendanceRecords[student.id] === 'present' && (
-                            <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* Kolom Terlambat */}
-                  <div className="border rounded-lg p-4 bg-yellow-50">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-medium text-yellow-700 flex items-center">
-                        <Clock className="h-4 w-4 mr-2" /> 
-                        Terlambat ({Object.values(attendanceRecords).filter(status => status === 'late').length})
-                      </h3>
-                    </div>
-                    <div className="space-y-2 max-h-[300px] overflow-y-auto">
-                      {studentData.students
-                        .filter(student => student.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                        .map((student) => (
-                        <div 
-                          key={`late-${student.id}`}
-                          className={`p-2 text-sm border rounded-md flex items-center justify-between cursor-pointer transition-colors
-                            ${attendanceRecords[student.id] === 'late' 
-                              ? 'bg-yellow-100 border-yellow-200' 
-                              : 'bg-white border-gray-200 hover:bg-yellow-50'}`}
-                          onClick={() => handleAttendanceChange(student.id, 'late')}
-                        >
-                          <span className="truncate mr-2">{student.name}</span>
-                          {attendanceRecords[student.id] === 'late' && (
-                            <Clock className="h-4 w-4 text-yellow-600 flex-shrink-0" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* Kolom Tidak Hadir */}
-                  <div className="border rounded-lg p-4 bg-red-50">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-medium text-red-700 flex items-center">
-                        <X className="h-4 w-4 mr-2" /> 
-                        Tidak Hadir ({Object.values(attendanceRecords).filter(status => status === 'absent').length})
-                      </h3>
-                    </div>
-                    <div className="space-y-2 max-h-[300px] overflow-y-auto">
-                      {studentData.students
-                        .filter(student => student.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                        .map((student) => (
-                        <div 
-                          key={`absent-${student.id}`}
-                          className={`p-2 text-sm border rounded-md flex items-center justify-between cursor-pointer transition-colors
-                            ${attendanceRecords[student.id] === 'absent' 
-                              ? 'bg-red-100 border-red-200' 
-                              : 'bg-white border-gray-200 hover:bg-red-50'}`}
-                          onClick={() => handleAttendanceChange(student.id, 'absent')}
-                        >
-                          <span className="truncate mr-2">{student.name}</span>
-                          {attendanceRecords[student.id] === 'absent' && (
-                            <X className="h-4 w-4 text-red-600 flex-shrink-0" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-blue-50 p-4 rounded-lg text-sm">
-                  <div className="font-medium text-blue-700 mb-2">Cara Penggunaan:</div>
-                  <ul className="list-disc pl-5 text-blue-600 text-xs space-y-1">
-                    <li>Klik nama siswa untuk memindahkannya ke kolom tersebut</li>
-                    <li>Gunakan tombol "Semua Hadir" untuk menandai semua siswa sebagai hadir</li>
-                    <li>Status terakhir yang akan disimpan saat menekan tombol "Simpan Kehadiran"</li>
-                  </ul>
-                </div>
-              </div>
-            </TabsContent>
           </Tabs>
         </div>
 
         <DialogFooter className="mt-4">
           <Button variant="outline" onClick={onClose}>Batal</Button>
-          <Button onClick={handleSubmit} className="bg-[#C40503] hover:bg-[#a60402]">
+          <Button onClick={handleSubmit} className="bg-[#C40001] hover:bg-[#A60000]">
             Simpan Kehadiran
           </Button>
         </DialogFooter>

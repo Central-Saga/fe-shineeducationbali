@@ -3,7 +3,7 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, BookOpen, FileText, Users, BarChart2 } from 'lucide-react';
+import { Clock, BookOpen, FileText, Users, BarChart2 } from 'lucide-react';
 import { TeacherClassSession } from '@/data/data-teacher/classes-data';
 import Link from 'next/link';
 import { Progress } from '@/components/ui/progress';
@@ -12,10 +12,9 @@ interface ClassCardProps {
   session: TeacherClassSession;
   isExpanded?: boolean;
   onToggle?: () => void;
-  onAttendanceClick?: (session: TeacherClassSession) => void;
 }
 
-export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceClick }: ClassCardProps) {
+export function ClassCard({ session, isExpanded = false, onToggle }: ClassCardProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'upcoming':
@@ -70,16 +69,9 @@ export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceC
               <span>{formattedDate}, {session.timeStart} - {session.timeEnd}</span>
             </div>
             
-            <div className="grid grid-cols-2 gap-x-4">
-              <div className="flex items-center text-sm text-gray-600">
-                <MapPin className="h-4 w-4 mr-2 text-[#C40503]" />
-                <span>{session.location}</span>
-              </div>
-              
-              <div className="flex items-center text-sm text-gray-600">
-                <Users className="h-4 w-4 mr-2 text-[#DAA625]" />
-                <span>{session.studentCount} Siswa</span>
-              </div>
+            <div className="flex items-center text-sm text-gray-600">
+              <Users className="h-4 w-4 mr-2 text-[#DAA625]" />
+              <span>{session.studentCount} Siswa</span>
             </div>
 
             <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -179,22 +171,10 @@ export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceC
         
         <div className="border-t border-gray-100 p-4">
           <div className="flex justify-between">
-            
             {session.status === 'upcoming' && (
               <div className="flex gap-2">
-                <button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    // We'll update this later to handle attendance modal
-                    if (onAttendanceClick) onAttendanceClick(session);
-                  }}
-                  className="text-sm font-medium text-[#C40503] border border-[#C40503] px-3 py-1 rounded hover:bg-[#C40503] hover:text-white transition-colors"
-                >
-                  Persiapan Kelas
-                </button>
                 <Link href={`/dashboard-teacher/classes/${session.id}`}>
-                  <button className="text-sm font-medium text-white bg-[#C40503] px-4 py-1 rounded hover:bg-[#a60402] transition-colors">
+                  <button className="text-sm font-medium text-white bg-[#C40001] px-4 py-1 rounded hover:bg-[#A60000] transition-colors">
                     Detail Kelas
                   </button>
                 </Link>
@@ -203,17 +183,6 @@ export function ClassCard({ session, isExpanded = false, onToggle, onAttendanceC
             
             {session.status === 'ongoing' && (
               <div className="flex gap-2">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    // We'll update this later to handle attendance modal
-                    if (onAttendanceClick) onAttendanceClick(session);
-                  }}
-                  className="text-sm font-medium text-white bg-[#DAA625] px-4 py-1 rounded hover:bg-[#b88d1c] transition-colors"
-                >
-                  Absensi
-                </button>
                 <Link href={`/dashboard-teacher/classes/${session.id}`}>
                   <button className="text-sm font-medium text-white bg-green-600 px-4 py-1 rounded hover:bg-green-700 transition-colors">
                     Detail Kelas

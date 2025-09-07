@@ -80,7 +80,7 @@ export function TeacherSidebar() {
       <div className="flex flex-col h-full">
         <div className="relative">
           {/* Simple, clean teacher header */}
-          <div className="bg-[#C40503] pt-5 pb-4">
+          <div className="bg-[#C40001] pt-5 pb-4">
             {/* Simple accent line */}
             <div className="absolute top-0 left-0 right-0 h-1 bg-[#DAA625]"></div>
             
@@ -165,7 +165,7 @@ export function TeacherSidebar() {
                       className={cn(
                         "flex items-center justify-between gap-3 rounded-lg px-4 py-3 transition-all cursor-pointer",
                         isActive
-                          ? "bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10 text-[#C40503] font-medium shadow-sm"
+                          ? "bg-[#C40503]/10 text-[#C40503] font-medium shadow-sm"
                           : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
                       )}
                       onClick={() => toggleMenu(item.name)}
@@ -189,7 +189,7 @@ export function TeacherSidebar() {
                         className={cn(
                           "flex items-center justify-between gap-3 rounded-lg px-4 py-3 transition-all",
                           isActive
-                            ? "bg-gradient-to-r from-[#C40503]/10 to-[#DAA625]/10 text-[#C40503] font-medium shadow-sm"
+                            ? "bg-[#C40503]/10 text-[#C40503] font-medium shadow-sm"
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
                         )}
                       >
@@ -217,7 +217,7 @@ export function TeacherSidebar() {
                                  pathname.includes("/leave-request"))) &&
                              !(subitem.href === "/dashboard-teacher/grades" && 
                                 pathname.includes("/summary")))
-                              ? "text-[#C40503] font-medium bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/5"
+                              ? "text-[#C40503] font-medium bg-[#C40503]/5"
                               : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
                           )}
                         >

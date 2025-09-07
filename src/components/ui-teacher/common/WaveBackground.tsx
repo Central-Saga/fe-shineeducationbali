@@ -29,7 +29,7 @@ export function WaveBackground({
               />
               <stop
                 offset="100%"
-                style={{ stopColor: secondaryColor, stopOpacity: 0.1 }}
+                style={{ stopColor: primaryColor, stopOpacity: 0.1 }}
               />
             </linearGradient>
           </defs>

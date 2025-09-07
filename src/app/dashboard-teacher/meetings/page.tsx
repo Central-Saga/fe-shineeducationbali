@@ -10,7 +10,7 @@ export default function MeetingsPage() {
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-[#C40503] to-[#DAA625] text-transparent bg-clip-text">
+          <h1 className="text-3xl font-bold tracking-tight text-[#C40503]">
             Pertemuan Kelas
           </h1>
           <p className="text-gray-500 mt-1">
@@ -38,7 +38,7 @@ export default function MeetingsPage() {
                 Anda dapat mengakses pertemuan kelas dengan memilih kelas tertentu di halaman Kelas atau mengklik tombol "Pertemuan" pada kartu kelas.
               </p>
               <Link href="/dashboard-teacher/classes">
-                <Button className="bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:from-[#a60402] hover:to-[#b78a1e]">
+                <Button className="bg-[#C40503] hover:bg-[#A60000]">
                   Lihat Kelas Saya
                 </Button>
               </Link>

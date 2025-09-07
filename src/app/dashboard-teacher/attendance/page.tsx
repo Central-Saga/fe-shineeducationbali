@@ -84,7 +84,7 @@ export default function AttendancePage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+        <h1 className="text-2xl font-bold text-[#C40503]">
           Kehadiran Siswa
         </h1>
         <Button className="bg-[#C40503] hover:bg-[#A60000]">

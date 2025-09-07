@@ -74,7 +74,7 @@ export default function TeacherDashboardLayout({
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-gray-900">
+    <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
       {/* Desktop Sidebar - hidden on mobile */}
       <div className="hidden md:flex h-full">
         <TeacherSidebar />
@@ -87,7 +87,7 @@ export default function TeacherDashboardLayout({
         
         {/* Main scrollable area */}
         <div className="flex-1 overflow-auto">
-          <div className="absolute top-0 right-0 w-full h-64 bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/5 -z-10" />
+          <div className="absolute top-0 right-0 w-full h-64 bg-[#C40503]/5 -z-10" />
           <main className="p-8 max-w-11xl mx-auto relative">
             {children}
           </main>

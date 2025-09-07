@@ -12,10 +12,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowLeft, FileText, Plus, User, Calendar, Clock, MapPin, BookOpen } from "lucide-react";
+import { ArrowLeft, FileText, Plus, User, Calendar, Clock, BookOpen, Users, Download } from "lucide-react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
+import { AttendanceModal } from "./AttendanceModal";
 
 // State interfaces for meeting attendance visibility
 interface MeetingAttendanceState {
@@ -60,26 +61,122 @@ interface ClassDetailsProps {
 }
 
 export function ClassDetails({ classData }: ClassDetailsProps) {
-  // Tidak lagi membutuhkan state untuk toggle kehadiran karena akan dikelola di halaman pertemuan
+  // State untuk AttendanceModal
+  const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false);
+  const [selectedSession, setSelectedSession] = useState<any>(null);
+
+  // Mock data untuk sessions yang akan ditampilkan di tab kehadiran
+  const mockSessions = [
+    {
+      id: "1",
+      title: "Pertemuan 1: Pengenalan Dasar",
+      subject: classData.subject,
+      date: "2024-01-15",
+      timeStart: "09:00",
+      timeEnd: "11:00",
+      location: classData.room || "Online",
+      status: "completed" as const,
+      studentCount: classData.studentCount,
+      completionProgress: 100,
+      description: "Pengenalan dasar-dasar materi pembelajaran",
+      materials: ["Materi 1: Pengenalan", "Materi 2: Konsep Dasar"],
+      assignments: [
+        {
+          id: "1",
+          title: "Tugas 1: Latihan Dasar",
+          dueDate: "2024-01-20",
+          status: "completed" as const,
+          submissionCount: 15,
+          totalStudents: 20
+        }
+      ],
+      attendanceRecord: {
+        total: 20,
+        present: 18,
+        absent: 2,
+        late: 0
+      }
+    },
+    {
+      id: "2",
+      title: "Pertemuan 2: Praktik Lanjutan",
+      subject: classData.subject,
+      date: "2024-01-22",
+      timeStart: "09:00",
+      timeEnd: "11:00",
+      location: classData.room || "Online",
+      status: "ongoing" as const,
+      studentCount: classData.studentCount,
+      completionProgress: 60,
+      description: "Praktik lanjutan dengan studi kasus",
+      materials: ["Materi 3: Praktik", "Materi 4: Studi Kasus"],
+      assignments: [
+        {
+          id: "2",
+          title: "Tugas 2: Praktik Mandiri",
+          dueDate: "2024-01-27",
+          status: "ongoing" as const,
+          submissionCount: 8,
+          totalStudents: 20
+        }
+      ],
+      attendanceRecord: {
+        total: 20,
+        present: 19,
+        absent: 1,
+        late: 0
+      }
+    },
+    {
+      id: "3",
+      title: "Pertemuan 3: Review dan Evaluasi",
+      subject: classData.subject,
+      date: "2024-01-29",
+      timeStart: "09:00",
+      timeEnd: "11:00",
+      location: classData.room || "Online",
+      status: "upcoming",
+      studentCount: classData.studentCount,
+      completionProgress: 0,
+      description: "Review materi dan evaluasi pembelajaran",
+      materials: ["Materi 5: Review", "Materi 6: Evaluasi"],
+      assignments: [],
+      attendanceRecord: null
+    }
+  ];
+
+  // Handle attendance modal
+  const handleAttendanceClick = (session: any) => {
+    setSelectedSession(session);
+    setIsAttendanceModalOpen(true);
+  };
+
+  const handleAttendanceSave = (attendanceData: any) => {
+    console.log('Attendance saved:', attendanceData);
+    // Handle saving attendance data
+    setIsAttendanceModalOpen(false);
+  };
 
   return (
-    <div className="py-6 space-y-6 w-full">
-      <div className="flex items-center justify-between">
-        <Link href="/dashboard-teacher/classes">
-          <Button variant="outline" size="sm" className="flex items-center gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Kembali
-          </Button>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Section */}
+        <div className="mb-6">
+          <Link 
+            href="/dashboard-teacher/classes"
+            className="inline-flex items-center text-gray-600 hover:text-[#C40001] mb-4"
+          >
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            Kembali ke Daftar Kelas
         </Link>
-        {/* Removed Edit Kelas and Mulai Kelas buttons since teachers don't edit classes directly */}
-      </div>
-
-      <Card>
-        <CardHeader className="bg-[#C40503]/5 border-b">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-xl text-[#C40503]">
-              {classData.name} - {classData.subject}
-            </CardTitle>
+          
+          {/* Class Card */}
+          <Card className="mb-8">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <CardTitle className="text-2xl font-bold text-gray-900">{classData.name}</CardTitle>
             <Badge 
               className={
                 classData.status === "active" 
@@ -90,144 +187,88 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
               {classData.status === "active" ? "Aktif" : "Tidak Aktif"}
             </Badge>
           </div>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-[#C40503]">Informasi Kelas</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-500 flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Jadwal:
-                  </span>
-                  <span className="font-medium">{classData.schedule}</span>
+                  <p className="text-gray-600">{classData.subject} • {classData.level}</p>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-500 flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Waktu:
-                  </span>
-                  <span className="font-medium">{classData.time}</span>
+                <div className="text-right">
+                  <p className="text-sm text-gray-500">Progress Kelas</p>
+                  <p className="text-2xl font-bold text-[#C40001]">{classData.progress}%</p>
                 </div>
-                {classData.room && (
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-gray-500 flex items-center">
-                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                      </svg>
-                      Ruangan:
-                    </span>
-                    <span className="font-medium">{classData.room}</span>
                   </div>
-                )}
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-500 flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    Jumlah Siswa:
-                  </span>
-                  <span className="font-medium">{classData.studentCount} siswa</span>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-[#C40001]/10 rounded-lg">
+                    <Calendar className="h-5 w-5 text-[#C40001]" />
                 </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-500 flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    Progress:
-                  </span>
-                  <span className="font-medium">{classData.progress}%</span>
-                </div>
-                <div className="mt-2">
-                  <Progress value={classData.progress} className="h-2" />
+                  <div>
+                    <p className="text-sm text-gray-500">Jadwal</p>
+                    <p className="font-medium">{classData.schedule}</p>
                 </div>
               </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-[#C40001]/10 rounded-lg">
+                    <Clock className="h-5 w-5 text-[#C40001]" />
             </div>
-            
             <div>
-              {classData.description && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-3 text-[#C40503]">Deskripsi</h3>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-gray-700">{classData.description}</p>
+                    <p className="text-sm text-gray-500">Waktu</p>
+                    <p className="font-medium">{classData.time}</p>
                   </div>
                 </div>
-              )}
-              
-              {classData.syllabus && classData.syllabus.length > 0 && (
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-[#C40001]/10 rounded-lg">
+                    <Users className="h-5 w-5 text-[#C40001]" />
+                </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-3 text-[#C40503]">Silabus</h3>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <ul className="list-disc list-inside text-gray-700 space-y-1">
-                      {classData.syllabus.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
-              
-              {/* Informasi tambahan untuk guru */}
-              <div className="mt-6 space-y-4">
-                <h3 className="text-lg font-semibold mb-3 text-[#C40503]">Informasi Kelas</h3>
-                
-                {/* Link Grup - Read Only */}
-                {classData.groupLink && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Link Grup</label>
-                    <div className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
-                      {classData.groupLink}
-                    </div>
-                    <p className="mt-1 text-sm text-gray-500">Hubungi admin untuk mengubah link grup.</p>
-                  </div>
-                )}
-                
-                {/* Deskripsi Kelas - Read Only */}
-                {classData.description && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kelas</label>
-                    <div className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
-                      {classData.description}
-                    </div>
-                    <p className="mt-1 text-sm text-gray-500">Hubungi admin untuk mengubah deskripsi kelas.</p>
-                  </div>
-                )}
+                    <p className="text-sm text-gray-500">Jumlah Siswa</p>
+                    <p className="font-medium">{classData.studentCount} siswa</p>
               </div>
             </div>
           </div>
           
-          <Tabs defaultValue="students" className="mt-6">
-            <TabsList className="bg-gray-100">
-              <TabsTrigger value="students" className="data-[state=active]:bg-white">
+              {classData.description && (
+                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                  <h3 className="font-medium text-gray-900 mb-2">Deskripsi Kelas</h3>
+                  <p className="text-gray-700">{classData.description}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Tabs Content */}
+        <div className="w-full">
+            <Tabs defaultValue="students" className="w-full">
+            <TabsList className="bg-gray-100 p-1 rounded-lg">
+              <TabsTrigger value="students" className="data-[state=active]:bg-white data-[state=active]:text-[#C40001] data-[state=active]:shadow-sm">
                 <User className="h-4 w-4 mr-2" />
                 Siswa
               </TabsTrigger>
-              <TabsTrigger value="assignments" className="data-[state=active]:bg-white">
+              <TabsTrigger value="assignments" className="data-[state=active]:bg-white data-[state=active]:text-[#C40001] data-[state=active]:shadow-sm">
                 <FileText className="h-4 w-4 mr-2" />
                 Tugas
               </TabsTrigger>
-              <TabsTrigger value="grades" className="data-[state=active]:bg-white">
-                <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-                </svg>
-                Nilai
+              <TabsTrigger value="materials" className="data-[state=active]:bg-white data-[state=active]:text-[#C40001] data-[state=active]:shadow-sm">
+                <BookOpen className="h-4 w-4 mr-2" />
+                Materi
+              </TabsTrigger>
+              <TabsTrigger value="attendance" className="data-[state=active]:bg-white data-[state=active]:text-[#C40001] data-[state=active]:shadow-sm">
+                <Users className="h-4 w-4 mr-2" />
+                Kehadiran
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="students" className="mt-4">
-              <Card>
-                <CardHeader className="pb-2">
+            <TabsContent value="students" className="mt-6">
+              <Card className="shadow-sm">
+                <CardHeader className="bg-[#C40001]/5 border-b">
                   <div className="flex justify-between items-center">
-                    <CardTitle>Daftar Siswa</CardTitle>
-                    <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Tambah Siswa
+                    <CardTitle className="text-lg text-[#C40001] flex items-center gap-2">
+                      <User className="h-5 w-5" />
+                      Daftar Siswa
+                    </CardTitle>
+                    <Button variant="outline" className="text-[#C40001] border-[#C40001] hover:bg-[#C40001]/5">
+                      <User className="h-4 w-4 mr-2" />
+                      Lihat Detail Siswa
                     </Button>
                   </div>
                 </CardHeader>
@@ -237,7 +278,7 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                       <TableRow>
                         <TableHead>ID</TableHead>
                         <TableHead>Nama Siswa</TableHead>
-                        <TableHead>Kehadiran</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead>Nilai</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                       </TableRow>
@@ -247,7 +288,11 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                         <TableRow key={student.id}>
                           <TableCell className="font-medium">{student.id}</TableCell>
                           <TableCell>{student.name}</TableCell>
-                          <TableCell>{student.attendance}</TableCell>
+                          <TableCell>
+                            <Badge className="bg-green-100 text-green-800">
+                              Aktif
+                            </Badge>
+                          </TableCell>
                           <TableCell>{student.grade}</TableCell>
                           <TableCell className="text-right">
                             <Button variant="ghost" size="sm">
@@ -262,14 +307,17 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
               </Card>
             </TabsContent>
             
-            <TabsContent value="assignments" className="mt-4">
-              <Card>
-                <CardHeader className="pb-2">
+            <TabsContent value="assignments" className="mt-6">
+              <Card className="shadow-sm">
+                <CardHeader className="bg-[#C40001]/5 border-b">
                   <div className="flex justify-between items-center">
-                    <CardTitle>Tugas</CardTitle>
-                    <Button className="bg-[#C40503] hover:bg-[#a60402] text-white">
+                    <CardTitle className="text-lg text-[#C40001] flex items-center gap-2">
+                      <FileText className="h-5 w-5" />
+                      Tugas
+                    </CardTitle>
+                    <Button className="bg-[#C40001] hover:bg-[#A60000] text-white">
                       <Plus className="h-4 w-4 mr-2" />
-                      Tambah Tugas
+                      Buat Tugas Baru
                     </Button>
                   </div>
                 </CardHeader>
@@ -317,52 +365,48 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
               </Card>
             </TabsContent>
             
-            <TabsContent value="grades" className="mt-4">
-              <Card>
-                <CardHeader className="pb-2">
+            <TabsContent value="materials" className="mt-6">
+              <Card className="shadow-sm">
+                <CardHeader className="bg-[#C40001]/5 border-b">
                   <div className="flex justify-between items-center">
-                    <CardTitle>Nilai Siswa</CardTitle>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                        </svg>
-                        Export Excel
-                      </Button>
-                      <Button className="bg-[#DAA625] hover:bg-[#b88d1c] text-white">
+                    <CardTitle className="text-lg text-[#C40001] flex items-center gap-2">
+                      <BookOpen className="h-5 w-5" />
+                      Materi Pembelajaran
+                    </CardTitle>
+                    <Button className="bg-[#C40001] hover:bg-[#A60000] text-white">
                         <Plus className="h-4 w-4 mr-2" />
-                        Tambah Nilai
+                      Upload Materi
                       </Button>
-                    </div>
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-6">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="w-[50px]">No</TableHead>
-                        <TableHead>Nama Siswa</TableHead>
-                        <TableHead className="text-center">Tugas</TableHead>
-                        <TableHead className="text-center">UTS</TableHead>
-                        <TableHead className="text-center">UAS</TableHead>
-                        <TableHead className="text-center">Nilai Akhir</TableHead>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Judul</TableHead>
+                        <TableHead>Tipe</TableHead>
+                        <TableHead>Tanggal Upload</TableHead>
+                        <TableHead>Download</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {classData.students?.map((student, index) => (
-                        <TableRow key={student.id}>
-                          <TableCell>{index + 1}</TableCell>
-                          <TableCell>{student.name}</TableCell>
-                          <TableCell className="text-center">85</TableCell>
-                          <TableCell className="text-center">78</TableCell>
-                          <TableCell className="text-center">90</TableCell>
-                          <TableCell className="text-center font-medium">
-                            {student.grade}
+                      {classData.materials?.map((material) => (
+                        <TableRow key={material.id}>
+                          <TableCell className="font-medium">{material.id}</TableCell>
+                          <TableCell>{material.title}</TableCell>
+                          <TableCell>
+                            <Badge variant="outline">
+                              {material.type}
+                            </Badge>
                           </TableCell>
+                          <TableCell>{material.uploadedDate}</TableCell>
+                          <TableCell>0</TableCell>
                           <TableCell className="text-right">
                             <Button variant="ghost" size="sm">
-                              Edit
+                              <Download className="h-4 w-4 mr-1" />
+                              Download
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -372,9 +416,169 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                 </CardContent>
               </Card>
             </TabsContent>
-          </Tabs>
+            
+            <TabsContent value="attendance" className="mt-6">
+              <div className="space-y-6">
+                {/* Header */}
+                <Card className="shadow-sm">
+                  <CardHeader className="bg-[#C40001]/5 border-b">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-lg text-[#C40001] flex items-center gap-2">
+                        <Users className="h-5 w-5" />
+                        Kehadiran Siswa - Pertemuan Kelas
+                      </CardTitle>
+                      <Button className="bg-[#C40001] hover:bg-[#A60000] text-white">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Tambah Pertemuan
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                      <div className="flex items-start gap-3">
+                        <div className="p-1 bg-blue-100 rounded">
+                          <Users className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-blue-900">Manajemen Kehadiran Pertemuan</h4>
+                          <p className="text-sm text-blue-700 mt-1">
+                            Kelola kehadiran siswa untuk setiap pertemuan kelas. Klik "Catat Kehadiran" untuk mencatat kehadiran siswa pada pertemuan yang sedang berlangsung.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Session Cards */}
+                <div className="space-y-6">
+                  {mockSessions.map((session) => (
+                    <Card key={session.id} className="shadow-sm w-full">
+                      <CardHeader className="bg-gray-50 border-b">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-[#C40001]/10 rounded-lg">
+                              <Calendar className="h-5 w-5 text-[#C40001]" />
+                            </div>
+                            <div>
+                              <CardTitle className="text-lg text-gray-900">{session.title}</CardTitle>
+                              <p className="text-sm text-gray-600">
+                                {new Date(session.date).toLocaleDateString('id-ID', {
+                                  weekday: 'long',
+                                  day: 'numeric',
+                                  month: 'long',
+                                  year: 'numeric'
+                                })} • {session.timeStart} - {session.timeEnd}
+                              </p>
+                            </div>
+                          </div>
+                          <Badge 
+                            className={
+                              session.status === "completed" 
+                                ? "bg-green-100 text-green-800"
+                                : session.status === "ongoing"
+                                ? "bg-blue-100 text-blue-800"
+                                : "bg-gray-100 text-gray-800"
+                            }
+                          >
+                            {session.status === "completed" ? "Selesai" : 
+                             session.status === "ongoing" ? "Sedang Berlangsung" : "Akan Datang"}
+                          </Badge>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                          {/* Informasi Pertemuan */}
+                          <div className="space-y-3">
+                            <h4 className="font-medium text-gray-900">Informasi Pertemuan</h4>
+                            <div className="space-y-2 text-sm">
+                              <div className="flex items-center gap-2">
+                                <Users className="h-4 w-4 text-gray-500" />
+                                <span>{session.studentCount} siswa</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Clock className="h-4 w-4 text-gray-500" />
+                                <span>Progress: {session.completionProgress}%</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Kehadiran */}
+                          <div className="space-y-3">
+                            <h4 className="font-medium text-gray-900">Kehadiran</h4>
+                            {session.attendanceRecord ? (
+                              <div className="space-y-2">
+                                <div className="flex justify-between text-sm">
+                                  <span>Total:</span>
+                                  <span className="font-medium">{session.attendanceRecord.total}</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-green-600">Hadir:</span>
+                                  <span className="font-medium text-green-600">{session.attendanceRecord.present}</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-red-600">Tidak Hadir:</span>
+                                  <span className="font-medium text-red-600">{session.attendanceRecord.absent}</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-yellow-600">Terlambat:</span>
+                                  <span className="font-medium text-yellow-600">{session.attendanceRecord.late}</span>
+                                </div>
+                              </div>
+                            ) : (
+                              <p className="text-sm text-gray-500">Belum ada data kehadiran</p>
+                            )}
+                          </div>
+
+                          {/* Aksi */}
+                          <div className="space-y-3">
+                            <h4 className="font-medium text-gray-900">Aksi</h4>
+                            <div className="space-y-3">
+                              <Button 
+                                size="default" 
+                                className="w-full bg-[#C40001] hover:bg-[#A60000] text-white h-10"
+                                onClick={() => handleAttendanceClick(session)}
+                              >
+                                <Users className="h-4 w-4 mr-2" />
+                                Catat Kehadiran
+                              </Button>
+                              <Button 
+                                size="default" 
+                                variant="outline" 
+                                className="w-full h-10"
+                              >
+                                <FileText className="h-4 w-4 mr-2" />
+                                Lihat Detail
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
         </CardContent>
       </Card>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+            </Tabs>
+        </div>
+      </div>
+
+      {/* Attendance Modal */}
+      <AttendanceModal
+        isOpen={isAttendanceModalOpen}
+        onClose={() => setIsAttendanceModalOpen(false)}
+        classData={selectedSession}
+        studentData={classData.students ? {
+          classId: classData.id,
+          sessionId: selectedSession?.id || classData.id,
+          students: classData.students.map(student => ({
+            id: student.id,
+            name: student.name,
+            attendance: (student.attendance as 'present' | 'absent' | 'late' | 'unrecorded') || 'unrecorded'
+          }))
+        } : undefined}
+        onSave={handleAttendanceSave}
+      />
     </div>
   );
 }

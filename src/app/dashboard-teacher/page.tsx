@@ -88,7 +88,7 @@ export default function TeacherOverview() {
   return (
     <div className="space-y-8 px-1 py-2">
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-[#C40503] to-[#DAA625] p-6 md:p-8 text-white shadow-md">
+      <div className="relative overflow-hidden rounded-lg bg-[#C40503] p-6 md:p-8 text-white shadow-md">
         <div className="relative z-10">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">Selamat Datang, {teacherData.nama || "Guru"}</h1>
           <p className="text-white/90 max-w-xl text-sm md:text-base pb-3">
@@ -110,7 +110,7 @@ export default function TeacherOverview() {
           </div>
         </div>
         {/* Decorative elements */}
-        <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-white/10 to-transparent" />
+        <div className="absolute top-0 right-0 h-full w-1/3 bg-white/10" />
         <div className="absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-white/10" />
         <div className="absolute -top-6 -left-6 h-16 w-16 rounded-full bg-white/10" />
       </div>

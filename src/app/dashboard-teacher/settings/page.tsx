@@ -43,7 +43,7 @@ import { teacherSettings } from "@/data/data-teacher/settings/settings-data";
 export default function SettingsPage() {
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+      <h1 className="text-2xl font-bold text-[#C40503]">
         Pengaturan Akun
       </h1>
 
@@ -542,7 +542,7 @@ export default function SettingsPage() {
                         <span className="text-sm">Gelap</span>
                       </div>
                       <div className={`cursor-pointer border rounded-md p-2 text-center ${teacherSettings.preferences.theme === 'system' ? 'bg-gray-100 border-[#C40503]' : ''}`}>
-                        <div className="h-12 bg-gradient-to-r from-white to-gray-900 border rounded-md mb-2"></div>
+                        <div className="h-12 bg-gray-100 border rounded-md mb-2"></div>
                         <span className="text-sm">Sistem</span>
                       </div>
                     </div>

@@ -51,12 +51,12 @@ export function TeacherHeader({ onLogout }: TeacherHeaderProps) {
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-white px-8 shadow-sm dark:bg-gray-900">
       <div className="flex flex-1 items-center gap-4">
         <Link href="/dashboard-teacher" className="lg:hidden">
-          <h1 className="text-xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold text-[#C40001]">
             Shine Education
           </h1>
         </Link>
         <div className="hidden md:flex text-sm font-medium ml-4">
-          <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/5">
+          <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#C40001]/5">
             <span className="h-2 w-2 rounded-full bg-green-500"></span>
             <span>Teacher Dashboard</span>
           </div>
@@ -65,14 +65,14 @@ export function TeacherHeader({ onLogout }: TeacherHeaderProps) {
       <div className="flex items-center gap-5">
         <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-gray-100">
           <Bell className="h-5 w-5 text-gray-700" />
-          <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-[#C40503] flex items-center justify-center text-[10px] text-white">3</span>
+          <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-[#C40001] flex items-center justify-center text-[10px] text-white">3</span>
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full overflow-hidden border-2 border-[#DAA625]/20 hover:border-[#DAA625]/50 transition-all">
               <Avatar className="h-9 w-9">
                 <AvatarImage src="/avatars/teacher.png" alt={userData?.nama || 'User'} />
-                <AvatarFallback className="bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white">{userData ? getInitials(userData.nama) : 'T'}</AvatarFallback>
+                <AvatarFallback className="bg-[#C40001] text-white">{userData ? getInitials(userData.nama) : 'T'}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -96,7 +96,7 @@ export function TeacherHeader({ onLogout }: TeacherHeaderProps) {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="p-3 text-[#C40503] cursor-pointer hover:bg-[#C40503]/5 hover:text-[#C40503]"
+              className="p-3 text-[#C40001] cursor-pointer hover:bg-[#C40001]/5 hover:text-[#C40001]"
               onClick={onLogout}
             >
               <LogOut className="mr-3 h-4 w-4" />

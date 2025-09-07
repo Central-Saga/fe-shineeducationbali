@@ -9,8 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScheduleTab } from '@/components/ui-teacher/classes/ScheduleTab';
-import { AttendanceModal } from '@/components/ui-teacher/classes/AttendanceModal';
-import { getStudentsByClassId, ClassStudentMapping } from '@/data/data-teacher/class-student-map';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,10 +19,6 @@ export function ClassesDashboard() {
   const [filterSubject, setFilterSubject] = useState('all');
   const [activeTab, setActiveTab] = useState('all');
   
-  // State untuk modal kehadiran
-  const [attendanceModalOpen, setAttendanceModalOpen] = useState(false);
-  const [selectedClassForAttendance, setSelectedClassForAttendance] = useState<TeacherClassSession | null>(null);
-  const [studentAttendanceData, setStudentAttendanceData] = useState<ClassStudentMapping | undefined>(undefined);
   
   // State untuk modal buat kelas baru
   const [newClassModalOpen, setNewClassModalOpen] = useState(false);
@@ -38,26 +32,6 @@ export function ClassesDashboard() {
     }
   }, []);
   
-  // Handler untuk memunculkan modal kehadiran
-  const handleAttendanceClick = (session: TeacherClassSession) => {
-    setSelectedClassForAttendance(session);
-    // Ambil data siswa berdasarkan kelas
-    const students = getStudentsByClassId(session.id);
-    setStudentAttendanceData(students);
-    setAttendanceModalOpen(true);
-  };
-  
-  // Handler untuk menyimpan data kehadiran
-  const handleSaveAttendance = (attendanceData: any) => {
-    console.log("Menyimpan data kehadiran:", attendanceData);
-    // Di sini Anda bisa mengirimkan data ke API atau menyimpannya ke state lokal
-    // Untuk contoh ini kita hanya log ke console
-    
-    // Update attendance record in session data jika diperlukan
-    // ...
-    
-    setAttendanceModalOpen(false);
-  };
   
   const toggleExpand = (id: string) => {
     const newExpandedItems = new Set(expandedItems);
@@ -105,8 +79,8 @@ export function ClassesDashboard() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <div className="h-6 w-1.5 bg-gradient-to-b from-[#C40503] to-[#DAA625] rounded-full"></div>
-            <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#C40503] to-[#DAA625]">Kelas Saya</h1>
+            <div className="h-6 w-1.5 bg-[#C40503] rounded-full"></div>
+            <h1 className="text-2xl font-bold text-[#C40503]">Kelas Saya</h1>
           </div>
           <p className="text-sm text-gray-600 ml-3.5 flex items-center">
             <Calendar className="h-3.5 w-3.5 mr-1.5 text-[#C40503]" />
@@ -189,7 +163,6 @@ export function ClassesDashboard() {
                         session={session} 
                         isExpanded={expandedItems.has(session.id)}
                         onToggle={() => toggleExpand(session.id)}
-                        onAttendanceClick={handleAttendanceClick}
                       />
                     ))}
                   </div>
@@ -212,7 +185,6 @@ export function ClassesDashboard() {
                   session={session} 
                   isExpanded={expandedItems.has(session.id)}
                   onToggle={() => toggleExpand(session.id)}
-                  onAttendanceClick={handleAttendanceClick}
                 />
               ))}
             </div>
@@ -232,7 +204,6 @@ export function ClassesDashboard() {
                   session={session} 
                   isExpanded={expandedItems.has(session.id)}
                   onToggle={() => toggleExpand(session.id)}
-                  onAttendanceClick={handleAttendanceClick}
                 />
               ))}
             </div>
@@ -252,7 +223,6 @@ export function ClassesDashboard() {
                   session={session} 
                   isExpanded={expandedItems.has(session.id)}
                   onToggle={() => toggleExpand(session.id)}
-                  onAttendanceClick={handleAttendanceClick}
                 />
               ))}
             </div>
@@ -265,7 +235,7 @@ export function ClassesDashboard() {
         
         <TabsContent value="calendar" className="mt-0">
           <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
-            <div className="bg-gradient-to-r from-[#C40503]/5 to-[#DAA625]/5 p-4 border-b">
+            <div className="bg-[#C40503]/5 p-4 border-b">
               <h3 className="font-medium text-gray-800 flex items-center">
                 <Calendar className="h-4 w-4 mr-2 text-[#C40503]" />
                 Kalender Kelas Bulanan
@@ -356,16 +326,6 @@ export function ClassesDashboard() {
         </TabsContent>
       </Tabs>
       
-      {/* Modal Kehadiran */}
-      {selectedClassForAttendance && (
-        <AttendanceModal 
-          isOpen={attendanceModalOpen}
-          onClose={() => setAttendanceModalOpen(false)}
-          classData={selectedClassForAttendance}
-          studentData={studentAttendanceData}
-          onSave={handleSaveAttendance}
-        />
-      )}
       
       {/* Modal removed since teachers don't create classes */}
     </div>

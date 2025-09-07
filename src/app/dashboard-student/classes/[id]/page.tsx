@@ -128,14 +128,14 @@ export default function ClassDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6">
-          <Link 
-            href="/dashboard-student/classes"
-            className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-4"
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" />
-            Kembali ke Daftar Kelas
-          </Link>
+      <div className="mb-6">
+        <Link 
+          href="/dashboard-student/classes"
+          className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-4"
+        >
+          <ChevronLeft className="h-4 w-4 mr-1" />
+          Kembali ke Daftar Kelas
+        </Link>
         
         {/* Class Card */}
         <Card className="mb-8">
@@ -154,7 +154,7 @@ export default function ClassDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-yellow-100 rounded-lg">
-                  <Clock className="h-5 w-5 text-[#DAA625]" />
+                <Clock className="h-5 w-5 text-[#DAA625]" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Waktu</p>
@@ -163,7 +163,7 @@ export default function ClassDetailPage() {
               </div>
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-red-100 rounded-lg">
-                  <MapPin className="h-5 w-5 text-[#C40503]" />
+                <MapPin className="h-5 w-5 text-[#C40503]" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Lokasi</p>
@@ -172,7 +172,7 @@ export default function ClassDetailPage() {
               </div>
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-yellow-100 rounded-lg">
-                  <User className="h-5 w-5 text-[#DAA625]" />
+                <User className="h-5 w-5 text-[#DAA625]" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Pengajar</p>
@@ -223,7 +223,7 @@ export default function ClassDetailPage() {
                     <ExternalLink className="h-4 w-4 ml-1" />
                   </Button>
                 </Link>
-              </div>
+          </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -231,24 +231,24 @@ export default function ClassDetailPage() {
                   <div key={assignment.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <div className="p-2 bg-[#C40503]/10 rounded-lg">
                       <FileText className="h-4 w-4 text-[#C40503]" />
-                    </div>
-                    <div className="flex-1 min-w-0">
+                  </div>
+                  <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-gray-900 text-sm truncate">{assignment.title}</h4>
                       <p className="text-xs text-gray-600 truncate">{assignment.description}</p>
-                    </div>
-                    <Link href={`/dashboard-student/classes/${classId}/assignment-detail?id=${assignment.id}`}>
+                  </div>
+                  <Link href={`/dashboard-student/classes/${classId}/assignment-detail?id=${assignment.id}`}>
                       <Button size="sm" className="bg-[#C40503] hover:bg-[#a30402]">
                         <Eye className="h-4 w-4 mr-1" />
                         Detail
                       </Button>
-                    </Link>
+                  </Link>
                   </div>
-                ))}
+              ))}
                 {filteredAssignments.length === 0 && (
                   <div className="text-center py-8">
                     <FileText className="h-8 w-8 text-gray-400 mx-auto mb-2" />
                     <p className="text-sm text-gray-500">Tidak ada tugas</p>
-                  </div>
+          </div>
                 )}
               </div>
             </CardContent>
@@ -296,17 +296,17 @@ export default function ClassDetailPage() {
                   <div className="text-center py-8">
                     <BookOpen className="h-8 w-8 text-gray-400 mx-auto mb-2" />
                     <p className="text-sm text-gray-500">Tidak ada materi</p>
-                  </div>
+          </div>
                 )}
-              </div>
+        </div>
             </CardContent>
           </Card>
-        </div>
+      </div>
   {/* Simpan jumlah tugas & materi ke localStorage agar progress bar di ClassCard selalu sesuai */}
 
-        {/* Modal/Tabel Diskusi Join Grup */}
-        {showDiscussion && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+      {/* Modal/Tabel Diskusi Join Grup */}
+      {showDiscussion && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <Card className="max-w-lg w-full mx-4">
               <CardHeader>
                 <div className="flex items-center justify-between">
@@ -362,7 +362,7 @@ export default function ClassDetailPage() {
                       <ExternalLink className="h-4 w-4 mr-1" />
                       Join
                     </Button>
-                  </div>
+          </div>
                 </div>
                 
                 <div className="mt-4 p-3 bg-yellow-50 rounded-lg">
@@ -372,8 +372,8 @@ export default function ClassDetailPage() {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        )}
+        </div>
+      )}
         </div>
       </div>
     </div>
