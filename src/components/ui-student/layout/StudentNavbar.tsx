@@ -3,10 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Bell, MessageCircle } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { 
+  Bell, MessageCircle, Home, BookOpen, FileText, Award, UserCheck, CreditCard, 
+  ChevronDown, User, GraduationCap, FolderOpen, BookMarked, FileText as MaterialIcon 
+} from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +18,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 
 interface StudentNavbarProps {
@@ -27,124 +34,182 @@ export function StudentNavbar({
 }: StudentNavbarProps) {
   const [notifications] = useState(3);
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = () => {
     localStorage.removeItem("pengguna");
     router.push("/");
   };
 
+  const navigationItems = [
+    { href: "/dashboard-student", label: "Beranda", icon: Home, type: "single" },
+    { 
+      label: "Personal", 
+      icon: User, 
+      type: "dropdown",
+      children: [
+        { href: "/dashboard-student/grades", label: "Nilai", icon: Award },
+        { href: "/dashboard-student/attendance", label: "Kehadiran", icon: UserCheck },
+        { href: "/dashboard-student/subscription", label: "Langganan", icon: CreditCard },
+      ]
+    },
+    { 
+      label: "Academy", 
+      icon: GraduationCap, 
+      type: "dropdown",
+      children: [
+        { href: "/dashboard-student/classes", label: "Kelas", icon: BookOpen },
+        { href: "/dashboard-student/assignments", label: "Tugas", icon: FileText },
+        { href: "/dashboard-student/materials", label: "Materi", icon: MaterialIcon },
+      ]
+    },
+  ];
+
+  const isActive = (href: string) => {
+    if (href === "/dashboard-student") {
+      return pathname === href;
+    }
+    return pathname.startsWith(href);
+  };
+
   return (
-    <nav className="fixed top-0 right-0 left-0 z-50 bg-white border-b border-gray-100 px-6 py-3">
-      <div className="flex items-center max-w-7xl mx-auto">
-        {/* Logo Section */}
-        <div className="flex items-center gap-2 w-[200px]">
-          <Image
-            src="/pichome/logo.png"
-            alt="Shine Education Logo"
-            width={120}
-            height={40}
-            className="object-contain"
-          />
-          <span className="text-sm font-medium bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">
-            Student
-          </span>
-        </div>
-
-        {/* Navigation Links - Centered */}
-        <div className="flex-1 flex justify-center">
-          <div className="flex items-center gap-6">
-            <Link
-              href="/dashboard-student"
-              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/dashboard-student/classes"
-              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
-            >
-              Kelas
-            </Link>
-            <Link
-              href="/dashboard-student/materials"
-              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
-            >
-              Materi
-            </Link>
-            <Link
-              href="/dashboard-student/assignments"
-              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
-            >
-              Tugas
-            </Link>
-            <Link
-              href="/dashboard-student/grades"
-              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
-            >
-              Nilai
-            </Link>
-            <Link
-              href="/dashboard-student/attendance"
-              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
-            >
-              Kehadiran
-            </Link>
-            <Link
-              href="/dashboard-student/subscription"
-              className="text-gray-600 hover:text-yellow-600 font-medium transition-colors"
-            >
-              Langganan
-            </Link>
+    <nav className="fixed top-0 right-0 left-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo Section */}
+          <div className="flex items-center gap-3">
+            <Image
+              src="/pichome/logo.png"
+              alt="Shine Education Logo"
+              width={100}
+              height={32}
+              className="object-contain"
+            />
+            <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 border-yellow-200">
+              Student
+            </Badge>
           </div>
-        </div>
 
-        {/* Right Section */}
-        <div className="flex items-center gap-4 w-[200px] justify-end">
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-5 w-5 text-gray-600" />
-            {notifications > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
-                {notifications}
-              </span>
-            )}
-          </Button>
+          {/* Navigation Links - Compact */}
+          <div className="hidden md:flex items-center gap-1">
+            {navigationItems.map((item) => {
+              const Icon = item.icon;
+              
+              if (item.type === "single") {
+                const active = isActive(item.href!);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href!}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                      active
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "text-gray-600 hover:text-yellow-600 hover:bg-yellow-50"
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span className="hidden lg:inline">{item.label}</span>
+                  </Link>
+                );
+              }
 
-          <Button variant="ghost" size="icon">
-            <MessageCircle className="h-5 w-5 text-gray-600" />
-          </Button>
+              // Dropdown menu
+              const hasActiveChild = item.children?.some(child => isActive(child.href));
+              return (
+                <DropdownMenu key={item.label}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                        hasActiveChild
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "text-gray-600 hover:text-yellow-600 hover:bg-yellow-50"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      <span className="hidden lg:inline">{item.label}</span>
+                      <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-48">
+                    <DropdownMenuLabel className="text-xs text-gray-500 uppercase tracking-wider">
+                      {item.label}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {item.children?.map((child) => {
+                      const ChildIcon = child.icon;
+                      const active = isActive(child.href);
+                      return (
+                        <DropdownMenuItem key={child.href} asChild>
+                          <Link
+                            href={child.href}
+                            className={`flex items-center gap-2 w-full ${
+                              active ? "bg-yellow-50 text-yellow-800" : ""
+                            }`}
+                          >
+                            <ChildIcon className="h-4 w-4" />
+                            {child.label}
+                          </Link>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              );
+            })}
+          </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2">
-                <Avatar className="h-8 w-8">
-                  {studentImage ? (
-                    <Image
-                      src={studentImage}
-                      alt={studentName}
-                      width={32}
-                      height={32}
-                    />
-                  ) : (
-                    <div className="bg-yellow-200 w-full h-full flex items-center justify-center text-yellow-800 font-medium">
-                      {studentName.charAt(0)}
-                    </div>
-                  )}
-                </Avatar>
-                <span className="text-sm font-medium">{studentName}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>Akun Saya</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Pengaturan</DropdownMenuItem>
-              <DropdownMenuItem>Bantuan</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout} className="text-red-600">
-                Keluar
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* Right Section */}
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="h-5 w-5 text-gray-600" />
+              {notifications > 0 && (
+                <Badge 
+                  variant="destructive" 
+                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs"
+                >
+                  {notifications}
+                </Badge>
+              )}
+            </Button>
+
+            <Button variant="ghost" size="icon">
+              <MessageCircle className="h-5 w-5 text-gray-600" />
+            </Button>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-2 h-8">
+                  <Avatar className="h-7 w-7">
+                    {studentImage ? (
+                      <Image
+                        src={studentImage}
+                        alt={studentName}
+                        width={28}
+                        height={28}
+                      />
+                    ) : (
+                      <div className="bg-yellow-200 w-full h-full flex items-center justify-center text-yellow-800 font-medium text-sm">
+                        {studentName.charAt(0)}
+                      </div>
+                    )}
+                  </Avatar>
+                  <span className="hidden sm:inline text-sm font-medium">{studentName}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>Akun Saya</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Pengaturan</DropdownMenuItem>
+                <DropdownMenuItem>Bantuan</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                  Keluar
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
     </nav>

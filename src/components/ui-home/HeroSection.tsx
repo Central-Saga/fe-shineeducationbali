@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { GraduationCap, BookOpen, Star, Sparkles } from "lucide-react";
 import LearningBackground from "../animations/LearningBackground";
 
 const HeroSection = () => {
@@ -41,10 +43,11 @@ const HeroSection = () => {
               transition={{ duration: 0.5 }}
               onHoverStart={handleWave}
             >
-              <h2 className="text-xl font-semibold text-[#C40503] mb-4 inline-flex items-center gap-2">
+              <Badge className="bg-[#C40503]/10 text-[#C40503] border-[#C40503]/20 mb-4 inline-flex items-center gap-2 text-lg px-4 py-2">
+                <Star className="h-4 w-4" />
                 #1 Bimbel di Tabanan
-                <span className="text-2xl cursor-pointer">👋</span>{" "}
-              </h2>
+                <span className="text-2xl cursor-pointer">👋</span>
+              </Badge>
             </motion.div>
             <motion.h1
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
@@ -102,7 +105,8 @@ const HeroSection = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button className="bg-gradient-to-r from-[#DAA625] to-[#F6C94A] text-white px-8 py-6 rounded-full text-lg font-semibold hover:shadow-lg transition-all duration-300 hover:shadow-[#C40503]/20 flex items-center gap-2">
-                  Mulai Belajar <span className="text-xl">🎓</span>
+                  <GraduationCap className="h-5 w-5" />
+                  Mulai Belajar
                 </Button>
               </motion.div>
               <motion.div
@@ -113,7 +117,8 @@ const HeroSection = () => {
                   variant="outline"
                   className="px-8 py-6 rounded-full text-lg font-semibold border-2 border-[#C40503] text-[#C40503] hover:bg-[#C40503] hover:text-white transition-all duration-300 flex items-center gap-2"
                 >
-                  Pelajari Selengkapnya <span className="text-xl">📚</span>
+                  <BookOpen className="h-5 w-5" />
+                  Pelajari Selengkapnya
                 </Button>
               </motion.div>
             </motion.div>{" "}

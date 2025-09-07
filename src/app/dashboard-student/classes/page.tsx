@@ -6,7 +6,7 @@ import { ClassCard } from "@/components/ui-student/classes/ClassCard";
 import { CalendarView } from "@/components/ui-student/classes/CalendarView";
 import { studentClasses, pastClasses } from "@/data/data-student/classes-data";
 import { Input } from "@/components/ui/input";
-import { Search, CalendarDays, Clock } from "lucide-react";
+import { Search, CalendarDays, Clock, FileText } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function ClassesPage() {
@@ -30,58 +30,59 @@ export default function ClassesPage() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Kelas</h1>
-        <p className="text-gray-600">
-          Lihat jadwal kelas Anda, materi pembelajaran, dan tugas-tugas
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Kelas Saya</h1>
+          <p className="text-gray-600">
+            Lihat jadwal kelas Anda, materi pembelajaran, dan tugas-tugas
+          </p>
+        </div>
       
-      {/* Class Overview Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card>
-          <CardContent className="p-6 flex items-center space-x-4">
-            <div className="p-3 rounded-full bg-red-50">
-              <CalendarDays className="h-6 w-6 text-[#C40503]" />
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-500">Jadwal Minggu Ini</p>
-              <h4 className="text-2xl font-bold">5 Kelas</h4>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-6 flex items-center space-x-4">
-            <div className="p-3 rounded-full bg-yellow-50">
-              <Clock className="h-6 w-6 text-[#DAA625]" />
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-500">Jam Belajar Minggu Ini</p>
-              <h4 className="text-2xl font-bold">8 Jam</h4>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-6 flex items-center space-x-4">
-            <div className="p-3 rounded-full bg-red-50">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-[#C40503]">
-                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                <path d="M9 14h6"></path>
-                <path d="M9 10h6"></path>
-                <path d="M9 18h6"></path>
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-500">Tugas Belum Dikumpulkan</p>
-              <h4 className="text-2xl font-bold">3 Tugas</h4>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+        {/* Class Overview Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <Card className="border-l-4 border-l-blue-500">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <CalendarDays className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Jadwal Minggu Ini</p>
+                  <p className="text-xl font-bold text-blue-600">5 Kelas</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-l-4 border-l-yellow-500">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-yellow-100 rounded-lg">
+                  <Clock className="h-5 w-5 text-yellow-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Jam Belajar Minggu Ini</p>
+                  <p className="text-xl font-bold text-yellow-600">8 Jam</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-l-4 border-l-orange-500">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-orange-100 rounded-lg">
+                  <FileText className="h-5 w-5 text-orange-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Tugas Belum Dikumpulkan</p>
+                  <p className="text-xl font-bold text-orange-600">3 Tugas</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
             {/* Calendar View for Upcoming Classes */}
       {sortBy === "upcoming" && (
         <CalendarView 
@@ -91,79 +92,86 @@ export default function ClassesPage() {
         />
       )}
       
-      {/* Sortby dropdown for classes */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
-        <div className="flex items-center gap-3">
-          <label htmlFor="sortby" className="font-semibold text-gray-700 text-lg flex items-center gap-2">
-            <svg width="20" height="20" fill="none" stroke="#C40503" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 6h18M3 12h12M3 18h6"/></svg>
-            Urutkan:
-          </label>
-          <select
-            id="sortby"
-            className="border border-[#C40503] rounded-lg px-4 py-2 pr-8 text-base font-medium text-gray-700 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#C40503] appearance-none"
-            value={sortBy}
-            onChange={e => setSortBy(e.target.value)}
-          >
-            <option value="upcoming">Kelas Mendatang</option>
-            <option value="past">Kelas Selesai</option>
-            <option value="all">Semua</option>
-          </select>
-        </div>
-        {sortBy === "past" && (
-          <div className="relative w-full md:w-64">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input 
-              placeholder="Cari kelas sebelumnya..." 
-              className="pl-10"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Class List */}
-      <div className="mt-6">
-        {(() => {
-          let classList: any[] = [];
-          if (sortBy === "upcoming") {
-            classList = selectedDayClasses;
-          } else if (sortBy === "past") {
-            classList = filteredPastClasses;
-          } else {
-            // Gabungkan semua kelas
-            classList = [
-              ...studentClasses.flatMap(sch => sch.sessions),
-              ...pastClasses
-            ];
-          }
-          if (classList.length === 0) {
-            return (
-              <div className="text-center py-12 bg-gray-50 rounded-lg">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Tidak ada kelas ditemukan</h3>
-                <p className="text-gray-600 mb-4">
-                  {sortBy === "upcoming" ? "Pilih tanggal lain atau periksa jadwal lengkap di kalender" : "Coba gunakan kata kunci lain untuk pencarian"}
-                </p>
-                <button className="bg-[#C40503] text-white px-4 py-2 rounded hover:bg-[#a60402] transition-colors">
-                  Lihat Semua Jadwal
-                </button>
+        {/* Filter Section */}
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <label htmlFor="sortby" className="font-semibold text-gray-700 text-lg flex items-center gap-2">
+                  <svg width="20" height="20" fill="none" stroke="#C40503" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 6h18M3 12h12M3 18h6"/></svg>
+                  Urutkan:
+                </label>
+                <select
+                  id="sortby"
+                  className="border border-[#C40503] rounded-lg px-4 py-2 pr-8 text-base font-medium text-gray-700 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#C40503] appearance-none"
+                  value={sortBy}
+                  onChange={e => setSortBy(e.target.value)}
+                >
+                  <option value="upcoming">Kelas Mendatang</option>
+                  <option value="past">Kelas Selesai</option>
+                  <option value="all">Semua</option>
+                </select>
               </div>
-            );
-          }
-          return (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {classList.map((session) => (
-                <div key={session.id} className="border-2 border-[#C40503]/30 rounded-2xl p-6 bg-gradient-to-br from-white via-[#f8fafc] to-[#f3f4f6] shadow-lg hover:shadow-xl transition-shadow duration-200">
+              {sortBy === "past" && (
+                <div className="relative w-full md:w-64">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Input 
+                    placeholder="Cari kelas sebelumnya..." 
+                    className="pl-10"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Class List */}
+        <div>
+          {(() => {
+            let classList: any[] = [];
+            if (sortBy === "upcoming") {
+              classList = selectedDayClasses;
+            } else if (sortBy === "past") {
+              classList = filteredPastClasses;
+            } else {
+              // Gabungkan semua kelas
+              classList = [
+                ...studentClasses.flatMap(sch => sch.sessions),
+                ...pastClasses
+              ];
+            }
+            if (classList.length === 0) {
+              return (
+                <Card>
+                  <CardContent className="text-center py-12">
+                    <CalendarDays className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Tidak ada kelas ditemukan</h3>
+                    <p className="text-gray-600 mb-4">
+                      {sortBy === "upcoming" ? "Pilih tanggal lain atau periksa jadwal lengkap di kalender" : "Coba gunakan kata kunci lain untuk pencarian"}
+                    </p>
+                    <button className="bg-[#C40503] text-white px-4 py-2 rounded hover:bg-[#a60402] transition-colors">
+                      Lihat Semua Jadwal
+                    </button>
+                  </CardContent>
+                </Card>
+              );
+            }
+            return (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {classList.map((session) => (
                   <ClassCard 
+                    key={session.id}
                     session={session}
                     isExpanded={expandedClassId === session.id}
                     onToggle={() => toggleExpandClass(session.id)}
                   />
-                </div>
-              ))}
-            </div>
-          );
-        })()}
+                ))}
+              </div>
+            );
+          })()}
+        </div>
       </div>
     </div>
   );

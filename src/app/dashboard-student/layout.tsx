@@ -48,9 +48,7 @@ export default function StudentDashboardLayout({
       <StudentNavbar studentName="John Doe" />
       {/* Konten utama dengan jarak yang tepat dari navbar */}
       <div className="pt-16">
-        {" "}
-        {/* Tambahkan padding atas untuk memperhitungkan tinggi navbar tetap */}
-        <main className="max-w-11/12 mx-auto">{children}</main>
+        <main>{children}</main>
       </div>
     </div>
   );

@@ -1,394 +1,424 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { 
-  Search, 
-  Filter, 
-  Download,
-  Eye,
-  FileText,
-  Video,
-  Image,
-  BookOpen,
-  Calendar,
-  Clock
+  BookOpen, Download, Search, FileText, Presentation, Video, 
+  BookMarked, Filter, Calendar, User, Eye, ExternalLink 
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-interface Material {
-  id: string;
-  title: string;
-  description: string;
-  type: 'document' | 'video' | 'image' | 'link' | 'assignment';
-  classId: string;
-  className: string;
-  teacherName: string;
-  filePath?: string;
-  fileSize?: number;
-  uploadDate: string;
-  downloadCount: number;
-  tags: string[];
-  isDownloaded?: boolean;
-}
+// Dummy data untuk materi
+const materialsData = [
+  {
+    id: 1,
+    title: "Modul Aljabar Linear",
+    description: "Panduan lengkap untuk memahami konsep aljabar linear dan aplikasinya dalam kehidupan sehari-hari.",
+    type: "document",
+    subject: "Matematika",
+    teacher: "Budi Santoso",
+    uploadDate: "2025-01-15",
+    downloadCount: 45,
+    fileSize: "2.5 MB",
+    fileUrl: "#",
+    thumbnailUrl: "/public/certificates/achievement-thumb.jpg",
+    classId: "aljabar-linear-1",
+    className: "Aljabar Linear"
+  },
+  {
+    id: 2,
+    title: "Presentasi Matriks dan Operasinya",
+    description: "Slide presentasi tentang matriks, determinan, dan operasi-operasi yang dapat dilakukan pada matriks.",
+    type: "presentation",
+    subject: "Matematika",
+    teacher: "Budi Santoso",
+    uploadDate: "2025-01-14",
+    downloadCount: 32,
+    fileSize: "5.2 MB",
+    fileUrl: "#",
+    thumbnailUrl: "/public/certificates/completion-thumb.jpg",
+    classId: "aljabar-linear-1",
+    className: "Aljabar Linear"
+  },
+  {
+    id: 3,
+    title: "Video Tutorial Sistem Persamaan Linear",
+    description: "Video pembelajaran tentang cara menyelesaikan sistem persamaan linear menggunakan metode eliminasi dan substitusi.",
+    type: "video",
+    subject: "Matematika",
+    teacher: "Budi Santoso",
+    uploadDate: "2025-01-13",
+    downloadCount: 28,
+    fileSize: "15.8 MB",
+    fileUrl: "#",
+    thumbnailUrl: "/public/certificates/english-basic-thumb.jpg",
+    classId: "aljabar-linear-1",
+    className: "Aljabar Linear"
+  },
+  {
+    id: 4,
+    title: "Latihan Soal Aljabar Linear",
+    description: "Kumpulan soal latihan untuk mengasah kemampuan dalam menyelesaikan masalah aljabar linear.",
+    type: "exercise",
+    subject: "Matematika",
+    teacher: "Budi Santoso",
+    uploadDate: "2025-01-12",
+    downloadCount: 67,
+    fileSize: "1.8 MB",
+    fileUrl: "#",
+    thumbnailUrl: "/public/certificates/participation-thumb.jpg",
+    classId: "aljabar-linear-1",
+    className: "Aljabar Linear"
+  },
+  {
+    id: 5,
+    title: "Dasar-dasar Pemrograman Python",
+    description: "Materi pengenalan bahasa pemrograman Python untuk pemula dengan contoh-contoh praktis.",
+    type: "document",
+    subject: "Pemrograman",
+    teacher: "Siti Rahayu",
+    uploadDate: "2025-01-11",
+    downloadCount: 89,
+    fileSize: "3.2 MB",
+    fileUrl: "#",
+    thumbnailUrl: "/public/certificates/achievement-thumb.jpg",
+    classId: "python-basic-1",
+    className: "Python Basic"
+  },
+  {
+    id: 6,
+    title: "Presentasi Struktur Data",
+    description: "Slide presentasi tentang berbagai struktur data dalam pemrograman seperti array, list, dan dictionary.",
+    type: "presentation",
+    subject: "Pemrograman",
+    teacher: "Siti Rahayu",
+    uploadDate: "2025-01-10",
+    downloadCount: 54,
+    fileSize: "4.1 MB",
+    fileUrl: "#",
+    thumbnailUrl: "/public/certificates/completion-thumb.jpg",
+    classId: "python-basic-1",
+    className: "Python Basic"
+  }
+];
 
-export default function StudentMaterialsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [classFilter, setClassFilter] = useState("all");
-  const [typeFilter, setTypeFilter] = useState("all");
-  const [materials, setMaterials] = useState<Material[]>([]);
+export default function MaterialsPage() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("all");
+  const [filterSubject, setFilterSubject] = useState("all");
 
-  // Mock data - in real app, this would come from API based on student's enrolled classes
-  useEffect(() => {
-    const mockMaterials: Material[] = [
-      {
-        id: "1",
-        title: "Pengenalan Grammar Dasar",
-        description: "Materi pembelajaran tentang dasar-dasar grammar bahasa Inggris",
-        type: "document",
-        classId: "1",
-        className: "Bahasa Inggris A",
-        teacherName: "Mr. John",
-        filePath: "/materials/grammar-basic.pdf",
-        fileSize: 2048000,
-        uploadDate: "2025-06-15",
-        downloadCount: 45,
-        tags: ["grammar", "dasar", "bahasa inggris"],
-        isDownloaded: false
-      },
-      {
-        id: "2",
-        title: "Video Tutorial Pronunciation",
-        description: "Video pembelajaran cara pengucapan yang benar",
-        type: "video",
-        classId: "1",
-        className: "Bahasa Inggris A",
-        teacherName: "Mr. John",
-        filePath: "/materials/pronunciation-tutorial.mp4",
-        fileSize: 15728640,
-        uploadDate: "2025-06-20",
-        downloadCount: 32,
-        tags: ["pronunciation", "video", "tutorial"],
-        isDownloaded: true
-      },
-      {
-        id: "3",
-        title: "Latihan Soal UTS",
-        description: "Kumpulan latihan soal untuk persiapan UTS",
-        type: "assignment",
-        classId: "1",
-        className: "Bahasa Inggris A",
-        teacherName: "Mr. John",
-        filePath: "/materials/uts-practice.pdf",
-        fileSize: 1024000,
-        uploadDate: "2025-06-25",
-        downloadCount: 28,
-        tags: ["latihan", "uts", "soal"],
-        isDownloaded: false
-      },
-      {
-        id: "4",
-        title: "Materi Matematika Dasar",
-        description: "Dasar-dasar matematika untuk pemula",
-        type: "document",
-        classId: "2",
-        className: "Matematika A",
-        teacherName: "Bu Siti",
-        filePath: "/materials/math-basic.pdf",
-        fileSize: 3072000,
-        uploadDate: "2025-06-18",
-        downloadCount: 38,
-        tags: ["matematika", "dasar", "aljabar"],
-        isDownloaded: true
-      }
-    ];
-    setMaterials(mockMaterials);
-  }, []);
-
-  // Filter materials based on search and filters
-  const filteredMaterials = materials.filter(material => {
-    const matchesSearch = material.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         material.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         material.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    const matchesClass = classFilter === "all" || material.classId === classFilter;
-    const matchesType = typeFilter === "all" || material.type === typeFilter;
-    
-    return matchesSearch && matchesClass && matchesType;
-  });
-
-  // Get unique classes for filter
-  const classes = [...new Set(materials.map(m => ({ id: m.classId, name: m.className })))];
-
-  const getTypeIcon = (type: Material['type']) => {
+  const getFileIcon = (type: string) => {
     switch (type) {
       case 'document':
-        return <FileText className="h-4 w-4" />;
+        return <FileText className="h-5 w-5 text-blue-500" />;
+      case 'presentation':
+        return <Presentation className="h-5 w-5 text-orange-500" />;
       case 'video':
-        return <Video className="h-4 w-4" />;
-      case 'image':
-        return <Image className="h-4 w-4" />;
-      case 'assignment':
-        return <BookOpen className="h-4 w-4" />;
+        return <Video className="h-5 w-5 text-red-500" />;
+      case 'exercise':
+        return <BookMarked className="h-5 w-5 text-green-500" />;
       default:
-        return <FileText className="h-4 w-4" />;
+        return <FileText className="h-5 w-5 text-gray-500" />;
     }
   };
 
-  const getTypeBadge = (type: Material['type']) => {
-    const colors = {
-      document: "bg-blue-100 text-blue-800",
-      video: "bg-red-100 text-red-800",
-      image: "bg-green-100 text-green-800",
-      link: "bg-purple-100 text-purple-800",
-      assignment: "bg-orange-100 text-orange-800"
-    };
-    return <Badge className={colors[type]}>{type}</Badge>;
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case 'document':
+        return 'Dokumen';
+      case 'presentation':
+        return 'Presentasi';
+      case 'video':
+        return 'Video';
+      case 'exercise':
+        return 'Latihan';
+      default:
+        return 'Lainnya';
+    }
   };
 
-  const formatFileSize = (bytes?: number) => {
-    if (!bytes) return "N/A";
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case 'document':
+        return 'bg-blue-100 text-blue-700';
+      case 'presentation':
+        return 'bg-orange-100 text-orange-700';
+      case 'video':
+        return 'bg-red-100 text-red-700';
+      case 'exercise':
+        return 'bg-green-100 text-green-700';
+      default:
+        return 'bg-gray-100 text-gray-700';
+    }
   };
 
-  const handleDownload = (materialId: string) => {
-    console.log("Download material:", materialId);
-    // API call to download material
-    // Update download count and mark as downloaded
-    setMaterials(prev => prev.map(m => 
-      m.id === materialId 
-        ? { ...m, downloadCount: m.downloadCount + 1, isDownloaded: true }
-        : m
-    ));
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
   };
 
-  const handleView = (materialId: string) => {
-    console.log("View material:", materialId);
-    // Open material preview or navigate to detail page
-  };
+  const filteredMaterials = materialsData.filter(material => {
+    const matchesSearch = material.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         material.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         material.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         material.teacher.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesType = filterType === "all" || material.type === filterType;
+    const matchesSubject = filterSubject === "all" || material.subject === filterSubject;
+    
+    return matchesSearch && matchesType && matchesSubject;
+  });
+
+  const subjects = [...new Set(materialsData.map(material => material.subject))];
+  const types = [
+    { value: "all", label: "Semua Tipe" },
+    { value: "document", label: "Dokumen" },
+    { value: "presentation", label: "Presentasi" },
+    { value: "video", label: "Video" },
+    { value: "exercise", label: "Latihan" }
+  ];
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-[#C40503]">Materi Pembelajaran</h1>
-          <p className="text-gray-600">Akses semua materi pembelajaran dari kelas yang Anda ikuti</p>
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-[#DAA625]/10 rounded-lg">
+              <BookOpen className="h-6 w-6 text-[#DAA625]" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900">Materi Pembelajaran</h1>
+          </div>
+          <p className="text-gray-600">Akses dan download semua materi pembelajaran dari kelas Anda</p>
         </div>
-      </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Total Materi</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-[#C40503]">{materials.length}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Sudah Didownload</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">
-              {materials.filter(m => m.isDownloaded).length}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Total Download</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-[#DAA625]">
-              {materials.reduce((acc, m) => acc + m.downloadCount, 0)}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Kelas Diikuti</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">
-              {classes.length}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <FileText className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Total Materi</p>
+                  <p className="text-2xl font-bold text-gray-900">{materialsData.length}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-      {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Filter className="h-5 w-5 mr-2 text-[#C40503]" />
-            Filter & Pencarian
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-                <Input
-                  placeholder="Cari berdasarkan judul, deskripsi, atau tags..."
-                  className="pl-8"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <Download className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Total Download</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {materialsData.reduce((sum, material) => sum + material.downloadCount, 0)}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-orange-100 rounded-lg">
+                  <BookMarked className="h-5 w-5 text-orange-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Mata Pelajaran</p>
+                  <p className="text-2xl font-bold text-gray-900">{subjects.length}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-purple-100 rounded-lg">
+                  <User className="h-5 w-5 text-purple-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Pengajar</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {[...new Set(materialsData.map(material => material.teacher))].length}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Filters */}
+        <Card className="mb-8">
+          <CardContent className="p-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Input
+                    placeholder="Cari materi, mata pelajaran, atau pengajar..."
+                    className="pl-10"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+              </div>
+              
+              <div className="flex gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2">
+                      <Filter className="h-4 w-4" />
+                      {filterType === "all" ? "Semua Tipe" : getTypeLabel(filterType)}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {types.map((type) => (
+                      <DropdownMenuItem
+                        key={type.value}
+                        onClick={() => setFilterType(type.value)}
+                        className={filterType === type.value ? "bg-yellow-50" : ""}
+                      >
+                        {type.label}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2">
+                      <BookOpen className="h-4 w-4" />
+                      {filterSubject === "all" ? "Semua Mata Pelajaran" : filterSubject}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem
+                      onClick={() => setFilterSubject("all")}
+                      className={filterSubject === "all" ? "bg-yellow-50" : ""}
+                    >
+                      Semua Mata Pelajaran
+                    </DropdownMenuItem>
+                    {subjects.map((subject) => (
+                      <DropdownMenuItem
+                        key={subject}
+                        onClick={() => setFilterSubject(subject)}
+                        className={filterSubject === subject ? "bg-yellow-50" : ""}
+                      >
+                        {subject}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
-            <div className="w-48">
-              <Select value={classFilter} onValueChange={setClassFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Filter Kelas" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Semua Kelas</SelectItem>
-                  {classes.map(cls => (
-                    <SelectItem key={cls.id} value={cls.id}>
-                      {cls.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="w-48">
-              <Select value={typeFilter} onValueChange={setTypeFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Filter Jenis" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Semua Jenis</SelectItem>
-                  <SelectItem value="document">Dokumen</SelectItem>
-                  <SelectItem value="video">Video</SelectItem>
-                  <SelectItem value="image">Gambar</SelectItem>
-                  <SelectItem value="link">Link</SelectItem>
-                  <SelectItem value="assignment">Tugas</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {/* Materials Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Daftar Materi ({filteredMaterials.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Materi</TableHead>
-                <TableHead>Kelas</TableHead>
-                <TableHead>Guru</TableHead>
-                <TableHead>Jenis</TableHead>
-                <TableHead>Ukuran</TableHead>
-                <TableHead>Tanggal Upload</TableHead>
-                <TableHead className="text-center">Status</TableHead>
-                <TableHead className="text-center">Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredMaterials.map((material) => (
-                <TableRow key={material.id}>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      {getTypeIcon(material.type)}
-                      <div>
-                        <div className="font-medium">{material.title}</div>
-                        <div className="text-sm text-gray-500 truncate max-w-xs">
-                          {material.description}
-                        </div>
-                        {material.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {material.tags.slice(0, 2).map((tag, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
-                                {tag}
-                              </Badge>
-                            ))}
-                            {material.tags.length > 2 && (
-                              <Badge variant="outline" className="text-xs">
-                                +{material.tags.length - 2}
-                              </Badge>
-                            )}
-                          </div>
-                        )}
-                      </div>
+        {/* Materials Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredMaterials.map((material) => (
+            <Card key={material.id} className="hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg">
+                      {getFileIcon(material.type)}
                     </div>
-                  </TableCell>
-                  <TableCell>{material.className}</TableCell>
-                  <TableCell>{material.teacherName}</TableCell>
-                  <TableCell>{getTypeBadge(material.type)}</TableCell>
-                  <TableCell>{formatFileSize(material.fileSize)}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center text-sm text-gray-500">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      {new Date(material.uploadDate).toLocaleDateString('id-ID')}
+                    <div className="flex-1">
+                      <CardTitle className="text-lg line-clamp-2">{material.title}</CardTitle>
+                      <Badge className={`mt-2 ${getTypeColor(material.type)}`}>
+                        {getTypeLabel(material.type)}
+                      </Badge>
                     </div>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {material.isDownloaded ? (
-                      <Badge className="bg-green-100 text-green-800">Sudah Didownload</Badge>
-                    ) : (
-                      <Badge className="bg-gray-100 text-gray-800">Belum Didownload</Badge>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <div className="flex justify-center gap-1">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleView(material.id)}
-                        className="text-blue-600 hover:text-blue-800"
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDownload(material.id)}
-                        className="text-green-600 hover:text-green-800"
-                      >
-                        <Download className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-              {filteredMaterials.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={8} className="text-center py-8 text-gray-500">
-                    Tidak ada materi yang sesuai dengan filter
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+                  </div>
+                </div>
+              </CardHeader>
+              
+              <CardContent>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3">{material.description}</p>
+                
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <BookOpen className="h-4 w-4" />
+                    <span>{material.subject}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <User className="h-4 w-4" />
+                    <span>{material.teacher}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Calendar className="h-4 w-4" />
+                    <span>{formatDate(material.uploadDate)}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Download className="h-4 w-4" />
+                    <span>{material.downloadCount} download • {material.fileSize}</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <a
+                    href={material.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1"
+                  >
+                    <Button className="w-full bg-[#DAA625] hover:bg-[#b88d1c]">
+                      <Download className="h-4 w-4 mr-2" />
+                      Download
+                    </Button>
+                  </a>
+                  <Button variant="outline" size="icon">
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Empty State */}
+        {filteredMaterials.length === 0 && (
+          <Card>
+            <CardContent className="p-12 text-center">
+              <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Tidak ada materi ditemukan</h3>
+              <p className="text-gray-600 mb-4">
+                Coba ubah filter atau kata kunci pencarian Anda
+              </p>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setSearchTerm("");
+                  setFilterType("all");
+                  setFilterSubject("all");
+                }}
+              >
+                Reset Filter
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   );
 }

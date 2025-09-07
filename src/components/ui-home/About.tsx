@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Info, Target, Users, Award, CheckCircle } from "lucide-react";
 
 const About = () => {
   const listItems = [
@@ -22,9 +25,14 @@ const About = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4 mt-12 text-[#C40503]">
-            Tentang Kami
-          </h2>
+          <div className="flex items-center justify-center gap-3 mb-4 mt-12">
+            <div className="p-2 bg-[#C40503]/10 rounded-lg">
+              <Info className="h-6 w-6 text-[#C40503]" />
+            </div>
+            <h2 className="text-4xl font-bold text-[#C40503]">
+              Tentang Kami
+            </h2>
+          </div>
         </motion.div>
         <div className="flex flex-col md:flex-row items-center justify-center gap-24 max-w-[1600px] mx-auto px-8">
           <motion.div
@@ -91,15 +99,15 @@ const About = () => {
               pendidikan. Dengan pengajar yang berkualitas dan metode
               pembelajaran yang efektif, kami membantu siswa untuk:
             </motion.p>
-            <motion.ul
-              className="space-y-3 text-gray-600"
+            <motion.div
+              className="space-y-3"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: false, margin: "-100px" }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               {listItems.map((item, index) => (
-                <motion.li
+                <motion.div
                   key={index}
                   className="flex items-center"
                   initial={{ opacity: 0, x: -20 }}
@@ -112,8 +120,8 @@ const About = () => {
                   }}
                   whileHover={{ x: 10 }}
                 >
-                  <motion.span
-                    className="w-2 h-2 bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-full mr-2"
+                  <motion.div
+                    className="p-1 bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-full mr-3"
                     animate={{
                       scale: [1, 1.2, 1],
                     }}
@@ -123,11 +131,13 @@ const About = () => {
                       ease: "easeInOut",
                       delay: index * 0.2,
                     }}
-                  />
-                  <span>{item}</span>
-                </motion.li>
+                  >
+                    <CheckCircle className="h-3 w-3 text-white" />
+                  </motion.div>
+                  <span className="text-gray-600">{item}</span>
+                </motion.div>
               ))}
-            </motion.ul>
+            </motion.div>
           </motion.div>
         </div>
       </div>

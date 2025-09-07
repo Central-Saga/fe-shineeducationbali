@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { programItems } from "@/data/ui-home/program";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { BookOpen, Star, Award, Users } from "lucide-react";
 import type { FloatingEmoji } from "@/types/animation";
 
 const Program = () => {
@@ -34,9 +37,14 @@ const Program = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#C40503]">
-            Program Kami
-          </h2>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="p-2 bg-[#C40503]/10 rounded-lg">
+              <BookOpen className="h-6 w-6 text-[#C40503]" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#C40503]">
+              Program Kami
+            </h2>
+          </div>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Kami menawarkan berbagai program pendidikan yang dirancang untuk
             memenuhi kebutuhan belajar Anda
@@ -45,13 +53,9 @@ const Program = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {programItems.map((program) => (
-            <motion.div
+            <Card
               key={program.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: program.id * 0.1 }}
-              className="group relative overflow-hidden rounded-2xl hover:shadow-lg bg-white h-[358px] transition-all duration-300"
+              className="group relative overflow-hidden hover:shadow-lg h-[358px] transition-all duration-300"
             >
               <div className="relative w-full h-full">
                 <Image
@@ -72,12 +76,12 @@ const Program = () => {
                   <p className="text-sm mb-4 transition-opacity duration-300 delay-75 line-clamp-2">
                     {program.description}
                   </p>
-                  <div className="text-sm font-medium bg-white/20 backdrop-blur-sm inline-block px-4 py-2 rounded-full">
+                  <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30">
                     {program.level}
-                  </div>
+                  </Badge>
                 </div>
               </div>
-            </motion.div>
+            </Card>
           ))}
         </div>
       </div>

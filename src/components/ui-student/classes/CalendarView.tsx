@@ -26,7 +26,7 @@ export function CalendarView({ schedules, onSelectDay, selectedDayId }: Calendar
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center text-lg">
-            <Calendar className="w-5 h-5 mr-2" />
+            <Calendar className="w-5 h-5 mr-2 text-blue-600" />
             Jadwal Kelas Mendatang
           </CardTitle>
           <button className="text-[#C40503] text-sm hover:underline">

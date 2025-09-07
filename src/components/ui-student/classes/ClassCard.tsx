@@ -75,9 +75,9 @@ export function ClassCard({ session, isExpanded = false, onToggle }: ClassCardPr
   const progressPercent = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
 
   return (
-    <Card className={`overflow-hidden transition-all duration-300 hover:shadow-md ${isExpanded ? 'border-[#C40503]' : ''}`}>
+    <Card className={`overflow-hidden transition-all duration-300 hover:shadow-lg ${isExpanded ? 'border-[#C40503] shadow-lg' : 'hover:shadow-md'}`}>
       <CardContent className="p-0">
-        <div className="p-5">
+        <div className="p-6">
           <div className="flex justify-between items-start mb-3">
             <div>
               <h3 className="text-lg font-semibold text-gray-800">{session.title}</h3>
@@ -190,21 +190,21 @@ export function ClassCard({ session, isExpanded = false, onToggle }: ClassCardPr
             <div>
               {session.status === 'upcoming' && (
                 <Link href={`/dashboard-student/classes/${session.id}`}>
-                  <button className="text-sm font-medium text-white bg-[#C40503] px-4 py-1 rounded hover:bg-[#a60402] transition-colors">
+                  <button className="text-sm font-medium text-white bg-[#C40503] px-4 py-2 rounded-lg hover:bg-[#a60402] transition-colors">
                     Detail Kelas
                   </button>
                 </Link>
               )}
               {session.status === 'ongoing' && (
                 <Link href={`/dashboard-student/classes/${session.id}`}>
-                  <button className="text-sm font-medium text-white bg-green-600 px-4 py-1 rounded hover:bg-green-700 transition-colors">
+                  <button className="text-sm font-medium text-white bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
                     Detail Kelas
                   </button>
                 </Link>
               )}
               {session.status === 'completed' && (
                 <Link href={`/dashboard-student/classes/${session.id}`}>
-                  <button className="text-sm font-medium text-gray-600 bg-gray-100 px-4 py-1 rounded hover:bg-gray-200 transition-colors">
+                  <button className="text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
                     Detail Kelas
                   </button>
                 </Link>

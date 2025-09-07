@@ -6,7 +6,17 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ChevronDown } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Search, ChevronDown, Home, BookOpen, Info, FileText, 
+  Menu, X, Briefcase, UserPlus, LogIn, User 
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -25,14 +35,20 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { name: "Beranda", href: "/" },
-    { name: "Program", href: "/programs" },
-    { name: "About Us", href: "/about" },
-    { name: "Blog", href: "/blog" },
-    { name: "Lainnya", href: "#", isDropdown: true, subItems: [
-      { name: "Job Vacancies", href: "/job-vacancies" },
-      { name: "Job Applications", href: "/job-applications" },
-    ]},
+    { name: "Beranda", href: "/", icon: Home },
+    { name: "Program", href: "/programs", icon: BookOpen },
+    { name: "About Us", href: "/about", icon: Info },
+    { name: "Blog", href: "/blog", icon: FileText },
+    { 
+      name: "Lainnya", 
+      href: "#", 
+      icon: Briefcase,
+      isDropdown: true, 
+      subItems: [
+        { name: "Job Vacancies", href: "/job-vacancies", icon: Briefcase },
+        { name: "Job Applications", href: "/job-applications", icon: UserPlus },
+      ]
+    },
   ];
 
   return (
@@ -82,7 +98,7 @@ const Navbar = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
                   onBlur={() => setIsSearchFocused(false)}
-                  className={`rounded-full transition-all duration-300 pl-4 pr-10 outline-none focus:outline-none
+                  className={`rounded-full transition-all duration-300 pl-10 pr-4 outline-none focus:outline-none
                     ${isScrolled ? "bg-white/80" : "bg-white/90"}
                     ${
                       isSearchFocused
@@ -91,88 +107,79 @@ const Navbar = () => {
                     }
                     focus:ring-0 focus:ring-offset-0`}
                 />
-                <svg
-                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${
+                <Search
+                  className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${
                     isSearchFocused ? "text-[#C40503]" : "text-gray-400"
                   }`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
+                />
               </div>
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
-              {navItems.map((item, index) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -2 }}
-                  className="relative"
-                >
-                  {item.isDropdown ? (
-                    <div 
-                      className="relative cursor-pointer"
-                      onMouseEnter={() => setIsDropdownOpen(true)}
-                      onMouseLeave={() => setIsDropdownOpen(false)}
-                    >
-                      <div className="flex items-center text-gray-600 hover:text-[#C40503] transition-colors duration-300">
+            <div className="hidden md:flex items-center gap-6">
+              {navItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ y: -2 }}
+                    className="relative"
+                  >
+                    {item.isDropdown ? (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            className="flex items-center gap-2 text-gray-600 hover:text-[#C40503] transition-colors duration-300"
+                          >
+                            <Icon className="h-4 w-4" />
+                            {item.name}
+                            <ChevronDown className="h-3 w-3" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start" className="w-48">
+                          {item.subItems?.map((subItem) => {
+                            const SubIcon = subItem.icon;
+                            return (
+                              <DropdownMenuItem key={subItem.name} asChild>
+                                <Link
+                                  href={subItem.href}
+                                  className="flex items-center gap-2 w-full"
+                                >
+                                  <SubIcon className="h-4 w-4" />
+                                  {subItem.name}
+                                </Link>
+                              </DropdownMenuItem>
+                            );
+                          })}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="flex items-center gap-2 text-gray-600 hover:text-[#C40503] transition-colors duration-300"
+                      >
+                        <Icon className="h-4 w-4" />
                         {item.name}
-                        <ChevronDown className="ml-1 h-4 w-4" />
-                      </div>
-                      
-                      {isDropdownOpen && (
-                        <motion.div 
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          className="absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
-                        >
-                          <div className="py-1">
-                            {item.subItems?.map((subItem) => (
-                              <Link
-                                key={subItem.name}
-                                href={subItem.href}
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#C40503]"
-                              >
-                                {subItem.name}
-                              </Link>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className="text-gray-600 hover:text-[#C40503] transition-colors duration-300"
-                    >
-                      {item.name}
-                    </Link>
-                  )}
-                </motion.div>
-              ))}
+                      </Link>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
 
             {/* Auth Buttons */}
-            <div className="hidden md:flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-3">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <Link href="/auth/login">
-                  <Button variant="ghost" className="text-[#C40503]">
+                  <Button variant="ghost" className="text-[#C40503] flex items-center gap-2">
+                    <LogIn className="h-4 w-4" />
                     Masuk
                   </Button>
                 </Link>
@@ -182,7 +189,8 @@ const Navbar = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link href="/auth/register">
-                  <Button className="bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white hover:shadow-lg transition-shadow duration-300 hover:shadow-[#C40503]/20">
+                  <Button className="bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white hover:shadow-lg transition-shadow duration-300 hover:shadow-[#C40503]/20 flex items-center gap-2">
+                    <UserPlus className="h-4 w-4" />
                     Daftar
                   </Button>
                 </Link>
@@ -190,34 +198,23 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
+            <motion.div
               whileTap={{ scale: 0.9 }}
-              className="md:hidden p-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden"
             >
-              <svg
-                className="w-6 h-6 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="text-gray-600"
               >
                 {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                  <X className="h-6 w-6" />
                 ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
+                  <Menu className="h-6 w-6" />
                 )}
-              </svg>
-            </motion.button>
+              </Button>
+            </motion.div>
           </div>
         </div>
       </motion.nav>
@@ -236,7 +233,6 @@ const Navbar = () => {
               {/* Mobile Search */}
               <div className="mb-4">
                 <div className="relative">
-                  {" "}
                   <Input
                     type="text"
                     placeholder="Cari program..."
@@ -244,7 +240,7 @@ const Navbar = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={() => setIsSearchFocused(true)}
                     onBlur={() => setIsSearchFocused(false)}
-                    className={`rounded-full transition-all duration-300 pl-4 pr-10 outline-none focus:outline-none
+                    className={`rounded-full transition-all duration-300 pl-10 pr-4 outline-none focus:outline-none
                       ${
                         isSearchFocused
                           ? "border-2 border-[#C40503]"
@@ -252,77 +248,77 @@ const Navbar = () => {
                       }
                       focus:ring-0 focus:ring-offset-0`}
                   />
-                  <svg
-                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${
+                  <Search
+                    className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${
                       isSearchFocused ? "text-[#C40503]" : "text-gray-400"
                     }`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
+                  />
                 </div>
               </div>
 
               <div className="flex flex-col gap-4">
-                {navItems.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    {item.isDropdown ? (
-                      <div className="flex flex-col">
-                        <div className="text-gray-600 font-medium py-2">
+                {navItems.map((item, index) => {
+                  const Icon = item.icon;
+                  return (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      {item.isDropdown ? (
+                        <div className="flex flex-col">
+                          <div className="flex items-center gap-2 text-gray-600 font-medium py-2">
+                            <Icon className="h-4 w-4" />
+                            {item.name}
+                          </div>
+                          <div className="ml-6 flex flex-col gap-2">
+                            {item.subItems?.map((subItem) => {
+                              const SubIcon = subItem.icon;
+                              return (
+                                <Link
+                                  key={subItem.name}
+                                  href={subItem.href}
+                                  className="flex items-center gap-2 text-gray-600 hover:text-[#C40503] transition-colors duration-300 block py-1"
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                  <SubIcon className="h-4 w-4" />
+                                  {subItem.name}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className="flex items-center gap-2 text-gray-600 hover:text-[#C40503] transition-colors duration-300 block py-2"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <Icon className="h-4 w-4" />
                           {item.name}
-                        </div>
-                        <div className="ml-4 flex flex-col gap-2">
-                          {item.subItems?.map((subItem) => (
-                            <Link
-                              key={subItem.name}
-                              href={subItem.href}
-                              className="text-gray-600 hover:text-[#C40503] transition-colors duration-300 block py-1"
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              {subItem.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className="text-gray-600 hover:text-[#C40503] transition-colors duration-300 block py-2"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {item.name}
-                      </Link>
-                    )}
-                  </motion.div>
-                ))}
+                        </Link>
+                      )}
+                    </motion.div>
+                  );
+                })}
                 <div className="flex flex-col gap-2 pt-4 border-t">
                   <Link href="/auth/login">
                     <Button
                       variant="ghost"
-                      className="w-full text-[#C40503]"
+                      className="w-full text-[#C40503] flex items-center gap-2"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
+                      <LogIn className="h-4 w-4" />
                       Masuk
                     </Button>
                   </Link>
                   <Link href="/auth/register">
                     <Button
-                      className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white hover:shadow-lg transition-shadow duration-300 hover:shadow-[#C40503]/20"
+                      className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white hover:shadow-lg transition-shadow duration-300 hover:shadow-[#C40503]/20 flex items-center gap-2"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
+                      <UserPlus className="h-4 w-4" />
                       Daftar
                     </Button>
                   </Link>

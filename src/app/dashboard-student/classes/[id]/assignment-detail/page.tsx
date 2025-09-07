@@ -3,7 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ChevronLeft, FileText } from "lucide-react";
+import { ChevronLeft, FileText, Download, Upload, Clock, AlertCircle } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function AssignmentDetailPage() {
   // Ambil tipe tugas dari query param
@@ -38,66 +41,114 @@ export default function AssignmentDetailPage() {
   const assignment = type === "uts" ? assignments.uts : assignments.kuis;
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <Link
-        href="/dashboard-student/classes"
-        className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-6"
-      >
-        <ChevronLeft className="h-4 w-4 mr-1" />
-        Kembali ke Kelas
-      </Link>
-      <div className="bg-white rounded-xl shadow-lg p-8 border">
-        <h1 className="text-2xl font-bold mb-2 text-[#C40503]">{assignment.title}</h1>
-        <p className="mb-4 text-gray-700">{assignment.description}</p>
-        <div className="mb-4">
-          <a
-            href={assignment.fileUrl}
-            className="inline-flex items-center gap-2 text-[#C40503] font-semibold underline"
-          >
-            <FileText className="h-5 w-5" /> {assignment.fileName}
-          </a>
-          <span className="ml-2 text-xs text-gray-500">{assignment.fileDate}</span>
-        </div>
-        <div className="mb-6">
-          <h4 className="font-bold text-lg mb-2 text-gray-800">Status pengajuan tugas</h4>
-          <div className="rounded-lg overflow-hidden border">
-            <div className="bg-red-100 p-3 text-red-700 font-semibold">
-              {assignment.status}
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Link
+          href="/dashboard-student/classes"
+          className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-6"
+        >
+          <ChevronLeft className="h-4 w-4 mr-1" />
+          Kembali ke Kelas
+        </Link>
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-3 mb-2">
+              <CardTitle className="text-2xl font-bold text-gray-900">{assignment.title}</CardTitle>
+              <Badge variant="destructive">Belum Dikumpulkan</Badge>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-0 border-t">
-              <div className="p-3 border-r text-gray-700">
-                Status penilaian<br />
-                <span className="font-semibold">Belum dinilai</span>
+            <p className="text-gray-700">{assignment.description}</p>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {/* File Download Section */}
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-[#C40503]/10 rounded-lg">
+                      <FileText className="h-5 w-5 text-[#C40503]" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">{assignment.fileName}</p>
+                      <p className="text-sm text-gray-600">{assignment.fileDate}</p>
+                    </div>
+                  </div>
+                  <a href={assignment.fileUrl} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="border-[#C40503] text-[#C40503] hover:bg-[#C40503] hover:text-white">
+                      <Download className="h-4 w-4 mr-2" />
+                      Download
+                    </Button>
+                  </a>
+                </div>
               </div>
-              <div className="p-3 border-r text-gray-700">
-                Jatuh tempo<br />
-                <span className="font-semibold">{assignment.deadline}</span>
+
+              {/* Status Section */}
+              <div className="space-y-4">
+                <h4 className="text-lg font-semibold text-gray-900">Status Pengajuan Tugas</h4>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-yellow-100 rounded-lg">
+                          <AlertCircle className="h-4 w-4 text-yellow-600" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">Status Penilaian</p>
+                          <p className="font-semibold text-gray-900">Belum dinilai</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-red-100 rounded-lg">
+                          <Clock className="h-4 w-4 text-red-600" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">Jatuh Tempo</p>
+                          <p className="font-semibold text-gray-900">{assignment.deadline}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-orange-100 rounded-lg">
+                          <FileText className="h-4 w-4 text-orange-600" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">File Dikirim</p>
+                          <p className="font-semibold text-red-600">Belum ada</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <div className="p-4 bg-yellow-50 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="h-5 w-5 text-yellow-600" />
+                    <p className="text-sm text-gray-700">
+                      <span className="font-medium">Perhatian:</span> Anda belum mengirimkan jawaban untuk tugas ini.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="p-3 text-gray-700">
-                Waktu tersisa<br />
-                <span className="font-semibold text-red-700">Belum ada pengajuan</span>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 justify-end">
+                <Button className="bg-[#C40503] hover:bg-[#a30402]">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Kirim Jawaban
+                </Button>
               </div>
             </div>
-            <div className="p-3 border-t text-gray-700">
-              Terakhir diubah<br />
-              <span className="font-semibold">{assignment.lastChanged}</span>
-            </div>
-            <div className="p-3 border-t text-gray-700">
-              Pengiriman berkas<br />
-              <span className="inline-flex items-center gap-2 bg-[#fff7f7] border border-[#f3bcbc] px-2 py-1 rounded text-[#C40503] font-semibold">
-                <FileText className="h-4 w-4" /> Belum ada file dikirimkan
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="flex gap-4 justify-end">
-          <button className="bg-[#0d5c7d] text-white px-5 py-2 rounded font-semibold hover:bg-[#09445c] transition-colors">
-            Kirim Jawaban
-          </button>
-        </div>
-        <div className="mt-4 text-sm text-gray-600">
-          Anda belum mengirimkan jawaban untuk tugas ini.
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

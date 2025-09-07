@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState as useReactState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { getClassDetail } from '@/data/data-student/class-detail-data';
 import { ClassDetailHeader } from '@/components/ui-student/classes/class-detail/ClassDetailHeader';
 import { ClassMaterials } from '@/components/ui-student/classes/class-detail/ClassMaterials';
@@ -13,7 +15,7 @@ import { ClassDiscussion } from '@/components/ui-student/classes/class-detail/Cl
 import { ClassAnnouncements } from '@/components/ui-student/classes/class-detail/ClassAnnouncements';
 import { ClassAttendance } from '@/components/ui-student/classes/class-detail/ClassAttendance';
 import Link from 'next/link';
-import { ChevronLeft, Clock, MapPin, User, BookOpen, FileText } from 'lucide-react';
+import { ChevronLeft, Clock, MapPin, User, BookOpen, FileText, Download, Eye, ExternalLink } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 export default function ClassDetailPage() {
@@ -124,181 +126,256 @@ export default function ClassDetailPage() {
   // ...existing code...
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="mb-6">
-        <Link 
-          href="/dashboard-student/classes"
-          className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-4"
-        >
-          <ChevronLeft className="h-4 w-4 mr-1" />
-          Kembali ke Daftar Kelas
-        </Link>
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6">
+          <Link 
+            href="/dashboard-student/classes"
+            className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-4"
+          >
+            <ChevronLeft className="h-4 w-4 mr-1" />
+            Kembali ke Daftar Kelas
+          </Link>
         
-        {/* Class Card - similar to the screenshot */}
-        <div className="border rounded-lg overflow-hidden mb-8 bg-[url('/public/backgrounds/wave-header.svg')] bg-cover bg-center bg-no-repeat">
-          <div className="p-6 bg-white/80 backdrop-blur-sm rounded-lg">
-            <div className="flex justify-between items-start mb-3">
+        {/* Class Card */}
+        <Card className="mb-8">
+          <CardHeader>
+            <div className="flex items-center justify-between">
               <div>
-                <div className="flex items-center gap-3 mb-1">
-                  <h1 className="text-2xl font-bold">{classDetail.title}</h1>
+                <div className="flex items-center gap-3 mb-2">
+                  <CardTitle className="text-2xl font-bold text-gray-900">{classDetail.title}</CardTitle>
                   {getStatusBadge(classDetail.status)}
                 </div>
-                <p className="text-gray-600 mb-3">{classDetail.subject}</p>
+                <p className="text-gray-600">{classDetail.subject}</p>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 mb-6">
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="flex items-center gap-3">
-                <Clock className="h-5 w-5 text-[#DAA625]" />
+                <div className="p-2 bg-yellow-100 rounded-lg">
+                  <Clock className="h-5 w-5 text-[#DAA625]" />
+                </div>
                 <div>
                   <p className="text-sm text-gray-500">Waktu</p>
-                  <p>{formatDate(classDetail.date)}, {classDetail.timeStart} - {classDetail.timeEnd}</p>
+                  <p className="font-medium">{formatDate(classDetail.date)}, {classDetail.timeStart} - {classDetail.timeEnd}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <MapPin className="h-5 w-5 text-[#C40503]" />
+                <div className="p-2 bg-red-100 rounded-lg">
+                  <MapPin className="h-5 w-5 text-[#C40503]" />
+                </div>
                 <div>
                   <p className="text-sm text-gray-500">Lokasi</p>
-                  <p>{classDetail.location}</p>
+                  <p className="font-medium">{classDetail.location}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <User className="h-5 w-5 text-[#DAA625]" />
+                <div className="p-2 bg-yellow-100 rounded-lg">
+                  <User className="h-5 w-5 text-[#DAA625]" />
+                </div>
                 <div>
                   <p className="text-sm text-gray-500">Pengajar</p>
-                  <p>{classDetail.instructor.name}</p>
+                  <p className="font-medium">{classDetail.instructor.name}</p>
                 </div>
               </div>
-              {/* Link diskusi join grup di atas kanan dengan icon */}
-              <div className="flex items-center gap-2">
-                <BookOpen className="h-4 w-4 text-[#C40503]" />
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-red-100 rounded-lg">
+                  <BookOpen className="h-5 w-5 text-[#C40503]" />
+                </div>
                 <div>
                   <p className="text-sm text-gray-500">Link Grup</p>
-                  <a href="#" className="inline-flex items-center gap-1 text-[#C40503] underline text-sm font-medium" onClick={e => {e.preventDefault(); setShowDiscussion(true);}}>
+                  <Button 
+                    variant="link" 
+                    className="p-0 h-auto text-[#C40503] hover:text-[#a30402]"
+                    onClick={() => setShowDiscussion(true)}
+                  >
+                    <ExternalLink className="h-4 w-4 mr-1" />
                     Diskusi Join Grup
-                  </a>
+                  </Button>
                 </div>
               </div>
             </div>
-            <p className="text-gray-700 mb-5">{classDetail.description}</p>
-            {/* Link untuk melihat absensi siswa */}
-            <div className="mt-4">
-              <Link href={`/dashboard-student/classes/${classId}/attendance`} className="inline-block text-[#DAA625] font-semibold underline hover:text-[#C40503] transition-colors">
-                Lihat Absensi Siswa di Kelas Ini
+            <p className="text-gray-700 mb-6">{classDetail.description}</p>
+            <div className="flex gap-3">
+              <Link href={`/dashboard-student/classes/${classId}/attendance`}>
+                <Button variant="outline" className="text-[#DAA625] border-[#DAA625] hover:bg-[#DAA625] hover:text-white">
+                  <Eye className="h-4 w-4 mr-2" />
+                  Lihat Absensi
+                </Button>
               </Link>
             </div>
-          </div>
-        </div>
-      </div>
+          </CardContent>
+        </Card>
 
-      {/* Card Tugas & Materi */}
-      {/* Gabungan Card Tugas & Materi dengan checkbox, inisialisasi setelah classId valid */}
-      <div className="mt-8 flex justify-center">
-        <div className="w-full max-w-7xl bg-white border border-[#f3bcbc] rounded-2xl shadow-lg p-6 flex flex-col gap-8">
-          <h2 className="text-2xl font-bold text-[#C40503] mb-2">Tugas & Materi Pembelajaran</h2>
-          {/* Search Bar */}
-          <div className="mb-4 flex items-center gap-2">
-            <input
-              type="text"
-              className="w-full px-4 py-2 border border-[#f3bcbc] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C40503] text-gray-800 bg-white shadow"
-              placeholder="Cari tugas atau materi..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-            />
-          </div>
-          {/* Section Tugas */}
-          <div>
-            <h3 className="text-lg font-bold text-[#C40503] mb-2">Tugas dari Guru</h3>
-            <ul className="space-y-4">
-              {filteredAssignments.length === 0 && (
-                <li className="text-gray-500 italic">Tidak ada tugas ditemukan.</li>
-              )}
-              {classId && filteredAssignments.map((assignment: any) => (
-                <li key={assignment.id} className="flex items-center gap-4 p-4 rounded-xl bg-white border border-[#f3bcbc] shadow-sm hover:shadow-md transition-shadow">
-                  <input
-                    type="checkbox"
-                    checked={checkedItems.includes(assignment.id)}
-                    onChange={() => handleCheckItem(assignment.id)}
-                    className="accent-[#C40503] w-5 h-5 rounded focus:ring-[#C40503] mr-2"
-                  />
-                  <div className="flex-shrink-0 bg-[#fff7f7] rounded-lg p-3 flex items-center justify-center">
-                    <FileText className="h-7 w-7 text-[#C40503]" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-bold text-base text-[#C40503]">{assignment.title}</span>
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-[#C40503]" />
+                  Tugas Terbaru
+                </CardTitle>
+                <Link href="/dashboard-student/assignments">
+                  <Button variant="ghost" size="sm" className="text-[#C40503] hover:text-[#a30402]">
+                    Lihat Semua
+                    <ExternalLink className="h-4 w-4 ml-1" />
+                  </Button>
+                </Link>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {filteredAssignments.slice(0, 3).map((assignment: any) => (
+                  <div key={assignment.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div className="p-2 bg-[#C40503]/10 rounded-lg">
+                      <FileText className="h-4 w-4 text-[#C40503]" />
                     </div>
-                    <div className="text-gray-700 text-sm">{assignment.description}</div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-gray-900 text-sm truncate">{assignment.title}</h4>
+                      <p className="text-xs text-gray-600 truncate">{assignment.description}</p>
+                    </div>
+                    <Link href={`/dashboard-student/classes/${classId}/assignment-detail?id=${assignment.id}`}>
+                      <Button size="sm" className="bg-[#C40503] hover:bg-[#a30402]">
+                        <Eye className="h-4 w-4 mr-1" />
+                        Detail
+                      </Button>
+                    </Link>
                   </div>
-                  <Link href={`/dashboard-student/classes/${classId}/assignment-detail?id=${assignment.id}`}>
-                    <button className="bg-[#C40503] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#a30402] transition-colors text-sm">Lihat Detail</button>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          {/* Section Materi */}
-          <div>
-            <h3 className="text-lg font-bold text-[#DAA625] mb-2">Materi Pembelajaran</h3>
-            <div className="space-y-4">
-              {filteredMaterials.length === 0 && (
-                <div className="text-gray-500 italic text-center py-4">Tidak ada materi ditemukan.</div>
-              )}
-              {classId && filteredMaterials.map((material: any) => (
-                <div key={material.id} className="flex items-center gap-4 p-4 rounded-xl bg-white border border-[#f3e6bc] shadow-sm hover:shadow-md transition-shadow">
-                  <input
-                    type="checkbox"
-                    checked={checkedItems.includes(material.id)}
-                    onChange={() => handleCheckItem(material.id)}
-                    className="accent-[#DAA625] w-5 h-5 rounded focus:ring-[#DAA625] mr-2"
-                  />
-                  <div className="flex-1">
-                    <div className="font-bold text-base text-[#DAA625]">{material.title}</div>
-                    <div className="text-gray-700 text-sm">{material.description}</div>
+                ))}
+                {filteredAssignments.length === 0 && (
+                  <div className="text-center py-8">
+                    <FileText className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                    <p className="text-sm text-gray-500">Tidak ada tugas</p>
                   </div>
-                  <a 
-                    href={material.fileUrl} 
-                    className="text-[#DAA625] underline text-sm font-semibold hover:text-[#C40503] transition-colors"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Download Materi
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <BookOpen className="h-5 w-5 text-[#DAA625]" />
+                  Materi Terbaru
+                </CardTitle>
+                <Link href="/dashboard-student/materials">
+                  <Button variant="ghost" size="sm" className="text-[#C40503] hover:text-[#a30402]">
+                    Lihat Semua
+                    <ExternalLink className="h-4 w-4 ml-1" />
+                  </Button>
+                </Link>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {filteredMaterials.slice(0, 3).map((material: any) => (
+                  <div key={material.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div className="p-2 bg-[#DAA625]/10 rounded-lg">
+                      <BookOpen className="h-4 w-4 text-[#DAA625]" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-gray-900 text-sm truncate">{material.title}</h4>
+                      <p className="text-xs text-gray-600 truncate">{material.description}</p>
+                    </div>
+                    <a 
+                      href={material.fileUrl} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button size="sm" className="bg-[#DAA625] hover:bg-[#b88d1c]">
+                        <Download className="h-4 w-4 mr-1" />
+                        Download
+                      </Button>
+                    </a>
+                  </div>
+                ))}
+                {filteredMaterials.length === 0 && (
+                  <div className="text-center py-8">
+                    <BookOpen className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                    <p className="text-sm text-gray-500">Tidak ada materi</p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </div>
   {/* Simpan jumlah tugas & materi ke localStorage agar progress bar di ClassCard selalu sesuai */}
 
-      {/* Modal/Tabel Diskusi Join Grup */}
-      {showDiscussion && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-8 max-w-lg w-full relative">
-            <button className="absolute top-3 right-3 text-gray-400 hover:text-[#C40503] text-xl" onClick={() => setShowDiscussion(false)}>&times;</button>
-            <h3 className="text-lg font-bold mb-4 text-[#C40503]">Diskusi Join Grup</h3>
-            <table className="w-full mb-4 border">
-              <thead>
-                <tr className="bg-[#f8fafc]">
-                  <th className="p-2 border">Topik</th>
-                  <th className="p-2 border">Link</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="p-2 border">Join Group WA</td>
-                  <td className="p-2 border"><a href="https://chat.whatsapp.com/ET8gyUz70bGczSxmipYX6" target="_blank" rel="noopener" className="text-[#C40503] underline">WhatsApp Group</a></td>
-                </tr>
-                <tr>
-                  <td className="p-2 border">Join Ms.Teams</td>
-                  <td className="p-2 border"><span className="text-[#C40503]">ukypfjc</span></td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="text-gray-700 text-sm">Semangat belajar! Silakan join grup WA dan Ms.Teams sesuai instruksi guru.</div>
+        {/* Modal/Tabel Diskusi Join Grup */}
+        {showDiscussion && (
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <Card className="max-w-lg w-full mx-4">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <BookOpen className="h-5 w-5 text-[#C40503]" />
+                    Diskusi Join Grup
+                  </CardTitle>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setShowDiscussion(false)}
+                    className="h-8 w-8 p-0"
+                  >
+                    ×
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-green-100 rounded-lg">
+                        <BookOpen className="h-4 w-4 text-green-600" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Join Group WA</p>
+                        <p className="text-sm text-gray-600">WhatsApp Group</p>
+                      </div>
+                    </div>
+                    <a 
+                      href="https://chat.whatsapp.com/ET8gyUz70bGczSxmipYX6" 
+                      target="_blank" 
+                      rel="noopener"
+                    >
+                      <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                        <ExternalLink className="h-4 w-4 mr-1" />
+                        Join
+                      </Button>
+                    </a>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-blue-100 rounded-lg">
+                        <BookOpen className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Join Ms.Teams</p>
+                        <p className="text-sm text-gray-600">Code: ukypfjc</p>
+                      </div>
+                    </div>
+                    <Button size="sm" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
+                      <ExternalLink className="h-4 w-4 mr-1" />
+                      Join
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="mt-4 p-3 bg-yellow-50 rounded-lg">
+                  <p className="text-sm text-gray-700">
+                    <span className="font-medium">💡 Tips:</span> Semangat belajar! Silakan join grup WA dan Ms.Teams sesuai instruksi guru.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
+        )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
