@@ -67,52 +67,52 @@ export default function StudentGradesPage() {
 
   // Mock data - in real app, this would come from API based on student's enrolled classes
   useEffect(() => {
-    const mockGrades: Grade[] = [
-      {
-        id: "1",
-        assignmentId: "1",
-        assignmentTitle: "Latihan Grammar Chapter 1",
-        classId: "1",
-        className: "Bahasa Inggris A",
-        teacherName: "Mr. John",
+      const mockGrades: Grade[] = [
+        {
+          id: "1",
+          assignmentId: "1",
+          assignmentTitle: "Latihan Grammar Chapter 1",
+          classId: "1",
+          className: "Bahasa Inggris A",
+          teacherName: "Mr. John",
         grade: 85,
         maxGrade: 100,
         gradeCategory: "Tugas",
         feedback: "Bagus, perlu perbaikan di tenses",
         gradedDate: "2025-07-01",
         status: "graded"
-      },
-      {
-        id: "2",
-        assignmentId: "2",
-        assignmentTitle: "Essay Writing Practice",
-        classId: "1",
-        className: "Bahasa Inggris A",
-        teacherName: "Mr. John",
+        },
+        {
+          id: "2",
+          assignmentId: "2",
+          assignmentTitle: "Essay Writing Practice",
+          classId: "1",
+          className: "Bahasa Inggris A",
+          teacherName: "Mr. John",
         grade: 92,
         maxGrade: 100,
         gradeCategory: "Tugas",
         feedback: "Excellent work!",
         gradedDate: "2025-07-03",
         status: "graded"
-      },
-      {
-        id: "3",
-        assignmentId: "3",
-        assignmentTitle: "Vocabulary Quiz",
-        classId: "2",
-        className: "Matematika A",
-        teacherName: "Bu Siti",
+        },
+        {
+          id: "3",
+          assignmentId: "3",
+          assignmentTitle: "Vocabulary Quiz",
+          classId: "2",
+          className: "Matematika A",
+          teacherName: "Bu Siti",
         grade: 78,
         maxGrade: 100,
         gradeCategory: "UTS",
         feedback: "Perlu latihan lebih",
         gradedDate: "2025-06-30",
         status: "graded"
-      },
-      {
-        id: "4",
-        assignmentId: "4",
+        },
+        {
+          id: "4",
+          assignmentId: "4",
         assignmentTitle: "Matematika Dasar - Soal Cerita",
         classId: "2",
         className: "Matematika A",
@@ -127,9 +127,9 @@ export default function StudentGradesPage() {
 
     const mockClassSummaries: ClassSummary[] = [
       {
-        classId: "1",
-        className: "Bahasa Inggris A",
-        teacherName: "Mr. John",
+          classId: "1",
+          className: "Bahasa Inggris A",
+          teacherName: "Mr. John",
         averageGrade: 88.5,
         totalAssignments: 3,
         gradedAssignments: 2,
@@ -146,7 +146,7 @@ export default function StudentGradesPage() {
       }
     ];
 
-    setGrades(mockGrades);
+      setGrades(mockGrades);
     setClassSummaries(mockClassSummaries);
   }, []);
 
@@ -206,26 +206,26 @@ export default function StudentGradesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+          {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 bg-[#C40503]/10 rounded-lg">
               <Award className="h-6 w-6 text-[#C40503]" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900">Nilai Saya</h1>
-          </div>
+        </div>
           <p className="text-gray-600 mb-6">Lihat dan pantau nilai dari semua kelas yang Anda ikuti</p>
           <div className="flex justify-end">
             <Button onClick={handleDownloadReport} className="bg-[#C40503] hover:bg-[#A60000]">
-              <Download className="h-4 w-4 mr-2" />
+          <Download className="h-4 w-4 mr-2" />
               Download Laporan
-            </Button>
+        </Button>
           </div>
-        </div>
+      </div>
 
-        {/* Stats Cards */}
+      {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card className="border-l-4 border-l-[#C40503]">
             <CardContent className="p-6">
@@ -304,51 +304,51 @@ export default function StudentGradesPage() {
           </TabsList>
 
           <TabsContent value="grades" className="space-y-6">
-            {/* Filters */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Filter className="h-5 w-5 mr-2 text-[#C40503]" />
-                  Filter & Pencarian
-                </CardTitle>
-              </CardHeader>
+      {/* Filters */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <Filter className="h-5 w-5 mr-2 text-[#C40503]" />
+            Filter & Pencarian
+          </CardTitle>
+        </CardHeader>
               <CardContent className="p-6">
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1">
-                    <div className="relative">
-                      <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-                      <Input
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
                         placeholder="Cari berdasarkan tugas atau kelas..."
-                        className="pl-8"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-48">
-                    <Select value={classFilter} onValueChange={setClassFilter}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Filter Kelas" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Semua Kelas</SelectItem>
-                        {classes.map(cls => (
-                          <SelectItem key={cls.id} value={cls.id}>
-                            {cls.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  className="pl-8"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="w-48">
+              <Select value={classFilter} onValueChange={setClassFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Filter Kelas" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Kelas</SelectItem>
+                  {classes.map(cls => (
+                    <SelectItem key={cls.id} value={cls.id}>
+                      {cls.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
             {/* Grades Table */}
-            <Card>
-              <CardHeader>
+          <Card>
+            <CardHeader>
                 <CardTitle>Daftar Nilai ({filteredGrades.length})</CardTitle>
-              </CardHeader>
+            </CardHeader>
               <CardContent className="p-6">
               <Table>
                 <TableHeader>
@@ -367,7 +367,7 @@ export default function StudentGradesPage() {
                   {filteredGrades.map((grade) => (
                     <TableRow key={grade.id}>
                       <TableCell>
-                        <div>
+                          <div>
                           <div className="font-medium">{grade.assignmentTitle}</div>
                           <div className="text-sm text-gray-500">ID: {grade.assignmentId}</div>
                         </div>
@@ -382,7 +382,7 @@ export default function StudentGradesPage() {
                           <div className="flex items-center justify-center gap-2">
                             <span className={getGradeColor(grade.grade, grade.maxGrade)}>
                               {grade.grade}/{grade.maxGrade}
-                            </span>
+                        </span>
                             {getGradeBadge(grade.grade, grade.maxGrade)}
                           </div>
                         ) : (
@@ -400,10 +400,10 @@ export default function StudentGradesPage() {
                       </TableCell>
                       <TableCell>
                         {grade.gradedDate ? (
-                          <div className="flex items-center text-sm text-gray-500">
-                            <Calendar className="h-4 w-4 mr-1" />
+                        <div className="flex items-center text-sm text-gray-500">
+                          <Calendar className="h-4 w-4 mr-1" />
                             {new Date(grade.gradedDate).toLocaleDateString('id-ID')}
-                          </div>
+                        </div>
                         ) : (
                           <span className="text-gray-500">-</span>
                         )}
@@ -429,9 +429,9 @@ export default function StudentGradesPage() {
                   )}
                 </TableBody>
               </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
           <TabsContent value="summary" className="space-y-6">
             <Card>
@@ -480,8 +480,8 @@ export default function StudentGradesPage() {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+      </Tabs>
+        </div>
       </div>
-    </div>
   );
 }

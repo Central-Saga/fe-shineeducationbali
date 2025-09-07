@@ -6,7 +6,7 @@ import { SubscriptionDetails } from "@/components/ui-student/subscription/Subscr
 import { FAQSection } from "@/components/ui-student/subscription/FAQSection";
 import { subscriptionPlans, currentSubscription } from "@/data/data-student/subscription-data";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CreditCard, Calendar } from "lucide-react";
+import { CreditCard, Calendar, BookOpen, Users, Award, Zap, Headphones, Star } from "lucide-react";
 import Image from 'next/image';
 
 export default function SubscriptionPage() {
@@ -42,13 +42,19 @@ export default function SubscriptionPage() {
   ];
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Langganan</h1>
-        <p className="text-gray-600">
-          Kelola langganan Anda dan akses berbagai fitur premium
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-[#C40503]/10 rounded-lg">
+              <CreditCard className="h-6 w-6 text-[#C40503]" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900">Langganan</h1>
+          </div>
+          <p className="text-gray-600">
+            Kelola langganan Anda dan akses berbagai fitur premium
+          </p>
+        </div>
       
       {/* Current Subscription Details */}
       {currentPlan && (
@@ -90,12 +96,9 @@ export default function SubscriptionPage() {
         <h2 className="text-2xl font-bold mb-6">Manfaat Langganan Premium</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-gradient-to-br from-[#C40503] to-[#e63e3c] p-6 rounded-lg text-white">
+          <div className="bg-[#C40503] p-6 rounded-lg text-white">
             <div className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-                <path d="M12 20h9"></path>
-                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-              </svg>
+              <BookOpen className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Akses Semua Kursus</h3>
             <p className="text-white/80">
@@ -103,12 +106,9 @@ export default function SubscriptionPage() {
             </p>
           </div>
           
-          <div className="bg-gradient-to-br from-[#DAA625] to-[#f3c14f] p-6 rounded-lg text-white">
+          <div className="bg-[#DAA625] p-6 rounded-lg text-white">
             <div className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-              </svg>
+              <Users className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Kelas Live Premium</h3>
             <p className="text-white/80">
@@ -116,13 +116,9 @@ export default function SubscriptionPage() {
             </p>
           </div>
           
-          <div className="bg-gradient-to-br from-[#C40503] to-[#DAA625] p-6 rounded-lg text-white">
+          <div className="bg-[#DAA521] p-6 rounded-lg text-white">
             <div className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-                <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
-                <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
-                <path d="M18 12c-1.1 0-2 .9-2 2s.9 2 2 2h2v-4h-2z"></path>
-              </svg>
+              <Award className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Sertifikat Resmi</h3>
             <p className="text-white/80">
@@ -130,14 +126,9 @@ export default function SubscriptionPage() {
             </p>
           </div>
           
-          <div className="bg-gradient-to-br from-[#DAA625] to-[#C40503] p-6 rounded-lg text-white">
+          <div className="bg-[#C40503] p-6 rounded-lg text-white">
             <div className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
+              <Users className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Bimbingan Guru Pribadi</h3>
             <p className="text-white/80">
@@ -145,11 +136,9 @@ export default function SubscriptionPage() {
             </p>
           </div>
           
-          <div className="bg-gradient-to-br from-[#C40503] to-[#e63e3c] p-6 rounded-lg text-white">
+          <div className="bg-[#DAA625] p-6 rounded-lg text-white">
             <div className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-              </svg>
+              <Zap className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Akses Lebih Cepat</h3>
             <p className="text-white/80">
@@ -157,14 +146,9 @@ export default function SubscriptionPage() {
             </p>
           </div>
           
-          <div className="bg-gradient-to-br from-[#DAA625] to-[#f3c14f] p-6 rounded-lg text-white">
+          <div className="bg-[#DAA521] p-6 rounded-lg text-white">
             <div className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                <line x1="15" y1="9" x2="15.01" y2="9"></line>
-              </svg>
+              <Headphones className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Dukungan Prioritas</h3>
             <p className="text-white/80">
@@ -247,7 +231,7 @@ export default function SubscriptionPage() {
       </div>
       
       {/* CTA Section */}
-      <div className="bg-gradient-to-r from-[#C40503] to-[#DAA625] rounded-lg overflow-hidden p-6 md:p-8 text-white">
+      <div className="bg-[#C40503] rounded-lg overflow-hidden p-6 md:p-8 text-white">
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-2/3 mb-6 md:mb-0">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
@@ -260,7 +244,7 @@ export default function SubscriptionPage() {
               <button className="bg-white text-[#C40503] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
                 Lihat Semua Fitur
               </button>
-              <button className="bg-[#DAA625] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#b78d1f] border border-white/20 transition-colors">
+              <button className="bg-[#DAA521] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#b78d1f] border border-white/20 transition-colors">
                 Hubungi Tim Penjualan
               </button>
             </div>
@@ -276,6 +260,7 @@ export default function SubscriptionPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

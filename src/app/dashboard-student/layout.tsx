@@ -47,7 +47,7 @@ export default function StudentDashboardLayout({
     <div className="min-h-screen bg-gray-50">
       <StudentNavbar studentName="John Doe" />
       {/* Konten utama dengan jarak yang tepat dari navbar */}
-      <div className="pt-16">
+      <div className="pt-10">
         <main>{children}</main>
       </div>
     </div>

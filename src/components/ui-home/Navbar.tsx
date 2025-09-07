@@ -306,7 +306,7 @@ const Navbar = () => {
                   <Link href="/auth/login">
                     <Button
                       variant="ghost"
-                      className="w-full text-[#C40503] flex items-center gap-2"
+                      className="w-full text-[#DAA521] flex items-center gap-2"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <LogIn className="h-4 w-4" />

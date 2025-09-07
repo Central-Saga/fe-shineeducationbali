@@ -17,6 +17,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { 
+  User, 
+  Calendar, 
+  Mail, 
+  Phone, 
+  MapPin, 
+  GraduationCap, 
+  Users, 
+  Lock, 
+  Shield, 
+  LogIn,
+  UserPlus 
+} from "lucide-react";
 
 interface FloatingEmoji {
   id: number;
@@ -52,56 +65,70 @@ const formFields: FormFieldType[] = [
     label: "Nama Lengkap",
     type: "text",
     placeholder: "Masukkan nama lengkap",
-    icon: "👤",
+    icon: "User",
   },
   {
     id: "tanggalLahir",
     label: "Tanggal Lahir",
     type: "date",
     placeholder: "Masukkan tanggal lahir",
-    icon: "📅",
+    icon: "Calendar",
   },
   {
     id: "email",
     label: "Email",
     type: "email",
     placeholder: "Masukkan alamat email",
-    icon: "📧",
+    icon: "Mail",
   },
   {
     id: "noTelepon",
     label: "Nomor Telepon",
     type: "tel",
     placeholder: "Masukkan nomor telepon",
-    icon: "📱",
+    icon: "Phone",
   },
   {
     id: "alamat",
     label: "Alamat",
     type: "textarea",
     placeholder: "Masukkan alamat lengkap",
-    icon: "📍",
+    icon: "MapPin",
   },
   {
-    id: "tempatTinggal",
-    label: "Tempat Tinggal",
+    id: "sekolahAsal",
+    label: "Sekolah Asal",
     type: "text",
-    placeholder: "Masukkan tempat tinggal saat ini",
-    icon: "🏠",
+    placeholder: "Masukkan nama sekolah asal",
+    icon: "GraduationCap",
+  },
+  {
+    id: "namaOrangTua",
+    label: "Nama Orang Tua/Wali",
+    type: "text",
+    placeholder: "Masukkan nama orang tua atau wali",
+    icon: "Users",
+  },
+  {
+    id: "noOrangTua",
+    label: "No. Telepon Orang Tua/Wali",
+    type: "tel",
+    placeholder: "Masukkan nomor telepon orang tua/wali",
+    icon: "Phone",
   },
   {
     id: "password",
     label: "Password",
     type: "password",
     placeholder: "Masukkan password",
-    icon: "🔒",
+    icon: "Lock",
   },
   {
     id: "konfirmasiPassword",
     label: "Konfirmasi Password",
     type: "password",
     placeholder: "Masukkan ulang password",
-    icon: "🔐",
+    icon: "Shield",
   },
 ];
 
@@ -112,7 +139,9 @@ interface FormData {
   konfirmasiPassword: string;
   noTelepon: string;
   alamat: string;
-  tempatTinggal: string;
+  sekolahAsal: string;
+  namaOrangTua: string;
+  noOrangTua: string;
   tanggalLahir: string;
 }
 
@@ -128,10 +157,29 @@ export default function RegisterPage() {
     konfirmasiPassword: "",
     noTelepon: "",
     alamat: "",
-    tempatTinggal: "",
+    sekolahAsal: "",
+    namaOrangTua: "",
+    noOrangTua: "",
     tanggalLahir: "",
   });
   const [error, setError] = useState("");
+
+  // Helper function to render icons
+  const renderIcon = (iconName: string) => {
+    const iconProps = { className: "h-4 w-4 text-[#C40503]" };
+    switch (iconName) {
+      case "User": return <User {...iconProps} />;
+      case "Calendar": return <Calendar {...iconProps} />;
+      case "Mail": return <Mail {...iconProps} />;
+      case "Phone": return <Phone {...iconProps} />;
+      case "MapPin": return <MapPin {...iconProps} />;
+      case "GraduationCap": return <GraduationCap {...iconProps} />;
+      case "Users": return <Users {...iconProps} />;
+      case "Lock": return <Lock {...iconProps} />;
+      case "Shield": return <Shield {...iconProps} />;
+      default: return <User {...iconProps} />;
+    }
+  };
 
   useEffect(() => {
     // Generate random floating emojis
@@ -182,17 +230,17 @@ export default function RegisterPage() {
     }
   };
   return (
-    <div className="min-h-screen relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-[#fff5f5] via-[#fffafe] to-[#fff5f5] py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
       {/* Animated Background */}
       <div className="absolute inset-0">
         <motion.div
-          className="absolute inset-0 bg-[radial-gradient(#ff9b9b_1px,transparent_1px)] [background-size:40px_40px]"
+          className="absolute inset-0 bg-[radial-gradient(#C40503_1px,transparent_1px)] [background-size:40px_40px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.15 }}
           transition={{ duration: 1 }}
         />
         <motion.div
-          className="absolute inset-0 bg-[radial-gradient(#ffdb99_1px,transparent_1px)] [background-size:30px_30px]"
+          className="absolute inset-0 bg-[radial-gradient(#DAA521_1px,transparent_1px)] [background-size:30px_30px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.1 }}
           transition={{ duration: 1, delay: 0.5 }}
@@ -236,7 +284,7 @@ export default function RegisterPage() {
         transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
       >
         <Card className="relative bg-white/95 backdrop-blur-md shadow-xl border-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5 " />
+          <div className="absolute inset-0 bg-[#C40503]/5" />
           <CardHeader className="space-y-1 relative">
             {/* Logo Animation */}
             <motion.div
@@ -247,7 +295,7 @@ export default function RegisterPage() {
             >
               <div className="relative py-5">
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-full blur-2xl"
+                  className="absolute inset-0 bg-[#C40503]/20 rounded-full blur-2xl"
                   animate={{
                     scale: [1, 1.2, 1],
                     opacity: [0.5, 0.8, 0.5],
@@ -274,7 +322,7 @@ export default function RegisterPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+              <CardTitle className="text-2xl font-bold text-center text-[#C40503]">
                 Bergabung dengan Shine Education
               </CardTitle>
               <CardDescription className="text-center mt-2 text-[#C40503]/80 pb-5">
@@ -303,7 +351,7 @@ export default function RegisterPage() {
                     htmlFor={field.id}
                     className="flex items-center gap-2 text-black font-medium"
                   >
-                    <span className="text-xl">{field.icon}</span>
+                    {renderIcon(field.icon)}
                     {field.label}
                   </Label>{" "}
                   <motion.div className="relative">
@@ -376,9 +424,10 @@ export default function RegisterPage() {
               >
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:from-[#C40503]/90 hover:to-[#DAA625]/90 text-white transition-all duration-300"
+                  className="w-full bg-[#C40503] hover:bg-[#C40503]/90 text-white transition-all duration-300 flex items-center gap-2"
                 >
-                  Mulai Belajar Bersama Kami! 🚀
+                  <UserPlus className="h-4 w-4" />
+                  Mulai Belajar Bersama Kami!
                 </Button>
               </motion.div>
             </form>
@@ -390,21 +439,22 @@ export default function RegisterPage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
               >
-                <span className="text-gray-500">Already have an account? </span>
+                <span className="text-gray-500">Sudah punya akun? </span>
                 <Link
                   href="/auth/login"
                   className="group relative inline-block"
                 >
-                  <motion.span
-                    className="font-medium text-[#DAA625] group-hover:text-[#C40503] transition-all duration-300"
-                    whileHover={{ scale: 1.1 }}
-                    style={{
-                      display: "inline-block",
-                      transformOrigin: "center",
-                    }}
-                  >
-                    Sign in here ✨
-                  </motion.span>
+                   <motion.span
+                     className="font-medium text-[#DAA521] group-hover:text-[#C40503] transition-all duration-300 inline-flex items-center gap-1"
+                     whileHover={{ scale: 1.1 }}
+                     style={{
+                       display: "inline-flex",
+                       transformOrigin: "center",
+                     }}
+                   >
+                     <LogIn className="" />
+                     Masuk di sini
+                   </motion.span>
                 </Link>
               </motion.div>
             </div>

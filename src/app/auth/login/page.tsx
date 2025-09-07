@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { Mail, Lock, LogIn, UserPlus } from "lucide-react";
 import "@/styles/particles.css";
 
 interface Star {
@@ -191,7 +192,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-white via-[#fff9f8] to-[#fff5f2]">
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center bg-white">
       {/* Background Stars */}
       {stars.map((star) => (
         <div
@@ -242,7 +243,7 @@ export default function LoginPage() {
 
       {/* Cursor Effect */}
       <motion.div
-        className="pointer-events-none fixed w-[400px] h-[400px] bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5"
+        className="pointer-events-none fixed w-[400px] h-[400px] bg-[#C40503]/5"
         style={{
           left: mousePosition.x,
           top: mousePosition.y,
@@ -262,7 +263,7 @@ export default function LoginPage() {
           transition={{ duration: 0.5 }}
         >
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-[#C40503]/20 to-[#DAA625]/20 rounded-full"
+            className="absolute inset-0 bg-[#C40503]/20 rounded-full"
             animate={{
               scale: [1, 1.2, 1],
               opacity: [0.5, 0.8, 0.5],
@@ -295,12 +296,12 @@ export default function LoginPage() {
           style={{ transformOrigin: "center" }}
         >
           <Card className="bg-white/90 shadow-2xl border-0 backdrop-blur-md relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#C40503]/5 to-[#DAA625]/5" />
+            <div className="absolute inset-0 bg-[#C40503]/5" />
 
             <CardHeader className="space-y-1 text-center relative py-5">
               {" "}
               <motion.h2
-                className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent"
+                className="text-2xl font-bold text-[#C40503]"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
@@ -308,7 +309,7 @@ export default function LoginPage() {
                 Sign In to Your Account
               </motion.h2>
               <p className="text-gray-500">
-                Welcome back to Shine Education ✨
+                Selamat datang kembali di Shine Education ✨
               </p>
             </CardHeader>
 
@@ -317,14 +318,14 @@ export default function LoginPage() {
                 {" "}
                 <div className="space-y-2">
                   <Label htmlFor="email" className="flex items-center gap-2">
-                    <span className="text-xl">📧</span>
+                    <Mail className="h-4 w-4 text-[#C40503]" />
                     Email
                   </Label>
                   <motion.div className="relative">
                     <Input
                       id="email"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="Masukkan email Anda"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="bg-white text-black border-[1px] border-transparent
@@ -339,14 +340,14 @@ export default function LoginPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password" className="flex items-center gap-2">
-                    <span className="text-xl">🔒</span>
+                    <Lock className="h-4 w-4 text-[#C40503]" />
                     Password
                   </Label>
                   <motion.div className="relative">
                     <Input
                       id="password"
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder="Masukkan password Anda"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="bg-white text-black border-[1px] border-gray-200
@@ -365,8 +366,8 @@ export default function LoginPage() {
                     className="bg-red-50/80 backdrop-blur-sm text-[#C40503] text-sm p-3 rounded-md text-center"
                   >
                     {error === "Email atau password salah"
-                      ? "Invalid email or password"
-                      : "An error occurred. Please try again."}
+                      ? "Email atau password salah"
+                      : "Terjadi kesalahan. Silakan coba lagi."}
                   </motion.div>
                 )}
                 <motion.div
@@ -377,7 +378,7 @@ export default function LoginPage() {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:from-[#C40503]/90 hover:to-[#DAA625]/90 text-white transition-all duration-300"
+                    className="w-full bg-[#C40503] hover:bg-[#C40503]/90 text-white transition-all duration-300 flex items-center gap-2"
                   >
                     {isLoading ? (
                       <motion.div
@@ -390,23 +391,27 @@ export default function LoginPage() {
                         className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                       />
                     ) : (
-                      "Sign In 🚀"
+                      <>
+                        <LogIn className="h-4 w-4" />
+                        Masuk
+                      </>
                     )}
                   </Button>
                 </motion.div>
                 <div className="text-center text-sm py-5">
-                  <span className="text-gray-500">Don't have an account? </span>
+                  <span className="text-gray-500">Belum punya akun? </span>
                   <motion.div
                     className="inline-block"
                     whileHover={{ scale: 1.1 }}
                     style={{ transformOrigin: "center" }}
                   >
-                    <Link
-                      href="/auth/register"
-                      className="text-[#C40503] hover:text-[#DAA625] font-medium transition-all duration-300"
-                    >
-                      Register here ✨
-                    </Link>
+                     <Link
+                       href="/auth/register"
+                       className="text-[#C40503] hover:text-[#DAA521] font-medium transition-all duration-300 inline-flex items-center gap-1"
+                     >
+                       <UserPlus className="h-4 w-4" />
+                       Daftar di sini
+                     </Link>
                   </motion.div>
                 </div>
               </form>

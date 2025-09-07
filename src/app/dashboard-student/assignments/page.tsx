@@ -52,49 +52,49 @@ export default function StudentAssignmentsPage() {
 
   // Mock data - in real app, this would come from API based on student's enrolled classes
   useEffect(() => {
-    const mockAssignments: Assignment[] = [
-      {
-        id: "1",
-        title: "Latihan Grammar Chapter 1",
+      const mockAssignments: Assignment[] = [
+        {
+          id: "1",
+          title: "Latihan Grammar Chapter 1",
         description: "Kerjakan latihan grammar pada halaman 15-20",
-        classId: "1",
-        className: "Bahasa Inggris A",
-        teacherName: "Mr. John",
-        dueDate: "2025-07-05",
+          classId: "1",
+          className: "Bahasa Inggris A",
+          teacherName: "Mr. John",
+          dueDate: "2025-07-05",
         status: "pending",
         createdDate: "2025-06-28",
         isOverdue: false
-      },
-      {
-        id: "2",
-        title: "Essay Writing Practice",
+        },
+        {
+          id: "2",
+          title: "Essay Writing Practice",
         description: "Tulis essay 300 kata tentang pengalaman liburan",
-        classId: "1",
-        className: "Bahasa Inggris A",
-        teacherName: "Mr. John",
-        dueDate: "2025-07-10",
-        status: "submitted",
+          classId: "1",
+          className: "Bahasa Inggris A",
+          teacherName: "Mr. John",
+          dueDate: "2025-07-10",
+          status: "submitted",
         submissionDate: "2025-07-08",
         createdDate: "2025-06-30",
         isOverdue: false
-      },
-      {
-        id: "3",
-        title: "Vocabulary Quiz",
-        description: "Quiz vocabulary dari chapter 3",
-        classId: "2",
-        className: "Matematika A",
-        teacherName: "Bu Siti",
+        },
+        {
+          id: "3",
+          title: "Vocabulary Quiz",
+          description: "Quiz vocabulary dari chapter 3",
+          classId: "2",
+          className: "Matematika A",
+          teacherName: "Bu Siti",
         dueDate: "2025-06-25",
-        status: "graded",
+          status: "graded",
         grade: 85,
         maxGrade: 100,
         submissionDate: "2025-06-24",
         createdDate: "2025-06-20",
         isOverdue: true
-      },
-      {
-        id: "4",
+        },
+        {
+          id: "4",
         title: "Matematika Dasar - Soal Cerita",
         description: "Selesaikan 10 soal cerita matematika",
         classId: "2",
@@ -106,7 +106,7 @@ export default function StudentAssignmentsPage() {
         isOverdue: false
       }
     ];
-    setAssignments(mockAssignments);
+      setAssignments(mockAssignments);
   }, []);
 
   // Filter assignments based on search and filters
@@ -178,8 +178,8 @@ export default function StudentAssignmentsPage() {
     // Open submission modal or navigate to submission page
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    return (
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -194,14 +194,14 @@ export default function StudentAssignmentsPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-orange-100 rounded-lg">
                   <FileText className="h-5 w-5 text-orange-600" />
-                </div>
-                <div>
+      </div>
+            <div>
                   <p className="text-sm text-gray-600">Total Tugas</p>
                   <p className="text-xl font-bold text-orange-600">{assignments.length}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
+              </CardContent>
+            </Card>
 
           <Card className="border-l-4 border-l-yellow-500">
             <CardContent className="p-4">
@@ -215,9 +215,9 @@ export default function StudentAssignmentsPage() {
                     {assignments.filter(a => a.status === 'pending').length}
                   </p>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                </div>
+              </CardContent>
+            </Card>
 
           <Card className="border-l-4 border-l-blue-500">
             <CardContent className="p-4">
@@ -228,12 +228,12 @@ export default function StudentAssignmentsPage() {
                 <div>
                   <p className="text-sm text-gray-600">Sudah Dikumpulkan</p>
                   <p className="text-xl font-bold text-blue-600">
-                    {assignments.filter(a => a.status === 'submitted' || a.status === 'graded').length}
+                  {assignments.filter(a => a.status === 'submitted' || a.status === 'graded').length}
                   </p>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                </div>
+              </CardContent>
+            </Card>
 
           <Card className="border-l-4 border-l-green-500">
             <CardContent className="p-4">
@@ -250,58 +250,58 @@ export default function StudentAssignmentsPage() {
                     }
                   </p>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* Filters */}
+          {/* Filters */}
         <Card className="mb-6">
           <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <div className="relative">
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <div className="relative">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                   <Input
                     placeholder="Cari tugas..."
                     className="pl-10"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="w-48">
-                <Select value={classFilter} onValueChange={setClassFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Filter Kelas" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Semua Kelas</SelectItem>
-                    {classes.map(cls => (
-                      <SelectItem key={cls.id} value={cls.id}>
-                        {cls.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="w-48">
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Filter Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Semua Status</SelectItem>
+                <div className="w-48">
+                  <Select value={classFilter} onValueChange={setClassFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Filter Kelas" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Semua Kelas</SelectItem>
+                      {classes.map(cls => (
+                        <SelectItem key={cls.id} value={cls.id}>
+                          {cls.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="w-48">
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Filter Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Semua Status</SelectItem>
                     <SelectItem value="pending">Belum Dikumpulkan</SelectItem>
                     <SelectItem value="submitted">Sudah Dikumpulkan</SelectItem>
-                    <SelectItem value="graded">Sudah Dinilai</SelectItem>
-                    <SelectItem value="late">Terlambat</SelectItem>
-                  </SelectContent>
-                </Select>
+                      <SelectItem value="graded">Sudah Dinilai</SelectItem>
+                      <SelectItem value="late">Terlambat</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
         {/* Assignments Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -316,12 +316,12 @@ export default function StudentAssignmentsPage() {
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <BookOpen className="h-4 w-4" />
                         <span>{assignment.className}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {getStatusIcon(assignment.status)}
-                      {getStatusBadge(assignment.status)}
-                    </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {getStatusIcon(assignment.status)}
+                          {getStatusBadge(assignment.status)}
+                        </div>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -333,7 +333,7 @@ export default function StudentAssignmentsPage() {
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600">Guru:</span>
                       <span className="font-medium">{assignment.teacherName}</span>
-                    </div>
+                        </div>
                     
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600">Tenggat:</span>
@@ -341,7 +341,7 @@ export default function StudentAssignmentsPage() {
                         <Clock className="h-4 w-4" />
                         <span className={assignment.isOverdue ? 'text-red-600 font-semibold' : ''}>
                           {new Date(assignment.dueDate).toLocaleDateString('id-ID')}
-                        </span>
+                    </span>
                         {assignment.isOverdue && (
                           <Badge variant="destructive" className="text-xs">Terlambat</Badge>
                         )}
@@ -374,26 +374,26 @@ export default function StudentAssignmentsPage() {
                           value={Math.max(0, 100 - (daysLeft * 10))} 
                           className="h-2"
                         />
-                      </div>
-                    )}
-                  </div>
-
+                        </div>
+                      )}
+                </div>
+                
                   <div className="flex gap-2 mt-4">
                     <Link href={`/dashboard-student/classes/${assignment.classId}`} className="flex-1">
                       <Button variant="outline" size="sm" className="w-full">
                         <Eye className="h-4 w-4 mr-2" />
                         Lihat Detail
-                      </Button>
+                </Button>
                     </Link>
                     {assignment.status === 'pending' && (
-                      <Button 
+                <Button 
                         size="sm" 
                         className="flex-1 bg-orange-600 hover:bg-orange-700"
                         onClick={() => handleSubmitAssignment(assignment.id)}
-                      >
-                        <Upload className="h-4 w-4 mr-2" />
+                >
+                  <Upload className="h-4 w-4 mr-2" />
                         Kumpulkan
-                      </Button>
+                </Button>
                     )}
                   </div>
                 </CardContent>
