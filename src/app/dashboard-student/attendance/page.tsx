@@ -169,7 +169,9 @@ export default function StudentAttendancePage() {
   });
 
   // Get unique classes for filter
-  const classes = [...new Set(attendanceRecords.map(r => ({ id: r.classId, name: r.className })))];
+  const classes = Array.from(
+    new Map(attendanceRecords.map(r => [r.classId, { id: r.classId, name: r.className }])).values()
+  );
 
   const getStatusBadge = (status: AttendanceRecord['status']) => {
     switch (status) {

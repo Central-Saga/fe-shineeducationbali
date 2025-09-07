@@ -160,7 +160,9 @@ export default function StudentGradesPage() {
   });
 
   // Get unique classes for filter
-  const classes = [...new Set(grades.map(g => ({ id: g.classId, name: g.className })))];
+  const classes = Array.from(
+    new Map(grades.map(g => [g.classId, { id: g.classId, name: g.className }])).values()
+  );
 
   const getGradeColor = (grade: number, maxGrade: number) => {
     const percentage = (grade / maxGrade) * 100;

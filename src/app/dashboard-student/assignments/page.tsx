@@ -120,7 +120,9 @@ export default function StudentAssignmentsPage() {
   });
 
   // Get unique classes for filter
-  const classes = [...new Set(assignments.map(a => ({ id: a.classId, name: a.className })))];
+  const classes = Array.from(
+    new Map(assignments.map(a => [a.classId, { id: a.classId, name: a.className }])).values()
+  );
 
   const getStatusBadge = (status: Assignment['status']) => {
     switch (status) {
