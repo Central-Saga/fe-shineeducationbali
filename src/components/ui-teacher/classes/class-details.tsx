@@ -193,24 +193,24 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                   <p className="text-sm text-gray-500">Progress Kelas</p>
                   <p className="text-2xl font-bold text-[#C40001]">{classData.progress}%</p>
                 </div>
-                  </div>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[#C40001]/10 rounded-lg">
                     <Calendar className="h-5 w-5 text-[#C40001]" />
-                </div>
-                  <div>
+            </div>
+            <div>
                     <p className="text-sm text-gray-500">Jadwal</p>
                     <p className="font-medium">{classData.schedule}</p>
+                  </div>
                 </div>
-              </div>
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[#C40001]/10 rounded-lg">
                     <Clock className="h-5 w-5 text-[#C40001]" />
             </div>
-            <div>
+                <div>
                     <p className="text-sm text-gray-500">Waktu</p>
                     <p className="font-medium">{classData.time}</p>
                   </div>
@@ -266,7 +266,11 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                       <User className="h-5 w-5" />
                       Daftar Siswa
                     </CardTitle>
-                    <Button variant="outline" className="text-[#C40001] border-[#C40001] hover:bg-[#C40001]/5">
+                    <Button 
+                      variant="outline" 
+                      className="text-[#C40001] border-[#C40001] hover:bg-[#C40001]/5"
+                      onClick={() => window.open('/dashboard-teacher/students', '_blank')}
+                    >
                       <User className="h-4 w-4 mr-2" />
                       Lihat Detail Siswa
                     </Button>
@@ -279,7 +283,6 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                         <TableHead>ID</TableHead>
                         <TableHead>Nama Siswa</TableHead>
                         <TableHead>Status</TableHead>
-                        <TableHead>Nilai</TableHead>
                         <TableHead className="text-right">Aksi</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -293,9 +296,12 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                               Aktif
                             </Badge>
                           </TableCell>
-                          <TableCell>{student.grade}</TableCell>
                           <TableCell className="text-right">
-                            <Button variant="ghost" size="sm">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => window.open(`/dashboard-teacher/students?studentId=${student.id}`, '_blank')}
+                            >
                               Detail
                             </Button>
                           </TableCell>
@@ -315,7 +321,10 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                       <FileText className="h-5 w-5" />
                       Tugas
                     </CardTitle>
-                    <Button className="bg-[#C40001] hover:bg-[#A60000] text-white">
+                    <Button 
+                      className="bg-[#C40001] hover:bg-[#A60000] text-white"
+                      onClick={() => window.open('/dashboard-teacher/assignments', '_blank')}
+                    >
                       <Plus className="h-4 w-4 mr-2" />
                       Buat Tugas Baru
                     </Button>
@@ -353,7 +362,11 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                             </Badge>
                           </TableCell>
                           <TableCell className="text-right">
-                            <Button variant="ghost" size="sm">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => window.open(`/dashboard-teacher/assignments?assignmentId=${assignment.id}`, '_blank')}
+                            >
                               Detail
                             </Button>
                           </TableCell>
@@ -373,10 +386,13 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                       <BookOpen className="h-5 w-5" />
                       Materi Pembelajaran
                     </CardTitle>
-                    <Button className="bg-[#C40001] hover:bg-[#A60000] text-white">
-                        <Plus className="h-4 w-4 mr-2" />
+                    <Button 
+                      className="bg-[#C40001] hover:bg-[#A60000] text-white"
+                      onClick={() => window.open('/dashboard-teacher/materials', '_blank')}
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
                       Upload Materi
-                      </Button>
+                    </Button>
                   </div>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -404,7 +420,11 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                           <TableCell>{material.uploadedDate}</TableCell>
                           <TableCell>0</TableCell>
                           <TableCell className="text-right">
-                            <Button variant="ghost" size="sm">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => window.open(`/dashboard-teacher/materials?materialId=${material.id}`, '_blank')}
+                            >
                               <Download className="h-4 w-4 mr-1" />
                               Download
                             </Button>

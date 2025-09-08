@@ -15,7 +15,7 @@ import { ClassDiscussion } from '@/components/ui-student/classes/class-detail/Cl
 import { ClassAnnouncements } from '@/components/ui-student/classes/class-detail/ClassAnnouncements';
 import { ClassAttendance } from '@/components/ui-student/classes/class-detail/ClassAttendance';
 import Link from 'next/link';
-import { ChevronLeft, Clock, MapPin, User, BookOpen, FileText, Download, Eye, ExternalLink } from 'lucide-react';
+import { ChevronLeft, Clock, User, BookOpen, FileText, Download, Eye, ExternalLink } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 export default function ClassDetailPage() {
@@ -72,7 +72,6 @@ export default function ClassDetailPage() {
       return updated;
     });
   };
-  const [showDiscussion, setShowDiscussion] = useState(false);
   const [showAssignmentDetail, setShowAssignmentDetail] = useState(false);
   const classDetail = getClassDetail(classId);
   const [activeTab, setActiveTab] = useState('pertemuan');
@@ -162,37 +161,12 @@ export default function ClassDetailPage() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-red-100 rounded-lg">
-                <MapPin className="h-5 w-5 text-[#C40503]" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Lokasi</p>
-                  <p className="font-medium">{classDetail.location}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
                 <div className="p-2 bg-yellow-100 rounded-lg">
                 <User className="h-5 w-5 text-[#DAA625]" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Pengajar</p>
                   <p className="font-medium">{classDetail.instructor.name}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-red-100 rounded-lg">
-                  <BookOpen className="h-5 w-5 text-[#C40503]" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Link Grup</p>
-                  <Button 
-                    variant="link" 
-                    className="p-0 h-auto text-[#C40503] hover:text-[#a30402]"
-                    onClick={() => setShowDiscussion(true)}
-                  >
-                    <ExternalLink className="h-4 w-4 mr-1" />
-                    Diskusi Join Grup
-                  </Button>
                 </div>
               </div>
             </div>
@@ -304,76 +278,6 @@ export default function ClassDetailPage() {
       </div>
   {/* Simpan jumlah tugas & materi ke localStorage agar progress bar di ClassCard selalu sesuai */}
 
-      {/* Modal/Tabel Diskusi Join Grup */}
-      {showDiscussion && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <Card className="max-w-lg w-full mx-4">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-[#C40503]" />
-                    Diskusi Join Grup
-                  </CardTitle>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => setShowDiscussion(false)}
-                    className="h-8 w-8 p-0"
-                  >
-                    ×
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-green-100 rounded-lg">
-                        <BookOpen className="h-4 w-4 text-green-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">Join Group WA</p>
-                        <p className="text-sm text-gray-600">WhatsApp Group</p>
-                      </div>
-                    </div>
-                    <a 
-                      href="https://chat.whatsapp.com/ET8gyUz70bGczSxmipYX6" 
-                      target="_blank" 
-                      rel="noopener"
-                    >
-                      <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                        <ExternalLink className="h-4 w-4 mr-1" />
-                        Join
-                      </Button>
-                    </a>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-blue-100 rounded-lg">
-                        <BookOpen className="h-4 w-4 text-blue-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">Join Ms.Teams</p>
-                        <p className="text-sm text-gray-600">Code: ukypfjc</p>
-                      </div>
-                    </div>
-                    <Button size="sm" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-                      <ExternalLink className="h-4 w-4 mr-1" />
-                      Join
-                    </Button>
-          </div>
-                </div>
-                
-                <div className="mt-4 p-3 bg-yellow-50 rounded-lg">
-                  <p className="text-sm text-gray-700">
-                    <span className="font-medium">💡 Tips:</span> Semangat belajar! Silakan join grup WA dan Ms.Teams sesuai instruksi guru.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-        </div>
-      )}
         </div>
       </div>
     </div>

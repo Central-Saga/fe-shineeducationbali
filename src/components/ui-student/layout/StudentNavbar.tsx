@@ -58,7 +58,6 @@ export function StudentNavbar({
       icon: User, 
       type: "dropdown",
       children: [
-        { href: "/dashboard-student/grades", label: "Nilai", icon: Award },
         { href: "/dashboard-student/attendance", label: "Kehadiran", icon: UserCheck },
         { href: "/dashboard-student/subscription", label: "Langganan", icon: CreditCard },
       ]

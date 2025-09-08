@@ -14,7 +14,6 @@ export interface ClassSession {
   timeEnd: string;
   teacher: string;
   teacherAvatar?: string;
-  location: string;
   description: string;
   materials: (string | ClassMaterial)[];
   meetingLink?: string;
@@ -50,7 +49,6 @@ export const studentClasses: ClassSchedule[] = [
         timeStart: '08:00',
         timeEnd: '09:30',
         teacher: 'Budi Santoso',
-        location: 'Ruang Belajar 101',
         description: 'Pengenalan konsep aljabar linear dan aplikasinya',
         materials: ['Modul Aljabar Linear', 'Latihan Soal'],
         meetingLink: 'https://meet.example.com/aljabar-linear',
@@ -72,7 +70,6 @@ export const studentClasses: ClassSchedule[] = [
         timeStart: '10:00',
         timeEnd: '11:30',
         teacher: 'Sarah Johnson',
-        location: 'Ruang Belajar 102',
         description: 'Belajar tenses dan struktur kalimat dalam bahasa Inggris',
         materials: ['Modul Grammar', 'Worksheet'],
         meetingLink: 'https://meet.example.com/grammar-basics',

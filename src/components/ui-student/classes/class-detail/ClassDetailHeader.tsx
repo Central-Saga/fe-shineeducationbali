@@ -3,7 +3,7 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, Video, Users, Globe } from 'lucide-react';
+import { Clock, Users } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -17,9 +17,6 @@ interface ClassDetailData {
   timeEnd: string;
   status: 'upcoming' | 'ongoing' | 'completed';
   description: string;
-  location: string;
-  meetingNumber?: number;
-  totalMeetings?: number;
   instructor: {
     name: string;
     subject: string;
@@ -72,7 +69,7 @@ export function ClassDetailHeader({ classDetail }: ClassDetailHeaderProps) {
           <p className="text-lg text-gray-600 mb-1">{classDetail.subject}</p>
           <div className="flex items-center gap-3 mb-2">
             <h1 className="text-2xl font-bold text-gray-800">
-              Pertemuan {classDetail.meetingNumber || 1} - {classDetail.title}
+              {classDetail.title}
             </h1>
             <Badge className={getStatusColor(classDetail.status)}>
               {getMeetingStatusLabel(classDetail.status)}
@@ -112,7 +109,7 @@ export function ClassDetailHeader({ classDetail }: ClassDetailHeaderProps) {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <Clock className="h-5 w-5 text-[#DAA625]" />
@@ -122,23 +119,6 @@ export function ClassDetailHeader({ classDetail }: ClassDetailHeaderProps) {
               </div>
             </div>
             
-            <div className="flex items-center gap-3">
-              <MapPin className="h-5 w-5 text-[#C40503]" />
-              <div>
-                <p className="text-sm text-gray-500">Lokasi</p>
-                <p className="text-gray-700">{classDetail.location}</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <Globe className="h-5 w-5 text-[#DAA625]" />
-              <div>
-                <p className="text-sm text-gray-500">Pertemuan</p>
-                <p className="text-gray-700">
-                  {classDetail.meetingNumber || 1} dari {classDetail.totalMeetings || 12}
-                </p>
-              </div>
-            </div>
           </div>
           
           <div className="space-y-4">

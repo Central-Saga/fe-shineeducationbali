@@ -3,7 +3,7 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, BookOpen, FileText } from 'lucide-react';
+import { Clock, BookOpen, FileText } from 'lucide-react';
 import { ClassSession } from '@/data/data-student/classes-data';
 import Link from 'next/link';
 
@@ -95,10 +95,6 @@ export function ClassCard({ session, isExpanded = false, onToggle }: ClassCardPr
               <span>{formattedDate}, {session.timeStart} - {session.timeEnd}</span>
             </div>
 
-            <div className="flex items-center text-sm text-gray-600">
-              <MapPin className="h-4 w-4 mr-2 text-[#C40503]" />
-              <span>{session.location}</span>
-            </div>
 
             <div className="flex items-center text-sm text-gray-600">
               <div className="w-5 h-5 rounded-full bg-[#DAA625] text-white flex items-center justify-center mr-2 text-xs">

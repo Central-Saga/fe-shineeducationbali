@@ -93,7 +93,6 @@ export interface ClassDetailData {
   timeEnd: string;
   teacher: string;
   teacherAvatar?: string;
-  location: string;
   description: string;
   status: 'upcoming' | 'ongoing' | 'completed';
   meetingLink?: string;
@@ -138,7 +137,6 @@ export const classDetailData: ClassDetailData[] = [
     teacher: 'Budi Santoso',
     meetingLink: 'https://zoom.us/j/123456789',
     recordingUrl: 'https://shineeducation.com/recordings/c1-aljabar-linear',
-    location: 'Ruang Belajar 101',
     description: 'Pengenalan konsep aljabar linear dan aplikasinya. Kelas ini akan fokus pada pemahaman dasar tentang matriks, determinan, dan sistem persamaan linear.',
     syllabus: 'Kelas Aljabar Linear ini akan membahas konsep dasar aljabar linear meliputi matriks, determinan, dan sistem persamaan linear. Siswa akan mempelajari aplikasi aljabar linear dalam kehidupan sehari-hari.',
     status: 'ongoing',
@@ -301,7 +299,6 @@ export const classDetailData: ClassDetailData[] = [
     timeStart: '10:00',
     timeEnd: '11:30',
     teacher: 'Sarah Johnson',
-    location: 'Ruang Belajar 102',
     meetingLink: 'https://meet.example.com/english-grammar',
     recordingUrl: 'https://shineeducation.com/recordings/c2-grammar',
     status: 'upcoming',
@@ -427,7 +424,6 @@ export const classDetailData: ClassDetailData[] = [
     timeStart: '08:00',
     timeEnd: '09:30',
     teacher: 'Budi Santoso',
-    location: 'Ruang Belajar 101',
     description: 'Pembahasan tentang cara menyelesaikan persamaan kuadrat. Kelas ini mencakup berbagai metode untuk mencari solusi persamaan kuadrat seperti faktorisasi, rumus kuadrat, dan melengkapkan kuadrat sempurna.',
     syllabus: 'Kelas Persamaan Kuadrat ini akan membahas metode-metode penyelesaian persamaan kuadrat seperti faktorisasi, rumus kuadrat (rumus abc), dan melengkapkan kuadrat sempurna. Siswa akan belajar menerapkan metode yang tepat untuk berbagai jenis soal.',
     attendanceSessions: [

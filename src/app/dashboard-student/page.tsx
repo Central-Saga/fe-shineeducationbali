@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { 
   BookOpen, 
   FileText, 
-  Award, 
   UserCheck, 
   Clock, 
   TrendingUp,
@@ -29,7 +28,6 @@ interface StudentData {
 const mockQuickStats = {
   enrolledClasses: 5,
   pendingAssignments: 3,
-  averageGrade: 85,
   attendanceRate: 92,
   studyStreak: 7
 };
@@ -40,7 +38,6 @@ const mockUpcomingClasses = [
     subject: "Matematika",
     time: "08:00 - 09:30",
     teacher: "Bu Siti",
-    room: "Ruang A1",
     status: "upcoming"
   },
   {
@@ -48,7 +45,6 @@ const mockUpcomingClasses = [
     subject: "Bahasa Inggris",
     time: "10:00 - 11:30",
     teacher: "Mr. John",
-    room: "Ruang B2",
     status: "upcoming"
   }
 ];
@@ -72,24 +68,6 @@ const mockRecentAssignments = [
   }
 ];
 
-const mockRecentGrades = [
-  {
-    id: "1",
-    subject: "Matematika",
-    assignment: "Ulangan Bab 4",
-    score: 90,
-    maxScore: 100,
-    date: "2024-01-10"
-  },
-  {
-    id: "2",
-    subject: "Bahasa Inggris",
-    assignment: "Presentasi",
-    score: 85,
-    maxScore: 100,
-    date: "2024-01-08"
-  }
-];
 
 export default function StudentDashboard() {
   const [studentData, setStudentData] = useState<StudentData | null>(null);
@@ -161,7 +139,7 @@ export default function StudentDashboard() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8"
         >
           <Card className="border-l-4 border-l-blue-500">
             <CardContent className="p-4">
@@ -191,19 +169,6 @@ export default function StudentDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-green-500">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <Award className="h-5 w-5 text-green-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Rata-rata Nilai</p>
-                  <p className="text-xl font-bold text-green-600">{mockQuickStats.averageGrade}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
           <Card className="border-l-4 border-l-purple-500">
             <CardContent className="p-4">
@@ -246,7 +211,7 @@ export default function StudentDashboard() {
                       </div>
                       <div className="flex-1">
                         <h4 className="font-medium text-gray-900">{classItem.subject}</h4>
-                        <p className="text-sm text-gray-600">{classItem.teacher} • {classItem.room}</p>
+                        <p className="text-sm text-gray-600">{classItem.teacher}</p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-medium text-gray-900">{classItem.time}</p>
@@ -310,51 +275,6 @@ export default function StudentDashboard() {
             </Card>
           </motion.div>
 
-          {/* Recent Grades */}
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="lg:col-span-2"
-          >
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Award className="h-5 w-5 text-green-600" />
-                  Nilai Terbaru
-                </CardTitle>
-                <Link href="/dashboard-student/grades">
-                  <Button variant="outline" size="sm">Lihat Semua</Button>
-                </Link>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {mockRecentGrades.map((grade) => {
-                    const percentage = (grade.score / grade.maxScore) * 100;
-                    return (
-                      <div key={grade.id} className="p-4 bg-gray-50 rounded-lg">
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium text-gray-900">{grade.subject}</h4>
-                          <Badge variant={percentage >= 80 ? 'default' : percentage >= 60 ? 'secondary' : 'destructive'}>
-                            {grade.score}/{grade.maxScore}
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-gray-600 mb-3">{grade.assignment}</p>
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span>Progress</span>
-                            <span>{percentage.toFixed(0)}%</span>
-                          </div>
-                          <Progress value={percentage} className="h-2" />
-                        </div>
-                        <p className="text-xs text-gray-500 mt-2">{formatDate(grade.date)}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
         </div>
 
         {/* Quick Actions */}
@@ -372,7 +292,7 @@ export default function StudentDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <Link href="/dashboard-student/classes">
                   <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
                     <BookOpen className="h-6 w-6" />
@@ -383,12 +303,6 @@ export default function StudentDashboard() {
                   <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
                     <FileText className="h-6 w-6" />
                     <span>Tugas</span>
-                  </Button>
-                </Link>
-                <Link href="/dashboard-student/grades">
-                  <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
-                    <Award className="h-6 w-6" />
-                    <span>Nilai</span>
                   </Button>
                 </Link>
                 <Link href="/dashboard-student/attendance">
