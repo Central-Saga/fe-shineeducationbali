@@ -47,55 +47,46 @@ export const sidebarAdminNavigation: MenuItem[] = [
         description: "Manage all user accounts in the system",
       },
       {
-        name: "Student",
+        name: "Students",
         href: "/dashboard/users/students",
         description: "Manage student data and class placement",
       },
       {
-        name: "Teacher",
+        name: "Teachers",
         href: "/dashboard/users/teachers",
         description: "Manage teacher data and teaching schedule",
       },
       {
-        name: "Role & Permissions",
+        name: "Roles & Permissions",
         href: "/dashboard/users/roles",
-        description: " Set user roles and access rights",
+        description: "Set user roles and access rights",
       },
     ],
   },
-    {
-    name: "Katalog Program",
-    href: "/dashboard/program",
+  {
+    name: "Class Room",
+    href: "/dashboard/classroom",
     icon: School,
     submenu: [
       {
-        name: "Daftar Program",
+        name: "Program Catalog",
         href: "/dashboard/program",
-        description: "Kelola katalog program pembelajaran",
+        description: "Manage learning program catalog",
       },
-    ],
-  },
-  {
-    name: "Classes",
-    href: "/dashboard/class",
-    icon: Users,
-    submenu: [
       {
-        name: "Class List",
-        href: "/dashboard/class",
-        description: "Kelola daftar kelas dan batch pembelajaran",
-      },
-    ],
-  },
-  {
-    name: "Courses",
-    href: "/dashboard/courses",
-    icon: BookOpen,
-    submenu: [
-      {
-        name: "Courses List",
+        name: "Course List",
         href: "/dashboard/courses",
-        description: "Kelola daftar kursus yang tersedia",
+        description: "Manage available courses",
+      },
+      {
+        name: "Class Management",
+        href: "/dashboard/class",
+        description: "Manage class schedules and batches",
+      },
+      {
+        name: "Schedule Management",
+        href: "/dashboard/schedule",
+        description: "Manage class schedules and timetables",
       },
     ],
   },
@@ -105,89 +96,84 @@ export const sidebarAdminNavigation: MenuItem[] = [
     icon: ClipboardList,
     submenu: [
       {
-        name: "Attendance  Harian",
+        name: "Daily Attendance",
         href: "/dashboard/attendance/daily",
-        description: "Catat dan kelola absensi harian",
+        description: "Record and manage daily attendance",
       },
       {
-        name: "Report Attendance",
+        name: "Attendance Reports",
         href: "/dashboard/attendance/reports",
-        description: "Lihat laporan dan statistik absensi",
+        description: "View attendance reports and statistics",
       },
       {
         name: "Attendance Settings",
         href: "/dashboard/attendance/settings",
-        description: "Konfigurasi sistem absensi",
+        description: "Configure attendance system",
       },
     ],
   },
   {
-    name: "Grade",
+    name: "Grade Management",
     href: "/dashboard/grades",
     icon: FilePieChart,
     submenu: [
       {
         name: "Grade List",
         href: "/dashboard/grades",
-        description: "Lihat dan kelola nilai siswa",
+        description: "View and manage student grades",
       },
       {
-        name: " Grade Settings",
+        name: "Grade Reports",
         href: "/dashboard/grades/reports",
-        description: "Generate laporan nilai siswa",
+        description: "Generate student grade reports",
       },
     ],
   },
   {
-    name: "Certificate",
+    name: "Certificate Management",
     href: "/dashboard/certificates",
     icon: GraduationCap,
     submenu: [
       {
-        name: "Certificate List ",
+        name: "Certificate List",
         href: "/dashboard/certificates",
-        description: "Kelola certificate  yang telah diterbitkan",
+        description: "Manage issued certificates",
       },
       {
-        name: "Template Certificate ",
+        name: "Certificate Templates",
         href: "/dashboard/certificates/templates",
-        description: "Atur template certificate ",
+        description: "Configure certificate templates",
       },
       {
-        name: "Penerbitan Batch",
+        name: "Batch Issuance",
         href: "/dashboard/certificates/batch",
-        description: "Terbitkan certificate  secara massal",
+        description: "Issue certificates in bulk",
       },
     ],
   },
   {
-    name: "Payments",
+    name: "Payment Management",
     href: "/dashboard/payments",
     icon: Wallet,
     submenu: [
       {
-        name: "Transaksi",
+        name: "Transactions",
         href: "/dashboard/payments/transactions",
-        description: "Kelola transaksi pembayaran siswa & Gaji Guru",
+        description: "Manage student payments & teacher salaries",
       },
       {
-        name: "Laporan Keuangan",
+        name: "Financial Reports",
         href: "/dashboard/payments/reports",
-        description: "Lihat laporan dan rekap keuangan",
+        description: "View financial reports and summaries",
       },
       {
         name: "Payment Settings",
         href: "/dashboard/payments/settings",
-        description: "Konfigurasi sistem pembayaran",
+        description: "Configure payment system",
       },
     ],
   },
   {
-    name: "Schedule",
-    href: "/dashboard/schedule",
-    icon: CalendarRange,
-  },
-    {
     name: "Career Center",
     href: "/dashboard/career",
     icon: Briefcase,
@@ -195,20 +181,15 @@ export const sidebarAdminNavigation: MenuItem[] = [
       {
         name: "Job Vacancies",
         href: "/dashboard/career/vacancies",
-        description: "Kelola lowongan pekerjaan yang tersedia",
+        description: "Manage available job positions",
       },
       {
         name: "Job Applications",
         href: "/dashboard/career/applications",
-        description: "Kelola lamaran pekerjaan yang masuk",
+        description: "Manage incoming job applications",
       },
     ],
   },
-  // {
-  //   name: "Reports",
-  //   href: "/dashboard/reports",
-  //   icon: FilePieChart,
-  // },
   {
     name: "Settings",
     href: "/dashboard/settings",

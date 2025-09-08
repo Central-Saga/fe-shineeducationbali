@@ -55,7 +55,7 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
         <div className="hidden md:flex items-center gap-3 ml-4">
           <div className="bg-gradient-to-r from-green-50 to-green-100 px-4 py-1.5 rounded-full border border-green-200 text-sm text-green-700 flex items-center gap-2">
             <span className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></span>
-            <span>Status Sistem: Normal</span>
+            <span>System Status: Normal</span>
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
           </div>
           <input 
             type="text" 
-            placeholder="Cari..."
+            placeholder="Search..."
             className="w-64 rounded-lg bg-gray-50 border border-gray-200 pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C40503] focus:border-transparent transition-all hover:bg-gray-100" 
           />
         </div>
@@ -108,7 +108,7 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
           <DropdownMenuContent className="w-60" align="end" forceMount>
             <div className="flex items-center gap-2 p-2 border-b">
               <div className="bg-gradient-to-r from-[#C40503] to-[#DAA625] w-1 h-4 rounded-full"></div>
-              <div className="font-medium">Menu Pengguna</div>
+              <div className="font-medium">User Menu</div>
             </div>
             <div className="p-2 bg-gray-50">
               <div className="flex flex-col space-y-1">
@@ -130,8 +130,8 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
                 </svg>
               </div>
               <div>
-                <span className="block text-sm">Profil Saya</span>
-                <span className="block text-xs text-gray-500">Kelola informasi akun</span>
+                <span className="block text-sm">My Profile</span>
+                <span className="block text-xs text-gray-500">Manage account information</span>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-2">
@@ -139,8 +139,8 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
                 <Settings className="h-4 w-4 text-amber-600" />
               </div>
               <div>
-                <span className="block text-sm">Pengaturan</span>
-                <span className="block text-xs text-gray-500">Konfigurasi sistem</span>
+                <span className="block text-sm">Settings</span>
+                <span className="block text-xs text-gray-500">Configure system</span>
               </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -152,8 +152,8 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
                 <LogOut className="h-4 w-4 text-[#C40503]" />
               </div>
               <div>
-                <span className="block text-sm">Keluar</span>
-                <span className="block text-xs text-gray-500">Keluar dari akun</span>
+                <span className="block text-sm">Logout</span>
+                <span className="block text-xs text-gray-500">Sign out of account</span>
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>

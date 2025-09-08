@@ -27,7 +27,7 @@ export const sidebarTeacherNavigation = [
     icon: Home,
   },
   {
-    name: "Classes",
+    name: "Class Room",
     icon: BookOpen,
     submenu: [
       {

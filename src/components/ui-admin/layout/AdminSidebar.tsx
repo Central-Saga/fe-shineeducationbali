@@ -301,7 +301,7 @@ export function AdminSidebar() {
           <div className="pt-4 pb-2">
             <div className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-2 flex items-center">
               <span className="w-1 h-4 bg-[#C40503] rounded-full mr-2"></span>
-              MENU UTAMA
+              MAIN MENU
               {userRole.includes("Super Admin") && (
                 <span className="ml-2 px-2 py-0.5 text-[10px] bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white rounded-full">
                   SUPER ADMIN

@@ -23,74 +23,74 @@ import { cn } from "@/lib/utils";
 export default function DashboardPage() {
   const stats = [
     {
-      name: "Total Murid",
+      name: "Total Students",
       value: "120",
       icon: Users,
-      description: "12% dari bulan lalu",
+      description: "12% from last month",
       trend: "up",
     },
     {
-      name: "Total Kursus",
+      name: "Total Courses",
       value: "15",
       icon: GraduationCap,
-      description: "3 kursus baru",
+      description: "3 new courses",
       trend: "up",
     },
     {
-      name: "Kelas Aktif",
+      name: "Active Classes",
       value: "8",
       icon: Calendar,
-      description: "2 kelas akan dimulai",
+      description: "2 classes starting soon",
       trend: "neutral",
     },
     {
-      name: "Pendapatan",
+      name: "Revenue",
       value: "Rp 15.000.000",
       icon: DollarSign,
-      description: "↗︎ 10% dari bulan lalu",
+      description: "↗︎ 10% from last month",
       trend: "up",
     },
   ];
   const recentActivities = [
     {
       user: "Ani Susanti",
-      action: "mendaftar kursus",
-      course: "Bahasa Inggris",
-      time: "5 menit yang lalu",
+      action: "enrolled in course",
+      course: "English",
+      time: "5 minutes ago",
     },
     {
       user: "Budi Santoso",
-      action: "menyelesaikan kursus",
-      course: "Matematika",
-      time: "1 jam yang lalu",
+      action: "completed course",
+      course: "Mathematics",
+      time: "1 hour ago",
     },
     {
       user: "Clara Dewi",
-      action: "mengumpulkan tugas",
-      course: "IPA",
-      time: "2 jam yang lalu",
+      action: "submitted assignment",
+      course: "Science",
+      time: "2 hours ago",
     },
     {
       user: "David Pratama",
-      action: "mulai belajar",
-      course: "Bahasa Mandarin",
-      time: "3 jam yang lalu",
+      action: "started learning",
+      course: "Mandarin",
+      time: "3 hours ago",
     },
     {
       user: "Eva Putri",
-      action: "mengikuti ujian",
-      course: "Komputer",
-      time: "5 jam yang lalu",
+      action: "took exam",
+      course: "Computer",
+      time: "5 hours ago",
     },
   ];
   return (
     <div className="flex-1 space-y-6 p-6 md:py-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
-          Dashboard Admin
+        <h2 className="text-3xl font-bold text-[#C40503]">
+          Admin Dashboard
         </h2>
         <div className="bg-white p-2 rounded-lg shadow-sm border border-gray-100">
-          <span className="text-sm font-medium text-gray-700">Tahun Ajaran 2025/2026</span>
+          <span className="text-sm font-medium text-gray-700">Academic Year 2025/2026</span>
         </div>
       </div>
       
@@ -100,8 +100,8 @@ export default function DashboardPage() {
             <div className={`h-1 w-full ${
               index === 0 ? "bg-[#C40503]" : 
               index === 1 ? "bg-[#DAA625]" : 
-              index === 2 ? "bg-gradient-to-r from-[#C40503] to-[#DAA625]" : 
-              "bg-gradient-to-r from-[#DAA625] to-[#C40503]"
+              index === 2 ? "bg-[#C40503]" : 
+              "bg-[#DAA625]"
             }`}></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-5">
               <CardTitle className="text-sm font-medium">{stat.name}</CardTitle>
@@ -138,19 +138,19 @@ export default function DashboardPage() {
         {/* Recent Activities */}
         <Card className="col-span-4 border-none shadow-md overflow-hidden">
           <div className="h-1 w-full bg-[#C40503]"></div>
-          <CardHeader className="bg-gradient-to-r from-white to-red-50/30 pb-3 pt-5">
+          <CardHeader className="bg-red-50/30 pb-3 pt-5">
             <div className="flex justify-between items-center">
               <div>
                 <CardTitle className="flex items-center gap-2 text-[#C40503]">
                   <Activity className="h-5 w-5" />
-                  Aktivitas Terkini
+                  Recent Activities
                 </CardTitle>
                 <CardDescription className="mt-1">
-                  Ada {recentActivities.length} aktivitas terbaru hari ini
+                  {recentActivities.length} recent activities today
                 </CardDescription>
               </div>
               <div className="bg-white border border-red-100 rounded-full px-3 py-1 text-xs font-medium text-[#C40503] shadow-sm">
-                Lihat Semua
+                View All
               </div>
             </div>
           </CardHeader>
@@ -183,7 +183,7 @@ export default function DashboardPage() {
                       </span>
                     </div>
                     <p className="text-xs text-gray-500 mt-1">
-                      {index % 2 === 0 ? "Melalui aplikasi mobile" : "Melalui website"}
+                      {index % 2 === 0 ? "Via mobile app" : "Via website"}
                     </p>
                   </div>
                 </div>
@@ -195,28 +195,28 @@ export default function DashboardPage() {
         {/* Popular Courses */}
         <Card className="col-span-3 border-none shadow-md overflow-hidden">
           <div className="h-1 w-full bg-[#DAA625]"></div>
-          <CardHeader className="bg-gradient-to-r from-white to-amber-50/30 pb-3 pt-5">
+          <CardHeader className="bg-amber-50/30 pb-3 pt-5">
             <div className="flex justify-between items-center">
               <div>
                 <CardTitle className="flex items-center gap-2 text-[#DAA625]">
                   <BookOpen className="h-5 w-5" />
-                  Kursus Populer
+                  Popular Courses
                 </CardTitle>
-                <CardDescription className="mt-1">5 kursus dengan peserta terbanyak</CardDescription>
+                <CardDescription className="mt-1">5 courses with most participants</CardDescription>
               </div>
               <div className="bg-white border border-amber-100 rounded-full px-3 py-1 text-xs font-medium text-[#DAA625] shadow-sm">
-                Lihat Detail
+                View Details
               </div>
             </div>
           </CardHeader>
           <CardContent className="pt-2 pb-5">
             <div className="space-y-6">
               {[
-                { name: "Bahasa Inggris", students: 45, progress: 90 },
-                { name: "Matematika", students: 38, progress: 75 },
-                { name: "IPA", students: 32, progress: 65 },
-                { name: "Komputer", students: 28, progress: 55 },
-                { name: "Bahasa Mandarin", students: 25, progress: 50 },
+                { name: "English", students: 45, progress: 90 },
+                { name: "Mathematics", students: 38, progress: 75 },
+                { name: "Science", students: 32, progress: 65 },
+                { name: "Computer", students: 28, progress: 55 },
+                { name: "Mandarin", students: 25, progress: 50 },
               ].map((course, index) => (
                 <div key={index} className="space-y-2.5">
                   <div className="flex items-center justify-between">
@@ -239,7 +239,7 @@ export default function DashboardPage() {
                           {course.name}
                         </p>
                         <p className="text-xs text-gray-500 mt-1.5">
-                          {course.students} murid terdaftar
+                          {course.students} students enrolled
                         </p>
                       </div>
                     </div>
@@ -258,8 +258,8 @@ export default function DashboardPage() {
                     <div className={`h-1.5 rounded-full ${
                       index === 0 ? "bg-[#C40503]" : 
                       index === 1 ? "bg-[#DAA625]" : 
-                      index === 2 ? "bg-gradient-to-r from-[#C40503] to-[#DAA625]" : 
-                      "bg-gradient-to-r from-[#DAA625] to-[#C40503]"
+                      index === 2 ? "bg-[#C40503]" : 
+                      "bg-[#DAA625]"
                     }`} style={{ width: `${course.progress}%` }}></div>
                   </div>
                 </div>
@@ -273,23 +273,23 @@ export default function DashboardPage() {
       <div className="grid gap-6 md:grid-cols-3">
         {/* Calendar & Upcoming Events */}
         <Card className="border-none shadow-md overflow-hidden">
-          <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+          <div className="h-1 w-full bg-[#C40503]"></div>
           <CardHeader className="pb-3 pt-5">
             <div className="flex justify-between items-center">
-              <CardTitle className="text-gray-800">Kalender & Acara</CardTitle>
+              <CardTitle className="text-gray-800">Calendar & Events</CardTitle>
               <div className="bg-[#C40503] text-white rounded-full px-3 py-1 text-xs font-medium">
-                Juli 2025
+                July 2025
               </div>
             </div>
           </CardHeader>
           <CardContent className="p-0 pb-4">
             <div className="bg-red-50/50 p-4 py-5">
-              <div className="text-sm font-medium text-[#C40503] mb-3">Acara Mendatang</div>
+              <div className="text-sm font-medium text-[#C40503] mb-3">Upcoming Events</div>
               <div className="space-y-3">
                 {[
-                  { date: "5 Jul", title: "Rapat Guru", time: "09:00 - 11:00" },
-                  { date: "12 Jul", title: "Ujian Tengah Semester", time: "08:00 - 12:00" },
-                  { date: "20 Jul", title: "Pertemuan Orang Tua", time: "13:00 - 15:00" }
+                  { date: "5 Jul", title: "Teacher Meeting", time: "09:00 - 11:00" },
+                  { date: "12 Jul", title: "Midterm Exam", time: "08:00 - 12:00" },
+                  { date: "20 Jul", title: "Parent Meeting", time: "13:00 - 15:00" }
                 ].map((event, i) => (
                   <div key={i} className="flex items-center gap-3 bg-white p-3.5 rounded-lg shadow-sm">
                     <div className="bg-[#C40503] text-white rounded px-2 py-1.5 text-center w-12">
@@ -310,14 +310,14 @@ export default function DashboardPage() {
         <Card className="border-none shadow-md overflow-hidden">
           <div className="h-1 w-full bg-[#DAA625]"></div>
           <CardHeader className="pb-3 pt-5">
-            <CardTitle className="text-gray-800">Performa Siswa</CardTitle>
+            <CardTitle className="text-gray-800">Student Performance</CardTitle>
           </CardHeader>
           <CardContent className="pt-2 pb-5">
             <div className="space-y-4">
               {[
-                { name: "Kehadiran", value: "92%", change: "+2%", isUp: true },
-                { name: "Rata-rata Nilai", value: "85", change: "+5", isUp: true },
-                { name: "Ketuntasan", value: "88%", change: "-3%", isUp: false }
+                { name: "Attendance", value: "92%", change: "+2%", isUp: true },
+                { name: "Average Grade", value: "85", change: "+5", isUp: true },
+                { name: "Completion Rate", value: "88%", change: "-3%", isUp: false }
               ].map((stat, i) => (
                 <div key={i} className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">{stat.name}</span>
@@ -336,48 +336,48 @@ export default function DashboardPage() {
               {[40, 35, 60, 75, 65, 80, 90].map((value, i) => (
                 <div key={i} className="relative h-full flex items-end" style={{width: '12%'}}>
                   <div 
-                    className="w-full bg-gradient-to-t from-[#C40503] to-[#DAA625] rounded-sm"
+                    className="w-full bg-[#C40503] rounded-sm"
                     style={{height: `${value}%`}}
                   ></div>
                 </div>
               ))}
             </div>
             <div className="mt-2 flex justify-between text-xs text-gray-500">
-              <span>Sen</span>
-              <span>Sel</span>
-              <span>Rab</span>
-              <span>Kam</span>
-              <span>Jum</span>
-              <span>Sab</span>
-              <span>Min</span>
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+              <span>Sun</span>
             </div>
           </CardContent>
         </Card>
 
         {/* Notes or Announcements */}
         <Card className="border-none shadow-md overflow-hidden">
-          <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
-          <CardHeader className="pb-3 pt-5 bg-gradient-to-r from-white to-red-50/20">
-            <CardTitle className="text-gray-800">Pengumuman Terbaru</CardTitle>
+          <div className="h-1 w-full bg-[#DAA625]"></div>
+          <CardHeader className="pb-3 pt-5 bg-red-50/20">
+            <CardTitle className="text-gray-800">Latest Announcements</CardTitle>
           </CardHeader>
           <CardContent className="p-0 pb-0">
             <div className="p-5 border-b border-gray-100 bg-amber-50/20">
-              <div className="font-medium text-[#C40503]">Perubahan Jadwal Semester</div>
-              <div className="text-xs text-gray-600 mt-1">Diposting 2 hari lalu</div>
+              <div className="font-medium text-[#C40503]">Semester Schedule Changes</div>
+              <div className="text-xs text-gray-600 mt-1">Posted 2 days ago</div>
               <p className="text-sm mt-2">
-                Jadwal semester baru telah dirilis. Semua guru diminta untuk memeriksa dan mengkonfirmasi ketersediaan.
+                New semester schedule has been released. All teachers are requested to check and confirm availability.
               </p>
             </div>
             <div className="p-5 border-b border-gray-100">
-              <div className="font-medium text-[#DAA625]">Rapat Tahunan</div>
-              <div className="text-xs text-gray-600 mt-1">Diposting 5 hari lalu</div>
+              <div className="font-medium text-[#DAA625]">Annual Meeting</div>
+              <div className="text-xs text-gray-600 mt-1">Posted 5 days ago</div>
               <p className="text-sm mt-2">
-                Rapat tahunan akan diadakan pada tanggal 15 Juli 2025. Kehadiran seluruh staf diwajibkan.
+                Annual meeting will be held on July 15, 2025. Attendance of all staff is required.
               </p>
             </div>
             <div className="flex justify-center p-4 bg-gray-50">
               <button className="text-xs text-[#C40503] font-medium hover:underline">
-                Lihat Semua Pengumuman
+                View All Announcements
               </button>
             </div>
           </CardContent>
