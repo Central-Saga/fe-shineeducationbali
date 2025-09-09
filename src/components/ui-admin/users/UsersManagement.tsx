@@ -227,11 +227,11 @@ export default function UsersManagement({
   };
 
   return (
-    <div className="space-y-8 px-6 py-10 max-w-[90rem] mx-auto bg-gradient-to-b from-white to-gray-50/30">
+    <div className="space-y-8 px-6 py-10 max-w-[90rem] mx-auto bg-white">
       {/* Header with breadcrumbs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent ">
+          <h1 className="text-2xl font-bold text-[#C40001]">
             {title}
           </h1>
           <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
@@ -250,7 +250,7 @@ export default function UsersManagement({
             )}
           </div>
         </div>
-        <Button className="bg-gradient-to-r from-[#C40503] to-[#DAA625] hover:from-[#a30300] hover:to-[#b58a1f] shadow-sm transition-all duration-300">
+        <Button className="bg-[#C40001] hover:bg-[#a30300] shadow-sm transition-all duration-300">
           <UserPlus className="h-4 w-4 mr-2" />
           Add New {userType === "admin" ? "Admin" : userType === "teacher" ? "Teacher" : userType === "student" ? "Student" : "User"}
         </Button>
@@ -258,8 +258,8 @@ export default function UsersManagement({
       
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-red-50/20">
-          <div className="h-1.5 w-full bg-gradient-to-r from-[#C40503] to-[#C40503]/70"></div>
+        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-white">
+          <div className="h-1.5 w-full bg-[#C40001]"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
             <div className="p-2.5 rounded-full bg-red-50 hover:bg-red-100 transition-all duration-300">
@@ -275,8 +275,8 @@ export default function UsersManagement({
           </CardContent>
         </Card>
         
-        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-amber-50/20">
-          <div className="h-1.5 w-full bg-gradient-to-r from-[#DAA625] to-[#DAA625]/70"></div>
+        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-white">
+          <div className="h-1.5 w-full bg-[#DAA625]"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
             <CardTitle className="text-sm font-medium">Active Users</CardTitle>
             <div className="p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 transition-all duration-300">
@@ -439,13 +439,13 @@ export default function UsersManagement({
 
       {/* Main Card */}
       <Card className="shadow-md border-none overflow-hidden hover:shadow-lg transition-all duration-300">
-        <div className="h-1.5 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
-        <CardHeader className="pb-3 pt-5 bg-gradient-to-br from-white to-red-50/10">
+        <div className="h-1.5 w-full bg-[#C40001]"></div>
+        <CardHeader className="pb-3 pt-5 bg-white">
           <div className="flex flex-col lg:flex-row lg:justify-between space-y-4 lg:space-y-0 lg:items-center">
             <div>
               <CardTitle className="mb-1.5 font-bold text-gray-800">{title}</CardTitle>
               <CardDescription className="text-sm text-gray-500 flex items-center gap-1.5">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></span>
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#C40001]"></span>
                 {description}
               </CardDescription>
             </div>
@@ -501,38 +501,38 @@ export default function UsersManagement({
         <CardContent className="p-0 pb-4">
           
           {/* Tabs - Only show for All Users */}
-          {userType === "all" && (
+          {/* {userType === "all" && (
             <div className="px-4 pt-4">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <TabsList className="bg-white border shadow-sm rounded-md">
                   <TabsTrigger 
                     value="all"
-                    className={`${activeTab === "all" ? "bg-gradient-to-r from-red-50 to-red-100/50 text-[#C40503] shadow-sm" : ""} transition-all duration-300`}
+                    className={`${activeTab === "all" ? "bg-[#C40001]/10 text-[#C40001] shadow-sm" : ""} transition-all duration-300`}
                   >
                     All Users
                   </TabsTrigger>
                   <TabsTrigger 
                     value="admin"
-                    className={`${activeTab === "admin" ? "bg-gradient-to-r from-red-50 to-red-100/50 text-[#C40503] shadow-sm" : ""} transition-all duration-300`}
+                    className={`${activeTab === "admin" ? "bg-[#C40001]/10 text-[#C40001] shadow-sm" : ""} transition-all duration-300`}
                   >
                     Admins
                   </TabsTrigger>
                   <TabsTrigger 
                     value="teacher"
-                    className={`${activeTab === "teacher" ? "bg-gradient-to-r from-red-50 to-red-100/50 text-[#C40503] shadow-sm" : ""} transition-all duration-300`}
+                    className={`${activeTab === "teacher" ? "bg-[#C40001]/10 text-[#C40001] shadow-sm" : ""} transition-all duration-300`}
                   >
                     Teachers
                   </TabsTrigger>
                   <TabsTrigger 
                     value="student"
-                    className={`${activeTab === "student" ? "bg-gradient-to-r from-red-50 to-red-100/50 text-[#C40503] shadow-sm" : ""} transition-all duration-300`}
+                    className={`${activeTab === "student" ? "bg-[#C40001]/10 text-[#C40001] shadow-sm" : ""} transition-all duration-300`}
                   >
                     Students
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
-          )}
+          )} */}
           
           {/* Users Table */}
           <div className="px-4 pt-4 overflow-auto">
@@ -551,22 +551,26 @@ export default function UsersManagement({
                 <Table>
                   <TableHeader className="bg-gray-50/80">
                     <TableRow className="hover:bg-gray-50/90">
-                      <TableHead className="w-[250px] font-medium">User</TableHead>
-                      {userType === "all" && <TableHead className="font-medium">Role</TableHead>}
-                      <TableHead className="font-medium">Status</TableHead>
-                      <TableHead className="font-medium">Last Active</TableHead>
-                      <TableHead className="font-medium">Created</TableHead>
-                      <TableHead className="text-right font-medium">Actions</TableHead>
+                      <TableHead className="w-[60px] text-center font-medium text-gray-700">No</TableHead>
+                      <TableHead className="w-[280px] font-medium text-gray-700">User</TableHead>
+                      {userType === "all" && <TableHead className="w-[150px] font-medium text-gray-700">Role</TableHead>}
+                      <TableHead className="w-[120px] font-medium text-gray-700">Status</TableHead>
+                      <TableHead className="w-[140px] font-medium text-gray-700">Last Active</TableHead>
+                      <TableHead className="w-[120px] font-medium text-gray-700">Created</TableHead>
+                      <TableHead className="w-[120px] text-center font-medium text-gray-700">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredUsers.map((user) => (
+                    {filteredUsers.map((user, index) => (
                       <TableRow key={user.id} className="transition-colors hover:bg-gray-50/70">
+                        <TableCell className="text-center font-medium text-gray-600">
+                          {index + 1}
+                        </TableCell>
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-3">
                             <Avatar className="h-9 w-9 border border-gray-200 transition-transform hover:scale-110">
                               <AvatarImage src={user.avatar} alt={user.name} />
-                              <AvatarFallback className="bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white">
+                              <AvatarFallback className="bg-[#C40001] text-white">
                                 {user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase()}
                               </AvatarFallback>
                             </Avatar>
@@ -605,8 +609,8 @@ export default function UsersManagement({
                         
                         <TableCell>{formatDate(user.createdAt)}</TableCell>
                         
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
+                        <TableCell className="text-center">
+                          <div className="flex justify-center gap-2">
                             <Button
                               variant="ghost"
                               size="sm"

@@ -24,6 +24,7 @@ import {
   ShieldAlert,
   Key,
   Clock,
+  Plus,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -283,11 +284,11 @@ export default function RolesPermissionsList() {
   };
 
   return (
-    <div className="space-y-8 px-6 py-3 max-w-[90rem] mx-auto bg-gradient-to-b from-white to-gray-50/30">
+    <div className="space-y-8 px-6 py-3 max-w-[90rem] mx-auto bg-white">
       {/* Header with breadcrumbs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold text-[#C40001]">
             Roles & Permissions Management
           </h1>
           <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
@@ -306,8 +307,8 @@ export default function RolesPermissionsList() {
       
       {/* Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-red-50/20">
-          <div className="h-1.5 w-full bg-gradient-to-r from-[#C40503] to-[#C40503]/70"></div>
+        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-white">
+          <div className="h-1.5 w-full bg-[#C40001]"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
             <CardTitle className="text-sm font-medium">Total Roles</CardTitle>
             <div className="p-2.5 rounded-full bg-red-50 hover:bg-red-100 transition-all duration-300">
@@ -323,8 +324,8 @@ export default function RolesPermissionsList() {
           </CardContent>
         </Card>
         
-        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-gradient-to-br from-white to-amber-50/20">
-          <div className="h-1.5 w-full bg-gradient-to-r from-[#DAA625] to-[#DAA625]/70"></div>
+        <Card className="overflow-hidden border-none shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 bg-white">
+          <div className="h-1.5 w-full bg-[#DAA625]"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-4">
             <CardTitle className="text-sm font-medium">Total Permissions</CardTitle>
             <div className="p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 transition-all duration-300">
@@ -377,8 +378,8 @@ export default function RolesPermissionsList() {
 
       {/* Main Card with Tabs */}
       <Card className="shadow-md border-none overflow-hidden hover:shadow-lg transition-all duration-300">
-        <div className="h-1.5 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
-        <CardHeader className="pb-3 pt-5 bg-gradient-to-br from-white to-red-50/10">
+        <div className="h-1.5 w-full bg-[#C40001]"></div>
+        <CardHeader className="pb-3 pt-5 bg-white">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <CardTitle className="text-xl font-semibold flex items-center gap-2">
@@ -386,17 +387,29 @@ export default function RolesPermissionsList() {
                 Access Control
               </CardTitle>
               <CardDescription className="flex items-center gap-1.5 mt-1">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></span>
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#C40001]"></span>
                 Manage roles and permissions across the system
               </CardDescription>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button variant="outline" className="text-[#C40503] border-[#C40503]/20 hover:bg-[#C40503]/5">
-                <Download className="h-4 w-4 mr-2" />
-                Export Data
-              </Button>
-            </div>
+             <div className="flex flex-col sm:flex-row gap-3">
+               <Link href="/dashboard/users/roles/add">
+                 <Button className="bg-[#C40001] hover:bg-[#a30300] text-white">
+                   <Plus className="h-4 w-4 mr-2" />
+                   Create Role
+                 </Button>
+               </Link>
+               <Link href="/dashboard/users/roles/permissions/add">
+                 <Button variant="outline" className="text-[#DAA625] border-[#DAA625]/20 hover:bg-[#DAA625]/5">
+                   <Plus className="h-4 w-4 mr-2" />
+                   Create Permission
+                 </Button>
+               </Link>
+               <Button variant="outline" className="text-[#C40503] border-[#C40503]/20 hover:bg-[#C40503]/5">
+                 <Download className="h-4 w-4 mr-2" />
+                 Export Data
+               </Button>
+             </div>
           </div>
         </CardHeader>
         
@@ -406,13 +419,13 @@ export default function RolesPermissionsList() {
               <TabsList className="grid w-full grid-cols-2 shadow-sm">
                 <TabsTrigger 
                   value="roles" 
-                  className={`${activeTab === "roles" ? "bg-gradient-to-r from-[#C40503] to-[#C40503]/90 text-white shadow-sm" : ""} transition-all duration-300`}
+                  className={`${activeTab === "roles" ? "bg-[#DAA625] text-[#C40001] shadow-sm" : ""} transition-all duration-300`}
                 >
                   Roles
                 </TabsTrigger>
                 <TabsTrigger 
                   value="permissions" 
-                  className={`${activeTab === "permissions" ? "bg-gradient-to-r from-[#C40503] to-[#C40503]/90 text-white shadow-sm" : ""} transition-all duration-300`}
+                  className={`${activeTab === "permissions" ? "bg-[#C40001] text-[#C40001] shadow-sm" : ""} transition-all duration-300`}
                 >
                   Permissions
                 </TabsTrigger>
@@ -456,18 +469,22 @@ export default function RolesPermissionsList() {
                 ) : (
                   <div className="rounded-md border overflow-hidden">
                     <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="w-[200px]">Role Name</TableHead>
-                          <TableHead>Description</TableHead>
-                          <TableHead>Users</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead className="text-right">Actions</TableHead>
+                      <TableHeader className="bg-gray-50/80">
+                        <TableRow className="hover:bg-gray-50/90">
+                          <TableHead className="w-[60px] text-center font-medium text-gray-700">No</TableHead>
+                          <TableHead className="w-[200px] font-medium text-gray-700">Role Name</TableHead>
+                          <TableHead className="w-[300px] font-medium text-gray-700">Description</TableHead>
+                          <TableHead className="w-[120px] font-medium text-gray-700">Users</TableHead>
+                          <TableHead className="w-[120px] font-medium text-gray-700">Status</TableHead>
+                          <TableHead className="w-[120px] text-center font-medium text-gray-700">Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {filteredRoles.map((role) => (
-                          <TableRow key={role.id}>
+                        {filteredRoles.map((role, index) => (
+                          <TableRow key={role.id} className="transition-colors hover:bg-gray-50/70">
+                            <TableCell className="text-center font-medium text-gray-600">
+                              {index + 1}
+                            </TableCell>
                             <TableCell className="font-medium">
                               <div className="flex items-center gap-2">
                                 {role.name === "Super Admin" ? (
@@ -504,8 +521,8 @@ export default function RolesPermissionsList() {
                               )}
                             </TableCell>
                             
-                            <TableCell className="text-right">
-                              <div className="flex justify-end gap-2">
+                            <TableCell className="text-center">
+                              <div className="flex justify-center gap-2">
                                 <Button
                                   variant="ghost"
                                   size="sm"
@@ -514,14 +531,15 @@ export default function RolesPermissionsList() {
                                 >
                                   <Eye className="h-4 w-4 text-gray-500" />
                                 </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-8 w-8 p-0"
-                                  onClick={() => handleRoleEdit(role)}
-                                >
-                                  <Edit2 className="h-4 w-4 text-[#DAA625]" />
-                                </Button>
+                                 <Link href={`/dashboard/users/roles/edit/${role.id}`}>
+                                   <Button
+                                     variant="ghost"
+                                     size="sm"
+                                     className="h-8 w-8 p-0"
+                                   >
+                                     <Edit2 className="h-4 w-4 text-[#DAA625]" />
+                                   </Button>
+                                 </Link>
                                 <Button
                                   variant="ghost"
                                   size="sm"
@@ -615,55 +633,7 @@ export default function RolesPermissionsList() {
                 </div>
               </div>
               
-              {/* Permissions List by Category */}
-              <div className="px-4 pt-6 space-y-6">
-                <h3 className="text-lg font-medium mb-2">Permission Details</h3>
-                {Object.entries(permissionsByCategory).map(([category, perms]) => (
-                  <Card key={category} className="shadow-sm border">
-                    <CardHeader className="bg-gray-50 py-3">
-                      <CardTitle className="text-sm font-medium flex items-center gap-2">
-                        <Key className="h-4 w-4 text-[#DAA625]" />
-                        {category}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                      <div className="divide-y divide-gray-100">
-                        {perms.map((permission) => (
-                          <div key={permission.id} className="p-4 hover:bg-gray-50">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <div className="font-medium text-gray-900 flex items-center gap-2">
-                                  {permission.name}
-                                  <code className="text-xs bg-gray-100 px-2 py-0.5 rounded text-gray-700">
-                                    {permission.code}
-                                  </code>
-                                </div>
-                                <div className="text-sm text-gray-600 mt-1">{permission.description}</div>
-                                <div className="flex flex-wrap gap-1 mt-2">
-                                  {roles.filter(r => r.permissions.includes(permission.id)).map(r => (
-                                    <Badge key={r.id} className="bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200 hover:text-gray-900 transition-colors">
-                                      {r.name}
-                                    </Badge>
-                                  ))}
-                                </div>
-                              </div>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-8 p-0 px-2"
-                                onClick={() => handlePermissionEdit(permission)}
-                              >
-                                <Edit2 className="h-4 w-4 mr-1 text-[#DAA625]" />
-                                Edit
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+
             </TabsContent>
           </Tabs>
         </CardContent>

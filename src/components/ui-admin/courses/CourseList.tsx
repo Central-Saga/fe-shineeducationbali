@@ -29,7 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Pencil, Trash, Eye } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 
 export function CourseList() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -39,6 +39,8 @@ export function CourseList() {
   const [selectedLevel, setSelectedLevel] = useState("all");
   const [selectedTeacher, setSelectedTeacher] = useState("all");
   const [filteredCourses, setFilteredCourses] = useState(coursesData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Get unique teacher list
   const teachers = useMemo(() => {
@@ -77,18 +79,30 @@ export function CourseList() {
     }
 
     setFilteredCourses(filtered);
+    setCurrentPage(1); // Reset to first page when filters change
   }, [searchQuery, selectedCategory, selectedLevel, selectedTeacher]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentCourses = filteredCourses.slice(startIndex, endIndex);
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Daftar Kursus</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-[#C40001]">Daftar Kursus</h2>
           <p className="text-muted-foreground">
             Kelola kursus dan program pembelajaran
           </p>
         </div>
-        <Button onClick={() => setDialogOpen(true)}>Tambah Kursus</Button>
+        <Button 
+          onClick={() => setDialogOpen(true)}
+          className="bg-[#C40001] hover:bg-[#a30300] text-white"
+        >
+          Tambah Kursus
+        </Button>
       </div>
 
       <div className="flex flex-col md:flex-row gap-4">
@@ -142,21 +156,25 @@ export function CourseList() {
 
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">Kode</TableHead>
-              <TableHead className="min-w-[200px]">Nama Kursus</TableHead>
-              <TableHead className="min-w-[150px]">Kategori</TableHead>
-              <TableHead className="min-w-[120px]">Level</TableHead>
-              <TableHead className="min-w-[200px]">Pengajar</TableHead>
-              <TableHead className="w-[100px]">Kapasitas</TableHead>
-              <TableHead className="w-[100px]">Status</TableHead>
-              <TableHead className="w-[70px]">Aksi</TableHead>
+          <TableHeader className="bg-gray-50/80">
+            <TableRow className="hover:bg-gray-50/90">
+              <TableHead className="w-[60px] text-center font-medium text-gray-700">No</TableHead>
+              <TableHead className="w-[100px] font-medium text-gray-700">Kode</TableHead>
+              <TableHead className="min-w-[200px] font-medium text-gray-700">Nama Kursus</TableHead>
+              <TableHead className="min-w-[150px] font-medium text-gray-700">Kategori</TableHead>
+              <TableHead className="min-w-[120px] font-medium text-gray-700">Level</TableHead>
+              <TableHead className="min-w-[200px] font-medium text-gray-700">Pengajar</TableHead>
+              <TableHead className="w-[100px] font-medium text-gray-700">Kapasitas</TableHead>
+              <TableHead className="w-[100px] font-medium text-gray-700">Status</TableHead>
+              <TableHead className="w-[70px] text-center font-medium text-gray-700">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredCourses.map((course) => (
-              <TableRow key={course.id}>
+            {currentCourses.map((course, index) => (
+              <TableRow key={course.id} className="transition-colors hover:bg-gray-50/70">
+                <TableCell className="text-center font-medium text-gray-600">
+                  {index + 1}
+                </TableCell>
                 <TableCell>{`COURSE${String(course.id).padStart(
                   3,
                   "0"
@@ -224,6 +242,92 @@ export function CourseList() {
           </TableBody>
         </Table>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between px-2 py-4">
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-gray-500">
+              Menampilkan {startIndex + 1} sampai {Math.min(endIndex, filteredCourses.length)} dari {filteredCourses.length} kursus
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-500">Tampilkan:</span>
+              <Select value={itemsPerPage.toString()} onValueChange={(value) => {
+                setItemsPerPage(Number(value));
+                setCurrentPage(1);
+              }}>
+                <SelectTrigger className="w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="25">25</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+            >
+              <ChevronLeft className="h-4 w-4 mr-1" />
+              Previous
+            </Button>
+            <div className="flex items-center space-x-1">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                const page = i + 1;
+                return (
+                  <Button
+                    key={page}
+                    variant={currentPage === page ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setCurrentPage(page)}
+                    className={
+                      currentPage === page
+                        ? "bg-[#C40001] hover:bg-[#a30300] text-white"
+                        : "text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+                    }
+                  >
+                    {page}
+                  </Button>
+                );
+              })}
+              {totalPages > 5 && (
+                <>
+                  <span className="text-gray-500">...</span>
+                  <Button
+                    variant={currentPage === totalPages ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setCurrentPage(totalPages)}
+                    className={
+                      currentPage === totalPages
+                        ? "bg-[#C40001] hover:bg-[#a30300] text-white"
+                        : "text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+                    }
+                  >
+                    {totalPages}
+                  </Button>
+                </>
+              )}
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+            >
+              Next
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

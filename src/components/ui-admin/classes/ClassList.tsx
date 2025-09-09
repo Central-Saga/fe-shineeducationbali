@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, Search, MoreHorizontal, Users, Calendar, BookOpen, GraduationCap } from "lucide-react";
+import { PlusCircle, Search, MoreHorizontal, Users, Calendar, BookOpen, GraduationCap, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 // Dummy type, replace with your actual type
@@ -33,6 +33,8 @@ export function ClassList() {
   const [classes, setClasses] = useState<Class[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     // Dummy data, replace with API call
@@ -72,6 +74,17 @@ export function ClassList() {
       cls.teacher_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       cls.course_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredClasses.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentClasses = filteredClasses.slice(startIndex, endIndex);
+
+  // Reset to first page when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   const getStatusBadge = (status: string) => {
     const variants: any = {
@@ -116,26 +129,26 @@ export function ClassList() {
           </div>
         </div>
         <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
-          <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+          <div className="h-1 w-full bg-[#C40001]"></div>
           <div className="p-6 flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-500">Total Siswa</p>
               <p className="text-2xl font-bold mt-1">{classes.reduce((a, c) => a + c.current_enrollment, 0)}</p>
             </div>
-            <div className="p-3 rounded-full bg-orange-50">
-              <Users className="h-5 w-5 text-orange-500" />
+            <div className="p-3 rounded-full bg-red-50">
+              <Users className="h-5 w-5 text-[#C40001]" />
             </div>
           </div>
         </div>
         <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
-          <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
+          <div className="h-1 w-full bg-[#DAA625]"></div>
           <div className="p-6 flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-500">Kapasitas Total</p>
               <p className="text-2xl font-bold mt-1">{classes.reduce((a, c) => a + c.capacity, 0)}</p>
             </div>
-            <div className="p-3 rounded-full bg-blue-50">
-              <GraduationCap className="h-5 w-5 text-blue-500" />
+            <div className="p-3 rounded-full bg-amber-50">
+              <GraduationCap className="h-5 w-5 text-[#DAA625]" />
             </div>
           </div>
         </div>
@@ -156,21 +169,22 @@ export function ClassList() {
           </div>
         </div>
         <Table>
-          <TableHeader className="bg-gray-50">
-            <TableRow>
-              <TableHead className="font-medium">Nama Kelas</TableHead>
-              <TableHead className="font-medium">Kursus/Program</TableHead>
-              <TableHead className="font-medium">Pengajar</TableHead>
-              <TableHead className="font-medium">Jadwal</TableHead>
-              <TableHead className="font-medium">Kapasitas</TableHead>
-              <TableHead className="font-medium">Status</TableHead>
-              <TableHead className="font-medium text-right">Aksi</TableHead>
+          <TableHeader className="bg-gray-50/80">
+            <TableRow className="hover:bg-gray-50/90">
+              <TableHead className="w-[60px] text-center font-medium text-gray-700">No</TableHead>
+              <TableHead className="w-[200px] font-medium text-gray-700">Nama Kelas</TableHead>
+              <TableHead className="w-[180px] font-medium text-gray-700">Kursus/Program</TableHead>
+              <TableHead className="w-[150px] font-medium text-gray-700">Pengajar</TableHead>
+              <TableHead className="w-[180px] font-medium text-gray-700">Jadwal</TableHead>
+              <TableHead className="w-[120px] font-medium text-gray-700">Kapasitas</TableHead>
+              <TableHead className="w-[100px] font-medium text-gray-700">Status</TableHead>
+              <TableHead className="w-[120px] text-center font-medium text-gray-700">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredClasses.length === 0 ? (
+            {currentClasses.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-10 text-gray-500">
+                <TableCell colSpan={8} className="text-center py-10 text-gray-500">
                   <div className="flex flex-col items-center justify-center">
                     <BookOpen className="h-12 w-12 text-gray-300 mb-3" />
                     <p>Tidak ada kelas yang ditemukan</p>
@@ -179,8 +193,11 @@ export function ClassList() {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredClasses.map((classData) => (
-                <TableRow key={classData.id} className="hover:bg-gray-50">
+              currentClasses.map((classData, index) => (
+                <TableRow key={classData.id} className="transition-colors hover:bg-gray-50/70">
+                  <TableCell className="text-center font-medium text-gray-600">
+                    {index + 1}
+                  </TableCell>
                   <TableCell>
                     <div>
                       <Link href={`/dashboard/class/${classData.id}`} className="font-medium text-[#C40503] hover:underline">
@@ -261,8 +278,8 @@ export function ClassList() {
                       </Badge>
                     )}
                   </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end items-center gap-2">
+                  <TableCell className="text-center">
+                    <div className="flex justify-center items-center gap-2">
                       <Link href={`/dashboard/class/edit/${classData.id}`}>
                         <Button 
                           variant="outline" 
@@ -293,6 +310,91 @@ export function ClassList() {
           </TableBody>
         </Table>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between px-2 py-4">
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-gray-500">
+              Menampilkan {startIndex + 1} sampai {Math.min(endIndex, filteredClasses.length)} dari {filteredClasses.length} kelas
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-500">Tampilkan:</span>
+              <select 
+                value={itemsPerPage} 
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="border border-gray-300 rounded-md px-2 py-1 text-sm"
+              >
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+            >
+              <ChevronLeft className="h-4 w-4 mr-1" />
+              Previous
+            </Button>
+            <div className="flex items-center space-x-1">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                const page = i + 1;
+                return (
+                  <Button
+                    key={page}
+                    variant={currentPage === page ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setCurrentPage(page)}
+                    className={
+                      currentPage === page
+                        ? "bg-[#C40001] hover:bg-[#a30300] text-white"
+                        : "text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+                    }
+                  >
+                    {page}
+                  </Button>
+                );
+              })}
+              {totalPages > 5 && (
+                <>
+                  <span className="text-gray-500">...</span>
+                  <Button
+                    variant={currentPage === totalPages ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setCurrentPage(totalPages)}
+                    className={
+                      currentPage === totalPages
+                        ? "bg-[#C40001] hover:bg-[#a30300] text-white"
+                        : "text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+                    }
+                  >
+                    {totalPages}
+                  </Button>
+                </>
+              )}
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+            >
+              Next
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -646,24 +646,28 @@ export default function UserList({
             ) : (
               <div className="rounded-md border overflow-hidden">
                 <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[250px]">User</TableHead>
-                      {userType === "all" && <TableHead>Role</TableHead>}
-                      <TableHead>Status</TableHead>
-                      <TableHead>Last Active</TableHead>
-                      <TableHead>Created</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                  <TableHeader className="bg-gray-50/80">
+                    <TableRow className="hover:bg-gray-50/90">
+                      <TableHead className="w-[60px] text-center font-medium text-gray-700">No</TableHead>
+                      <TableHead className="w-[280px] font-medium text-gray-700">User</TableHead>
+                      {userType === "all" && <TableHead className="w-[150px] font-medium text-gray-700">Role</TableHead>}
+                      <TableHead className="w-[120px] font-medium text-gray-700">Status</TableHead>
+                      <TableHead className="w-[140px] font-medium text-gray-700">Last Active</TableHead>
+                      <TableHead className="w-[120px] font-medium text-gray-700">Created</TableHead>
+                      <TableHead className="w-[120px] text-center font-medium text-gray-700">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredUsers.map((user) => (
-                      <TableRow key={user.id}>
+                    {filteredUsers.map((user, index) => (
+                      <TableRow key={user.id} className="transition-colors hover:bg-gray-50/70">
+                        <TableCell className="text-center font-medium text-gray-600">
+                          {index + 1}
+                        </TableCell>
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-3">
                             <Avatar className="h-9 w-9 border border-gray-200">
                               <AvatarImage src={user.avatar} alt={user.name} />
-                              <AvatarFallback className="bg-gradient-to-r from-[#C40503] to-[#DAA625] text-white">
+                              <AvatarFallback className="bg-[#C40001] text-white">
                                 {user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase()}
                               </AvatarFallback>
                             </Avatar>
@@ -702,8 +706,8 @@ export default function UserList({
                         
                         <TableCell>{formatDate(user.createdAt)}</TableCell>
                         
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
+                        <TableCell className="text-center">
+                          <div className="flex justify-center gap-2">
                             <Button
                               variant="ghost"
                               size="sm"

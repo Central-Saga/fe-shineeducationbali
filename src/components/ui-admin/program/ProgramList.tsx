@@ -189,11 +189,11 @@ export default function ProgramList() {
           </CardContent>
         </Card>
         <Card className="overflow-hidden border-none shadow-md">
-          <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+          <div className="h-1 w-full bg-[#C40001]"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
             <CardTitle className="text-sm font-medium">Total Guru</CardTitle>
-            <div className="p-2 rounded-full bg-orange-50">
-              <GraduationCap className="h-4 w-4 text-orange-600" />
+            <div className="p-2 rounded-full bg-red-50">
+              <GraduationCap className="h-4 w-4 text-[#C40001]" />
             </div>
           </CardHeader>
           <CardContent>
@@ -203,11 +203,11 @@ export default function ProgramList() {
           </CardContent>
         </Card>
         <Card className="overflow-hidden border-none shadow-md">
-          <div className="h-1 w-full bg-gradient-to-r from-[#DAA625] to-[#C40503]"></div>
+          <div className="h-1 w-full bg-[#DAA625]"></div>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 py-3">
             <CardTitle className="text-sm font-medium">Total Kursus</CardTitle>
-            <div className="p-2 rounded-full bg-rose-50">
-              <BookOpen className="h-4 w-4 text-rose-600" />
+            <div className="p-2 rounded-full bg-amber-50">
+              <BookOpen className="h-4 w-4 text-[#DAA625]" />
             </div>
           </CardHeader>
           <CardContent>
@@ -230,7 +230,7 @@ export default function ProgramList() {
           filteredPrograms.map((p) => (
             <Card key={p.id} className="group overflow-hidden border-none shadow-md hover:shadow-lg transition-all duration-300">
               {/* Program Banner */}
-              <div className="h-1 w-full bg-gradient-to-r from-[#C40503] to-[#DAA625]"></div>
+              <div className="h-1 w-full bg-[#C40001]"></div>
               
               {/* Program Image */}
               <div className="relative aspect-[16/9] overflow-hidden">

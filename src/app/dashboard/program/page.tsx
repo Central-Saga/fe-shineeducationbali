@@ -10,7 +10,7 @@ export default function ProgramPage() {
     <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-lg shadow-sm border border-gray-100">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#C40001]">
             Katalog Program
           </h2>
           <p className="text-gray-500 mt-1">
@@ -27,7 +27,7 @@ export default function ProgramPage() {
               className="pl-10 w-full md:w-64" 
             />
           </div>
-          <Button className="bg-[#C40503] hover:bg-[#A60000] text-white">
+          <Button className="bg-[#C40001] hover:bg-[#a30300] text-white">
             <PlusCircle className="h-4 w-4 mr-2" />
             Tambah Program
           </Button>

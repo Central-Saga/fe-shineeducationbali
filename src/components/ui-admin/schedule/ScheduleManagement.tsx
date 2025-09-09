@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,8 @@ import {
   PencilIcon,
   Plus,
   MoreHorizontal,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -34,9 +36,62 @@ import { Badge } from "@/components/ui/badge";
 
 const ScheduleManagement = () => {
   const [schedules, setSchedules] = useState<Schedule[]>(scheduleData);
+  const [filteredSchedules, setFilteredSchedules] = useState<Schedule[]>(scheduleData);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [levelFilter, setLevelFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const router = useRouter();
 
+  // Filter and pagination logic
+  useEffect(() => {
+    let filtered = schedules;
+
+    // Search filter
+    if (searchQuery) {
+      filtered = filtered.filter(
+        (schedule) =>
+          schedule.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          schedule.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          schedule.education_level.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Type filter
+    if (typeFilter !== "all") {
+      filtered = filtered.filter((schedule) => schedule.schedule_type === typeFilter);
+    }
+
+    // Level filter
+    if (levelFilter !== "all") {
+      filtered = filtered.filter((schedule) => schedule.education_level === levelFilter);
+    }
+
+    // Status filter
+    if (statusFilter !== "all") {
+      filtered = filtered.filter((schedule) => schedule.status === statusFilter);
+    }
+
+    setFilteredSchedules(filtered);
+    setCurrentPage(1); // Reset to first page when filters change
+  }, [schedules, searchQuery, typeFilter, levelFilter, statusFilter]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredSchedules.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentSchedules = filteredSchedules.slice(startIndex, endIndex);
+
   const columns: ColumnDef<Schedule>[] = [
+    {
+      id: "no",
+      header: "No",
+      cell: ({ row }) => {
+        return <div className="text-center font-medium text-gray-600">{row.index + 1}</div>;
+      },
+    },
     {
       accessorKey: "id",
       header: "ID Jadwal",
@@ -144,10 +199,13 @@ const ScheduleManagement = () => {
   ];
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight">Manajemen Jadwal</h2>
-        <Button onClick={() => router.push("/dashboard/schedule/create")}>
+        <h2 className="text-3xl font-bold tracking-tight text-[#C40001]">Manajemen Jadwal</h2>
+        <Button 
+          onClick={() => router.push("/dashboard/schedule/create")}
+          className="bg-[#C40001] hover:bg-[#a30300] text-white"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Tambah Jadwal
         </Button>
@@ -156,7 +214,7 @@ const ScheduleManagement = () => {
       <Card className="p-6">
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Select>
+             <Select value={typeFilter} onValueChange={setTypeFilter}>
               <SelectTrigger>
                 <SelectValue placeholder="Filter Tipe" />
               </SelectTrigger>
@@ -169,7 +227,7 @@ const ScheduleManagement = () => {
               </SelectContent>
             </Select>
 
-            <Select>
+             <Select value={levelFilter} onValueChange={setLevelFilter}>
               <SelectTrigger>
                 <SelectValue placeholder="Filter Jenjang" />
               </SelectTrigger>
@@ -181,7 +239,7 @@ const ScheduleManagement = () => {
               </SelectContent>
             </Select>
 
-            <Select>
+             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger>
                 <SelectValue placeholder="Filter Status" />
               </SelectTrigger>
@@ -198,11 +256,99 @@ const ScheduleManagement = () => {
                 placeholder="Cari jadwal..."
                 type="search"
                 className="w-full"
+                 value={searchQuery}
+                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
 
-          <DataTable columns={columns} data={schedules} />
+           <DataTable columns={columns} data={currentSchedules} />
+           
+           {/* Pagination */}
+           {totalPages > 1 && (
+             <div className="flex items-center justify-between px-2 py-4">
+               <div className="flex items-center gap-4">
+                 <div className="text-sm text-gray-500">
+                   Menampilkan {startIndex + 1} sampai {Math.min(endIndex, filteredSchedules.length)} dari {filteredSchedules.length} jadwal
+                 </div>
+                 <div className="flex items-center gap-2">
+                   <span className="text-sm text-gray-500">Tampilkan:</span>
+                   <Select value={itemsPerPage.toString()} onValueChange={(value) => {
+                     setItemsPerPage(Number(value));
+                     setCurrentPage(1);
+                   }}>
+                     <SelectTrigger className="w-20">
+                       <SelectValue />
+                     </SelectTrigger>
+                     <SelectContent>
+                       <SelectItem value="10">10</SelectItem>
+                       <SelectItem value="25">25</SelectItem>
+                       <SelectItem value="50">50</SelectItem>
+                     </SelectContent>
+                   </Select>
+                 </div>
+               </div>
+               <div className="flex items-center space-x-2">
+                 <Button
+                   variant="outline"
+                   size="sm"
+                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                   disabled={currentPage === 1}
+                   className="text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+                 >
+                   <ChevronLeft className="h-4 w-4 mr-1" />
+                   Previous
+                 </Button>
+                 <div className="flex items-center space-x-1">
+                   {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                     const page = i + 1;
+                     return (
+                       <Button
+                         key={page}
+                         variant={currentPage === page ? "default" : "outline"}
+                         size="sm"
+                         onClick={() => setCurrentPage(page)}
+                         className={
+                           currentPage === page
+                             ? "bg-[#C40001] hover:bg-[#a30300] text-white"
+                             : "text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+                         }
+                       >
+                         {page}
+                       </Button>
+                     );
+                   })}
+                   {totalPages > 5 && (
+                     <>
+                       <span className="text-gray-500">...</span>
+                       <Button
+                         variant={currentPage === totalPages ? "default" : "outline"}
+                         size="sm"
+                         onClick={() => setCurrentPage(totalPages)}
+                         className={
+                           currentPage === totalPages
+                             ? "bg-[#C40001] hover:bg-[#a30300] text-white"
+                             : "text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+                         }
+                       >
+                         {totalPages}
+                       </Button>
+                     </>
+                   )}
+                 </div>
+                 <Button
+                   variant="outline"
+                   size="sm"
+                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                   disabled={currentPage === totalPages}
+                   className="text-[#C40001] border-[#C40001]/20 hover:bg-[#C40001]/5"
+                 >
+                   Next
+                   <ChevronRight className="h-4 w-4 ml-1" />
+                 </Button>
+               </div>
+             </div>
+           )}
         </div>
       </Card>
     </div>

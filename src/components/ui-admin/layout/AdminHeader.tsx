@@ -47,13 +47,13 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 bg-white px-6 shadow-md">
       <div className="flex flex-1 items-center gap-4">
         <Link href="/dashboard" className="lg:hidden">
-          <h1 className="text-xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold text-[#C40001]">
             Shine Education
           </h1>
         </Link>
         
         <div className="hidden md:flex items-center gap-3 ml-4">
-          <div className="bg-gradient-to-r from-green-50 to-green-100 px-4 py-1.5 rounded-full border border-green-200 text-sm text-green-700 flex items-center gap-2">
+          <div className="bg-green-50 px-4 py-1.5 rounded-full border border-green-200 text-sm text-green-700 flex items-center gap-2">
             <span className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></span>
             <span>System Status: Normal</span>
           </div>
@@ -92,7 +92,7 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
             <Button variant="ghost" className="relative flex items-center gap-3 rounded-full pl-2 pr-4 hover:bg-gray-100">
               <Avatar className="h-10 w-10 border-2 border-[#DAA625] ring-2 ring-gray-100">
                 <AvatarImage src="/avatars/admin.png" alt={userData?.nama || 'User'} />
-                <AvatarFallback className="bg-gradient-to-br from-[#C40503] to-[#DAA625] text-white">
+                <AvatarFallback className="bg-[#C40001] text-white">
                   {userData ? getInitials(userData.nama) : 'A'}
                 </AvatarFallback>
               </Avatar>
@@ -107,7 +107,7 @@ export function AdminHeader({ onLogout }: AdminHeaderProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-60" align="end" forceMount>
             <div className="flex items-center gap-2 p-2 border-b">
-              <div className="bg-gradient-to-r from-[#C40503] to-[#DAA625] w-1 h-4 rounded-full"></div>
+              <div className="bg-[#C40001] w-1 h-4 rounded-full"></div>
               <div className="font-medium">User Menu</div>
             </div>
             <div className="p-2 bg-gray-50">

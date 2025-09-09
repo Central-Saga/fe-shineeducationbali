@@ -153,7 +153,7 @@ export default function RolesManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="border-none shadow-md bg-gradient-to-br from-[#C40503] to-[#ef4444] text-white">
+        <Card className="border-none shadow-md bg-[#C40001] text-white">
           <CardHeader className="pb-2 pt-6">
             <CardTitle className="text-lg font-medium flex items-center gap-2">
               <Users className="h-5 w-5" />
@@ -166,7 +166,7 @@ export default function RolesManagement() {
           </CardContent>
         </Card>
         
-        <Card className="border-none shadow-md bg-gradient-to-br from-[#DAA625] to-[#fbbf24] text-white">
+        <Card className="border-none shadow-md bg-[#DAA625] text-white">
           <CardHeader className="pb-2 pt-6">
             <CardTitle className="text-lg font-medium flex items-center gap-2">
               <LockKeyhole className="h-5 w-5" />
@@ -179,7 +179,7 @@ export default function RolesManagement() {
           </CardContent>
         </Card>
         
-        <Card className="border-none shadow-md bg-gradient-to-br from-purple-600 to-purple-700 text-white">
+        <Card className="border-none shadow-md bg-purple-600 text-white">
           <CardHeader className="pb-2 pt-6">
             <CardTitle className="text-lg font-medium flex items-center gap-2">
               <Shield className="h-5 w-5" />
