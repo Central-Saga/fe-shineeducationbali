@@ -12,7 +12,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, Search, MoreHorizontal, Users, Calendar, BookOpen, GraduationCap, ChevronLeft, ChevronRight } from "lucide-react";
+import { PlusCircle, Search, MoreHorizontal, Users, Calendar, BookOpen, GraduationCap, ChevronLeft, ChevronRight, UserPlus, Clock, Filter } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Link from "next/link";
 
 // Dummy type, replace with your actual type
@@ -35,6 +42,7 @@ export function ClassList() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [statusFilter, setStatusFilter] = useState("all");
 
   useEffect(() => {
     // Dummy data, replace with API call
@@ -70,9 +78,10 @@ export function ClassList() {
 
   const filteredClasses = classes.filter(
     (cls) =>
-      cls.class_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (cls.class_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       cls.teacher_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cls.course_name.toLowerCase().includes(searchTerm.toLowerCase())
+      cls.course_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (statusFilter === "all" || cls.status === statusFilter.toUpperCase())
   );
 
   // Pagination calculations
@@ -81,10 +90,10 @@ export function ClassList() {
   const endIndex = startIndex + itemsPerPage;
   const currentClasses = filteredClasses.slice(startIndex, endIndex);
 
-  // Reset to first page when search changes
+  // Reset to first page when search or filter changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+  }, [searchTerm, statusFilter]);
 
   const getStatusBadge = (status: string) => {
     const variants: any = {
@@ -100,75 +109,156 @@ export function ClassList() {
     return <div className="flex justify-center p-8">Loading...</div>;
   }
 
+  // Calculate statistics
+  const totalClasses = classes.length;
+  const activeClasses = classes.filter(cls => cls.status === "ACTIVE").length;
+  const newClasses = classes.filter(cls => {
+    // Mock: classes created in last 30 days
+    return Math.random() > 0.7; // Random for demo
+  }).length;
+  const pendingClasses = classes.filter(cls => cls.status === "DRAFT").length;
+
   return (
-    <div className="space-y-6">
-      {/* Class statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-[#C40001]">Class Management</h1>
+          <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
+            <span>Dashboard</span>
+            <span className="text-gray-400">/</span>
+            <span>Class Management</span>
+          </div>
+        </div>
+        <Link href="/dashboard/class/add">
+          <Button className="bg-[#C40001] hover:bg-[#a30300] text-white">
+            <UserPlus className="h-4 w-4 mr-2" />
+            Add New Class
+          </Button>
+        </Link>
+      </div>
+
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
-          <div className="h-1 w-full bg-[#C40503]"></div>
+          <div className="h-1 w-full bg-[#C40001]"></div>
           <div className="p-6 flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Total Kelas</p>
-              <p className="text-2xl font-bold mt-1">{classes.length}</p>
+              <p className="text-sm font-medium text-gray-500">Total Classes</p>
+              <p className="text-2xl font-bold mt-1">{totalClasses}</p>
+              <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-2 w-2 rounded-full bg-[#C40001]"></span>
+                Total class accounts
+              </div>
             </div>
             <div className="p-3 rounded-full bg-red-50">
-              <Calendar className="h-5 w-5 text-[#C40503]" />
+              <Calendar className="h-5 w-5 text-[#C40001]" />
             </div>
           </div>
         </div>
+
         <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
           <div className="h-1 w-full bg-[#DAA625]"></div>
           <div className="p-6 flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Kelas Aktif</p>
-              <p className="text-2xl font-bold mt-1">{classes.filter(c => c.status === "ACTIVE").length}</p>
+              <p className="text-sm font-medium text-gray-500">Active Classes</p>
+              <p className="text-2xl font-bold mt-1">{activeClasses}</p>
+              <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-2 w-2 rounded-full bg-[#DAA625]"></span>
+                {Math.round((activeClasses / totalClasses) * 100)}% of classes are active
+              </div>
             </div>
             <div className="p-3 rounded-full bg-amber-50">
               <BookOpen className="h-5 w-5 text-[#DAA625]" />
             </div>
           </div>
         </div>
+
         <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
-          <div className="h-1 w-full bg-[#C40001]"></div>
+          <div className="h-1 w-full bg-blue-600"></div>
           <div className="p-6 flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Total Siswa</p>
-              <p className="text-2xl font-bold mt-1">{classes.reduce((a, c) => a + c.current_enrollment, 0)}</p>
+              <p className="text-sm font-medium text-gray-500">New Classes (30d)</p>
+              <p className="text-2xl font-bold mt-1">{newClasses}</p>
+              <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-2 w-2 rounded-full bg-blue-600"></span>
+                {Math.round((newClasses / totalClasses) * 100)}% growth in 30 days
+              </div>
             </div>
-            <div className="p-3 rounded-full bg-red-50">
-              <Users className="h-5 w-5 text-[#C40001]" />
+            <div className="p-3 rounded-full bg-blue-50">
+              <UserPlus className="h-5 w-5 text-blue-600" />
             </div>
           </div>
         </div>
+
         <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
-          <div className="h-1 w-full bg-[#DAA625]"></div>
+          <div className="h-1 w-full bg-purple-600"></div>
           <div className="p-6 flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Kapasitas Total</p>
-              <p className="text-2xl font-bold mt-1">{classes.reduce((a, c) => a + c.capacity, 0)}</p>
+              <p className="text-sm font-medium text-gray-500">Pending Classes</p>
+              <p className="text-2xl font-bold mt-1">{pendingClasses}</p>
+              <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-2 w-2 rounded-full bg-purple-600"></span>
+                Classes waiting for approval
+              </div>
             </div>
-            <div className="p-3 rounded-full bg-amber-50">
-              <GraduationCap className="h-5 w-5 text-[#DAA625]" />
+            <div className="p-3 rounded-full bg-purple-50">
+              <Clock className="h-5 w-5 text-purple-600" />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Classes Table */}
+      {/* Class Management Section */}
       <div className="bg-white rounded-lg border shadow-sm">
-        <div className="p-4 border-b flex justify-between items-center">
-          <h3 className="font-semibold text-lg">Daftar Kelas</h3>
-          <div className="relative w-64">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              placeholder="Cari kelas..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
+        <div className="h-1 w-full bg-[#C40001]"></div>
+        <div className="p-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-xl font-semibold text-[#C40001]">Class Management</h2>
+              <div className="text-sm text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#C40001]"></span>
+                Manage all class accounts in the system
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Input
+                placeholder="Search classes by name, teacher..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+            <div className="flex gap-4 flex-wrap">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder="All Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="ACTIVE">Active</SelectItem>
+                  <SelectItem value="INACTIVE">Inactive</SelectItem>
+                  <SelectItem value="COMPLETED">Completed</SelectItem>
+                  <SelectItem value="DRAFT">Draft</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button variant="outline" size="icon" className="h-10 w-10">
+                <Filter className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
-        <Table>
+      </div>
+
+      {/* Class Table Section */}
+      <div className="bg-white rounded-lg border shadow-sm">
+        <div className="p-6">
+          <div className="rounded-md border">
+            <Table>
           <TableHeader className="bg-gray-50/80">
             <TableRow className="hover:bg-gray-50/90">
               <TableHead className="w-[60px] text-center font-medium text-gray-700">No</TableHead>
@@ -308,7 +398,9 @@ export function ClassList() {
               ))
             )}
           </TableBody>
-        </Table>
+            </Table>
+          </div>
+        </div>
       </div>
 
       {/* Pagination */}

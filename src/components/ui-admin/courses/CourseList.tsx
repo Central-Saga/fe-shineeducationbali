@@ -29,7 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Pencil, Trash, Eye, ChevronLeft, ChevronRight } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash, Eye, ChevronLeft, ChevronRight, BookOpen, Users, UserPlus, Clock, Search, Filter } from "lucide-react";
 
 export function CourseList() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -38,6 +38,7 @@ export function CourseList() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedLevel, setSelectedLevel] = useState("all");
   const [selectedTeacher, setSelectedTeacher] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [filteredCourses, setFilteredCourses] = useState(coursesData);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -78,9 +79,16 @@ export function CourseList() {
       );
     }
 
+    // Status filter
+    if (statusFilter !== "all") {
+      filtered = filtered.filter(
+        (course) => course.status === statusFilter.toUpperCase()
+      );
+    }
+
     setFilteredCourses(filtered);
     setCurrentPage(1); // Reset to first page when filters change
-  }, [searchQuery, selectedCategory, selectedLevel, selectedTeacher]);
+  }, [searchQuery, selectedCategory, selectedLevel, selectedTeacher, statusFilter]);
 
   // Pagination calculations
   const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
@@ -88,69 +96,148 @@ export function CourseList() {
   const endIndex = startIndex + itemsPerPage;
   const currentCourses = filteredCourses.slice(startIndex, endIndex);
 
+  // Calculate statistics
+  const totalCourses = coursesData.length;
+  const activeCourses = coursesData.filter(course => course.status === "ACTIVE").length;
+  const newCourses = coursesData.filter(course => {
+    // Mock: courses created in last 30 days
+    return Math.random() > 0.7; // Random for demo
+  }).length;
+  const pendingCourses = coursesData.filter(course => course.status === "DRAFT").length;
+
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-[#C40001]">Daftar Kursus</h2>
-          <p className="text-muted-foreground">
-            Kelola kursus dan program pembelajaran
-          </p>
+          <h1 className="text-2xl font-bold text-[#C40001]">Course Management</h1>
+          <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
+            <span>Dashboard</span>
+            <span className="text-gray-400">/</span>
+            <span>Course Management</span>
+          </div>
         </div>
         <Button 
           onClick={() => setDialogOpen(true)}
           className="bg-[#C40001] hover:bg-[#a30300] text-white"
         >
-          Tambah Kursus
+          <UserPlus className="h-4 w-4 mr-2" />
+          Add New Course
         </Button>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex-1">
-          <Input
-            placeholder="Cari kursus..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
+          <div className="h-1 w-full bg-[#C40001]"></div>
+          <div className="p-6 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-500">Total Courses</p>
+              <p className="text-2xl font-bold mt-1">{totalCourses}</p>
+              <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-2 w-2 rounded-full bg-[#C40001]"></span>
+                Total course accounts
+              </div>
+            </div>
+            <div className="p-3 rounded-full bg-red-50">
+              <BookOpen className="h-5 w-5 text-[#C40001]" />
+            </div>
+          </div>
         </div>
-        <div className="flex gap-4 flex-wrap">
-          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Kategori" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Semua Kategori</SelectItem>
-              <SelectItem value="Matematika">Matematika</SelectItem>
-              <SelectItem value="IPA">IPA</SelectItem>
-              <SelectItem value="Bahasa Inggris">Bahasa Inggris</SelectItem>
-              <SelectItem value="IPS">IPS</SelectItem>
-              <SelectItem value="Bahasa Indonesia">Bahasa Indonesia</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={selectedLevel} onValueChange={setSelectedLevel}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Level" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Semua Level</SelectItem>
-              <SelectItem value="SD">SD</SelectItem>
-              <SelectItem value="SMP">SMP</SelectItem>
-              <SelectItem value="SMA">SMA</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={selectedTeacher} onValueChange={setSelectedTeacher}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Pengajar" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Semua Pengajar</SelectItem>
-              {teachers.map((teacher) => (
-                <SelectItem key={teacher} value={teacher}>
-                  {teacher}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+
+        <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
+          <div className="h-1 w-full bg-[#DAA625]"></div>
+          <div className="p-6 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-500">Active Courses</p>
+              <p className="text-2xl font-bold mt-1">{activeCourses}</p>
+              <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-2 w-2 rounded-full bg-[#DAA625]"></span>
+                {Math.round((activeCourses / totalCourses) * 100)}% of courses are active
+              </div>
+            </div>
+            <div className="p-3 rounded-full bg-amber-50">
+              <Users className="h-5 w-5 text-[#DAA625]" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
+          <div className="h-1 w-full bg-blue-600"></div>
+          <div className="p-6 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-500">New Courses (30d)</p>
+              <p className="text-2xl font-bold mt-1">{newCourses}</p>
+              <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-2 w-2 rounded-full bg-blue-600"></span>
+                {Math.round((newCourses / totalCourses) * 100)}% growth in 30 days
+              </div>
+            </div>
+            <div className="p-3 rounded-full bg-blue-50">
+              <UserPlus className="h-5 w-5 text-blue-600" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border-none shadow-md overflow-hidden">
+          <div className="h-1 w-full bg-purple-600"></div>
+          <div className="p-6 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-500">Pending Courses</p>
+              <p className="text-2xl font-bold mt-1">{pendingCourses}</p>
+              <div className="text-xs text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-2 w-2 rounded-full bg-purple-600"></span>
+                Courses waiting for approval
+              </div>
+            </div>
+            <div className="p-3 rounded-full bg-purple-50">
+              <Clock className="h-5 w-5 text-purple-600" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Course Management Section */}
+      <div className="bg-white rounded-lg border shadow-sm">
+        <div className="h-1 w-full bg-[#C40001]"></div>
+        <div className="p-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-xl font-semibold text-[#C40001]">Course Management</h2>
+              <div className="text-sm text-gray-500 flex items-center gap-1.5 mt-1">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#C40001]"></span>
+                Manage all course accounts in the system
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Input
+                placeholder="Search courses by name, category..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+            <div className="flex gap-4 flex-wrap">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder="All Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="ACTIVE">Active</SelectItem>
+                  <SelectItem value="INACTIVE">Inactive</SelectItem>
+                  <SelectItem value="DRAFT">Draft</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button variant="outline" size="icon" className="h-10 w-10">
+                <Filter className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 
