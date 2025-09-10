@@ -198,7 +198,7 @@ export function CourseList() {
       </div>
 
       {/* Course Management Section */}
-      <div className="bg-white rounded-lg border shadow-sm">
+      <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
         <div className="h-1 w-full bg-[#C40001]"></div>
         <div className="p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -241,93 +241,97 @@ export function CourseList() {
         </div>
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader className="bg-gray-50/80">
-            <TableRow className="hover:bg-gray-50/90">
-              <TableHead className="w-[60px] text-center font-medium text-gray-700">No</TableHead>
-              <TableHead className="w-[100px] font-medium text-gray-700">Kode</TableHead>
-              <TableHead className="min-w-[200px] font-medium text-gray-700">Nama Kursus</TableHead>
-              <TableHead className="min-w-[150px] font-medium text-gray-700">Kategori</TableHead>
-              <TableHead className="min-w-[120px] font-medium text-gray-700">Level</TableHead>
-              <TableHead className="min-w-[200px] font-medium text-gray-700">Pengajar</TableHead>
-              <TableHead className="w-[100px] font-medium text-gray-700">Kapasitas</TableHead>
-              <TableHead className="w-[100px] font-medium text-gray-700">Status</TableHead>
-              <TableHead className="w-[70px] text-center font-medium text-gray-700">Aksi</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {currentCourses.map((course, index) => (
-              <TableRow key={course.id} className="transition-colors hover:bg-gray-50/70">
-                <TableCell className="text-center font-medium text-gray-600">
-                  {index + 1}
-                </TableCell>
-                <TableCell>{`COURSE${String(course.id).padStart(
-                  3,
-                  "0"
-                )}`}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium">{course.name}</span>
-                    {course.type === "Private" && (
+      <div className="bg-white rounded-lg border shadow-sm">
+        <div className="p-6">
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader className="bg-gray-50/80">
+                <TableRow className="hover:bg-gray-50/90">
+                  <TableHead className="w-[60px] text-center font-medium text-gray-700">No</TableHead>
+                  <TableHead className="w-[100px] font-medium text-gray-700">Kode</TableHead>
+                  <TableHead className="min-w-[200px] font-medium text-gray-700">Nama Kursus</TableHead>
+                  <TableHead className="min-w-[150px] font-medium text-gray-700">Kategori</TableHead>
+                  <TableHead className="min-w-[120px] font-medium text-gray-700">Level</TableHead>
+                  <TableHead className="min-w-[200px] font-medium text-gray-700">Pengajar</TableHead>
+                  <TableHead className="w-[100px] font-medium text-gray-700">Kapasitas</TableHead>
+                  <TableHead className="w-[100px] font-medium text-gray-700">Status</TableHead>
+                  <TableHead className="w-[70px] text-center font-medium text-gray-700">Aksi</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {currentCourses.map((course, index) => (
+                  <TableRow key={course.id} className="transition-colors hover:bg-gray-50/70">
+                    <TableCell className="text-center font-medium text-gray-600">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>{`COURSE${String(course.id).padStart(
+                      3,
+                      "0"
+                    )}`}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{course.name}</span>
+                        {course.type === "Private" && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-blue-100 text-blue-700"
+                          >
+                            Private
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>{course.category}</TableCell>
+                    <TableCell>
+                      <span className="font-medium">{course.level}</span>
+                    </TableCell>
+                    <TableCell>{course.teacher}</TableCell>
+                    <TableCell>{course.totalStudents} siswa</TableCell>
+                    <TableCell>
                       <Badge
-                        variant="secondary"
-                        className="bg-blue-100 text-blue-700"
+                        variant={
+                          course.status === "ACTIVE" ? "success" : "secondary"
+                        }
                       >
-                        Private
+                        {course.status === "ACTIVE" ? "Aktif" : "Nonaktif"}
                       </Badge>
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell>{course.category}</TableCell>
-                <TableCell>
-                  <span className="font-medium">{course.level}</span>
-                </TableCell>
-                <TableCell>{course.teacher}</TableCell>
-                <TableCell>{course.totalStudents} siswa</TableCell>
-                <TableCell>
-                  <Badge
-                    variant={
-                      course.status === "ACTIVE" ? "success" : "secondary"
-                    }
-                  >
-                    {course.status === "ACTIVE" ? "Aktif" : "Nonaktif"}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem asChild>
-                        <Link
-                          href={`/dashboard/courses/COURSE${String(
-                            course.id
-                          ).padStart(3, "0")}`}
-                        >
-                          <Eye className="mr-2 h-4 w-4" />
-                          Detail
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-red-600">
-                        <Trash className="mr-2 h-4 w-4" />
-                        Hapus
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem asChild>
+                            <Link
+                              href={`/dashboard/courses/COURSE${String(
+                                course.id
+                              ).padStart(3, "0")}`}
+                            >
+                              <Eye className="mr-2 h-4 w-4" />
+                              Detail
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-red-600">
+                            <Trash className="mr-2 h-4 w-4" />
+                            Hapus
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
       </div>
 
       {/* Pagination */}

@@ -254,7 +254,7 @@ export default function ProgramList() {
       </div>
 
       {/* Program Management Section */}
-      <div className="bg-white rounded-lg border shadow-sm">
+      <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
         <div className="h-1 w-full bg-[#C40001]"></div>
         <div className="p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
