@@ -12,6 +12,9 @@ const columnHelper = createColumnHelper<
   Attendance & {
     studentName: string;
     className: string;
+    teacherName: string;
+    inputBy: string;
+    inputTime: string;
   }
 >();
 
@@ -35,7 +38,7 @@ const getStatusBadge = (status: Attendance["status"]) => {
   return <Badge variant={variants[status]}>{labels[status]}</Badge>;
 };
 
-export const attendanceColumns = [
+export const studentAttendanceColumns = [
   columnHelper.accessor("studentName", {
     header: "Nama Siswa",
     cell: (info) => <div className="font-medium">{info.getValue()}</div>,
@@ -43,6 +46,10 @@ export const attendanceColumns = [
   columnHelper.accessor("className", {
     header: "Kelas",
     cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("teacherName", {
+    header: "Guru",
+    cell: (info) => <div className="text-sm text-gray-600">{info.getValue()}</div>,
   }),
   columnHelper.accessor("date", {
     header: "Tanggal",
@@ -56,6 +63,15 @@ export const attendanceColumns = [
   columnHelper.accessor("notes", {
     header: "Keterangan",
     cell: (info) => info.getValue() || "-",
+  }),
+  columnHelper.accessor("inputBy", {
+    header: "Input Oleh",
+    cell: (info) => (
+      <div className="text-sm text-gray-600">
+        <div className="font-medium">{info.getValue()}</div>
+        <div className="text-xs text-gray-400">{info.row.original.inputTime}</div>
+      </div>
+    ),
   }),
   columnHelper.display({
     id: "actions",
@@ -75,7 +91,7 @@ export const attendanceColumns = [
               );
             }}
           >
-            Edit
+            Lihat Detail
           </Button>
         </div>
       );

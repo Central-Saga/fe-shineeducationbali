@@ -22,7 +22,7 @@ import { Attendance } from "@/types/attendance";
 import { attendanceService } from "@/lib/services/attendance.service";
 import { classService } from "@/lib/services/class.service";
 import { DataTable } from "@/components/ui/data-table";
-import { attendanceColumns } from "./columns";
+import { studentAttendanceColumns } from "./columns";
 import { AttendanceForm } from "./attendance-form";
 import {
   Dialog,
@@ -39,7 +39,7 @@ interface DailyAttendanceProps {
   className?: string;
 }
 
-export function DailyAttendance({ classId, className }: DailyAttendanceProps) {
+export function StudentAttendance({ classId, className }: DailyAttendanceProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [attendanceData, setAttendanceData] = useState<
     (Attendance & { studentName: string; className: string })[]
@@ -149,9 +149,9 @@ export function DailyAttendance({ classId, className }: DailyAttendanceProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Absensi Harian {className}</CardTitle>
+        <CardTitle>Kehadiran Siswa {className}</CardTitle>
         <CardDescription>
-          Kelola absensi siswa untuk kelas terpilih
+          Pantau kehadiran siswa yang diinput oleh guru untuk kelas terpilih
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -204,10 +204,10 @@ export function DailyAttendance({ classId, className }: DailyAttendanceProps) {
         </div>
 
         <DataTable<
-          Attendance & { studentName: string; className: string },
+          Attendance & { studentName: string; className: string; teacherName: string; inputBy: string; inputTime: string },
           "PRESENT" | "ABSENT" | "LATE" | "SICK" | "PERMISSION"
         >
-          columns={attendanceColumns}
+          columns={studentAttendanceColumns}
           data={attendanceData}
           onRowSelection={() => {}}
         />

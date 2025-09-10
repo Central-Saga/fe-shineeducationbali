@@ -31,57 +31,72 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
-export default function DailyAttendancePage() {
+export default function StudentAttendancePage() {
   const [date, setDate] = useState<Date>(new Date());
   const [selectedClass, setSelectedClass] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // Dummy data for attendance
+  // Dummy data for student attendance (input by teachers)
   const attendanceData = [
     {
       id: 1,
       studentName: "Kadek Ayu Putri",
       class: "english-basic",
+      teacher: "Ibu Sarah",
       schedule: "09:00 - 10:30",
       status: "HADIR",
       time: "08:55",
       notes: "",
+      inputBy: "Ibu Sarah",
+      inputTime: "09:00",
     },
     {
       id: 2,
       studentName: "I Made Wirawan",
       class: "math-elementary",
+      teacher: "Pak Budi",
       schedule: "10:30 - 12:00",
       status: "HADIR",
       time: "10:25",
       notes: "Terlambat 5 menit",
+      inputBy: "Pak Budi",
+      inputTime: "10:30",
     },
     {
       id: 3,
       studentName: "Ni Putu Devi",
       class: "computer-science",
+      teacher: "Ibu Maya",
       schedule: "13:00 - 14:30",
       status: "IZIN",
       time: "-",
       notes: "Sakit",
+      inputBy: "Ibu Maya",
+      inputTime: "13:00",
     },
     {
       id: 4,
       studentName: "I Nyoman Artha",
       class: "english-intermediate",
+      teacher: "Pak John",
       schedule: "14:30 - 16:00",
       status: "ALPHA",
       time: "-",
       notes: "Tidak ada keterangan",
+      inputBy: "Pak John",
+      inputTime: "14:30",
     },
     {
       id: 5,
       studentName: "Wayan Budiarta",
       class: "math-elementary",
+      teacher: "Pak Budi",
       schedule: "16:00 - 17:30",
       status: "SAKIT",
       time: "-",
       notes: "Demam",
+      inputBy: "Pak Budi",
+      inputTime: "16:00",
     },
   ];
 
@@ -89,7 +104,10 @@ export default function DailyAttendancePage() {
     <div className="space-y-6">
       <Card className="border border-gray-200 shadow-sm">
         <CardHeader className="pb-3">
-          <CardTitle>Kehadiran Harian</CardTitle>
+          <CardTitle>Student Attendance</CardTitle>
+          <p className="text-sm text-gray-500 mt-1">
+            Monitor student attendance input by teachers
+          </p>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col md:flex-row gap-5 mb-6">
@@ -160,11 +178,13 @@ export default function DailyAttendancePage() {
             <Table>
               <TableHeader className="bg-gray-50">
                 <TableRow>
-                  <TableHead>Nama</TableHead>
+                  <TableHead>Nama Siswa</TableHead>
                   <TableHead>Kelas</TableHead>
+                  <TableHead>Guru</TableHead>
                   <TableHead>Jadwal</TableHead>
                   <TableHead className="text-center">Status</TableHead>
                   <TableHead className="text-center">Waktu Masuk</TableHead>
+                  <TableHead>Input Oleh</TableHead>
                   <TableHead className="text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
@@ -184,6 +204,9 @@ export default function DailyAttendancePage() {
                         {student.studentName}
                       </TableCell>
                       <TableCell>{student.class}</TableCell>
+                      <TableCell className="text-sm text-gray-600">
+                        {student.teacher}
+                      </TableCell>
                       <TableCell>{student.schedule}</TableCell>
                       <TableCell className="text-center">
                         <Badge
@@ -217,13 +240,19 @@ export default function DailyAttendancePage() {
                       <TableCell className="text-center">
                         {student.time}
                       </TableCell>
+                      <TableCell className="text-sm text-gray-600">
+                        <div>
+                          <div className="font-medium">{student.inputBy}</div>
+                          <div className="text-xs text-gray-400">{student.inputTime}</div>
+                        </div>
+                      </TableCell>
                       <TableCell className="text-right">
                         <Button
                           variant="outline"
                           size="sm"
                           className="h-8 px-3"
                         >
-                          Ubah Status
+                          Lihat Detail
                         </Button>
                       </TableCell>
                     </TableRow>

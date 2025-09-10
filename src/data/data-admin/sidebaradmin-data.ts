@@ -96,17 +96,27 @@ export const sidebarAdminNavigation: MenuItem[] = [
     icon: ClipboardList,
     submenu: [
       {
-        name: "Daily Attendance",
-        href: "/dashboard/attendance/daily",
-        description: "Record and manage daily attendance",
+        name: "Overview",
+        href: "/dashboard/attendance",
+        description: "Attendance overview and statistics",
       },
       {
-        name: "Attendance Reports",
+        name: "Students",
+        href: "/dashboard/attendance/students",
+        description: "Monitor student attendance input by teachers",
+      },
+      {
+        name: "Teachers",
+        href: "/dashboard/attendance/teachers",
+        description: "Monitor teacher attendance uploaded by themselves",
+      },
+      {
+        name: "Reports",
         href: "/dashboard/attendance/reports",
         description: "View attendance reports and statistics",
       },
       {
-        name: "Attendance Settings",
+        name: "Settings",
         href: "/dashboard/attendance/settings",
         description: "Configure attendance system",
       },
