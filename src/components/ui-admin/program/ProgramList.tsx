@@ -298,7 +298,7 @@ export default function ProgramList() {
       </div>
 
       {/* Program Grid Section */}
-      <div className="bg-white rounded-lg border shadow-sm">
+      <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
         <div className="px-4 pt-4 overflow-auto">
           {loading ? (
             <div className="flex justify-center py-10">

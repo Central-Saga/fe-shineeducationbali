@@ -44,10 +44,14 @@ export function Header({ header, children, className = "" }: PageLayoutProps) {
 
   return (
     <div className={`space-y-6 p-5 md:p-8 ${className}`}>
-      {/* Modern Header Design */}
-      <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-        {/* Header Top Bar */}
-        <div className="bg-gradient-to-r from-[#C40503] to-[#DAA625] h-2 rounded-t-lg"></div>
+      {/* Minimalist Creative Header */}
+      <div className="relative bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+        {/* Subtle Accent Line */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-[#C40503]"></div>
+        
+        {/* Minimalist Decorative Elements */}
+        <div className="absolute top-4 right-4 w-2 h-2 bg-[#C40503]/20 rounded-full"></div>
+        <div className="absolute bottom-4 right-8 w-1 h-1 bg-[#DAA625]/30 rounded-full"></div>
         
         {/* Header Content */}
         <div className="p-6">
@@ -58,17 +62,20 @@ export function Header({ header, children, className = "" }: PageLayoutProps) {
                   variant="outline"
                   size="sm"
                   onClick={handleBack}
-                  className="p-2 border-[#C40503] text-[#C40503] hover:bg-[#C40503] hover:text-white rounded-lg"
+                  className="p-2 border border-gray-300 text-gray-600 hover:border-[#C40503] hover:text-[#C40503] rounded-lg transition-all duration-200"
                 >
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
               )}
               <div className="space-y-1">
-                <h1 className="text-2xl font-bold text-[#C40503]">
-                  {header.title}
-                </h1>
+                <div className="flex items-center space-x-3">
+                  <div className="w-1 h-6 bg-[#C40503] rounded-full"></div>
+                  <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+                    {header.title}
+                  </h1>
+                </div>
                 {header.description && (
-                  <p className="text-[#DAA625] font-medium">{header.description}</p>
+                  <p className="text-gray-600 font-medium ml-4">{header.description}</p>
                 )}
               </div>
             </div>
@@ -83,8 +90,8 @@ export function Header({ header, children, className = "" }: PageLayoutProps) {
                     onClick={action.onClick}
                     className={`
                       ${action.variant === "default" 
-                        ? "bg-[#C40503] hover:bg-[#a50402] text-white shadow-sm hover:shadow-md transition-all duration-200 rounded-lg px-4 py-2 font-medium" 
-                        : "border-[#DAA625] text-[#DAA625] hover:bg-[#DAA625] hover:text-white transition-all duration-200 rounded-lg px-4 py-2 font-medium"
+                        ? "bg-[#C40503] text-white hover:bg-[#a50402] shadow-sm hover:shadow-md transition-all duration-200 rounded-lg px-4 py-2 font-medium" 
+                        : "border border-[#DAA625] text-[#DAA625] hover:bg-[#DAA625] hover:text-white transition-all duration-200 rounded-lg px-4 py-2 font-medium"
                       }
                     `}
                   >
@@ -100,6 +107,9 @@ export function Header({ header, children, className = "" }: PageLayoutProps) {
             )}
           </div>
         </div>
+        
+        {/* Subtle Bottom Accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#C40503] via-[#DAA625] to-[#C40503]"></div>
       </div>
 
       {/* Content Wrapper */}
