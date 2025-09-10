@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Header, Content } from "@/components/ui-admin/layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -79,15 +79,28 @@ export default function AttendanceReportPage() {
   });
 
   return (
-    <div className="space-y-6">
-      <Card className="border border-gray-200 shadow-sm">
-        <CardHeader className="pb-3">
-          <CardTitle>Attendance Reports</CardTitle>
-          <p className="text-sm text-gray-500 mt-1">
-            Comprehensive attendance reports for students and teachers in teaching courses
-          </p>
-        </CardHeader>
-        <CardContent>
+    <Header
+      header={{
+        title: "Attendance Reports",
+        description: "Comprehensive attendance reports for students and teachers in teaching courses",
+        breadcrumbs: [
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Attendance", href: "/dashboard/attendance" },
+          { label: "Reports" },
+        ],
+        actions: [
+          {
+            label: "Export Report",
+            icon: <Download className="h-4 w-4" />,
+            variant: "default",
+          },
+        ],
+      }}
+    >
+      <Content
+        title="Attendance Reports"
+        description="Generate and view detailed attendance reports and statistics"
+      >
           <div className="flex flex-col md:flex-row gap-4 mb-6">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
@@ -194,8 +207,7 @@ export default function AttendanceReportPage() {
               </TableBody>
             </Table>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </Content>
+      </Header>
   );
 }

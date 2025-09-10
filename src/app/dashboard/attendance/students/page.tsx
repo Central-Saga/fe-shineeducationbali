@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { Calendar as CalendarIcon, Search } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar as CalendarIcon, Search, Plus } from "lucide-react";
+import { Header, Content } from "@/components/ui-admin/layout";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -101,15 +101,28 @@ export default function StudentAttendancePage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <Card className="border border-gray-200 shadow-sm">
-        <CardHeader className="pb-3">
-          <CardTitle>Student Attendance</CardTitle>
-          <p className="text-sm text-gray-500 mt-1">
-            Monitor student attendance input by teachers
-          </p>
-        </CardHeader>
-        <CardContent>
+    <Header
+      header={{
+        title: "Student Attendance",
+        description: "Monitor student attendance input by teachers",
+        breadcrumbs: [
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Attendance", href: "/dashboard/attendance" },
+          { label: "Students" },
+        ],
+        actions: [
+          {
+            label: "Add Attendance",
+            icon: <Plus className="h-4 w-4" />,
+            variant: "default",
+          },
+        ],
+      }}
+    >
+      <Content
+        title="Student Attendance Records"
+        description="View and manage student attendance records input by teachers"
+      >
           <div className="flex flex-col md:flex-row gap-5 mb-6">
             <div className="w-full md:w-auto flex flex-col">
               <p className="text-sm text-gray-500 mb-2">Pilih Tanggal</p>
@@ -260,8 +273,7 @@ export default function StudentAttendancePage() {
               </TableBody>
             </Table>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </Content>
+      </Header>
   );
 }

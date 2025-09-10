@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Header, Content } from "@/components/ui-admin/layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,32 +27,32 @@ export default function AttendanceSettingsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            Attendance Settings
-          </h1>
-          <p className="text-gray-500 mt-1">
-            Configure attendance system for teaching courses
-          </p>
-        </div>
-        <Button onClick={handleSave} className="bg-[#C40503] hover:bg-[#a50402] text-white">
-          <Save className="h-4 w-4 mr-2" />
-          Save Settings
-        </Button>
-      </div>
+    <Header
+      header={{
+        title: "Attendance Settings",
+        description: "Configure attendance system for teaching courses",
+        breadcrumbs: [
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Attendance", href: "/dashboard/attendance" },
+          { label: "Settings" },
+        ],
+        actions: [
+          {
+            label: "Save Settings",
+            icon: <Save className="h-4 w-4" />,
+            variant: "default",
+            onClick: handleSave,
+          },
+        ],
+      }}
+    >
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* General Settings */}
-        <Card className="border border-gray-200 shadow-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="h-5 w-5 text-[#C40503]" />
-              Pengaturan Umum
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
+        <Content
+          title="General Settings"
+          description="Basic attendance system configuration"
+        >
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label htmlFor="auto-mark-absent">Otomatis Tandai Alpha</Label>
@@ -107,18 +107,13 @@ export default function AttendanceSettingsPage() {
                 }
               />
             </div>
-          </CardContent>
-        </Card>
+        </Content>
 
         {/* Teacher Settings */}
-        <Card className="border border-gray-200 shadow-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-[#DAA625]" />
-              Pengaturan Guru
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
+        <Content
+          title="Teacher Settings"
+          description="Teacher-specific attendance configuration"
+        >
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label htmlFor="teacher-upload">Izinkan Upload Mandiri</Label>
@@ -173,18 +168,13 @@ export default function AttendanceSettingsPage() {
                 Maksimal hari alpha sebelum peringatan
               </p>
             </div>
-          </CardContent>
-        </Card>
+        </Content>
 
         {/* Report Settings */}
-        <Card className="border border-gray-200 shadow-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5 text-blue-600" />
-              Pengaturan Laporan
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
+        <Content
+          title="Report Settings"
+          description="Configure attendance report generation"
+        >
             <div className="space-y-2">
               <Label htmlFor="report-generation">Frekuensi Laporan</Label>
               <select
@@ -220,18 +210,13 @@ export default function AttendanceSettingsPage() {
                 </Badge>
               </div>
             </div>
-          </CardContent>
-        </Card>
+        </Content>
 
         {/* System Info */}
-        <Card className="border border-gray-200 shadow-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-gray-600" />
-              Informasi Sistem
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <Content
+          title="System Information"
+          description="Current system status and information"
+        >
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <span className="text-gray-500">Total Siswa:</span>
@@ -264,9 +249,8 @@ export default function AttendanceSettingsPage() {
               <Label>Versi Sistem</Label>
               <p className="text-sm text-gray-500">v2.1.0</p>
             </div>
-          </CardContent>
-        </Card>
+        </Content>
       </div>
-    </div>
+      </Header>
   );
 }

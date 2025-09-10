@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { Calendar as CalendarIcon, Search, Upload, FileText } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar as CalendarIcon, Search, Upload, FileText, Plus } from "lucide-react";
+import { Header, Content } from "@/components/ui-admin/layout";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -96,15 +96,28 @@ export default function TeacherAttendancePage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <Card className="border border-gray-200 shadow-sm">
-        <CardHeader className="pb-3">
-          <CardTitle>Teacher Attendance</CardTitle>
-          <p className="text-sm text-gray-500 mt-1">
-            Monitor teacher attendance uploaded by themselves
-          </p>
-        </CardHeader>
-        <CardContent>
+    <Header
+      header={{
+        title: "Teacher Attendance",
+        description: "Monitor teacher attendance uploaded by themselves",
+        breadcrumbs: [
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Attendance", href: "/dashboard/attendance" },
+          { label: "Teachers" },
+        ],
+        actions: [
+          {
+            label: "Upload Document",
+            icon: <Upload className="h-4 w-4" />,
+            variant: "default",
+          },
+        ],
+      }}
+    >
+      <Content
+        title="Teacher Attendance Records"
+        description="View and manage teacher attendance documents uploaded by themselves"
+      >
           <div className="flex flex-col md:flex-row gap-5 mb-6">
             <div className="w-full md:w-auto flex flex-col">
               <p className="text-sm text-gray-500 mb-2">Pilih Tanggal</p>
@@ -267,8 +280,7 @@ export default function TeacherAttendancePage() {
               </TableBody>
             </Table>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </Content>
+      </Header>
   );
 }

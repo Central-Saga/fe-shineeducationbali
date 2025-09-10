@@ -96,11 +96,6 @@ export const sidebarAdminNavigation: MenuItem[] = [
     icon: ClipboardList,
     submenu: [
       {
-        name: "Overview",
-        href: "/dashboard/attendance",
-        description: "Attendance overview and statistics",
-      },
-      {
         name: "Students",
         href: "/dashboard/attendance/students",
         description: "Monitor student attendance input by teachers",
