@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Header, Content } from "@/components/ui-admin/layout";
+import { Header, Content, Pagination } from "@/components/ui-admin/layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,6 +26,8 @@ export default function AttendanceReportPage() {
   const [selectedMonth, setSelectedMonth] = useState<string>("all");
   const [selectedClass, setSelectedClass] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 5;
 
   // Dummy data
   const attendanceReports = [
@@ -78,16 +80,21 @@ export default function AttendanceReportPage() {
     return matchesSearch && matchesMonth && matchesClass;
   });
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredReports.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = filteredReports.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Header
       header={{
         title: "Attendance Reports",
         description: "Comprehensive attendance reports for students and teachers in teaching courses",
-        breadcrumbs: [
-          { label: "Dashboard", href: "/dashboard" },
-          { label: "Attendance", href: "/dashboard/attendance" },
-          { label: "Reports" },
-        ],
         actions: [
           {
             label: "Export Report",
@@ -97,11 +104,10 @@ export default function AttendanceReportPage() {
         ],
       }}
     >
-      <Content
-        title="Attendance Reports"
-        description="Generate and view detailed attendance reports and statistics"
-      >
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
+      <Content>
+        <div className="space-y-6 p-6">
+          {/* Filters Section */}
+          <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
               <Input
@@ -148,10 +154,12 @@ export default function AttendanceReportPage() {
             </div>
           </div>
 
+          {/* Table Section */}
           <div className="rounded-md border">
             <Table>
               <TableHeader className="bg-gray-50">
                 <TableRow>
+                  <TableHead className="w-16 text-center">No</TableHead>
                   <TableHead>Nama Siswa</TableHead>
                   <TableHead>Kelas</TableHead>
                   <TableHead>Periode</TableHead>
@@ -162,9 +170,9 @@ export default function AttendanceReportPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredReports.length === 0 ? (
+                {currentData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8">
+                    <TableCell colSpan={8} className="text-center py-8">
                       <div className="flex flex-col items-center justify-center">
                         <div className="text-gray-400 mb-2">
                           <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -177,8 +185,11 @@ export default function AttendanceReportPage() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredReports.map((report) => (
+                  currentData.map((report, index) => (
                     <TableRow key={report.id} className="hover:bg-gray-50">
+                      <TableCell className="text-center text-gray-500 font-medium">
+                        {startIndex + index + 1}
+                      </TableCell>
                       <TableCell className="font-medium">{report.studentName}</TableCell>
                       <TableCell>{report.class}</TableCell>
                       <TableCell>{report.month}</TableCell>
@@ -207,7 +218,15 @@ export default function AttendanceReportPage() {
               </TableBody>
             </Table>
           </div>
-        </Content>
+
+          {/* Pagination */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      </Content>
       </Header>
   );
 }

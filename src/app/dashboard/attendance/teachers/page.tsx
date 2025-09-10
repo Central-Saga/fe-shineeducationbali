@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { Calendar as CalendarIcon, Search, Upload, FileText, Plus } from "lucide-react";
-import { Header, Content } from "@/components/ui-admin/layout";
+import { Calendar as CalendarIcon, Search, Upload, FileText, Plus, Eye } from "lucide-react";
+import { Header, Content, Pagination } from "@/components/ui-admin/layout";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -35,6 +35,8 @@ export default function TeacherAttendancePage() {
   const [date, setDate] = useState<Date>(new Date());
   const [selectedClass, setSelectedClass] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 5;
 
   // Dummy data for teacher attendance (uploaded by teachers themselves)
   const teacherAttendanceData = [
@@ -95,16 +97,30 @@ export default function TeacherAttendancePage() {
     },
   ];
 
+  // Filter data
+  const filteredData = teacherAttendanceData.filter(
+    (teacher) =>
+      teacher.teacherName
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) &&
+      (selectedClass === "all" || teacher.class === selectedClass)
+  );
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = filteredData.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Header
       header={{
         title: "Teacher Attendance",
         description: "Monitor teacher attendance uploaded by themselves",
-        breadcrumbs: [
-          { label: "Dashboard", href: "/dashboard" },
-          { label: "Attendance", href: "/dashboard/attendance" },
-          { label: "Teachers" },
-        ],
         actions: [
           {
             label: "Upload Document",
@@ -114,11 +130,10 @@ export default function TeacherAttendancePage() {
         ],
       }}
     >
-      <Content
-        title="Teacher Attendance Records"
-        description="View and manage teacher attendance documents uploaded by themselves"
-      >
-          <div className="flex flex-col md:flex-row gap-5 mb-6">
+      <Content>
+        <div className="space-y-6 p-6">
+          {/* Filters Section */}
+          <div className="flex flex-col md:flex-row gap-5">
             <div className="w-full md:w-auto flex flex-col">
               <p className="text-sm text-gray-500 mb-2">Pilih Tanggal</p>
               <div className="grid gap-2">
@@ -182,10 +197,12 @@ export default function TeacherAttendancePage() {
             </div>
           </div>
 
+          {/* Table Section */}
           <div className="rounded-md border">
             <Table>
               <TableHeader className="bg-gray-50">
                 <TableRow>
+                  <TableHead className="w-16 text-center">No</TableHead>
                   <TableHead>Nama Guru</TableHead>
                   <TableHead>Kelas</TableHead>
                   <TableHead>Jadwal</TableHead>
@@ -193,21 +210,30 @@ export default function TeacherAttendancePage() {
                   <TableHead className="text-center">Waktu Masuk</TableHead>
                   <TableHead>Waktu Upload</TableHead>
                   <TableHead>Dokumen</TableHead>
-                  <TableHead className="text-right">Aksi</TableHead>
+                  <TableHead className="text-center">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {teacherAttendanceData
-                  .filter(
-                    (teacher) =>
-                      teacher.teacherName
-                        .toLowerCase()
-                        .includes(searchQuery.toLowerCase()) &&
-                      (selectedClass === "all" ||
-                        teacher.class === selectedClass)
-                  )
-                  .map((teacher) => (
+                {currentData.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={9} className="text-center py-8">
+                      <div className="flex flex-col items-center justify-center">
+                        <div className="text-gray-400 mb-2">
+                          <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <p className="text-gray-500 font-medium">Tidak ada data</p>
+                        <p className="text-gray-400 text-sm">Coba ubah filter pencarian</p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  currentData.map((teacher, index) => (
                     <TableRow key={teacher.id} className="hover:bg-gray-50">
+                      <TableCell className="text-center text-gray-500 font-medium">
+                        {startIndex + index + 1}
+                      </TableCell>
                       <TableCell className="font-medium">
                         {teacher.teacherName}
                       </TableCell>
@@ -256,31 +282,31 @@ export default function TeacherAttendancePage() {
                           </span>
                         </div>
                       </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex gap-2 justify-end">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="h-8 px-3"
-                          >
-                            <Upload className="h-3 w-3 mr-1" />
-                            Lihat
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="h-8 px-3"
-                          >
-                            Detail
-                          </Button>
-                        </div>
+                      <TableCell className="text-center">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8 px-3 flex items-center gap-2"
+                        >
+                          <Eye className="h-3 w-3" />
+                          Lihat Detail
+                        </Button>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
-        </Content>
+
+          {/* Pagination */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      </Content>
       </Header>
   );
 }
