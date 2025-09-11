@@ -19,8 +19,9 @@ import {
   TransactionData,
   TransactionType,
 } from "@/data/data-admin/payment/transactions-data";
-import { Eye, PencilIcon } from "lucide-react";
+import { Eye, PencilIcon, Plus, Download, Filter } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Header } from "@/components/ui-admin/layout";
 
 const PaymentManagement = () => {
   const [transactions, setTransactions] = useState<TransactionData[]>([]);
@@ -124,29 +125,29 @@ const PaymentManagement = () => {
   }, [selectedType]);
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <h2 className="text-3xl font-bold tracking-tight">Payment Management</h2>
-      <Card className="p-6">
-        <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Manajemen Pembayaran
-              </h1>
-              <p className="text-gray-500 mt-1">
-                Kelola transaksi siswa dan gaji guru
-              </p>
-            </div>
-            <Button
-              onClick={() => router.push("/dashboard/payments/new")}
-              className="bg-[#C40503] hover:bg-[#a50402] text-white"
-            >
-              Tambah Transaksi
-            </Button>
-          </div>
-
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <Header
+      header={{
+        title: "Manajemen Pembayaran",
+        description: "Kelola transaksi siswa dan gaji guru",
+        actions: [
+          {
+            label: "Tambah Transaksi",
+            onClick: () => router.push("/dashboard/payments/new"),
+            icon: <Plus className="h-4 w-4" />,
+            variant: "default",
+          },
+          {
+            label: "Export Data",
+            onClick: () => console.log("Export data"),
+            icon: <Download className="h-4 w-4" />,
+            variant: "outline",
+          },
+        ],
+      }}
+    >
+      <div className="space-y-6">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Card className="border-none shadow-md bg-gradient-to-br from-[#C40503] to-[#ef4444] text-white">
               <div className="p-6">
                 <div className="text-sm font-medium opacity-80">
@@ -277,9 +278,8 @@ const PaymentManagement = () => {
               )}
             </div>
           </Card>
-        </div>
-      </Card>
-    </div>
+      </div>
+    </Header>
   );
 };
 

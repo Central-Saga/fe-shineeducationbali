@@ -14,35 +14,26 @@ import { CertificateTypes } from "@/components/ui-admin/certificates/Certificate
 import { CertificateRecords } from "@/components/ui-admin/certificates/certificate-records";
 import { InvalidCertificates } from "@/components/ui-admin/certificates/invalid-certificates";
 import { useRouter } from "next/navigation";
+import { Header } from "@/components/ui-admin/layout";
 
 export default function CertificatesManagement() {
   const router = useRouter();
 
   return (
-    <div className="flex-1 space-y-6 p-5 md:p-8">
-      <div className="flex items-center justify-between bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-        <div>
-          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#C40503] to-[#DAA625] bg-clip-text text-transparent">
-            Manajemen Sertifikat
-          </h2>
-          <p className="text-gray-500 mt-2">
-            Kelola sertifikat pembelajaran dan penghargaan siswa
-          </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="bg-[#C40503] text-white hover:bg-[#DAA625]"
-            onClick={() =>
-              (window.location.href = "/dashboard/certificates/settings")
-            }
-          >
-            <Settings className="mr-2 h-4 w-4" />
-            Pengaturan
-          </Button>
-        </div>
-      </div>
+    <Header
+      header={{
+        title: "Manajemen Sertifikat",
+        description: "Kelola sertifikat pembelajaran dan penghargaan siswa",
+        actions: [
+          {
+            label: "Pengaturan",
+            onClick: () => (window.location.href = "/dashboard/certificates/settings"),
+            icon: <Settings className="h-4 w-4" />,
+            variant: "outline",
+          },
+        ],
+      }}
+    >
       <Tabs defaultValue="templates" className="space-y-4">
         {" "}
         <TabsList className="border-b">
@@ -120,6 +111,6 @@ export default function CertificatesManagement() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </Header>
   );
 }
