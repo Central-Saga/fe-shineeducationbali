@@ -9,6 +9,8 @@ import {
   TrendingUp,
   Award,
   Activity,
+  Settings,
+  Bell,
 } from "lucide-react";
 import {
   Card,
@@ -19,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { Header } from "@/components/ui-admin/layout";
 
 export default function DashboardPage() {
   const stats = [
@@ -84,15 +87,20 @@ export default function DashboardPage() {
     },
   ];
   return (
-    <div className="flex-1 space-y-6 p-6 md:py-8">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-[#C40503]">
-          Admin Dashboard
-        </h2>
-        <div className="bg-white p-2 rounded-lg shadow-sm border border-gray-100">
-          <span className="text-sm font-medium text-gray-700">Academic Year 2025/2026</span>
-        </div>
-      </div>
+    <Header
+      header={{
+        title: "Admin Dashboard",
+        description: "Selamat datang di dashboard admin SHINE Education",
+        actions: [
+          {
+            label: "Academic Year 2025/2026",
+            onClick: () => console.log("Change academic year"),
+            icon: <Calendar className="h-4 w-4" />,
+            variant: "outline",
+          },
+        ],
+      }}
+    >
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
@@ -383,6 +391,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </Header>
   );
 }
