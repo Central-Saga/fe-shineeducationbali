@@ -34,6 +34,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Header } from "@/components/ui-admin/layout";
 
 export default function ProgramList() {
   const [programs, setPrograms] = useState<Program[]>([]);
@@ -165,22 +166,20 @@ export default function ProgramList() {
   const pendingPrograms = programs.filter(p => p.status === 'INACTIVE').length;
 
   return (
-    <div className="space-y-8">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-[#C40001]">Program Management</h1>
-          <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
-            <span>Dashboard</span>
-            <span className="text-gray-400">/</span>
-            <span>Program Management</span>
-          </div>
-        </div>
-        <Button className="bg-[#C40001] hover:bg-[#a30300] text-white">
-          <UserPlus className="h-4 w-4 mr-2" />
-          Add New Program
-        </Button>
-      </div>
+    <Header
+      header={{
+        title: "Program Management",
+        description: "Kelola semua program dalam sistem",
+        actions: [
+          {
+            label: "Add New Program",
+            onClick: () => console.log("Add new program"),
+            icon: <UserPlus className="h-4 w-4" />,
+            variant: "default",
+          },
+        ],
+      }}
+    >
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -445,6 +444,6 @@ export default function ProgramList() {
           )}
         </div>
       </div>
-    </div>
+    </Header>
   );
 }

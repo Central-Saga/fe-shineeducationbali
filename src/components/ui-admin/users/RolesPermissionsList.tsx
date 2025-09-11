@@ -52,6 +52,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Header } from "@/components/ui-admin/layout";
 
 // Define types
 interface Role {
@@ -284,26 +285,32 @@ export default function RolesPermissionsList() {
   };
 
   return (
-    <div className="space-y-8 px-6 py-3 max-w-[90rem] mx-auto bg-white">
-      {/* Header with breadcrumbs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div>
-          <h1 className="text-2xl font-bold text-[#C40001]">
-            Roles & Permissions Management
-          </h1>
-          <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
-            <Link href="/dashboard" className="hover:text-[#C40503] transition-colors">
-              Dashboard
-            </Link>
-            <span className="text-gray-400">/</span>
-            <Link href="/dashboard/users" className="hover:text-[#C40503] transition-colors">
-              User Management
-            </Link>
-            <span className="text-gray-400">/</span>
-            <span className="text-gray-600">Roles & Permissions</span>
-          </div>
-        </div>
-      </div>
+    <Header
+      header={{
+        title: "Roles & Permissions Management",
+        description: "Kelola peran dan izin pengguna dalam sistem",
+        actions: [
+          {
+            label: "Create Role",
+            href: "/dashboard/users/roles/add",
+            icon: <Plus className="h-4 w-4" />,
+            variant: "default",
+          },
+          {
+            label: "Create Permission",
+            href: "/dashboard/users/roles/permissions/add",
+            icon: <Plus className="h-4 w-4" />,
+            variant: "outline",
+          },
+          {
+            label: "Export Data",
+            onClick: () => console.log("Export data"),
+            icon: <Download className="h-4 w-4" />,
+            variant: "outline",
+          },
+        ],
+      }}
+    >
       
       {/* Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -391,25 +398,6 @@ export default function RolesPermissionsList() {
                 Manage roles and permissions across the system
               </CardDescription>
             </div>
-            
-             <div className="flex flex-col sm:flex-row gap-3">
-               <Link href="/dashboard/users/roles/add">
-                 <Button className="bg-[#C40001] hover:bg-[#a30300] text-white">
-                   <Plus className="h-4 w-4 mr-2" />
-                   Create Role
-                 </Button>
-               </Link>
-               <Link href="/dashboard/users/roles/permissions/add">
-                 <Button variant="outline" className="text-[#DAA625] border-[#DAA625]/20 hover:bg-[#DAA625]/5">
-                   <Plus className="h-4 w-4 mr-2" />
-                   Create Permission
-                 </Button>
-               </Link>
-               <Button variant="outline" className="text-[#C40503] border-[#C40503]/20 hover:bg-[#C40503]/5">
-                 <Download className="h-4 w-4 mr-2" />
-                 Export Data
-               </Button>
-             </div>
           </div>
         </CardHeader>
         
@@ -638,6 +626,6 @@ export default function RolesPermissionsList() {
           </Tabs>
         </CardContent>
       </Card>
-    </div>
+    </Header>
   );
 }

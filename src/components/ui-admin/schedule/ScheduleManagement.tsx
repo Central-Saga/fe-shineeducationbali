@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
+import { Header } from "@/components/ui-admin/layout";
 
 const ScheduleManagement = () => {
   const [schedules, setSchedules] = useState<Schedule[]>(scheduleData);
@@ -212,25 +213,20 @@ const ScheduleManagement = () => {
   const pendingSchedules = schedules.filter(s => s.status === 'DRAFT').length;
 
   return (
-    <div className="space-y-8">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-[#C40001]">Schedule Management</h1>
-          <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
-            <span>Dashboard</span>
-            <span className="text-gray-400">/</span>
-            <span>Schedule Management</span>
-          </div>
-        </div>
-        <Button 
-          onClick={() => router.push("/dashboard/schedule/create")}
-          className="bg-[#C40001] hover:bg-[#a30300] text-white"
-        >
-          <UserPlus className="h-4 w-4 mr-2" />
-          Add New Schedule
-        </Button>
-      </div>
+    <Header
+      header={{
+        title: "Schedule Management",
+        description: "Kelola semua jadwal dalam sistem",
+        actions: [
+          {
+            label: "Add New Schedule",
+            onClick: () => router.push("/dashboard/schedule/create"),
+            icon: <UserPlus className="h-4 w-4" />,
+            variant: "default",
+          },
+        ],
+      }}
+    >
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -438,7 +434,7 @@ const ScheduleManagement = () => {
           )}
         </div>
       </div>
-    </div>
+    </Header>
   );
 };
 

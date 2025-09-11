@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Pencil, Trash, Eye, ChevronLeft, ChevronRight, BookOpen, Users, UserPlus, Clock, Search, Filter } from "lucide-react";
+import { Header } from "@/components/ui-admin/layout";
 
 export function CourseList() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -106,25 +107,20 @@ export function CourseList() {
   const pendingCourses = coursesData.filter(course => course.status === "DRAFT").length;
 
   return (
-    <div className="space-y-8">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-[#C40001]">Course Management</h1>
-          <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
-            <span>Dashboard</span>
-            <span className="text-gray-400">/</span>
-            <span>Course Management</span>
-          </div>
-        </div>
-        <Button 
-          onClick={() => setDialogOpen(true)}
-          className="bg-[#C40001] hover:bg-[#a30300] text-white"
-        >
-          <UserPlus className="h-4 w-4 mr-2" />
-          Add New Course
-        </Button>
-      </div>
+    <Header
+      header={{
+        title: "Course Management",
+        description: "Kelola semua kursus dalam sistem",
+        actions: [
+          {
+            label: "Add New Course",
+            onClick: () => setDialogOpen(true),
+            icon: <UserPlus className="h-4 w-4" />,
+            variant: "default",
+          },
+        ],
+      }}
+    >
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -419,6 +415,6 @@ export function CourseList() {
           </div>
         </div>
       )}
-    </div>
+    </Header>
   );
 }

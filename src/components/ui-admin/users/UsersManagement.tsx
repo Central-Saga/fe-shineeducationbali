@@ -51,6 +51,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { mockDetailedUsers, User } from "@/data/data-admin/users-data";
+import { Header } from "@/components/ui-admin/layout";
 
 interface UsersManagementProps {
   title: string;
@@ -227,34 +228,20 @@ export default function UsersManagement({
   };
 
   return (
-    <div className="space-y-8 px-6 py-10 max-w-[90rem] mx-auto bg-white">
-      {/* Header with breadcrumbs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div>
-          <h1 className="text-2xl font-bold text-[#C40001]">
-            {title}
-          </h1>
-          <div className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
-            <Link href="/dashboard" className="hover:text-[#C40503] transition-colors">
-              Dashboard
-            </Link>
-            <span className="text-gray-400">/</span>
-            <Link href="/dashboard/users" className="hover:text-[#C40503] transition-colors">
-              User Management
-            </Link>
-            {userType !== "all" && (
-              <>
-                <span className="text-gray-400">/</span>
-                <span className="text-gray-600">{title}</span>
-              </>
-            )}
-          </div>
-        </div>
-        <Button className="bg-[#C40001] hover:bg-[#a30300] shadow-sm transition-all duration-300">
-          <UserPlus className="h-4 w-4 mr-2" />
-          Add New {userType === "admin" ? "Admin" : userType === "teacher" ? "Teacher" : userType === "student" ? "Student" : "User"}
-        </Button>
-      </div>
+    <Header
+      header={{
+        title: title,
+        description: description,
+        actions: [
+          {
+            label: `Add New ${userType === "admin" ? "Admin" : userType === "teacher" ? "Teacher" : userType === "student" ? "Student" : "User"}`,
+            onClick: () => console.log("Add new user"),
+            icon: <UserPlus className="h-4 w-4" />,
+            variant: "default",
+          },
+        ],
+      }}
+    >
       
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -661,6 +648,6 @@ export default function UsersManagement({
           </div>
         </CardContent>
       </Card>
-    </div>
+    </Header>
   );
 }
