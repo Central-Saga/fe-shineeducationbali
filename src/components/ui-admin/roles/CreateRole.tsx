@@ -1,429 +1,275 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import {
-  ArrowLeft,
-  Shield,
-  Save,
-  X,
-  CheckSquare,
-  XSquare,
-  Plus,
-} from "lucide-react";
-import Link from "next/link";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Header } from "@/components/ui-admin/layout";
+import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
-// Define types
-interface Permission {
-  id: number;
-  name: string;
-  code: string;
-  description: string;
-  category: string;
-}
+const formSchema = z.object({
+  name: z.string().min(2, {
+    message: "Nama role harus minimal 2 karakter.",
+  }),
+  description: z.string().min(10, {
+    message: "Deskripsi harus minimal 10 karakter.",
+  }),
+  permissions: z.array(z.string()).min(1, "Pilih minimal satu permission"),
+});
 
-interface Role {
-  id: string;
-  name: string;
-  description: string;
-  userCount: number;
-  permissions: number[];
-  isDefault: boolean;
-}
+type FormValues = z.infer<typeof formSchema>;
+
+const availablePermissions = [
+  { id: "user:manage", name: "User Management", description: "Create, update, and delete user accounts", category: "User Administration" },
+  { id: "profile:view", name: "View Profile", description: "View user profiles", category: "User Administration" },
+  { id: "settings:edit", name: "Edit Settings", description: "Edit system settings", category: "System Administration" },
+  { id: "course:view", name: "View Courses", description: "View available courses", category: "Education" },
+  { id: "course:manage", name: "Manage Courses", description: "Create, update, and delete courses", category: "Education" },
+  { id: "grade:manage", name: "Grade Management", description: "Assign and manage student grades", category: "Education" },
+  { id: "finance:manage", name: "Financial Management", description: "Manage financial transactions and reports", category: "Finance" },
+  { id: "report:generate", name: "Report Generation", description: "Generate and download system reports", category: "Reporting" },
+  { id: "attendance:manage", name: "Attendance Management", description: "Manage student attendance", category: "Education" },
+  { id: "role:manage", name: "Role Management", description: "Create, update, and delete user roles", category: "User Administration" },
+];
 
 export default function CreateRole() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [permissions, setPermissions] = useState<Permission[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    permissions: [] as number[],
-    isDefault: false
-  });
 
-  const [errors, setErrors] = useState({
-    name: "",
-    description: "",
-    permissions: ""
-  });
-
-  useEffect(() => {
-    // Mock data - would be replaced with API call
-    const mockPermissions: Permission[] = [
-      {
-        id: 1,
-        name: "User Management",
-        code: "user:manage",
-        description: "Create, update, and delete user accounts",
-        category: "User Administration",
-      },
-      {
-        id: 2,
-        name: "View Profile",
-        code: "profile:view",
-        description: "View user profiles",
-        category: "User Administration",
-      },
-      {
-        id: 3,
-        name: "Edit Settings",
-        code: "settings:edit",
-        description: "Edit system settings",
-        category: "System Administration",
-      },
-      {
-        id: 4,
-        name: "View Courses",
-        code: "course:view",
-        description: "View available courses",
-        category: "Education",
-      },
-      {
-        id: 5,
-        name: "Manage Courses",
-        code: "course:manage",
-        description: "Create, update, and delete courses",
-        category: "Education",
-      },
-      {
-        id: 6,
-        name: "Grade Management",
-        code: "grade:manage",
-        description: "Assign and manage student grades",
-        category: "Education",
-      },
-      {
-        id: 7,
-        name: "Financial Management",
-        code: "finance:manage",
-        description: "Manage financial transactions and reports",
-        category: "Finance",
-      },
-      {
-        id: 8,
-        name: "Report Generation",
-        code: "report:generate",
-        description: "Generate and download system reports",
-        category: "Reporting",
-      },
-      {
-        id: 9,
-        name: "Attendance Management",
-        code: "attendance:manage",
-        description: "Manage student attendance",
-        category: "Education",
-      },
-      {
-        id: 10,
-        name: "Role Management",
-        code: "role:manage",
-        description: "Create, update, and delete user roles",
-        category: "User Administration",
-      },
-    ];
-
-    setPermissions(mockPermissions);
-    setLoading(false);
-  }, []);
-
-  // Group permissions by category
-  const permissionsByCategory: Record<string, Permission[]> = {};
-  permissions.forEach((permission) => {
-    if (!permissionsByCategory[permission.category]) {
-      permissionsByCategory[permission.category] = [];
-    }
-    permissionsByCategory[permission.category].push(permission);
-  });
-
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-    
-    // Clear error when user starts typing
-    if (errors[field as keyof typeof errors]) {
-      setErrors(prev => ({
-        ...prev,
-        [field]: ""
-      }));
-    }
-  };
-
-  const handlePermissionToggle = (permissionId: number) => {
-    setFormData(prev => ({
-      ...prev,
-      permissions: prev.permissions.includes(permissionId)
-        ? prev.permissions.filter(id => id !== permissionId)
-        : [...prev.permissions, permissionId]
-    }));
-  };
-
-  const handleSelectAll = (category: string) => {
-    const categoryPermissions = permissionsByCategory[category].map(p => p.id);
-    const allSelected = categoryPermissions.every(id => formData.permissions.includes(id));
-    
-    if (allSelected) {
-      // Deselect all permissions in this category
-      setFormData(prev => ({
-        ...prev,
-        permissions: prev.permissions.filter(id => !categoryPermissions.includes(id))
-      }));
-    } else {
-      // Select all permissions in this category
-      setFormData(prev => ({
-        ...prev,
-        permissions: [...new Set([...prev.permissions, ...categoryPermissions])]
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
       name: "",
       description: "",
-      permissions: ""
-    };
+      permissions: [],
+    },
+  });
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Role name is required";
-    }
-
-    if (!formData.description.trim()) {
-      newErrors.description = "Description is required";
-    }
-
-    if (formData.permissions.length === 0) {
-      newErrors.permissions = "At least one permission must be selected";
-    }
-
-    setErrors(newErrors);
-    return !Object.values(newErrors).some(error => error !== "");
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-
-    setSaving(true);
-    
+  const onSubmit = async (data: FormValues) => {
     try {
+      setLoading(true);
+      // In real app, submit to API
+      console.log("Creating role:", data);
+      
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Here you would make the actual API call to create the role
-      console.log("Creating role:", formData);
-      
-      // Redirect back to roles list
+      toast.success("Role berhasil dibuat");
       router.push("/dashboard/users/roles");
     } catch (error) {
       console.error("Error creating role:", error);
+      toast.error("Gagal membuat role");
     } finally {
-      setSaving(false);
+      setLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C40001]"></div>
-      </div>
-    );
-  }
+  const groupedPermissions = availablePermissions.reduce((acc, permission) => {
+    if (!acc[permission.category]) {
+      acc[permission.category] = [];
+    }
+    acc[permission.category].push(permission);
+    return acc;
+  }, {} as Record<string, typeof availablePermissions>);
 
   return (
-    <div className="space-y-8 px-6 py-10 max-w-4xl mx-auto bg-white">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <Link href="/dashboard/users/roles">
-          <Button variant="outline" size="icon" className="h-10 w-10">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold text-[#C40001]">Create New Role</h1>
-          <p className="text-gray-500 mt-1">Define a new role with specific permissions</p>
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Basic Information */}
-        <Card className="shadow-md border-none overflow-hidden">
-          <div className="h-1.5 w-full bg-[#C40001]"></div>
-          <CardHeader className="pb-3 pt-5 bg-white">
-            <CardTitle className="text-xl font-semibold flex items-center gap-2">
-              <Shield className="h-5 w-5 text-[#C40001]" />
-              Role Information
-            </CardTitle>
-            <CardDescription>
-              Provide basic information about the role
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="role-name" className="text-sm font-medium">
-                  Role Name *
-                </Label>
-                <Input
-                  id="role-name"
-                  placeholder="Enter role name"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                  className={errors.name ? "border-red-500" : ""}
+    <Header
+      header={{
+        title: "Create New Role",
+        description: "Create a new role with specific permissions",
+        showBackButton: true,
+        backHref: "/dashboard/users/roles",
+        actions: [
+          {
+            label: "Create Role",
+            onClick: () => {
+              const form = document.getElementById("role-form") as HTMLFormElement;
+              if (form) {
+                form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+              }
+            },
+            icon: <Save className="h-4 w-4" />,
+            variant: "default",
+          },
+        ],
+      }}
+    >
+      <form id="role-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Form */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Basic Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Basic Information</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Role Name *</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g., Content Manager"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-                {errors.name && (
-                  <p className="text-sm text-red-500">{errors.name}</p>
-                )}
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="is-default" className="text-sm font-medium">
-                  Default Role
-                </Label>
-                <div className="flex items-center space-x-2 pt-2">
-                  <Checkbox
-                    id="is-default"
-                    checked={formData.isDefault}
-                    onCheckedChange={(checked) => handleInputChange("isDefault", !!checked)}
-                  />
-                  <Label htmlFor="is-default" className="text-sm font-normal cursor-pointer">
-                    Set as default role for new users
-                  </Label>
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="role-description" className="text-sm font-medium">
-                Description *
-              </Label>
-              <Textarea
-                id="role-description"
-                placeholder="Enter role description"
-                value={formData.description}
-                onChange={(e) => handleInputChange("description", e.target.value)}
-                className={errors.description ? "border-red-500" : ""}
-                rows={3}
-              />
-              {errors.description && (
-                <p className="text-sm text-red-500">{errors.description}</p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
 
-        {/* Permissions */}
-        <Card className="shadow-md border-none overflow-hidden">
-          <div className="h-1.5 w-full bg-[#DAA625]"></div>
-          <CardHeader className="pb-3 pt-5 bg-white">
-            <CardTitle className="text-xl font-semibold flex items-center gap-2">
-              <CheckSquare className="h-5 w-5 text-[#DAA625]" />
-              Permissions
-            </CardTitle>
-            <CardDescription>
-              Select the permissions for this role
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {Object.entries(permissionsByCategory).map(([category, perms]) => (
-              <div key={category} className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium text-gray-900">{category}</h3>
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description *</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Describe the role's responsibilities and access level..."
+                          rows={4}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Permissions */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Permissions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {Object.entries(groupedPermissions).map(([category, permissions]) => (
+                  <div key={category} className="space-y-4">
+                    <h4 className="text-lg font-medium text-gray-900 border-b pb-2">
+                      {category}
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {permissions.map((permission) => (
+                        <FormField
+                          key={permission.id}
+                          control={form.control}
+                          name="permissions"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(permission.id)}
+                                  onCheckedChange={(checked) => {
+                                    const currentPermissions = field.value || [];
+                                    if (checked) {
+                                      field.onChange([...currentPermissions, permission.id]);
+                                    } else {
+                                      field.onChange(
+                                        currentPermissions.filter((id) => id !== permission.id)
+                                      );
+                                    }
+                                  }}
+                                />
+                              </FormControl>
+                              <div className="space-y-1 leading-none">
+                                <FormLabel className="text-sm font-medium">
+                                  {permission.name}
+                                </FormLabel>
+                                <p className="text-xs text-gray-500">
+                                  {permission.description}
+                                </p>
+                              </div>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-8">
+            {/* Form Actions */}
+            <Card>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
                   <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleSelectAll(category)}
-                    className="text-[#DAA625] border-[#DAA625]/20 hover:bg-[#DAA625]/5"
+                    type="submit"
+                    className="w-full bg-[#C40503] hover:bg-[#A30402]"
+                    disabled={loading}
                   >
-                    {perms.every(p => formData.permissions.includes(p.id)) ? (
+                    {loading ? (
                       <>
-                        <XSquare className="h-4 w-4 mr-1" />
-                        Deselect All
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Creating...
                       </>
                     ) : (
                       <>
-                        <CheckSquare className="h-4 w-4 mr-1" />
-                        Select All
+                        <Save className="mr-2 h-4 w-4" />
+                        Create Role
                       </>
                     )}
                   </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => router.push("/dashboard/users/roles")}
+                  >
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Cancel
+                  </Button>
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {perms.map((permission) => (
-                    <div key={permission.id} className="flex items-start space-x-3 p-3 border rounded-lg hover:bg-gray-50">
-                      <Checkbox
-                        id={`permission-${permission.id}`}
-                        checked={formData.permissions.includes(permission.id)}
-                        onCheckedChange={() => handlePermissionToggle(permission.id)}
-                        className="mt-1"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <Label
-                          htmlFor={`permission-${permission.id}`}
-                          className="text-sm font-medium cursor-pointer block"
-                        >
-                          {permission.name}
-                        </Label>
-                        <p className="text-xs text-gray-500 mt-1">{permission.description}</p>
-                        <Badge variant="outline" className="text-xs mt-1">
-                          {permission.code}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-            
-            {errors.permissions && (
-              <p className="text-sm text-red-500">{errors.permissions}</p>
-            )}
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
 
-        {/* Actions */}
-        <div className="flex justify-end gap-4">
-          <Link href="/dashboard/users/roles">
-            <Button variant="outline" type="button">
-              <X className="h-4 w-4 mr-2" />
-              Cancel
-            </Button>
-          </Link>
-          <Button 
-            type="submit" 
-            disabled={saving}
-            className="bg-[#C40001] hover:bg-[#a30300] text-white"
-          >
-            {saving ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
-                Creating...
-              </>
-            ) : (
-              <>
-                <Save className="h-4 w-4 mr-2" />
-                Create Role
-              </>
-            )}
-          </Button>
+            {/* Selected Permissions Summary */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Selected Permissions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {form.watch("permissions")?.length > 0 ? (
+                    form.watch("permissions").map((permissionId) => {
+                      const permission = availablePermissions.find(p => p.id === permissionId);
+                      return (
+                        <div key={permissionId} className="text-sm text-gray-600">
+                          • {permission?.name}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p className="text-sm text-gray-500">No permissions selected</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </form>
-    </div>
+    </Header>
   );
 }
