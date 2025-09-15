@@ -5,3 +5,4 @@ export { Content } from "./Content";
 export { Pagination } from "./Pagination";
 export { AdminHeader } from "./AdminHeader";
 export { AdminSidebar } from "./AdminSidebar";
+export { TableLayout } from "./TableLayout";

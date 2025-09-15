@@ -170,9 +170,7 @@ export default function DashboardPage() {
                   className="flex items-start gap-4 p-4 py-4.5 hover:bg-red-50/30 transition-colors"
                 >
                   <Avatar className="h-10 w-10 border-2 border-red-100">
-                    <AvatarFallback className={`${
-                      index % 2 === 0 ? "bg-gradient-to-br from-[#C40503] to-[#DAA625]" : "bg-gradient-to-br from-[#DAA625] to-[#C40503]"
-                    } text-white`}>
+                    <AvatarFallback className="bg-gradient-to-br from-[#C40503] to-red-600 text-white">
                       {activity.user
                         .split(" ")
                         .map((n) => n[0])

@@ -151,7 +151,8 @@ export default function EditPermission({ permissionId }: EditPermissionProps) {
         ],
       }}
     >
-      <form id="permission-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <Form {...form}>
+        <form id="permission-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Form */}
           <div className="lg:col-span-2 space-y-8">
@@ -309,7 +310,8 @@ export default function EditPermission({ permissionId }: EditPermissionProps) {
             </Card>
           </div>
         </div>
-      </form>
+        </form>
+      </Form>
     </Header>
   );
 }

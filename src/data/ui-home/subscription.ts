@@ -60,50 +60,44 @@ export const subscriptionPlans: SubscriptionPlan[] = [
 
 export const facilities: Facility[] = [
   {
-    title: "Akses Program Lengkap",
-    description:
-      "Optimasi semua program pembelajaran yang sesuai dengan kebutuhan Anda",
-    icon: "M12 6v6m0 0v6m0-6h6m-6 0H6",
+    title: "Ruang Kelas Ber-AC",
+    description: "Ruang kelas ber-AC yang bersih dan nyaman.",
+    icon: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z M8 21v-4a2 2 0 012-2h4a2 2 0 012 2v4 M12 3v18",
   },
   {
-    title: "Modul Up to Date",
-    description:
-      "Materi pembelajaran selalu diperbarui mengikuti perkembangan kurikulum",
-    icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
+    title: "Akses Wi-Fi Gratis",
+    description: "Akses Wi-Fi gratis untuk mendukung pembelajaran digital.",
+    icon: "M5 12a7 7 0 1114 0 7 7 0 01-14 0z M12 5v14 M5 12h14",
   },
   {
-    title: "Konsultasi Gratis",
-    description: "Konsultasi langsung dengan pengajar berpengalaman kapan saja",
-    icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
+    title: "Teknologi Modern",
+    description: "Proyektor dan teknologi modern di setiap kelas.",
+    icon: "M2 3h20v14H2z M8 21h8 M12 17v4",
   },
   {
-    title: "Wifi Gratis",
-    description:
-      "Akses internet cepat dan gratis untuk mendukung pembelajaran online",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z",
+    title: "Area Diskusi",
+    description: "Area diskusi yang santai dan inspiratif.",
+    icon: "M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z",
   },
   {
-    title: "Akses Makanan",
-    description:
-      "Nikmati pilihan makanan dan minuman yang lezat untuk mengisi ulang energi Anda.",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z", // You'll likely want to change this icon too!
+    title: "Bimbingan Privat",
+    description: "Layanan bimbingan belajar privat tambahan.",
+    icon: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
   },
   {
-    title: "Modul Pembelajaran",
-    description:
-      "Tersedia modul pembelajaran interaktif untuk mendukung proses belajar Anda.",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z", // Change icon
+    title: "Parkir Luas & Aman",
+    description: "Parkir luas dan aman untuk kendaraan siswa.",
+    icon: "M4 16v4h16v-4M4 20h16 M2 12l1.5-6h17L22 12M6 18h.01M18 18h.01",
   },
   {
-    title: "Ruangan Ber-AC",
-    description:
-      "Belajar dalam kenyamanan optimal dengan ruangan berpendingin udara.",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z", // Change icon
+    title: "Toilet Bersih",
+    description: "Toilet bersih yang selalu terawat.",
+    icon: "M9 12l2 2 4-4M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z",
   },
   {
-    title: "Tempat Nyaman",
-    description: "Suasana tenang dan nyaman untuk belajar dan berdiskusi.",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z", // Change icon
+    title: "Ruang Tunggu Orang Tua",
+    description: "Ruang tunggu orang tua yang nyaman.",
+    icon: "M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z M9 22v-4h6v4",
   },
 ];
 
