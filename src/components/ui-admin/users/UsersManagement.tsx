@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { mockDetailedUsers, User } from "@/data/data-admin/users-data";
-import { Header, TableLayout } from "@/components/ui-admin/layout";
+import { Header, TableLayout, StatsGrid } from "@/components/ui-admin/layout";
 
 interface UsersManagementProps {
   title: string;
@@ -424,7 +424,14 @@ export default function UsersManagement({
         ],
       }}
     >
-      <TableLayout
+        {/* Statistics Cards */}
+        <StatsGrid 
+          stats={statsData} 
+          columns={4}
+          className="mb-6"
+        />
+
+        <TableLayout
         title={title}
         description={description}
         data={currentUsers}
@@ -462,8 +469,9 @@ export default function UsersManagement({
         totalItems={filteredUsers.length}
         onPageChange={setCurrentPage}
         onItemsPerPageChange={setItemsPerPage}
-        stats={statsData}
+        stats={[]}
         loading={loading}
+        showStats={false}
       />
     </Header>
   );

@@ -6,3 +6,5 @@ export { Pagination } from "./Pagination";
 export { AdminHeader } from "./AdminHeader";
 export { AdminSidebar } from "./AdminSidebar";
 export { TableLayout } from "./TableLayout";
+export { StatsCard } from "./StatsCard";
+export { StatsGrid } from "./StatsGrid";
