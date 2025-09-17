@@ -1,4 +1,4 @@
-import { SubjectName, StatusType, Grade } from "@/types/grade";
+import { Grade } from "@/types/grade";
 
 export const studentGrades: Grade[] = [
   {

@@ -5,7 +5,7 @@ interface FetchOptions extends RequestInit {
 export const apiRequest = async <T>(
   method: string,
   endpoint: string,
-  data?: any,
+  data?: unknown,
   options?: FetchOptions
 ): Promise<T> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.shineeducationbali.com";

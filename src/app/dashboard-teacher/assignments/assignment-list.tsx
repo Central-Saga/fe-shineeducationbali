@@ -55,7 +55,7 @@ export default function AssignmentListPage() {
     console.log("Downloading assignment:", id);
   };
 
-  const handleFormSubmit = (data: any) => {
+  const handleFormSubmit = (data: { title: string; description: string; dueDate: string; points: number }) => {
     console.log("Form submitted:", data);
     setIsDialogOpen(false);
     // Here you would update your data with the new values

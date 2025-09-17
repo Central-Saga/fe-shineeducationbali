@@ -2,14 +2,11 @@ import {
   LayoutDashboard,
   Users,
   GraduationCap,
-  Calendar,
   Settings,
   FilePieChart,
-  BookOpen,
   ClipboardList,
   School,
   Wallet,
-  CalendarRange,
   Briefcase, // Tambahan icon untuk Career Center
 } from "lucide-react";
 
@@ -24,7 +21,7 @@ export interface SubMenuItem {
 export interface MenuItem {
   name: string;
   href: string;
-  icon: any; // Using any for Lucide icons
+  icon: React.ComponentType<{ className?: string }>; // Using proper type for Lucide icons
   submenu?: SubMenuItem[];
   permission?: string; // 'view' or 'edit' or undefined (defaults to full access)
   roles?: string[]; // which roles can see this menu item

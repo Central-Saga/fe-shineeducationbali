@@ -137,7 +137,7 @@ export default function ScheduleDetail() {
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4">Daftar Guru</h3>
             <div className="space-y-4">
-              {schedule.teacher_schedules.map((teacher, index) => (
+              {schedule.teacher_schedules.map((teacher) => (
                 <div
                   key={teacher.teacher_id}
                   className="flex justify-between items-center"
@@ -156,7 +156,7 @@ export default function ScheduleDetail() {
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4">Daftar Kelas</h3>
             <div className="space-y-4">
-              {schedule.class_schedules.map((class_schedule, index) => (
+              {schedule.class_schedules.map((class_schedule) => (
                 <div
                   key={class_schedule.class_id}
                   className="flex justify-between items-center"

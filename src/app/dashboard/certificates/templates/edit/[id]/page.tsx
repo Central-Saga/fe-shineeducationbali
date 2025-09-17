@@ -20,11 +20,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Upload, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { toast } from "sonner";
 import type { CertificateTemplate } from "@/types/template";
-import { validateTemplateFile } from "@/lib/template-handlers";
+// import { validateTemplateFile } from "@/lib/template-handlers";
 
 // Interface tidak diperlukan lagi karena kita mengambil ID dari URL langsung
 
@@ -72,7 +72,7 @@ export default function EditTemplatePage() {
         };
 
         setTemplate(mockTemplate);
-      } catch (error) {
+      } catch {
         toast.error("Gagal memuat data template");
         router.push("/dashboard/certificates/templates");
       }
@@ -89,7 +89,7 @@ export default function EditTemplatePage() {
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
       toast.success("Template berhasil diperbarui");
       router.push("/dashboard/certificates/templates");
-    } catch (error) {
+    } catch {
       toast.error("Gagal memperbarui template");
     } finally {
       setIsLoading(false);

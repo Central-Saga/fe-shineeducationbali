@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { 
   BookOpen, Download, Search, FileText, Presentation, Video, 
-  BookMarked, Filter, Calendar, User, Eye, ExternalLink 
+  BookMarked, Filter, Calendar, User, Eye 
 } from "lucide-react";
 import {
   DropdownMenu,

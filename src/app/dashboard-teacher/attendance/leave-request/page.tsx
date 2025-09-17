@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { format, addDays, differenceInCalendarDays } from 'date-fns';
+import { format, differenceInCalendarDays } from 'date-fns';
 import { id } from 'date-fns/locale';
-import { Calendar as CalendarIcon, Plus, FileText, Clock, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import { Calendar as CalendarIcon, Plus, Clock, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

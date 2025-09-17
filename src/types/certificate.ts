@@ -21,7 +21,7 @@ export interface Certificate {
   previewUrl?: string;
   recipientName?: string; // For displaying recipient name differently from studentName if needed
   title?: string; // Menambahkan properti title yang optional
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface CertificateTemplate {

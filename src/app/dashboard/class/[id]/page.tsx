@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -60,7 +60,7 @@ const classDetail = {
 
 export default function ClassDetailPage({ params }: { params: { id: string } }) {
   const classId = params.id;
-  const router = useRouter();
+  // const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

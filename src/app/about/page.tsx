@@ -126,7 +126,7 @@ export default function AboutPage() {
                   Filosofi pendidikan kami berlandaskan pada keyakinan bahwa setiap anak memiliki potensi unik yang perlu dieksplorasi dan dikembangkan. Kami tidak hanya fokus pada pencapaian akademik, tetapi juga pembentukan karakter dan keterampilan hidup yang esensial.
                 </p>
                 <p>
-                  Nama "Shine" dipilih karena kami percaya bahwa pendidikan adalah cahaya yang dapat menerangi masa depan. Melalui program-program inovatif dan pendekatan pembelajaran yang menyenangkan, kami berusaha membantu setiap siswa untuk bersinar dengan potensi terbaik mereka.
+                  Nama &quot;Shine&quot; dipilih karena kami percaya bahwa pendidikan adalah cahaya yang dapat menerangi masa depan. Melalui program-program inovatif dan pendekatan pembelajaran yang menyenangkan, kami berusaha membantu setiap siswa untuk bersinar dengan potensi terbaik mereka.
                 </p>
               </div>
             </motion.div>

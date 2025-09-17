@@ -5,8 +5,8 @@ import { PricingCard } from "@/components/ui-student/subscription/PricingCard";
 import { SubscriptionDetails } from "@/components/ui-student/subscription/SubscriptionDetails";
 import { FAQSection } from "@/components/ui-student/subscription/FAQSection";
 import { subscriptionPlans, currentSubscription } from "@/data/data-student/subscription-data";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CreditCard, Calendar, BookOpen, Users, Award, Zap, Headphones, Star } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CreditCard, BookOpen, Users, Award, Zap, Headphones } from "lucide-react";
 import Image from 'next/image';
 
 export default function SubscriptionPage() {

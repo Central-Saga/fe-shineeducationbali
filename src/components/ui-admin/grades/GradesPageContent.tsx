@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Edit2, Plus, MoreHorizontal, PencilIcon, Trash2 } from "lucide-react";
+import { Eye, Plus, MoreHorizontal, PencilIcon, Trash2 } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -19,9 +19,9 @@ import { Overview } from "@/components/ui-admin/grades/Overview";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function GradesPageContent() {
-  const [grades, setGrades] = useState(studentGrades);
+  const [grades] = useState(studentGrades);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [levelFilter, setLevelFilter] = useState("all");
@@ -75,7 +75,7 @@ export function GradesPageContent() {
   }, [searchTerm, levelFilter, subjectFilter, statusFilter]);
 
   // Define columns for DataTable
-  const columns: ColumnDef<typeof studentGrades[0]>[] = [
+  const columns: ColumnDef<typeof grades[0]>[] = [
     {
       id: "no",
       header: () => <div>No</div>,
@@ -197,9 +197,9 @@ export function GradesPageContent() {
     },
   ];
 
-  if (loading) {
-    return <div className="flex justify-center p-8">Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div className="flex justify-center p-8">Loading...</div>;
+  // }
 
   return (
     <Header

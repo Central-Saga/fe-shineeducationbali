@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Edit2, Plus, MoreHorizontal, PencilIcon, Trash2, DollarSign, Calendar, User } from "lucide-react";
+import { Eye, Plus, MoreHorizontal, PencilIcon, Trash2, DollarSign, Calendar, User } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Header, TableLayout } from "@/components/ui-admin/layout";
-import { apiRequest } from "@/lib/api";
+// import { apiRequest } from "@/lib/api";
 
 interface TeacherSalary {
   id: string;
@@ -36,7 +36,7 @@ interface TeacherSalary {
 export function TeacherSalaryManagement() {
   const [salaries, setSalaries] = useState<TeacherSalary[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [statusFilter, setStatusFilter] = useState("all");

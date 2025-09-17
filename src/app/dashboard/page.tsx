@@ -6,11 +6,8 @@ import {
   GraduationCap,
   Calendar,
   DollarSign,
-  TrendingUp,
   Award,
   Activity,
-  Settings,
-  Bell,
 } from "lucide-react";
 import {
   Card,
@@ -20,7 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 import { Header } from "@/components/ui-admin/layout";
 
 export default function DashboardPage() {

@@ -7,7 +7,7 @@ import {
   BookOpen, 
   FileText, 
   UserCheck, 
-  Clock, 
+  // Clock, 
   TrendingUp,
   Calendar,
   CheckCircle,
@@ -17,7 +17,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+// import { Progress } from "@/components/ui/progress";
 
 interface StudentData {
   nama: string;
@@ -90,13 +90,13 @@ export default function StudentDashboard() {
     );
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('id-ID', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-  };
+  // const formatDate = (dateString: string) => {
+  //   return new Date(dateString).toLocaleDateString('id-ID', {
+  //     day: 'numeric',
+  //     month: 'long',
+  //     year: 'numeric'
+  //   });
+  // };
 
   const getDaysUntilDue = (dueDate: string) => {
     const today = new Date();

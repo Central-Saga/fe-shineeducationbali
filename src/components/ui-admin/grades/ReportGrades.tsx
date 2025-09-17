@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Header } from "@/components/ui-admin/layout/Header";
-import { Download, FileText, BarChart3, TrendingUp } from "lucide-react";
+import { Download, BarChart3, TrendingUp } from "lucide-react";
 import { apiRequest } from "@/lib/api";
 
 interface GradeReport {

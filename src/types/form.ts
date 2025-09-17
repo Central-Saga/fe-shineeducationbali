@@ -8,7 +8,7 @@ export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputEleme
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface FormFieldProps<T extends FieldValues = any> {
+export interface FormFieldProps<T extends FieldValues = FieldValues> {
   form: UseFormReturn<T>;
   name: keyof T;
   label?: string;

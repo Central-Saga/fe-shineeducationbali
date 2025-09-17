@@ -1,19 +1,19 @@
 // ...existing code...
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'next/navigation';
-import { useEffect, useState as useReactState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useEffect } from 'react';
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getClassDetail } from '@/data/data-student/class-detail-data';
-import { ClassDetailHeader } from '@/components/ui-student/classes/class-detail/ClassDetailHeader';
-import { ClassMaterials } from '@/components/ui-student/classes/class-detail/ClassMaterials';
-import { ClassAssignments } from '@/components/ui-student/classes/class-detail/ClassAssignments';
-import { ClassDiscussion } from '@/components/ui-student/classes/class-detail/ClassDiscussion';
-import { ClassAnnouncements } from '@/components/ui-student/classes/class-detail/ClassAnnouncements';
-import { ClassAttendance } from '@/components/ui-student/classes/class-detail/ClassAttendance';
+// import { ClassDetailHeader } from '@/components/ui-student/classes/class-detail/ClassDetailHeader';
+// import { ClassMaterials } from '@/components/ui-student/classes/class-detail/ClassMaterials';
+// import { ClassAssignments } from '@/components/ui-student/classes/class-detail/ClassAssignments';
+// import { ClassDiscussion } from '@/components/ui-student/classes/class-detail/ClassDiscussion';
+// import { ClassAnnouncements } from '@/components/ui-student/classes/class-detail/ClassAnnouncements';
+// import { ClassAttendance } from '@/components/ui-student/classes/class-detail/ClassAttendance';
 import Link from 'next/link';
 import { ChevronLeft, Clock, User, BookOpen, FileText, Download, Eye, ExternalLink } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -24,16 +24,16 @@ export default function ClassDetailPage() {
   const { studentAssignments, studentMaterials } = require('@/data/data-student/student-materials-assignments');
 
   // State untuk search tugas & materi
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
 
   // Filter tugas & materi berdasarkan search
   const filteredAssignments = (studentAssignments ?? []).filter((item: any) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    item.title.toLowerCase().includes("") ||
+    item.description.toLowerCase().includes("")
   );
   const filteredMaterials = (studentMaterials ?? []).filter((item: any) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    item.title.toLowerCase().includes("") ||
+    item.description.toLowerCase().includes("")
   );
 
   // Next.js 15+ params is a Promise, must unwrap with React.use()
@@ -53,28 +53,28 @@ export default function ClassDetailPage() {
   }, [paramsPromise]);
 
   // Checkbox progress tugas & materi, simpan ke localStorage agar sinkron dengan ClassCard
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const totalItems = filteredAssignments.length + filteredMaterials.length;
-  useEffect(() => {
-    if (typeof window !== 'undefined' && classId) {
-      const saved = localStorage.getItem('classProgress_' + classId);
-      setCheckedItems(saved ? JSON.parse(saved) : []);
-    }
-  }, [classId]);
-  const handleCheckItem = (id: string) => {
-    setCheckedItems(prev => {
-      const updated = prev.includes(id)
-        ? prev.filter(itemId => itemId !== id)
-        : [...prev, id];
-      if (typeof window !== 'undefined' && classId) {
-        localStorage.setItem('classProgress_' + classId, JSON.stringify(updated));
-      }
-      return updated;
-    });
-  };
-  const [showAssignmentDetail, setShowAssignmentDetail] = useState(false);
+  // const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  // const totalItems = filteredAssignments.length + filteredMaterials.length;
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined' && classId) {
+  //     const saved = localStorage.getItem('classProgress_' + classId);
+  //     setCheckedItems(saved ? JSON.parse(saved) : []);
+  //   }
+  // }, [classId]);
+  // const handleCheckItem = (id: string) => {
+  //   setCheckedItems(prev => {
+  //     const updated = prev.includes(id)
+  //       ? prev.filter(itemId => itemId !== id)
+  //       : [...prev, id];
+  //     if (typeof window !== 'undefined' && classId) {
+  //       localStorage.setItem('classProgress_' + classId, JSON.stringify(updated));
+  //     }
+  //     return updated;
+  //   });
+  // };
+  // const [showAssignmentDetail, setShowAssignmentDetail] = useState(false);
   const classDetail = getClassDetail(classId);
-  const [activeTab, setActiveTab] = useState('pertemuan');
+  // const [activeTab, setActiveTab] = useState('pertemuan');
 
   // Redirect or show error if class not found
   if (!classDetail) {

@@ -16,16 +16,16 @@ import {
 } from "@/components/ui/select";
 import { 
   Search, 
-  Filter, 
+  // Filter, 
   Eye,
-  Calendar,
+  // Calendar,
   Clock,
   FileText,
   CheckCircle,
   AlertCircle,
   BookOpen,
   Upload,
-  ArrowRight
+  // ArrowRight
 } from "lucide-react";
 
 interface Assignment {
@@ -168,10 +168,10 @@ export default function StudentAssignmentsPage() {
     return diffDays;
   };
 
-  const handleViewAssignment = (assignmentId: string) => {
-    console.log("View assignment:", assignmentId);
-    // Navigate to assignment detail page
-  };
+  // const handleViewAssignment = (assignmentId: string) => {
+  //   console.log("View assignment:", assignmentId);
+  //   // Navigate to assignment detail page
+  // };
 
   const handleSubmitAssignment = (assignmentId: string) => {
     console.log("Submit assignment:", assignmentId);

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClassCard } from "@/components/ui-student/classes/ClassCard";
 import { CalendarView } from "@/components/ui-student/classes/CalendarView";
 import { studentClasses, pastClasses } from "@/data/data-student/classes-data";
@@ -20,7 +20,7 @@ export default function ClassesPage() {
   const selectedDayClasses = studentClasses.find(schedule => schedule.id === selectedDayId)?.sessions || [];
   
   // Filter classes based on search query
-  const filterClasses = (classes: any[]) => {
+  const filterClasses = (classes: { title: string; subject: string; description: string }[]) => {
     if (!searchQuery) return classes;
     return classes.filter(session => 
       session.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -132,7 +132,7 @@ export default function ClassesPage() {
         {/* Class List */}
         <div>
           {(() => {
-            let classList: any[] = [];
+            let classList: { id: string; title: string; subject: string; description: string; time: string; duration: number; teacher: string; status: string; materials?: any[]; assignments?: any[] }[] = [];
             if (sortBy === "upcoming") {
               classList = filterClasses(selectedDayClasses);
             } else if (sortBy === "past") {

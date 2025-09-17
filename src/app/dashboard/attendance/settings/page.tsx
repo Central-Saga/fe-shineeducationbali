@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Header, Content } from "@/components/ui-admin/layout";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Settings, Clock, FileText, Users, Save } from "lucide-react";
+import { Save } from "lucide-react";
 
 export default function AttendanceSettingsPage() {
   const [settings, setSettings] = useState({
