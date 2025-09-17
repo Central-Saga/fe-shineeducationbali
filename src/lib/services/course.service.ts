@@ -6,101 +6,61 @@ import {
   CategoryFormData,
   MaterialFormData,
 } from "@/types/course";
+import { apiRequest } from "../api";
 
 class CourseService {
   private apiUrl = "/api/v1/courses";
 
   // Course Management
   async getCourses(): Promise<Course[]> {
-    const response = await fetch(this.apiUrl);
-    if (!response.ok) throw new Error("Failed to fetch courses");
-    return response.json();
+    return apiRequest<Course[]>("GET", this.apiUrl);
   }
 
   async getCourseById(id: string): Promise<Course> {
-    const response = await fetch(`${this.apiUrl}/${id}`);
-    if (!response.ok) throw new Error("Failed to fetch course");
-    return response.json();
+    return apiRequest<Course>("GET", `${this.apiUrl}/${id}`);
   }
 
   async createCourse(data: CourseFormData): Promise<Course> {
-    const response = await fetch(this.apiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error("Failed to create course");
-    return response.json();
+    return apiRequest<Course>("POST", this.apiUrl, data);
   }
 
   async updateCourse(
     id: string,
     data: Partial<CourseFormData>
   ): Promise<Course> {
-    const response = await fetch(`${this.apiUrl}/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error("Failed to update course");
-    return response.json();
+    return apiRequest<Course>("PUT", `${this.apiUrl}/${id}`, data);
   }
 
   async deleteCourse(id: string): Promise<void> {
-    const response = await fetch(`${this.apiUrl}/${id}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) throw new Error("Failed to delete course");
+    return apiRequest<void>("DELETE", `${this.apiUrl}/${id}`);
   }
 
   // Category Management
   async getCategories(): Promise<CourseCategory[]> {
-    const response = await fetch(`${this.apiUrl}/categories`);
-    if (!response.ok) throw new Error("Failed to fetch categories");
-    return response.json();
+    return apiRequest<CourseCategory[]>("GET", `${this.apiUrl}/categories`);
   }
 
   async createCategory(data: CategoryFormData): Promise<CourseCategory> {
-    const response = await fetch(`${this.apiUrl}/categories`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error("Failed to create category");
-    return response.json();
+    return apiRequest<CourseCategory>("POST", `${this.apiUrl}/categories`, data);
   }
 
   async updateCategory(
     id: string,
     data: Partial<CategoryFormData>
   ): Promise<CourseCategory> {
-    const response = await fetch(`${this.apiUrl}/categories/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error("Failed to update category");
-    return response.json();
+    return apiRequest<CourseCategory>("PUT", `${this.apiUrl}/categories/${id}`, data);
   }
 
   // Material Management
   async getMaterials(courseId: string): Promise<CourseMaterial[]> {
-    const response = await fetch(`${this.apiUrl}/${courseId}/materials`);
-    if (!response.ok) throw new Error("Failed to fetch materials");
-    return response.json();
+    return apiRequest<CourseMaterial[]>("GET", `${this.apiUrl}/${courseId}/materials`);
   }
 
   async createMaterial(
     courseId: string,
     data: MaterialFormData
   ): Promise<CourseMaterial> {
-    const response = await fetch(`${this.apiUrl}/${courseId}/materials`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error("Failed to create material");
-    return response.json();
+    return apiRequest<CourseMaterial>("POST", `${this.apiUrl}/${courseId}/materials`, data);
   }
 
   async updateMaterial(
@@ -108,30 +68,13 @@ class CourseService {
     materialId: string,
     data: Partial<MaterialFormData>
   ): Promise<CourseMaterial> {
-    const response = await fetch(
-      `${this.apiUrl}/${courseId}/materials/${materialId}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      }
-    );
-    if (!response.ok) throw new Error("Failed to update material");
-    return response.json();
+    return apiRequest<CourseMaterial>("PUT", `${this.apiUrl}/${courseId}/materials/${materialId}`, data);
   }
 
   async reorderMaterials(
     courseId: string,
     materialIds: string[]
   ): Promise<void> {
-    const response = await fetch(
-      `${this.apiUrl}/${courseId}/materials/reorder`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ materialIds }),
-      }
-    );
-    if (!response.ok) throw new Error("Failed to reorder materials");
+    return apiRequest<void>("PUT", `${this.apiUrl}/${courseId}/materials/reorder`, { materialIds });
   }
 }

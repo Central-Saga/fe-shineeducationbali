@@ -5,6 +5,7 @@ import {
   GradeSummary,
   GradeComponents,
 } from "@/types/grade";
+import { apiRequest } from "../api";
  
 class GradeService {
   private apiUrl = "/api/v1/grades";
@@ -54,15 +55,11 @@ class GradeService {
       });
     }
 
-    const response = await fetch(`${this.apiUrl}?${queryParams.toString()}`);
-    if (!response.ok) throw new Error("Failed to fetch grades");
-    return response.json();
+    return apiRequest<Grade[]>("GET", `${this.apiUrl}?${queryParams.toString()}`);
   }
 
   async getGradeById(id: string): Promise<Grade> {
-    const response = await fetch(`${this.apiUrl}/${id}`);
-    if (!response.ok) throw new Error("Failed to fetch grade");
-    return response.json();
+    return apiRequest<Grade>("GET", `${this.apiUrl}/${id}`);
   }
 
   async createGrade(data: GradeFormData): Promise<Grade> {
@@ -81,14 +78,7 @@ class GradeService {
       updatedAt: new Date(),
     };
 
-    const response = await fetch(this.apiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(gradeData),
-    });
-
-    if (!response.ok) throw new Error("Failed to create grade");
-    return response.json();
+    return apiRequest<Grade>("POST", this.apiUrl, gradeData);
   }
 
   async updateGrade(id: string, data: Partial<GradeFormData>): Promise<Grade> {
@@ -100,14 +90,11 @@ class GradeService {
       ? this.calculateFinalGrade(data.components, template)
       : currentGrade.finalGrade;
 
-    const response = await fetch(`${this.apiUrl}/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data, finalGrade, updatedAt: new Date() }),
+    return apiRequest<Grade>("PUT", `${this.apiUrl}/${id}`, {
+      ...data,
+      finalGrade,
+      updatedAt: new Date(),
     });
-
-    if (!response.ok) throw new Error("Failed to update grade");
-    return response.json();
   }
 
   async publishGrade(id: string): Promise<Grade> {
@@ -125,23 +112,14 @@ class GradeService {
       );
     }
 
-    const response = await fetch(`${this.apiUrl}/${id}/publish`, {
-      method: "PUT",
-    });
-
-    if (!response.ok) throw new Error("Failed to publish grade");
-    return response.json();
+    return apiRequest<Grade>("PUT", `${this.apiUrl}/${id}/publish`);
   }
 
   async getGradeTemplate(courseId: string): Promise<GradeTemplate> {
-    const response = await fetch(`/api/v1/courses/${courseId}/grade-template`);
-    if (!response.ok) throw new Error("Failed to fetch grade template");
-    return response.json();
+    return apiRequest<GradeTemplate>("GET", `/api/v1/courses/${courseId}/grade-template`);
   }
 
   async getStudentGradeSummary(studentId: string): Promise<GradeSummary[]> {
-    const response = await fetch(`${this.apiUrl}/summary/${studentId}`);
-    if (!response.ok) throw new Error("Failed to fetch grade summary");
-    return response.json();
+    return apiRequest<GradeSummary[]>("GET", `${this.apiUrl}/summary/${studentId}`);
   }
 }

@@ -8,7 +8,7 @@ export const apiRequest = async <T>(
   data?: any,
   options?: FetchOptions
 ): Promise<T> => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.shineeducationbali.com";
 
   try {
     const response = await fetch(`${baseUrl}${endpoint}`, {

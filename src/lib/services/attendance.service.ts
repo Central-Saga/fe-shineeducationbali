@@ -3,6 +3,7 @@ import {
   AttendanceReport,
   AttendanceSettings,
 } from "@/types/attendance";
+import { apiRequest } from "../api";
 
 class AttendanceService {
   private attendanceRecords: Attendance[] = [];
@@ -10,15 +11,7 @@ class AttendanceService {
   async markAttendance(
     data: Omit<Attendance, "id" | "createdAt" | "updatedAt">
   ): Promise<Attendance> {
-    // TODO: Implement API call
-    const newAttendance = {
-      id: Math.random().toString(36).substr(2, 9),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      ...data,
-    };
-    this.attendanceRecords.push(newAttendance);
-    return newAttendance;
+    return apiRequest<Attendance>("POST", "/api/v1/attendance", data);
   }
 
   async getStudentAttendance(
@@ -26,23 +19,20 @@ class AttendanceService {
     startDate: string,
     endDate: string
   ): Promise<Attendance[]> {
-    // TODO: Implement API call
-    return this.attendanceRecords.filter(
-      (record) =>
-        record.studentId === studentId &&
-        record.date >= startDate &&
-        record.date <= endDate
-    );
+    const params = new URLSearchParams({
+      studentId,
+      startDate,
+      endDate,
+    });
+    return apiRequest<Attendance[]>("GET", `/api/v1/attendance/student?${params}`);
   }
 
   async getClassAttendance(
     classId: string,
     date: string
   ): Promise<Attendance[]> {
-    // TODO: Implement API call
-    return this.attendanceRecords.filter(
-      (record) => record.classId === classId && record.date === date
-    );
+    const params = new URLSearchParams({ classId, date });
+    return apiRequest<Attendance[]>("GET", `/api/v1/attendance/class?${params}`);
   }
 
   async generateReport(
@@ -50,33 +40,22 @@ class AttendanceService {
     startDate: string,
     endDate: string
   ): Promise<AttendanceReport[]> {
-    // TODO: Implement API call
-    return [];
+    const params = new URLSearchParams({
+      classId,
+      startDate,
+      endDate,
+    });
+    return apiRequest<AttendanceReport[]>("GET", `/api/v1/attendance/reports?${params}`);
   }
 
   async getSettings(): Promise<AttendanceSettings> {
-    // TODO: Implement API call
-    return {
-      lateThresholdMinutes: 15,
-      allowLateEntry: true,
-      requireNotes: true,
-      notifyParents: true,
-      autoMarkAbsent: true,
-    };
+    return apiRequest<AttendanceSettings>("GET", "/api/v1/attendance/settings");
   }
 
   async updateSettings(
     settings: Partial<AttendanceSettings>
   ): Promise<AttendanceSettings> {
-    // TODO: Implement API call
-    return {
-      lateThresholdMinutes: 15,
-      allowLateEntry: true,
-      requireNotes: true,
-      notifyParents: true,
-      autoMarkAbsent: true,
-      ...settings,
-    };
+    return apiRequest<AttendanceSettings>("PUT", "/api/v1/attendance/settings", settings);
   }
 }
 

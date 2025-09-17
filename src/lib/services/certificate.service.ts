@@ -179,8 +179,9 @@ class CertificateService {
   }
 
   async generatePDF(certificateId: string): Promise<Blob> {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.shineeducationbali.com";
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/certificates/${certificateId}/pdf`,
+      `${baseUrl}/api/v1/certificates/${certificateId}/pdf`,
       {
         credentials: "include",
       }
@@ -228,8 +229,9 @@ class CertificateService {
 
   // Preview a certificate before generation
   async previewCertificate(params: GenerateCertificateParams): Promise<Blob> {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.shineeducationbali.com";
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/certificates/preview`,
+      `${baseUrl}/api/v1/certificates/preview`,
       {
         method: "POST",
         headers: {

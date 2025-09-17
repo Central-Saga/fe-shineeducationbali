@@ -1,4 +1,5 @@
 import { Class } from "@/types/class";
+import { apiRequest } from "../api";
 
 interface StudentPlacement {
   studentId: string;
@@ -38,25 +39,15 @@ class ClassService {
   ];
 
   async getClasses(): Promise<Class[]> {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return this.classes;
+    return apiRequest<Class[]>("GET", "/api/v1/classes");
   }
 
   async getClassById(id: string): Promise<Class | null> {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    return this.classes.find(c => c.id === id) || null;
+    return apiRequest<Class | null>("GET", `/api/v1/classes/${id}`);
   }
 
   async bulkPlaceStudents(placements: StudentPlacement[]): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    // In a real application, this would update the database
-    // For now, we'll just update the currentStudents count
-    placements.forEach(placement => {
-      const classIndex = this.classes.findIndex(c => c.id === placement.classId);
-      if (classIndex !== -1) {
-        this.classes[classIndex].currentStudents += 1;
-      }
-    });
+    return apiRequest<void>("POST", "/api/v1/classes/bulk-place", { placements });
   }
 }
 

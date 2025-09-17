@@ -1,4 +1,5 @@
 import { Student } from "@/types/student";
+import { apiRequest } from "../api";
 
 class StudentService {
   private students: Student[] = [
@@ -132,119 +133,42 @@ class StudentService {
   ];
 
   async getStudents(): Promise<Student[]> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    return this.students;
+    return apiRequest<Student[]>("GET", "/api/v1/students");
   }
 
   async getStudentById(id: string): Promise<Student | null> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    return this.students.find((s) => s.id === id) || null;
+    return apiRequest<Student | null>("GET", `/api/v1/students/${id}`);
   }
 
   async createStudent(
     student: Omit<Student, "id" | "enrollmentDate" | "packages" | "placements">
   ): Promise<Student> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const newStudent = {
-      id: Math.random().toString(36).substr(2, 9),
-      enrollmentDate: new Date().toISOString(),
-      packages: [],
-      placements: [],
-      ...student,
-    };
-    this.students.push(newStudent);
-    return newStudent;
+    return apiRequest<Student>("POST", "/api/v1/students", student);
   }
 
   async updateStudent(
     id: string,
     data: Partial<Omit<Student, "id" | "enrollmentDate">>
   ): Promise<Student> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    const index = this.students.findIndex((s) => s.id === id);
-    if (index !== -1) {
-      this.students[index] = {
-        ...this.students[index],
-        ...data,
-      };
-      return this.students[index];
-    }
-    throw new Error("Student not found");
+    return apiRequest<Student>("PUT", `/api/v1/students/${id}`, data);
   }
 
   async deleteStudent(id: string): Promise<void> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    const index = this.students.findIndex((s) => s.id === id);
-    if (index !== -1) {
-      this.students.splice(index, 1);
-      return;
-    }
-    throw new Error("Student not found");
+    return apiRequest<void>("DELETE", `/api/v1/students/${id}`);
   }
 
   async enrollInPackage(
     studentId: string,
     packageId: string
   ): Promise<Student> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const student = await this.getStudentById(studentId);
-    if (!student) throw new Error("Student not found");
-    const newPackage: Student["packages"][0] = {
-      id: packageId,
-      name: "Package Name",
-      type: "regular",
-      courses: [
-        {
-          id: "c6",
-          name: "Matematika",
-          level: "SMP",
-          schedule: "Senin & Rabu, 14:00-15:30",
-          teacher: "Pak Budi",
-        },
-      ],
-      duration: 6,
-      startDate: new Date().toISOString(),
-      endDate: new Date(
-        Date.now() + 6 * 30 * 24 * 60 * 60 * 1000
-      ).toISOString(),
-      status: "active",
-      price: 1500000,
-    };
-
-    return this.updateStudent(studentId, {
-      packages: [...student.packages, newPackage],
-    });
+    return apiRequest<Student>("POST", `/api/v1/students/${studentId}/enroll`, { packageId });
   }
 
   async updatePlacement(
     studentId: string,
     placement: Student["placements"][0]
   ): Promise<Student> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    const student = await this.getStudentById(studentId);
-    if (!student) throw new Error("Student not found");
-
-    const existingPlacementIndex = student.placements.findIndex(
-      (p) => p.classId === placement.classId
-    );
-
-    let updatedPlacements = [...student.placements];
-    if (existingPlacementIndex >= 0) {
-      updatedPlacements[existingPlacementIndex] = placement;
-    } else {
-      updatedPlacements.push(placement);
-    }
-
-    return this.updateStudent(studentId, {
-      placements: updatedPlacements,
-    });
+    return apiRequest<Student>("PUT", `/api/v1/students/${studentId}/placement`, placement);
   }
 }
 

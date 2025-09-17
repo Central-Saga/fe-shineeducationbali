@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { apiRequest } from "@/lib/api";
 import {
   Dialog,
   DialogContent,
@@ -78,22 +79,10 @@ export function GradeInputDialog() {
 
   const handleSubmit = async () => {
     try {
-      // TODO: Implement API call
-      const response = await fetch("/api/v1/grades", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setOpen(false);
-        setFormData(initialFormData);
-        router.refresh(); // Refresh the page to show new data
-      } else {
-        console.error("Failed to save grade");
-      }
+      await apiRequest("POST", "/api/v1/grades", formData);
+      setOpen(false);
+      setFormData(initialFormData);
+      router.refresh(); // Refresh the page to show new data
     } catch (error) {
       console.error("Error saving grade:", error);
     }

@@ -5,6 +5,7 @@ import {
   UserRole,
   PermissionCode,
 } from "@/types/role";
+import { apiRequest } from "../api";
 
 class RoleService {
   private defaultPermissions: Record<Role, PermissionCode[]> = {
@@ -47,8 +48,7 @@ class RoleService {
   };
 
   async getUserRoles(userId: string): Promise<Role[]> {
-    // TODO: Implement API call to get user roles
-    return ["student"];
+    return apiRequest<Role[]>("GET", `/api/v1/users/${userId}/roles`);
   }
 
   async getUserPermissions(userId: string): Promise<PermissionCode[]> {
@@ -72,11 +72,11 @@ class RoleService {
   }
 
   async assignRole(userId: string, role: Role): Promise<void> {
-    // TODO: Implement API call to assign role
+    return apiRequest<void>("POST", `/api/v1/users/${userId}/roles`, { role });
   }
 
   async removeRole(userId: string, role: Role): Promise<void> {
-    // TODO: Implement API call to remove role
+    return apiRequest<void>("DELETE", `/api/v1/users/${userId}/roles`, { role });
   }
 }
 

@@ -1,4 +1,5 @@
 import { Teacher, TeacherFormData } from "@/types/teacher";
+import { apiRequest } from "../api";
 
 // Dummy data untuk guru
 const dummyTeachers: Teacher[] = [
@@ -7,9 +8,9 @@ const dummyTeachers: Teacher[] = [
     name: "I Made Wijaya",
     email: "made.wijaya@shineeducation.com",
     phoneNumber: "081234567890",
-    profilePhoto: null,
+    profilePhoto: "",
     subjects: ["Matematika", "Fisika"],
-    educationLevel: ["SMP", "SMA"],
+    educationLevel: ["SMP", "SMA/SMK"],
     status: "ACTIVE",
     specialization: ["Matematika", "Fisika"],
     yearsOfExperience: 5,
@@ -25,9 +26,9 @@ const dummyTeachers: Teacher[] = [
     name: "Ni Kadek Dewi",
     email: "kadek.dewi@shineeducation.com",
     phoneNumber: "081345678901",
-    profilePhoto: null,
+    profilePhoto: "",
     subjects: ["Bahasa Inggris"],
-    educationLevel: ["SD", "SMP", "SMA"],
+    educationLevel: ["SD", "SMP", "SMA/SMK"],
     status: "ACTIVE",
     specialization: ["English Literature", "TOEFL Preparation"],
     yearsOfExperience: 7,
@@ -43,9 +44,9 @@ const dummyTeachers: Teacher[] = [
     name: "I Putu Surya",
     email: "putu.surya@shineeducation.com",
     phoneNumber: "081456789012",
-    profilePhoto: null,
+    profilePhoto: "",
     subjects: ["IPA", "Biologi", "Kimia"],
-    educationLevel: ["SMP", "SMA"],
+    educationLevel: ["SMP", "SMA/SMK"],
     status: "ACTIVE",
     specialization: ["Sains", "Biologi", "Kimia"],
     yearsOfExperience: 4,
@@ -61,9 +62,9 @@ const dummyTeachers: Teacher[] = [
     name: "Ni Made Sri",
     email: "made.sri@shineeducation.com",
     phoneNumber: "081567890123",
-    profilePhoto: null,
+    profilePhoto: "",
     subjects: ["Bahasa Indonesia", "Sastra"],
-    educationLevel: ["SD", "SMP", "SMA"],
+    educationLevel: ["SD", "SMP", "SMA/SMK"],
     status: "INACTIVE",
     specialization: ["Bahasa Indonesia", "Sastra Indonesia"],
     yearsOfExperience: 6,
@@ -78,9 +79,9 @@ const dummyTeachers: Teacher[] = [
     name: "I Nyoman Putra",
     email: "nyoman.putra@shineeducation.com",
     phoneNumber: "081678901234",
-    profilePhoto: null,
+    profilePhoto: "",
     subjects: ["IPS", "Sejarah", "Geografi"],
-    educationLevel: ["SMP", "SMA"],
+    educationLevel: ["SMP", "SMA/SMK"],
     status: "ACTIVE",
     specialization: ["Ilmu Sosial", "Sejarah", "Geografi"],
     yearsOfExperience: 8,
@@ -96,51 +97,23 @@ class TeacherService {
   private apiUrl = "/api/v1/teachers";
 
   async getTeachers(): Promise<Teacher[]> {
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return dummyTeachers;
+    return apiRequest<Teacher[]>("GET", this.apiUrl);
   }
 
   async getTeacherById(id: string): Promise<Teacher> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    const teacher = dummyTeachers.find((teacher) => teacher.id === id);
-    if (!teacher) throw new Error("Failed to fetch teacher");
-    return teacher;
+    return apiRequest<Teacher>("GET", `${this.apiUrl}/${id}`);
   }
 
   async createTeacher(data: TeacherFormData): Promise<Teacher> {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const newId = String(
-      Math.max(...dummyTeachers.map((t) => parseInt(t.id.slice(3)))) + 1
-    ).padStart(3, "0");
-    const newTeacher: Teacher = {
-      ...data,
-      id: `TCH${newId}`,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    dummyTeachers.push(newTeacher);
-    return newTeacher;
+    return apiRequest<Teacher>("POST", this.apiUrl, data);
   }
 
   async updateTeacher(id: string, data: TeacherFormData): Promise<Teacher> {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const index = dummyTeachers.findIndex((t) => t.id === id);
-    if (index === -1) throw new Error("Teacher not found");
-
-    dummyTeachers[index] = {
-      ...dummyTeachers[index],
-      ...data,
-      updatedAt: new Date(),
-    };
-    return dummyTeachers[index];
+    return apiRequest<Teacher>("PUT", `${this.apiUrl}/${id}`, data);
   }
 
   async deleteTeacher(id: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const index = dummyTeachers.findIndex((t) => t.id === id);
-    if (index === -1) throw new Error("Teacher not found");
-    dummyTeachers.splice(index, 1);
+    return apiRequest<void>("DELETE", `${this.apiUrl}/${id}`);
   }
 }
 
