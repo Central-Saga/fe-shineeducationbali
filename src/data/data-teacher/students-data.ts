@@ -1,0 +1,278 @@
+// Sample student data
+export const studentsData = [
+  {
+    id: "STD001",
+    name: "Ahmad Rizal",
+    email: "ahmad.rizal@student.shineeducation.com",
+    phone: "082112345678",
+    class: "X-A",
+    grade: "A",
+    attendance: 95,
+    status: "active",
+    avatar: "/images/avatars/student1.png"
+  },
+  {
+    id: "STD002",
+    name: "Siti Nurhaliza",
+    email: "siti.nurhaliza@student.shineeducation.com",
+    phone: "082223456789",
+    class: "X-A",
+    grade: "A-",
+    attendance: 90,
+    status: "active",
+    avatar: "/images/avatars/student2.png"
+  },
+  {
+    id: "STD003",
+    name: "Budi Prakoso",
+    email: "budi.prakoso@student.shineeducation.com",
+    phone: "082334567890",
+    class: "X-B",
+    grade: "B+",
+    attendance: 85,
+    status: "active",
+    avatar: "/images/avatars/student3.png"
+  },
+  {
+    id: "STD004",
+    name: "Diana Putri",
+    email: "diana.putri@student.shineeducation.com",
+    phone: "082445678901",
+    class: "X-B",
+    grade: "B",
+    attendance: 80,
+    status: "active",
+    avatar: "/images/avatars/student4.png"
+  },
+  {
+    id: "STD005",
+    name: "Eko Prasetyo",
+    email: "eko.prasetyo@student.shineeducation.com",
+    phone: "082556789012",
+    class: "X-A",
+    grade: "C+",
+    attendance: 75,
+    status: "inactive",
+    avatar: "/images/avatars/student5.png"
+  },
+  {
+    id: "STD006",
+    name: "Fina Maharani",
+    email: "fina.maharani@student.shineeducation.com",
+    phone: "082667890123",
+    class: "X-B",
+    grade: "A",
+    attendance: 98,
+    status: "active",
+    avatar: "/images/avatars/student6.png"
+  },
+  {
+    id: "STD007",
+    name: "Gilang Ramadhan",
+    email: "gilang.ramadhan@student.shineeducation.com",
+    phone: "082778901234",
+    class: "X-A",
+    grade: "B+",
+    attendance: 87,
+    status: "active",
+    avatar: "/images/avatars/student7.png"
+  },
+  {
+    id: "STD008",
+    name: "Hana Wijaya",
+    email: "hana.wijaya@student.shineeducation.com",
+    phone: "082889012345",
+    class: "X-B",
+    grade: "A-",
+    attendance: 92,
+    status: "active",
+    avatar: "/images/avatars/student8.png"
+  },
+  {
+    id: "STD009",
+    name: "Irfan Maulana",
+    email: "irfan.maulana@student.shineeducation.com",
+    phone: "082990123456",
+    class: "X-A",
+    grade: "B-",
+    attendance: 78,
+    status: "active",
+    avatar: "/images/avatars/student9.png"
+  },
+  {
+    id: "STD010",
+    name: "Jasmine Putri",
+    email: "jasmine.putri@student.shineeducation.com",
+    phone: "082101234567",
+    class: "X-B",
+    grade: "C",
+    attendance: 65,
+    status: "active",
+    avatar: "/images/avatars/student10.png"
+  },
+  {
+    id: "STD011",
+    name: "Kevin Sanjaya",
+    email: "kevin.sanjaya@student.shineeducation.com",
+    phone: "082112345679",
+    class: "X-A",
+    grade: "B+",
+    attendance: 88,
+    status: "active",
+    avatar: "/images/avatars/student11.png"
+  },
+  {
+    id: "STD012",
+    name: "Linda Wati",
+    email: "linda.wati@student.shineeducation.com",
+    phone: "082212345680",
+    class: "X-B",
+    grade: "A-",
+    attendance: 92,
+    status: "active",
+    avatar: "/images/avatars/student12.png"
+  },
+  {
+    id: "STD013",
+    name: "Muhammad Fadli",
+    email: "muhammad.fadli@student.shineeducation.com",
+    phone: "082312345681",
+    class: "X-A",
+    grade: "B",
+    attendance: 85,
+    status: "active",
+    avatar: "/images/avatars/student13.png"
+  },
+  {
+    id: "STD014",
+    name: "Nadia Saputri",
+    email: "nadia.saputri@student.shineeducation.com",
+    phone: "082412345682",
+    class: "X-B",
+    grade: "A",
+    attendance: 94,
+    status: "active",
+    avatar: "/images/avatars/student14.png"
+  },
+  {
+    id: "STD015",
+    name: "Oki Setiawan",
+    email: "oki.setiawan@student.shineeducation.com",
+    phone: "082512345683",
+    class: "X-A",
+    grade: "B-",
+    attendance: 79,
+    status: "active",
+    avatar: "/images/avatars/student15.png"
+  },
+  {
+    id: "STD016",
+    name: "Putri Amelia",
+    email: "putri.amelia@student.shineeducation.com",
+    phone: "082612345684",
+    class: "X-B",
+    grade: "B+",
+    attendance: 88,
+    status: "active",
+    avatar: "/images/avatars/student16.png"
+  },
+  {
+    id: "STD017",
+    name: "Rizki Ananda",
+    email: "rizki.ananda@student.shineeducation.com",
+    phone: "082712345685",
+    class: "X-A",
+    grade: "A-",
+    attendance: 91,
+    status: "active",
+    avatar: "/images/avatars/student17.png"
+  },
+  {
+    id: "STD018",
+    name: "Sarah Maulida",
+    email: "sarah.maulida@student.shineeducation.com",
+    phone: "082812345686",
+    class: "X-B",
+    grade: "B",
+    attendance: 84,
+    status: "active",
+    avatar: "/images/avatars/student18.png"
+  },
+  {
+    id: "STD019",
+    name: "Tegar Firmansyah",
+    email: "tegar.firmansyah@student.shineeducation.com",
+    phone: "082912345687",
+    class: "X-A",
+    grade: "C+",
+    attendance: 76,
+    status: "active",
+    avatar: "/images/avatars/student19.png"
+  },
+  {
+    id: "STD020",
+    name: "Umi Kalsum",
+    email: "umi.kalsum@student.shineeducation.com",
+    phone: "083012345688",
+    class: "X-B",
+    grade: "B-",
+    attendance: 81,
+    status: "active",
+    avatar: "/images/avatars/student20.png"
+  },
+  {
+    id: "STD021",
+    name: "Vino Bastian",
+    email: "vino.bastian@student.shineeducation.com",
+    phone: "083112345689",
+    class: "X-A",
+    grade: "A",
+    attendance: 95,
+    status: "active",
+    avatar: "/images/avatars/student21.png"
+  },
+  {
+    id: "STD022",
+    name: "Winda Aprilia",
+    email: "winda.aprilia@student.shineeducation.com",
+    phone: "083212345690",
+    class: "X-B",
+    grade: "B+",
+    attendance: 87,
+    status: "active",
+    avatar: "/images/avatars/student22.png"
+  },
+  {
+    id: "STD023",
+    name: "Xaverius Daniel",
+    email: "xaverius.daniel@student.shineeducation.com",
+    phone: "083312345691",
+    class: "X-A",
+    grade: "A-",
+    attendance: 93,
+    status: "active",
+    avatar: "/images/avatars/student23.png"
+  },
+  {
+    id: "STD024",
+    name: "Yuni Shara",
+    email: "yuni.shara@student.shineeducation.com",
+    phone: "083412345692",
+    class: "X-B",
+    grade: "B",
+    attendance: 86,
+    status: "active",
+    avatar: "/images/avatars/student24.png"
+  },
+  {
+    id: "STD025",
+    name: "Zaki Firmansyah",
+    email: "zaki.firmansyah@student.shineeducation.com",
+    phone: "083512345693",
+    class: "X-A",
+    grade: "B+",
+    attendance: 89,
+    status: "active",
+    avatar: "/images/avatars/student25.png"
+  }
+];
