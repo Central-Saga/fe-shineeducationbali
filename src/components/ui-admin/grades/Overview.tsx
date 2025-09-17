@@ -14,11 +14,6 @@ export function Overview() {
         icon={<Activity className="h-6 w-6 text-[#C40503]" />}
         color="bg-[#C40503]"
         bgColor="bg-red-50"
-        trend={{
-          value: gradesOverview.lastMonthIncrease,
-          isPositive: true,
-          label: "vs bulan lalu"
-        }}
       />
       
       <StatsCard
@@ -28,11 +23,6 @@ export function Overview() {
         icon={<TrendingUp className="h-6 w-6 text-[#DAA625]" />}
         color="bg-[#DAA625]"
         bgColor="bg-yellow-50"
-        trend={{
-          value: gradesOverview.lastPeriodIncrease,
-          isPositive: true,
-          label: "vs periode sebelumnya"
-        }}
       />
       
       <StatsCard
