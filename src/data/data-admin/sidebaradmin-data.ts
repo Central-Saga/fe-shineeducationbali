@@ -161,20 +161,16 @@ export const sidebarAdminNavigation: MenuItem[] = [
     href: "/dashboard/payments",
     icon: Wallet,
     submenu: [
+
       {
-        name: "Transactions",
-        href: "/dashboard/payments/transactions",
-        description: "Manage student payments & teacher salaries",
+        name: "Teacher Salary",
+        href: "/dashboard/payments/teacher-salary",
+        description: "Manage teacher salary payments",
       },
       {
-        name: "Financial Reports",
-        href: "/dashboard/payments/reports",
-        description: "View financial reports and summaries",
-      },
-      {
-        name: "Payment Settings",
-        href: "/dashboard/payments/settings",
-        description: "Configure payment system",
+        name: "Student Packages",
+        href: "/dashboard/payments/student-packages",
+        description: "Manage student program packages",
       },
     ],
   },
