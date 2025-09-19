@@ -45,7 +45,7 @@ export default function AssignmentDetailCard({ assignment, classId, type }: Assi
       <div className="min-h-screen bg-gray-50 pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link
-            href="/dashboard-student/classes"
+            href={`/dashboard-student/classes/${classId || '1'}`}
             className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-6"
           >
             <ChevronLeft className="h-4 w-4 mr-1" />
@@ -57,9 +57,9 @@ export default function AssignmentDetailCard({ assignment, classId, type }: Assi
               <p className="text-gray-600 mb-6">
                 Assignment yang Anda cari tidak tersedia atau tidak ditemukan.
               </p>
-              <Link href="/dashboard-student/classes">
+              <Link href={`/dashboard-student/classes/${classId || '1'}`}>
                 <Button className="bg-[#C40503] hover:bg-[#a30402]">
-                  Kembali ke Daftar Kelas
+                  Kembali ke Kelas
                 </Button>
               </Link>
             </CardContent>
@@ -73,7 +73,7 @@ export default function AssignmentDetailCard({ assignment, classId, type }: Assi
     <div className="min-h-screen bg-gray-50 pt-16">
       <div className="max-w-10/12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link
-          href="/dashboard-student/classes"
+          href={`/dashboard-student/classes/${classId || '1'}`}
           className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-6"
         >
           <ChevronLeft className="h-4 w-4 mr-1" />

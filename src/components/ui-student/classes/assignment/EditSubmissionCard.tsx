@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ChevronLeft, Upload, FileText, X, CheckCircle, AlertCircle, Edit3 } from "lucide-react";
+import { ChevronLeft, Upload, FileText, X, CheckCircle, AlertCircle, Edit3, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { saveSubmissionData } from "@/data/data-student/classes/assignment-data";
+import { saveSubmissionData, clearSubmissionData } from "@/data/data-student/classes/assignment-data";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 interface FileUpload {
   id: string;
@@ -39,6 +40,8 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const [existingSubmission, setExistingSubmission] = useState<any>(null);
+  const [filesToDelete, setFilesToDelete] = useState<string[]>([]);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     // Ambil data submission yang tersimpan
@@ -70,6 +73,34 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
     setFiles(prev => prev.filter(file => file.id !== fileId));
   };
 
+  const markFileForDeletion = (fileId: string) => {
+    setFilesToDelete(prev => [...prev, fileId]);
+  };
+
+  const unmarkFileForDeletion = (fileId: string) => {
+    setFilesToDelete(prev => prev.filter(id => id !== fileId));
+  };
+
+  const handleDeleteSubmission = async () => {
+    setIsDeleting(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Hapus data submission dari localStorage
+    clearSubmissionData(type);
+    
+    // Dispatch custom event untuk update UI
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('assignmentSubmitted', { 
+        detail: { type, deleted: true } 
+      }));
+    }
+    
+    setIsDeleting(false);
+    setIsUpdated(true);
+  };
+
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -92,8 +123,11 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
       type: file.type
     }));
     
-    // Gabungkan file lama dengan file baru
-    const allFiles = [...(existingSubmission?.files || []), ...filesData];
+    // Filter file lama yang tidak dihapus, lalu gabungkan dengan file baru
+    const remainingOldFiles = (existingSubmission?.files || []).filter((file: any) => 
+      !filesToDelete.includes(file.id)
+    );
+    const allFiles = [...remainingOldFiles, ...filesData];
     
     saveSubmissionData(type, allFiles, comment);
     
@@ -111,7 +145,7 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
   if (isUpdated) {
     return (
       <div className="min-h-screen bg-gray-50 pt-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-10/12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link
             href={`/dashboard-student/classes/${classId}/assignment-detail?type=${type}`}
             className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-6"
@@ -152,7 +186,7 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-10/12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link
           href={`/dashboard-student/classes/${classId}/assignment-detail?type=${type}`}
           className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-6"
@@ -201,18 +235,63 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
                   <h4 className="text-lg font-semibold text-gray-900">Jawaban Saat Ini</h4>
                   <div className="p-4 bg-gray-50 rounded-lg">
                     <div className="space-y-3">
-                      {existingSubmission.files?.map((file: any) => (
-                        <div key={file.id} className="flex items-center gap-3 p-3 bg-white rounded-lg border">
-                          <FileText className="h-5 w-5 text-[#C40503]" />
-                          <div className="flex-1">
-                            <p className="font-medium text-gray-900">{file.name}</p>
-                            <p className="text-sm text-gray-600">{file.size}</p>
+                      {existingSubmission.files?.map((file: any) => {
+                        const isMarkedForDeletion = filesToDelete.includes(file.id);
+                        return (
+                          <div key={file.id} className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${
+                            isMarkedForDeletion 
+                              ? 'bg-red-50 border-red-200' 
+                              : 'bg-white border-gray-200'
+                          }`}>
+                            <FileText className={`h-5 w-5 ${
+                              isMarkedForDeletion ? 'text-red-500' : 'text-[#C40503]'
+                            }`} />
+                            <div className="flex-1">
+                              <p className={`font-medium ${
+                                isMarkedForDeletion ? 'text-red-600 line-through' : 'text-gray-900'
+                              }`}>
+                                {file.name}
+                              </p>
+                              <p className={`text-sm ${
+                                isMarkedForDeletion ? 'text-red-500' : 'text-gray-600'
+                              }`}>
+                                {file.size}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {isMarkedForDeletion ? (
+                                <Badge variant="outline" className="text-red-600 border-red-600">
+                                  Akan Dihapus
+                                </Badge>
+                              ) : (
+                                <Badge variant="outline" className="text-green-600 border-green-600">
+                                  Terkirim
+                                </Badge>
+                              )}
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => 
+                                  isMarkedForDeletion 
+                                    ? unmarkFileForDeletion(file.id)
+                                    : markFileForDeletion(file.id)
+                                }
+                                className={`${
+                                  isMarkedForDeletion 
+                                    ? 'text-green-600 hover:text-green-700 hover:bg-green-50' 
+                                    : 'text-red-600 hover:text-red-700 hover:bg-red-50'
+                                }`}
+                              >
+                                {isMarkedForDeletion ? (
+                                  <CheckCircle className="h-4 w-4" />
+                                ) : (
+                                  <Trash2 className="h-4 w-4" />
+                                )}
+                              </Button>
+                            </div>
                           </div>
-                          <Badge variant="outline" className="text-green-600 border-green-600">
-                            Terkirim
-                          </Badge>
-                        </div>
-                      ))}
+                        );
+                      })}
                       {existingSubmission.comment && (
                         <div className="p-3 bg-white rounded-lg border">
                           <p className="text-sm text-gray-600 mb-1">Komentar:</p>
@@ -282,27 +361,69 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3 justify-end pt-4 border-t">
-                <Link href={`/dashboard-student/classes/${classId}/assignment-detail?type=${type}`}>
-                  <Button variant="outline">Batal</Button>
-                </Link>
-                <Button
-                  onClick={handleUpdate}
-                  disabled={isSubmitting}
-                  className="bg-[#C40503] hover:bg-[#a30402] disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Memperbarui...
-                    </>
-                  ) : (
-                    <>
-                      <Edit3 className="h-4 w-4 mr-2" />
-                      Perbarui Jawaban
-                    </>
-                  )}
-                </Button>
+              <div className="flex gap-3 justify-between pt-4 border-t">
+                <div className="flex gap-2">
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        className="text-red-600 border-red-600 hover:bg-red-50 hover:text-red-700"
+                        disabled={isSubmitting || isDeleting}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Hapus Submission
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Hapus Submission</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Apakah Anda yakin ingin menghapus seluruh submission ini? Tindakan ini tidak dapat dibatalkan.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Batal</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={handleDeleteSubmission}
+                          className="bg-red-600 hover:bg-red-700"
+                          disabled={isDeleting}
+                        >
+                          {isDeleting ? (
+                            <>
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                              Menghapus...
+                            </>
+                          ) : (
+                            'Hapus'
+                          )}
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+                
+                <div className="flex gap-2">
+                  <Link href={`/dashboard-student/classes/${classId}/assignment-detail?type=${type}`}>
+                    <Button variant="outline">Batal</Button>
+                  </Link>
+                  <Button
+                    onClick={handleUpdate}
+                    disabled={isSubmitting || isDeleting}
+                    className="bg-[#C40503] hover:bg-[#a30402] disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Memperbarui...
+                      </>
+                    ) : (
+                      <>
+                        <Edit3 className="h-4 w-4 mr-2" />
+                        Perbarui Jawaban
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
           </CardContent>
