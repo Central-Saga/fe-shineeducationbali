@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   Plus,
@@ -20,6 +23,7 @@ import {
   Key,
   Clock,
   MoreHorizontal,
+  UserCheck,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -55,6 +59,9 @@ export default function RolesPermissionsList() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [activeTab, setActiveTab] = useState("roles");
+  const [selectedPermissions, setSelectedPermissions] = useState<number[]>([]);
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
   useEffect(() => {
     // Mock data - would be replaced with API call
@@ -176,6 +183,51 @@ export default function RolesPermissionsList() {
     role.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     role.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Filter permissions based on search
+  const filteredPermissions = permissions.filter((permission) =>
+    permission.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    permission.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    permission.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Get roles that have a specific permission
+  const getRolesWithPermission = (permissionId: number) => {
+    return roles.filter(role => role.permissions.includes(permissionId));
+  };
+
+  // Get permissions for a specific role
+  const getPermissionsForRole = (roleId: string) => {
+    const role = roles.find(r => r.id === roleId);
+    return role ? role.permissions : [];
+  };
+
+  // Handle permission selection
+  const handlePermissionToggle = (permissionId: number) => {
+    setSelectedPermissions(prev => 
+      prev.includes(permissionId) 
+        ? prev.filter(id => id !== permissionId)
+        : [...prev, permissionId]
+    );
+  };
+
+  // Handle role selection
+  const handleRoleSelect = (roleId: string) => {
+    setSelectedRole(roleId);
+    const rolePermissions = getPermissionsForRole(roleId);
+    setSelectedPermissions(rolePermissions);
+  };
+
+  // Check if permission is selected
+  const isPermissionSelected = (permissionId: number) => {
+    return selectedPermissions.includes(permissionId);
+  };
+
+  // Check if permission belongs to selected role
+  const isPermissionInRole = (permissionId: number, roleId: string) => {
+    const role = roles.find(r => r.id === roleId);
+    return role ? role.permissions.includes(permissionId) : false;
+  };
 
   // Statistics
   const totalRoles = roles.length;
@@ -370,12 +422,6 @@ export default function RolesPermissionsList() {
             variant: "default",
           },
           {
-            label: "Create Permission",
-            href: "/dashboard/users/roles/permissions/add",
-            icon: <Plus className="h-4 w-4" />,
-            variant: "outline",
-          },
-          {
             label: "Export Data",
             onClick: () => console.log("Export data"),
             icon: <Download className="h-4 w-4" />,
@@ -384,24 +430,183 @@ export default function RolesPermissionsList() {
         ],
       }}
     >
-      <TableLayout
-        title="Access Control"
-        description="Manage roles and permissions across the system"
-        data={currentRoles}
-        columns={columns}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        searchPlaceholder="Search roles by name, description..."
-        filters={[]}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        itemsPerPage={itemsPerPage}
-        totalItems={filteredRoles.length}
-        onPageChange={setCurrentPage}
-        onItemsPerPageChange={setItemsPerPage}
-        stats={statsData}
-        loading={loading}
-      />
+      <div className="space-y-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="roles" className="flex items-center gap-2">
+              <Shield className="h-4 w-4" />
+              Roles
+            </TabsTrigger>
+            <TabsTrigger value="permissions" className="flex items-center gap-2">
+              <Key className="h-4 w-4" />
+              Permissions
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="roles" className="space-y-6">
+            <TableLayout
+              title="Access Control"
+              description="Manage roles and permissions across the system"
+              data={currentRoles}
+              columns={columns}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              searchPlaceholder="Search roles by name, description..."
+              filters={[]}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              itemsPerPage={itemsPerPage}
+              totalItems={filteredRoles.length}
+              onPageChange={setCurrentPage}
+              onItemsPerPageChange={setItemsPerPage}
+              stats={statsData}
+              loading={loading}
+            />
+          </TabsContent>
+          
+          <TabsContent value="permissions" className="space-y-6">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold">Permissions Management</h3>
+                  <p className="text-sm text-gray-600">Select a role to view and manage its permissions</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search permissions..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C40503] focus:border-transparent"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Role Selection */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Select Role to Manage Permissions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {roles.map((role) => (
+                      <button
+                        key={role.id}
+                        onClick={() => handleRoleSelect(role.id)}
+                        className={`p-4 rounded-lg border-2 transition-all text-left ${
+                          selectedRole === role.id
+                            ? 'border-[#C40503] bg-red-50'
+                            : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {role.name === "Super Admin" ? (
+                            <ShieldCheck className="h-5 w-5 text-[#C40503]" />
+                          ) : role.name === "Admin" ? (
+                            <Shield className="h-5 w-5 text-amber-600" />
+                          ) : (
+                            <User className="h-5 w-5 text-gray-500" />
+                          )}
+                          <div>
+                            <div className="font-medium text-sm">{role.name}</div>
+                            <div className="text-xs text-gray-500">{role.userCount} users</div>
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Permissions Checkbox List */}
+              {selectedRole && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">
+                      Permissions for {roles.find(r => r.id === selectedRole)?.name}
+                    </CardTitle>
+                    <p className="text-sm text-gray-600">
+                      Check the permissions you want to assign to this role
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {Object.entries(
+                        filteredPermissions.reduce((acc, permission) => {
+                          if (!acc[permission.category]) {
+                            acc[permission.category] = [];
+                          }
+                          acc[permission.category].push(permission);
+                          return acc;
+                        }, {} as Record<string, Permission[]>)
+                      ).map(([category, categoryPermissions]) => (
+                        <div key={category} className="space-y-3">
+                          <div className="flex items-center justify-between border-b pb-2">
+                            <h4 className="font-medium text-gray-900">{category}</h4>
+                            <div className="text-sm text-gray-500">
+                              {categoryPermissions.filter(p => isPermissionSelected(p.id)).length} / {categoryPermissions.length} selected
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {categoryPermissions.map((permission) => (
+                              <div
+                                key={permission.id}
+                                className="flex items-start space-x-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors"
+                              >
+                                <Checkbox
+                                  id={`permission-${permission.id}`}
+                                  checked={isPermissionSelected(permission.id)}
+                                  onCheckedChange={() => handlePermissionToggle(permission.id)}
+                                  className="mt-1"
+                                />
+                                <div className="flex-1 min-w-0">
+                                  <label
+                                    htmlFor={`permission-${permission.id}`}
+                                    className="block cursor-pointer"
+                                  >
+                                    <div className="font-medium text-sm text-gray-900">
+                                      {permission.name}
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1">
+                                      {permission.description}
+                                    </div>
+                                    <div className="flex items-center gap-2 mt-2">
+                                      <Badge variant="outline" className="text-xs">
+                                        {permission.code}
+                                      </Badge>
+                                    </div>
+                                  </label>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* No Role Selected State */}
+              {!selectedRole && (
+                <Card>
+                  <CardContent className="py-12 text-center">
+                    <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                      <Shield className="h-8 w-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Select a Role</h3>
+                    <p className="text-sm text-gray-500">
+                      Choose a role from above to view and manage its permissions
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </Header>
   );
 }

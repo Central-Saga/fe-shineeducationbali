@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, Save } from "lucide-react";
 import { studentService } from "@/lib/services/student.service";
 import { toast } from "sonner";
 import { Student } from "@/types/student";
@@ -174,19 +174,20 @@ export default function StudentForm({ studentId, isEdit = false }: StudentFormPr
             onClick: () => {
               const formElement = document.getElementById("student-form") as HTMLFormElement;
               if (formElement) {
-                formElement.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                formElement.requestSubmit();
               }
             },
-            icon: <Loader2 className="h-4 w-4" />,
+            icon: loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />,
             variant: "default",
           },
         ],
       }}
     >
-      <form id="student-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Card>
-          <CardContent className="p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Form {...form}>
+        <form id="student-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <Card>
+            <CardContent className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
                 name="name"
@@ -413,25 +414,26 @@ export default function StudentForm({ studentId, isEdit = false }: StudentFormPr
                   </FormItem>
                 )}
               />
-            </div>
+              </div>
 
-            <div className="flex justify-end gap-4 mt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.back()}
-                disabled={loading}
-              >
-                Batal
-              </Button>
-              <Button type="submit" disabled={loading}>
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isEdit ? "Simpan Perubahan" : "Tambah Siswa"}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </form>
+              <div className="flex justify-end gap-4 mt-6">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => router.back()}
+                  disabled={loading}
+                >
+                  Batal
+                </Button>
+                <Button type="submit" disabled={loading}>
+                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {isEdit ? "Simpan Perubahan" : "Tambah Siswa"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </form>
+      </Form>
     </Header>
   );
 }

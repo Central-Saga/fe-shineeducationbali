@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Header } from "@/components/ui-admin/layout";
-import { ArrowLeft, Save, Loader2, ChevronLeft, ChevronRight, CheckSquare, Square } from "lucide-react";
+import { ArrowLeft, Save, Loader2, CheckSquare, Square } from "lucide-react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -54,8 +54,6 @@ interface EditRoleProps {
 export default function EditRole({ roleId }: EditRoleProps) {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [permissionsPerPage] = useState(5);
   const router = useRouter();
 
   const form = useForm<FormValues>({
@@ -120,40 +118,39 @@ export default function EditRole({ roleId }: EditRoleProps) {
     return acc;
   }, {} as Record<string, typeof availablePermissions>);
 
-  // Get current page permissions
   const categoryKeys = Object.keys(groupedPermissions);
-  const currentCategory = categoryKeys[currentPage];
-  const currentPermissions = groupedPermissions[currentCategory] || [];
-  const totalPages = categoryKeys.length;
 
-  // Select all permissions in current category
-  const handleSelectAllInCategory = (checked: boolean) => {
-    const currentPermissionIds = currentPermissions.map(p => p.id);
+  // Select all permissions in a category
+  const handleSelectAllInCategory = (category: string, checked: boolean) => {
+    const categoryPermissions = groupedPermissions[category] || [];
+    const categoryPermissionIds = categoryPermissions.map(p => p.id);
     const currentSelectedPermissions = form.getValues("permissions") || [];
     
     if (checked) {
-      // Add all current category permissions
-      const newPermissions = [...new Set([...currentSelectedPermissions, ...currentPermissionIds])];
+      // Add all category permissions
+      const newPermissions = [...new Set([...currentSelectedPermissions, ...categoryPermissionIds])];
       form.setValue("permissions", newPermissions);
     } else {
-      // Remove all current category permissions
-      const newPermissions = currentSelectedPermissions.filter(id => !currentPermissionIds.includes(id));
+      // Remove all category permissions
+      const newPermissions = currentSelectedPermissions.filter(id => !categoryPermissionIds.includes(id));
       form.setValue("permissions", newPermissions);
     }
   };
 
-  // Check if all permissions in current category are selected
-  const isAllInCategorySelected = () => {
-    const currentPermissionIds = currentPermissions.map(p => p.id);
+  // Check if all permissions in a category are selected
+  const isAllInCategorySelected = (category: string) => {
+    const categoryPermissions = groupedPermissions[category] || [];
+    const categoryPermissionIds = categoryPermissions.map(p => p.id);
     const currentSelectedPermissions = form.getValues("permissions") || [];
-    return currentPermissionIds.every(id => currentSelectedPermissions.includes(id));
+    return categoryPermissionIds.every(id => currentSelectedPermissions.includes(id));
   };
 
-  // Check if some permissions in current category are selected
-  const isSomeInCategorySelected = () => {
-    const currentPermissionIds = currentPermissions.map(p => p.id);
+  // Check if some permissions in a category are selected
+  const isSomeInCategorySelected = (category: string) => {
+    const categoryPermissions = groupedPermissions[category] || [];
+    const categoryPermissionIds = categoryPermissions.map(p => p.id);
     const currentSelectedPermissions = form.getValues("permissions") || [];
-    return currentPermissionIds.some(id => currentSelectedPermissions.includes(id));
+    return categoryPermissionIds.some(id => currentSelectedPermissions.includes(id));
   };
 
   if (initialLoading) {
@@ -237,119 +234,75 @@ export default function EditRole({ roleId }: EditRoleProps) {
             {/* Permissions */}
             <Card>
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>Permissions</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500">
-                      Page {currentPage + 1} of {totalPages}
-                    </span>
-                  </div>
-                </div>
+                <CardTitle>Permissions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Current Category Header with Select All */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b pb-3">
-                    <h4 className="text-lg font-medium text-gray-900">
-                      {currentCategory}
-                    </h4>
-                    <div className="flex items-center gap-2">
-                      <Checkbox
-                        checked={isAllInCategorySelected()}
-                        ref={(el) => {
-                          if (el && 'indeterminate' in el) {
-                            (el as any).indeterminate = isSomeInCategorySelected() && !isAllInCategorySelected();
-                          }
-                        }}
-                        onCheckedChange={handleSelectAllInCategory}
-                      />
-                      <span className="text-sm font-medium text-gray-700">
-                        Select All in {currentCategory}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  {/* Current Category Permissions */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {currentPermissions.map((permission) => (
-                      <FormField
-                        key={permission.id}
-                        control={form.control}
-                        name="permissions"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(permission.id)}
-                                onCheckedChange={(checked) => {
-                                  const currentPermissions = field.value || [];
-                                  if (checked) {
-                                    field.onChange([...currentPermissions, permission.id]);
-                                  } else {
-                                    field.onChange(
-                                      currentPermissions.filter((id) => id !== permission.id)
-                                    );
-                                  }
-                                }}
-                              />
-                            </FormControl>
-                            <div className="space-y-1 leading-none">
-                              <FormLabel className="text-sm font-medium">
-                                {permission.name}
-                              </FormLabel>
-                              <p className="text-xs text-gray-500">
-                                {permission.description}
-                              </p>
-                            </div>
-                          </FormItem>
-                        )}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Pagination Controls */}
-                <div className="flex items-center justify-between pt-4 border-t">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
-                    disabled={currentPage === 0}
-                    className="flex items-center gap-2"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                    Previous
-                  </Button>
-                  
-                  <div className="flex items-center gap-2">
-                    {categoryKeys.map((_, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        onClick={() => setCurrentPage(index)}
-                        className={`w-8 h-8 rounded-full text-sm font-medium transition-colors ${
-                          index === currentPage
-                            ? "bg-[#C40503] text-white"
-                            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                        }`}
-                      >
-                        {index + 1}
-                      </button>
-                    ))}
-                  </div>
-                  
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
-                    disabled={currentPage === totalPages - 1}
-                    className="flex items-center gap-2"
-                  >
-                    Next
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
+                {/* All Categories */}
+                <div className="space-y-6">
+                  {categoryKeys.map((category) => {
+                    const categoryPermissions = groupedPermissions[category] || [];
+                    return (
+                      <div key={category} className="space-y-4">
+                        <div className="flex items-center justify-between border-b pb-3">
+                          <h4 className="text-lg font-medium text-gray-900">
+                            {category}
+                          </h4>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              checked={isAllInCategorySelected(category)}
+                              ref={(el) => {
+                                if (el && 'indeterminate' in el) {
+                                  (el as any).indeterminate = isSomeInCategorySelected(category) && !isAllInCategorySelected(category);
+                                }
+                              }}
+                              onCheckedChange={(checked) => handleSelectAllInCategory(category, checked as boolean)}
+                            />
+                            <span className="text-sm font-medium text-gray-700">
+                              Select All in {category}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        {/* Category Permissions */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {categoryPermissions.map((permission) => (
+                            <FormField
+                              key={permission.id}
+                              control={form.control}
+                              name="permissions"
+                              render={({ field }) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value?.includes(permission.id)}
+                                      onCheckedChange={(checked) => {
+                                        const currentPermissions = field.value || [];
+                                        if (checked) {
+                                          field.onChange([...currentPermissions, permission.id]);
+                                        } else {
+                                          field.onChange(
+                                            currentPermissions.filter((id) => id !== permission.id)
+                                          );
+                                        }
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <div className="space-y-1 leading-none">
+                                    <FormLabel className="text-sm font-medium">
+                                      {permission.name}
+                                    </FormLabel>
+                                    <p className="text-xs text-gray-500">
+                                      {permission.description}
+                                    </p>
+                                  </div>
+                                </FormItem>
+                              )}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
@@ -418,20 +371,25 @@ export default function EditRole({ roleId }: EditRoleProps) {
               </CardContent>
             </Card>
 
-            {/* Current Category Summary */}
+            {/* Categories Summary */}
             <Card>
               <CardHeader>
-                <CardTitle>Current Category</CardTitle>
+                <CardTitle>Categories Summary</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  <div className="text-sm font-medium text-gray-900">{currentCategory}</div>
-                  <div className="text-xs text-gray-500">
-                    {currentPermissions.length} permissions available
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {currentPermissions.filter(p => form.watch("permissions")?.includes(p.id)).length} selected
-                  </div>
+                <div className="space-y-3">
+                  {categoryKeys.map((category) => {
+                    const categoryPermissions = groupedPermissions[category] || [];
+                    const selectedInCategory = categoryPermissions.filter(p => form.watch("permissions")?.includes(p.id)).length;
+                    return (
+                      <div key={category} className="flex justify-between items-center text-sm">
+                        <span className="text-gray-900">{category}</span>
+                        <span className="text-gray-500">
+                          {selectedInCategory}/{categoryPermissions.length}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
@@ -15,7 +16,6 @@ import {
   MoreHorizontal,
   Edit2,
   Trash2,
-  EyeIcon,
   ShieldCheck,
 } from "lucide-react";
 import {
@@ -41,6 +41,7 @@ export default function UsersManagement({
   userType,
   showRoleFilter = true,
 }: UsersManagementProps) {
+  const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -134,12 +135,28 @@ export default function UsersManagement({
   });
 
   // Handle action buttons
-  const handleView = (user: User) => {
-    console.log("View user details:", user);
+  const handleAdd = () => {
+    if (userType === "teacher") {
+      router.push("/dashboard/users/teachers/add");
+    } else if (userType === "student") {
+      router.push("/dashboard/users/students/add");
+    } else if (userType === "admin") {
+      router.push("/dashboard/users/add");
+    } else {
+      router.push("/dashboard/users/add");
+    }
   };
 
   const handleEdit = (user: User) => {
-    console.log("Edit user:", user);
+    if (userType === "teacher") {
+      router.push(`/dashboard/users/teachers/edit/${user.id}`);
+    } else if (userType === "student") {
+      router.push(`/dashboard/users/students/edit/${user.id}`);
+    } else if (userType === "admin") {
+      router.push(`/dashboard/users/edit/${user.id}`);
+    } else {
+      router.push(`/dashboard/users/edit/${user.id}`);
+    }
   };
 
   const handleDelete = (user: User) => {
@@ -293,11 +310,7 @@ export default function UsersManagement({
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-[160px]">
-                <DropdownMenuItem onClick={() => handleView(user)}>
-                  <EyeIcon className="h-4 w-4 mr-2" />
-                  Detail
-                </DropdownMenuItem>
+              <DropdownMenuContent align="end" className="w-[120px]">
                 <DropdownMenuItem onClick={() => handleEdit(user)}>
                   <Edit2 className="h-4 w-4 mr-2" />
                   Edit
@@ -417,7 +430,7 @@ export default function UsersManagement({
         actions: [
           {
             label: `Add New ${userType === "admin" ? "Admin" : userType === "teacher" ? "Teacher" : userType === "student" ? "Student" : "User"}`,
-            onClick: () => console.log("Add new user"),
+            onClick: handleAdd,
             icon: <UserPlus className="h-4 w-4" />,
             variant: "default",
           },

@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Loader2, Upload } from "lucide-react";
+import { ArrowLeft, Loader2, Upload, Save } from "lucide-react";
 import { teacherService } from "@/lib/services/teacher.service";
 import { uploadImage } from "@/lib/utils/upload";
 import { toast } from "sonner";
@@ -180,19 +180,20 @@ export default function TeacherForm({ teacherId, isEdit = false }: TeacherFormPr
             onClick: () => {
               const formElement = document.getElementById("teacher-form") as HTMLFormElement;
               if (formElement) {
-                formElement.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                formElement.requestSubmit();
               }
             },
-            icon: <Loader2 className="h-4 w-4" />,
+            icon: loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />,
             variant: "default",
           },
         ],
       }}
     >
-      <form id="teacher-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Card>
-          <CardContent className="p-8">
-            <div className="space-y-6">
+      <Form {...form}>
+        <form id="teacher-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <Card>
+            <CardContent className="p-8">
+              <div className="space-y-6">
               {/* Profile Photo */}
               <div className="flex justify-center">
                 <FormField
@@ -556,10 +557,11 @@ export default function TeacherForm({ teacherId, isEdit = false }: TeacherFormPr
                   {isEdit ? "Simpan Perubahan" : "Tambah Guru"}
                 </Button>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </form>
+              </div>
+            </CardContent>
+          </Card>
+        </form>
+      </Form>
     </Header>
   );
 }
