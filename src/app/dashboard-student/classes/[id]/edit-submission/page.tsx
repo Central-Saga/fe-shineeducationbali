@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useParams } from "next/navigation";
-import { AssignmentDetailCard } from "@/components/ui-student/classes/assignment";
+import { EditSubmissionCard } from "@/components/ui-student/classes/assignment";
 import { getAssignmentByType } from "@/data/data-student/classes/assignment-data";
 
-export default function AssignmentDetailPage() {
+export default function EditSubmissionPage() {
   // Ambil tipe tugas dari query param
   const searchParams = useSearchParams();
   const params = useParams();
@@ -36,5 +36,5 @@ export default function AssignmentDetailPage() {
     );
   }
 
-  return <AssignmentDetailCard assignment={assignment} classId={classId} />;
+  return <EditSubmissionCard assignment={assignment} classId={classId} type={type || "kuis"} />;
 }

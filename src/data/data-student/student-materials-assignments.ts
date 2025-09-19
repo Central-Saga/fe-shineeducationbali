@@ -33,50 +33,5 @@ export const studentMaterials = [
   }
 ];
 
-// Dummy data tugas untuk siswa
-export const studentAssignments = [
-  {
-    id: 'a1',
-    title: 'Tugas Aljabar Linear Pertemuan 1',
-    description: 'Kerjakan soal-soal berikut terkait materi matriks dan determinan. Buatlah penyelesaian step-by-step yang jelas untuk setiap soal.',
-    dueDate: '2025-07-18',
-    points: 100,
-    status: 'not-submitted'
-  },
-  {
-    id: 'a2',
-    title: 'Tugas Aplikasi Aljabar Linear dalam Kehidupan',
-    description: 'Buatlah sebuah esai singkat tentang penerapan aljabar linear dalam bidang yang Anda minati (teknologi, ekonomi, sains, dll). Minimal 500 kata dengan referensi.',
-    dueDate: '2025-07-15',
-    points: 100,
-    status: 'submitted',
-    submittedDate: '2025-07-14T15:30:00',
-    attachments: [
-      {
-        id: 'att-1',
-        name: 'Esai_Aplikasi_Aljabar_Linear.pdf',
-        url: '#',
-        size: '1.2 MB'
-      }
-    ]
-  },
-  {
-    id: 'a3',
-    title: 'Quiz Matriks dan Operasinya',
-    description: 'Kerjakan soal-soal quiz tentang matriks dan operasinya dalam waktu 60 menit.',
-    dueDate: '2025-07-10',
-    points: 50,
-    status: 'graded',
-    submittedDate: '2025-07-10T09:45:00',
-    grade: 45,
-    feedback: 'Jawaban sangat baik, terutama pada soal operasi invers matriks. Untuk soal nomor 5, masih perlu sedikit perbaikan dalam langkah-langkah penyelesaian.',
-    attachments: [
-      {
-        id: 'att-2',
-        name: 'Quiz_Matriks_Jawaban.pdf',
-        url: '#',
-        size: '850 KB'
-      }
-    ]
-  }
-];
+// Data assignment sudah dipindahkan ke src/data/data-student/classes/assignment-data.ts
+// File ini sekarang hanya berisi data materi saja

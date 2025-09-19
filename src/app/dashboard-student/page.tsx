@@ -198,9 +198,6 @@ export default function StudentDashboard() {
                   <Calendar className="h-5 w-5 text-blue-600" />
                   Kelas Mendatang
                 </CardTitle>
-                <Link href="/dashboard-student/classes">
-                  <Button variant="outline" size="sm">Lihat Semua</Button>
-                </Link>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -236,9 +233,6 @@ export default function StudentDashboard() {
                   <FileText className="h-5 w-5 text-orange-600" />
                   Tugas Terbaru
                 </CardTitle>
-                <Link href="/dashboard-student/assignments">
-                  <Button variant="outline" size="sm">Lihat Semua</Button>
-                </Link>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -284,36 +278,6 @@ export default function StudentDashboard() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mt-8"
         >
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-yellow-600" />
-                Aksi Cepat
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <Link href="/dashboard-student/classes">
-                  <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
-                    <BookOpen className="h-6 w-6" />
-                    <span>Kelas Saya</span>
-                  </Button>
-                </Link>
-                <Link href="/dashboard-student/assignments">
-                  <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
-                    <FileText className="h-6 w-6" />
-                    <span>Tugas</span>
-                  </Button>
-                </Link>
-                <Link href="/dashboard-student/attendance">
-                  <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
-                    <UserCheck className="h-6 w-6" />
-                    <span>Kehadiran</span>
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
         </motion.div>
       </div>
     </div>

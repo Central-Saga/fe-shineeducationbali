@@ -5,8 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { 
-  Bell, MessageCircle, Home, BookOpen, FileText, Award, UserCheck, CreditCard, 
-  ChevronDown, User, GraduationCap, FolderOpen, BookMarked, FileText as MaterialIcon 
+  Bell, MessageCircle, Home, BookOpen, CreditCard
 } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -18,9 +17,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 
 interface StudentNavbarProps {
@@ -43,25 +39,8 @@ export function StudentNavbar({
 
   const navigationItems = [
     { href: "/dashboard-student", label: "Beranda", icon: Home, type: "single" },
-    { 
-      label: "Academy", 
-      icon: GraduationCap, 
-      type: "dropdown",
-      children: [
-        { href: "/dashboard-student/classes", label: "Kelas", icon: BookOpen },
-        { href: "/dashboard-student/assignments", label: "Tugas", icon: FileText },
-        { href: "/dashboard-student/materials", label: "Materi", icon: MaterialIcon },
-      ]
-    },
-    { 
-      label: "Personal", 
-      icon: User, 
-      type: "dropdown",
-      children: [
-        { href: "/dashboard-student/attendance", label: "Kehadiran", icon: UserCheck },
-        { href: "/dashboard-student/subscription", label: "Langganan", icon: CreditCard },
-      ]
-    },
+    { href: "/dashboard-student/classes", label: "Kelas", icon: BookOpen, type: "single" },
+    { href: "/dashboard-student/subscription", label: "Langganan", icon: CreditCard, type: "single" },
   ];
 
   const isActive = (href: string) => {
@@ -93,67 +72,20 @@ export function StudentNavbar({
           <div className="hidden md:flex items-center gap-1">
             {navigationItems.map((item) => {
               const Icon = item.icon;
-              
-              if (item.type === "single") {
-                const active = isActive(item.href!);
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href!}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                      active
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "text-gray-600 hover:text-yellow-600 hover:bg-yellow-50"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span className="hidden lg:inline">{item.label}</span>
-                  </Link>
-                );
-              }
-
-              // Dropdown menu
-              const hasActiveChild = item.children?.some(child => isActive(child.href));
+              const active = isActive(item.href!);
               return (
-                <DropdownMenu key={item.label}>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                        hasActiveChild
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "text-gray-600 hover:text-yellow-600 hover:bg-yellow-50"
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span className="hidden lg:inline">{item.label}</span>
-                      <ChevronDown className="h-3 w-3 ml-1" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-48">
-                    <DropdownMenuLabel className="text-xs text-gray-500 uppercase tracking-wider">
-                      {item.label}
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {item.children?.map((child) => {
-                      const ChildIcon = child.icon;
-                      const active = isActive(child.href);
-                      return (
-                        <DropdownMenuItem key={child.href} asChild>
-                          <Link
-                            href={child.href}
-                            className={`flex items-center gap-2 w-full ${
-                              active ? "bg-yellow-50 text-yellow-800" : ""
-                            }`}
-                          >
-                            <ChildIcon className="h-4 w-4" />
-                            {child.label}
-                          </Link>
-                        </DropdownMenuItem>
-                      );
-                    })}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Link
+                  key={item.href}
+                  href={item.href!}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                    active
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "text-gray-600 hover:text-yellow-600 hover:bg-yellow-50"
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span className="hidden lg:inline">{item.label}</span>
+                </Link>
               );
             })}
           </div>
