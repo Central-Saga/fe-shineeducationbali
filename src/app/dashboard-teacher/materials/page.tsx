@@ -55,12 +55,32 @@ export default function MaterialsPage() {
     { id: "3", name: "Coding Pemula" }
   ];
 
-  const handleAddMaterial = (material: any) => {
+  const handleAddMaterial = (material: {
+    title: string;
+    description: string;
+    type: 'document' | 'video' | 'image' | 'link' | 'assignment';
+    programId: string;
+    programName: string;
+    filePath?: string;
+    fileSize?: number;
+    status: 'active' | 'inactive' | 'draft';
+    tags: string[];
+  }) => {
     console.log("Add material:", material);
     // API call to add material
   };
 
-  const handleEditMaterial = (id: string, material: any) => {
+  const handleEditMaterial = (id: string, material: Partial<{
+    title: string;
+    description: string;
+    type: 'document' | 'video' | 'image' | 'link' | 'assignment';
+    programId: string;
+    programName: string;
+    filePath?: string;
+    fileSize?: number;
+    status: 'active' | 'inactive' | 'draft';
+    tags: string[];
+  }>) => {
     console.log("Edit material:", id, material);
     // API call to edit material
   };

@@ -65,7 +65,7 @@ export default function AttendanceMeetingPage() {
   // Gunakan useParams untuk mengakses parameter URL
   const params = useParams();
   const classId = params.classId as string;
-  const meetingId = params.meetingId as string;
+  // const meetingId = params.meetingId as string;
   
   const [searchQuery, setSearchQuery] = useState("");
   const [studentAttendance, setStudentAttendance] = useState(

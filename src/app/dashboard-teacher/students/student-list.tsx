@@ -17,11 +17,11 @@ const classes = assignmentsData.map((assignment) => ({
 );
 
 export default function StudentListPage() {
-  const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
+  // const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
 
   const handleViewProfile = (id: string) => {
     console.log("Viewing student profile:", id);
-    setSelectedStudent(id);
+    // setSelectedStudent(id);
     // Here you would navigate to the student profile page or open a modal
   };
 

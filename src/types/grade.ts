@@ -16,11 +16,19 @@ export type StatusType = "SELESAI" | "PENDING" | "TIDAK_LULUS";
 
 export interface Grade {
   id: string;
+  studentId: string;
   studentName: string;
+  courseId: string;
+  courseName: string;
   subject: SubjectName;
   level: "TK" | "SD" | "SMP" | "SMA/SMK" | "UMUM";
   averageScore: number;
-  status: StatusType;
+  finalGrade: number;
+  components: GradeComponents;
+  status: "DRAFT" | "PUBLISHED";
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface SubjectGradeConfig {
@@ -58,4 +66,45 @@ export interface StudentDetail {
       completionDate: string;
     }>;
   };
+}
+
+// Grade Template untuk konfigurasi komponen nilai
+export interface GradeTemplate {
+  id: string;
+  courseId: string;
+  courseName: string;
+  components: Array<{
+    name: string;
+    weight: number;
+    required: boolean;
+    description?: string;
+  }>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Komponen nilai individual
+export interface GradeComponents {
+  [key: string]: number;
+}
+
+// Summary nilai siswa
+export interface GradeSummary {
+  studentId: string;
+  studentName: string;
+  courseId: string;
+  courseName: string;
+  finalGrade: number;
+  status: "DRAFT" | "PUBLISHED";
+  components: GradeComponents;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Form data untuk input nilai
+export interface GradeFormData {
+  studentId: string;
+  courseId: string;
+  components: GradeComponents;
+  notes?: string;
 }

@@ -6,11 +6,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, CheckIcon, Clock, Download, FileText, Users, XIcon } from "lucide-react";
 import Link from "next/link";
+import { use } from "react";
 
-export default function MeetingDetailsPage({ params }: { params: { meetingId: string } }) {
+export default function MeetingDetailsPage({ params }: { params: Promise<{ meetingId: string }> }) {
+  // In Next.js 15, params is a Promise that needs to be awaited
+  const { meetingId } = use(params);
+  
   // In a real app, you would fetch meeting data based on the meetingId
   const meetingData = {
-    id: params.meetingId,
+    id: meetingId,
     title: "Pertemuan 1 - Pengenalan Aljabar Linear",
     classId: "math-101",
     className: "Matematika Dasar Kelas 5",

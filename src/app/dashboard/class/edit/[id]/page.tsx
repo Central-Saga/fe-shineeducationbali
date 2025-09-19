@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,9 +24,9 @@ const dummyClassData = {
   status: "active"
 };
 
-export default function EditClassPage({ params }: { params: { id: string } }) {
+export default function EditClassPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const classId = params.id;
+  const classId = use(params).id;
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({

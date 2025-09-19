@@ -35,7 +35,7 @@ export default function MeetingsPage() {
               <BookOpen className="h-16 w-16 text-[#C40503]/20 mb-4" />
               <h3 className="text-xl font-medium text-gray-800 mb-2">Tidak Ada Pertemuan yang Ditampilkan</h3>
               <p className="text-gray-500 max-w-md mb-6">
-                Anda dapat mengakses pertemuan kelas dengan memilih kelas tertentu di halaman Kelas atau mengklik tombol "Pertemuan" pada kartu kelas.
+                Anda dapat mengakses pertemuan kelas dengan memilih kelas tertentu di halaman Kelas atau mengklik tombol &quot;Pertemuan&quot; pada kartu kelas.
               </p>
               <Link href="/dashboard-teacher/classes">
                 <Button className="bg-[#C40503] hover:bg-[#A60000]">

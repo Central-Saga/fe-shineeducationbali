@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 // import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -58,8 +58,8 @@ const classDetail = {
   ]
 };
 
-export default function ClassDetailPage({ params }: { params: { id: string } }) {
-  const classId = params.id;
+export default function ClassDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const classId = use(params).id;
   // const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 

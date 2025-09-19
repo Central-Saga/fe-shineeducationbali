@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Sheet } from "@/components/ui/sheet";
+// import { Sheet } from "@/components/ui/sheet";
 import { TeacherSidebar } from "@/components/ui-teacher/layout/TeacherSidebar";
 import { TeacherHeader } from "@/components/ui-teacher/layout/TeacherHeader";
 
@@ -12,7 +12,7 @@ export default function TeacherDashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { format, differenceInCalendarDays } from 'date-fns';
 import { id } from 'date-fns/locale';
-import { Calendar as CalendarIcon, Plus, Clock, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar as CalendarIcon, Plus, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "@/components/ui/calendar";
@@ -31,7 +31,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Table,
@@ -131,7 +130,20 @@ export default function LeaveRequestPage() {
   });
   const [reason, setReason] = useState('');
   const [attachment, setAttachment] = useState<File | null>(null);
-  const [selectedRequest, setSelectedRequest] = useState<any | null>(null);
+  const [selectedRequest, setSelectedRequest] = useState<{
+    id: string;
+    type: string;
+    status: string;
+    startDate: Date;
+    endDate: Date;
+    duration: number;
+    reason: string;
+    approvedBy?: string;
+    approvedDate?: Date;
+    rejectedReason?: string;
+    rejectedBy?: string;
+    rejectedDate?: Date;
+  } | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   const handleSubmit = () => {
@@ -140,15 +152,15 @@ export default function LeaveRequestPage() {
     }
     
     // In a real app, you would send this data to your backend
-    const newLeave = {
-      type: leaveType,
-      startDate: dateRange.from,
-      endDate: dateRange.to,
-      duration: differenceInCalendarDays(dateRange.to, dateRange.from) + 1,
-      reason,
-      attachment: attachment ? attachment.name : null,
-      status: 'pending'
-    };
+    // const newLeave = {
+    //   type: leaveType,
+    //   startDate: dateRange.from,
+    //   endDate: dateRange.to,
+    //   duration: differenceInCalendarDays(dateRange.to, dateRange.from) + 1,
+    //   reason,
+    //   attachment: attachment ? attachment.name : null,
+    //   status: 'pending'
+    // };
     
     // Reset form
     setLeaveType('annual');
@@ -167,7 +179,20 @@ export default function LeaveRequestPage() {
     }
   };
 
-  const viewRequestDetails = (request: any) => {
+  const viewRequestDetails = (request: {
+    id: string;
+    type: string;
+    status: string;
+    startDate: Date;
+    endDate: Date;
+    duration: number;
+    reason: string;
+    approvedBy?: string;
+    approvedDate?: Date;
+    rejectedReason?: string;
+    rejectedBy?: string;
+    rejectedDate?: Date;
+  }) => {
     setSelectedRequest(request);
     setIsDetailsOpen(true);
   };
@@ -602,7 +627,7 @@ export default function LeaveRequestPage() {
                       Disetujui oleh: {selectedRequest.approvedBy}
                     </p>
                     <p className="text-sm text-green-700">
-                      Tanggal: {format(selectedRequest.approvedDate, 'dd MMMM yyyy', { locale: id })}
+                      Tanggal: {selectedRequest.approvedDate ? format(selectedRequest.approvedDate, 'dd MMMM yyyy', { locale: id }) : 'Tidak tersedia'}
                     </p>
                   </div>
                 </div>
@@ -622,7 +647,7 @@ export default function LeaveRequestPage() {
                       Ditolak oleh: {selectedRequest.rejectedBy}
                     </p>
                     <p className="text-sm text-red-700">
-                      Tanggal: {format(selectedRequest.rejectedDate, 'dd MMMM yyyy', { locale: id })}
+                      Tanggal: {selectedRequest.rejectedDate ? format(selectedRequest.rejectedDate, 'dd MMMM yyyy', { locale: id }) : 'Tidak tersedia'}
                     </p>
                   </div>
                 </div>

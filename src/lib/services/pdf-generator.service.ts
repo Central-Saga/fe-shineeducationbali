@@ -21,13 +21,13 @@ class PDFGeneratorService {
       "{type}":
         certificate.type === "COURSE_COMPLETION" ? "Completion" : "Achievement",
       "{studentName}": certificate.studentId, // Will be replaced with actual name
-      "{courseName}": certificate.metadata.courseName || "",
+      "{courseName}": certificate.metadata?.courseName || certificate.courseName || "",
       "{achievementDate}": new Date(
-        certificate.achievementDate
+        certificate.issueDate
       ).toLocaleDateString("id-ID"),
-      "{signatureUrl}": certificate.signedBy.signature,
-      "{signerName}": certificate.signedBy.name,
-      "{signerPosition}": certificate.signedBy.position,
+      "{signatureUrl}": certificate.signedBy,
+      "{signerName}": certificate.teacherName,
+      "{signerPosition}": "Guru",
       "{certificateId}": certificate.id,
       "{issueDate}": new Date(certificate.issueDate).toLocaleDateString(
         "id-ID"
@@ -36,7 +36,7 @@ class PDFGeneratorService {
 
     let html = template;
     for (const [key, value] of Object.entries(replacements)) {
-      html = html.replace(new RegExp(key, "g"), value);
+      html = html.replace(new RegExp(key, "g"), String(value));
     }
     return html;
   }

@@ -19,22 +19,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { 
-  Calendar,
-  Check,
-  Clock,
   Download,
   Edit,
   FileText,
-  Filter,
   Plus,
-  Search,
-  X 
+  Search
 } from "lucide-react";
-import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Import data
 import { attendanceData, attendanceSummary } from "@/data/data-teacher/attendance/attendance-data";

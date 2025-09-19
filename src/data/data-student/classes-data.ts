@@ -98,7 +98,6 @@ export const studentClasses: ClassSchedule[] = [
         timeStart: '09:00',
         timeEnd: '10:30',
         teacher: 'Dewi Sartika',
-        location: 'Laboratorium IPA',
         description: 'Pembelajaran tentang sistem organ tubuh manusia',
         materials: ['Modul Sistem Tubuh Manusia', 'Lembar Praktikum'],
         assignments: [
@@ -126,7 +125,6 @@ export const studentClasses: ClassSchedule[] = [
         timeStart: '13:00',
         timeEnd: '15:00',
         teacher: 'Andi Wijaya',
-        location: 'Lab Komputer',
         description: 'Belajar dasar-dasar pemrograman Python',
         materials: ['Modul Python', 'Contoh Kode', 'Latihan'],
         assignments: [
@@ -147,7 +145,6 @@ export const studentClasses: ClassSchedule[] = [
         timeStart: '15:30',
         timeEnd: '17:00',
         teacher: 'Nina Hartati',
-        location: 'Ruang Belajar 103',
         description: 'Latihan membaca dan menulis untuk tingkat dasar',
         materials: ['Buku Latihan Membaca', 'Lembar Latihan Menulis'],
         assignments: [
@@ -173,7 +170,6 @@ export const pastClasses: ClassSession[] = [
     timeStart: '08:00',
     timeEnd: '09:30',
     teacher: 'Budi Santoso',
-    location: 'Ruang Belajar 101',
     description: 'Pembahasan tentang cara menyelesaikan persamaan kuadrat',
     materials: ['Modul Persamaan Kuadrat', 'Latihan Soal'],
     recordingUrl: 'https://recordings.example.com/persamaan-kuadrat',
@@ -196,7 +192,6 @@ export const pastClasses: ClassSession[] = [
     timeStart: '10:00',
     timeEnd: '11:30',
     teacher: 'Sarah Johnson',
-    location: 'Ruang Belajar 102',
     description: 'Memperkaya kosakata bahasa Inggris',
     materials: ['Modul Vocabulary', 'Word List'],
     assignments: [
@@ -218,7 +213,6 @@ export const pastClasses: ClassSession[] = [
     timeStart: '09:00',
     timeEnd: '10:30',
     teacher: 'Dewi Sartika',
-    location: 'Laboratorium IPA',
     description: 'Pembahasan tentang konsep energi dan transformasinya',
     materials: ['Modul Energi', 'Lembar Eksperimen'],
     assignments: [

@@ -98,12 +98,40 @@ export default function GradesPage() {
     { id: "3", name: "Latihan Vocabulary", classId: "1" }
   ];
 
-  const handleAddGrade = (grade: any) => {
+  const handleAddGrade = (grade: {
+    studentId: string;
+    studentName: string;
+    classId: string;
+    className: string;
+    materialId: string;
+    materialName: string;
+    assignmentId?: string;
+    assignmentName?: string;
+    gradeCategoryId: string;
+    gradeCategoryName: string;
+    score: number;
+    maxScore: number;
+    notes?: string;
+  }) => {
     console.log("Add grade:", grade);
     // API call to add grade
   };
 
-  const handleEditGrade = (id: string, grade: any) => {
+  const handleEditGrade = (id: string, grade: Partial<{
+    studentId: string;
+    studentName: string;
+    classId: string;
+    className: string;
+    materialId: string;
+    materialName: string;
+    assignmentId?: string;
+    assignmentName?: string;
+    gradeCategoryId: string;
+    gradeCategoryName: string;
+    score: number;
+    maxScore: number;
+    notes?: string;
+  }>) => {
     console.log("Edit grade:", id, grade);
     // API call to edit grade
   };

@@ -241,7 +241,7 @@ export default function TeacherOverview() {
             <CardContent className="pt-5 px-6">
               {todayClasses.length > 0 ? (
                 <div className="space-y-6">
-                  {todayClasses.map((schedule, index) => (
+                  {todayClasses.map((schedule) => (
                     <div key={schedule.id} className="flex border-l-4 border-[#C40503] pl-5 py-3 bg-white rounded-lg shadow-sm">
                       <div className="w-20 h-20 bg-red-50 rounded-lg flex flex-col items-center justify-center mr-5 flex-shrink-0">
                         <span className="text-xs text-[#C40503] font-semibold mb-1">JAM</span>

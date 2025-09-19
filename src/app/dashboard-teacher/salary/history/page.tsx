@@ -2,12 +2,10 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { format, parse, subYears } from 'date-fns';
+import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
-import { Calendar as CalendarIcon, BarChart3, TrendingUp, DollarSign, ArrowUpRight, ArrowDownRight } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { TrendingUp, DollarSign, ArrowUpRight, ArrowDownRight, BarChart3 } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,

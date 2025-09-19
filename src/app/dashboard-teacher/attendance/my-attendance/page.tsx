@@ -15,7 +15,14 @@ import { AttendanceDetailCard } from '@/components/ui-teacher/attendance/attenda
 
 export default function MyAttendancePage() {
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
-  const [attendanceData, setAttendanceData] = useState<any>(null);
+  const [attendanceData, setAttendanceData] = useState<{
+    id: string;
+    date: Date;
+    checkIn?: string;
+    checkOut?: string;
+    status: string;
+    note?: string;
+  } | null>(null);
   const [isCheckInDialogOpen, setIsCheckInDialogOpen] = useState(false);
   const [checkInNote, setCheckInNote] = useState('');
 
@@ -31,7 +38,14 @@ export default function MyAttendancePage() {
     }
   }, []);
 
-  const handleDaySelected = (day: Date, data: any) => {
+  const handleDaySelected = (day: Date, data: {
+    id: string;
+    date: Date;
+    checkIn?: string;
+    checkOut?: string;
+    status: string;
+    note?: string;
+  }) => {
     setSelectedDay(day);
     setAttendanceData(data);
   };

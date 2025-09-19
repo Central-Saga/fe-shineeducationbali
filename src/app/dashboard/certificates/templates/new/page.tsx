@@ -33,11 +33,11 @@ export default function NewTemplatePage() {
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  // const [formData, setFormData] = useState<Partial<NewTemplateFormData>>({
-  //   name: "",
-  //   description: "",
-  //   courseType: undefined,
-  // });
+  const [formData, setFormData] = useState<Partial<NewTemplateFormData>>({
+    name: "",
+    description: "",
+    courseType: undefined,
+  });
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

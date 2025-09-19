@@ -1,9 +1,8 @@
 // ...existing code...
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { useEffect } from 'react';
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -27,18 +26,18 @@ export default function ClassDetailPage() {
   // const [searchTerm, setSearchTerm] = useState("");
 
   // Filter tugas & materi berdasarkan search
-  const filteredAssignments = (studentAssignments ?? []).filter((item: any) =>
+  const filteredAssignments = (studentAssignments ?? []).filter((item: { title: string; description: string }) =>
     item.title.toLowerCase().includes("") ||
     item.description.toLowerCase().includes("")
   );
-  const filteredMaterials = (studentMaterials ?? []).filter((item: any) =>
+  const filteredMaterials = (studentMaterials ?? []).filter((item: { title: string; description: string }) =>
     item.title.toLowerCase().includes("") ||
     item.description.toLowerCase().includes("")
   );
 
   // Next.js 15+ params is a Promise, must unwrap with React.use()
   const paramsPromise = useParams();
-  const [classId, setClassId] = useReactState('');
+  const [classId, setClassId] = useState('');
   useEffect(() => {
     let isMounted = true;
     Promise.resolve(paramsPromise).then(params => {
@@ -50,7 +49,7 @@ export default function ClassDetailPage() {
       }
     });
     return () => { isMounted = false; };
-  }, [paramsPromise]);
+  }, [paramsPromise, setClassId]);
 
   // Checkbox progress tugas & materi, simpan ke localStorage agar sinkron dengan ClassCard
   // const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -201,7 +200,7 @@ export default function ClassDetailPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {filteredAssignments.slice(0, 3).map((assignment: any) => (
+                {filteredAssignments.slice(0, 3).map((assignment: { id: string; title: string; description: string }) => (
                   <div key={assignment.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <div className="p-2 bg-[#C40503]/10 rounded-lg">
                       <FileText className="h-4 w-4 text-[#C40503]" />
@@ -245,7 +244,7 @@ export default function ClassDetailPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {filteredMaterials.slice(0, 3).map((material: any) => (
+                {filteredMaterials.slice(0, 3).map((material: { id: string; title: string; description: string; fileUrl: string }) => (
                   <div key={material.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <div className="p-2 bg-[#DAA625]/10 rounded-lg">
                       <BookOpen className="h-4 w-4 text-[#DAA625]" />

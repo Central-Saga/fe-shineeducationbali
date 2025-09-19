@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { use } from 'react';
 import { getClassDetail } from '@/data/data-student/class-detail-data';
 
 export default function ClassDetailLayout({
@@ -8,9 +8,10 @@ export default function ClassDetailLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const classId = (params as { id: string }).id;
+  // In Next.js 15, params is a Promise that needs to be awaited
+  const { id: classId } = use(params);
   const classDetail = getClassDetail(classId);
 
   if (!classDetail) {

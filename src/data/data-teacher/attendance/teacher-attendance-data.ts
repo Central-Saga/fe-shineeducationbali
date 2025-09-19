@@ -1,16 +1,16 @@
 // Mock data for teacher attendance
 
 export const mockTeacherAttendance = [
-  { date: new Date(2025, 6, 1), status: 'present', checkIn: '07:45', checkOut: '16:05' },
-  { date: new Date(2025, 6, 2), status: 'present', checkIn: '07:50', checkOut: '16:10' },
-  { date: new Date(2025, 6, 3), status: 'late', checkIn: '08:15', checkOut: '16:00', note: 'Terjebak macet' },
-  { date: new Date(2025, 6, 4), status: 'present', checkIn: '07:40', checkOut: '16:00' },
-  { date: new Date(2025, 6, 5), status: 'absent', note: 'Sakit' },
-  { date: new Date(2025, 6, 8), status: 'present', checkIn: '07:30', checkOut: '16:00' },
-  { date: new Date(2025, 6, 9), status: 'present', checkIn: '07:45', checkOut: '16:15' },
-  { date: new Date(2025, 6, 10), status: 'present', checkIn: '07:55', checkOut: '16:05' },
-  { date: new Date(2025, 6, 11), status: 'present', checkIn: '07:40', checkOut: '16:10' },
-  { date: new Date(2025, 6, 12), status: 'leave', note: 'Cuti tahunan' },
+  { id: '1', date: new Date(2025, 6, 1), status: 'present', checkIn: '07:45', checkOut: '16:05' },
+  { id: '2', date: new Date(2025, 6, 2), status: 'present', checkIn: '07:50', checkOut: '16:10' },
+  { id: '3', date: new Date(2025, 6, 3), status: 'late', checkIn: '08:15', checkOut: '16:00', note: 'Terjebak macet' },
+  { id: '4', date: new Date(2025, 6, 4), status: 'present', checkIn: '07:40', checkOut: '16:00' },
+  { id: '5', date: new Date(2025, 6, 5), status: 'absent', note: 'Sakit' },
+  { id: '6', date: new Date(2025, 6, 8), status: 'present', checkIn: '07:30', checkOut: '16:00' },
+  { id: '7', date: new Date(2025, 6, 9), status: 'present', checkIn: '07:45', checkOut: '16:15' },
+  { id: '8', date: new Date(2025, 6, 10), status: 'present', checkIn: '07:55', checkOut: '16:05' },
+  { id: '9', date: new Date(2025, 6, 11), status: 'present', checkIn: '07:40', checkOut: '16:10' },
+  { id: '10', date: new Date(2025, 6, 12), status: 'leave', note: 'Cuti tahunan' },
 ];
 
 export const teacherAttendanceSummary = {

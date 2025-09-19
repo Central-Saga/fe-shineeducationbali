@@ -2,33 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { format, subMonths, addMonths } from 'date-fns';
-import { id } from 'date-fns/locale';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, BarChart3, Clock } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { subMonths, addMonths } from 'date-fns';
 
 // Import components
 import { MonthSummaryCard } from '@/components/ui-teacher/attendance/month-summary-card';

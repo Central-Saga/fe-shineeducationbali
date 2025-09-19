@@ -86,7 +86,7 @@ export function CertificateList({
                     : "Partisipasi"}
                 </TableCell>
                 <TableCell>
-                  {format(new Date(cert.achievementDate), "dd MMMM yyyy")}
+                  {format(new Date(cert.issueDate), "dd MMMM yyyy")}
                 </TableCell>
                 <TableCell>
                   {cert.validUntil && new Date(cert.validUntil) < new Date()

@@ -107,7 +107,7 @@ class StudentService {
       name: "Bob Wilson",
       email: "bob@example.com",
       phoneNumber: "081234567894",
-      educationLevel: "SMA",
+      educationLevel: "SMA/SMK",
       address: "Jl. Contoh No. 3",
       parentName: "Alice Wilson",
       parentPhone: "081234567895",

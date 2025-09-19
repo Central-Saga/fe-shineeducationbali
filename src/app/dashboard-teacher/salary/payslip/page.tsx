@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { format, subMonths } from 'date-fns';
 import { id } from 'date-fns/locale';
-import { Download, FileText, BarChart3, DollarSign, CreditCard, PiggyBank } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Download, FileText, DollarSign, CreditCard, PiggyBank } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -31,12 +31,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+// import {
+//   Tabs,
+//   TabsContent,
+//   TabsList,
+//   TabsTrigger,
+// } from "@/components/ui/tabs";
 
 // Mock data for salary slip
 const generateMockSalary = (month: number, year: number) => {
@@ -120,10 +120,48 @@ const formatCurrency = (amount: number) => {
 export default function PayslipPage() {
   const [selectedMonth, setSelectedMonth] = useState<string>(format(new Date(), 'yyyy-MM'));
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const [selectedPayslip, setSelectedPayslip] = useState<any>(null);
+  const [selectedPayslip, setSelectedPayslip] = useState<{
+    id: string;
+    month: number;
+    year: number;
+    date: Date;
+    paymentDate?: string;
+    basicSalary: number;
+    allowances: { type: string; amount: number }[];
+    deductions: { type: string; amount: number }[];
+    netSalary: number;
+    totalAllowances: number;
+    totalDeductions: number;
+    status: string;
+  } | null>(null);
   
   const handleViewPayslip = (payslip: any) => {
-    setSelectedPayslip(payslip);
+    // Convert the payslip data to the expected format
+    const convertedPayslip = {
+      id: payslip.id,
+      month: payslip.month,
+      year: payslip.year,
+      date: payslip.date,
+      paymentDate: payslip.paymentDate,
+      basicSalary: payslip.earnings.baseSalary,
+      allowances: [
+        { type: 'Tunjangan Mengajar', amount: payslip.earnings.teachingAllowance },
+        { type: 'Tunjangan Jabatan', amount: payslip.earnings.positionAllowance },
+        { type: 'Tunjangan Transport', amount: payslip.earnings.transportAllowance },
+        { type: 'Tunjangan Makan', amount: payslip.earnings.mealAllowance }
+      ],
+      deductions: [
+        { type: 'Pajak Penghasilan', amount: payslip.deductions.taxDeduction },
+        { type: 'BPJS Kesehatan', amount: payslip.deductions.healthInsurance },
+        { type: 'BPJS Ketenagakerjaan', amount: payslip.deductions.employmentInsurance },
+        { type: 'Potongan Lainnya', amount: payslip.deductions.otherDeductions }
+      ],
+      netSalary: payslip.netSalary,
+      totalAllowances: payslip.earnings.totalEarnings - payslip.earnings.baseSalary,
+      totalDeductions: payslip.deductions.totalDeductions,
+      status: payslip.status
+    };
+    setSelectedPayslip(convertedPayslip);
     setIsDetailsOpen(true);
   };
   
@@ -423,27 +461,27 @@ export default function PayslipPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Gaji Pokok</span>
-                    <span>{formatCurrency(selectedPayslip.earnings.baseSalary)}</span>
+                    <span>{formatCurrency(selectedPayslip.basicSalary)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Tunjangan Mengajar</span>
-                    <span>{formatCurrency(selectedPayslip.earnings.teachingAllowance)}</span>
+                    <span>{formatCurrency(selectedPayslip.allowances[0]?.amount || 0)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Tunjangan Jabatan</span>
-                    <span>{formatCurrency(selectedPayslip.earnings.positionAllowance)}</span>
+                    <span>{formatCurrency(selectedPayslip.allowances[1]?.amount || 0)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Tunjangan Transportasi</span>
-                    <span>{formatCurrency(selectedPayslip.earnings.transportAllowance)}</span>
+                    <span>{formatCurrency(selectedPayslip.allowances[2]?.amount || 0)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Tunjangan Makan</span>
-                    <span>{formatCurrency(selectedPayslip.earnings.mealAllowance)}</span>
+                    <span>{formatCurrency(selectedPayslip.allowances[3]?.amount || 0)}</span>
                   </div>
                   <div className="flex justify-between font-semibold border-t border-dashed pt-2 mt-2">
                     <span>Total Pendapatan</span>
-                    <span className="text-green-600">{formatCurrency(selectedPayslip.earnings.totalEarnings)}</span>
+                    <span className="text-green-600">{formatCurrency(selectedPayslip.basicSalary + selectedPayslip.totalAllowances)}</span>
                   </div>
                 </div>
               </div>
@@ -453,21 +491,21 @@ export default function PayslipPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Pajak Penghasilan</span>
-                    <span>{formatCurrency(selectedPayslip.deductions.taxDeduction)}</span>
+                    <span>{formatCurrency(selectedPayslip.deductions[0]?.amount || 0)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Asuransi Kesehatan</span>
-                    <span>{formatCurrency(selectedPayslip.deductions.insuranceDeduction)}</span>
+                    <span>{formatCurrency(selectedPayslip.deductions[1]?.amount || 0)}</span>
                   </div>
-                  {selectedPayslip.deductions.otherDeductions > 0 && (
+                  {selectedPayslip.deductions[3]?.amount > 0 && (
                     <div className="flex justify-between">
                       <span className="text-gray-600">Potongan Lainnya</span>
-                      <span>{formatCurrency(selectedPayslip.deductions.otherDeductions)}</span>
+                      <span>{formatCurrency(selectedPayslip.deductions[3]?.amount || 0)}</span>
                     </div>
                   )}
                   <div className="flex justify-between font-semibold border-t border-dashed pt-2 mt-2">
                     <span>Total Potongan</span>
-                    <span className="text-red-600">{formatCurrency(selectedPayslip.deductions.totalDeductions)}</span>
+                    <span className="text-red-600">{formatCurrency(selectedPayslip.totalDeductions)}</span>
                   </div>
                 </div>
               </div>
