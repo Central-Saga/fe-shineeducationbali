@@ -6,7 +6,6 @@ import { ChevronLeft, Upload, FileText, X, CheckCircle, AlertCircle } from "luci
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
 import { saveSubmissionData } from "@/data/data-student/classes/assignment-data";
 
 interface FileUpload {
@@ -35,7 +34,6 @@ interface SubmitAssignmentCardProps {
 
 export default function SubmitAssignmentCard({ assignment, classId, type }: SubmitAssignmentCardProps) {
   const [files, setFiles] = useState<FileUpload[]>([]);
-  const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -79,7 +77,7 @@ export default function SubmitAssignmentCard({ assignment, classId, type }: Subm
       type: file.type
     }));
     
-    saveSubmissionData(type, filesData, comment);
+    saveSubmissionData(type, filesData, "");
     
     // Dispatch custom event untuk update UI
     if (typeof window !== 'undefined') {

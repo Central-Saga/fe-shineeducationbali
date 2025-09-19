@@ -17,8 +17,8 @@ interface AssignmentDetailCardProps {
     status: string;
     deadline: string;
     lastChanged: string;
-    submittedFile: any;
-    submissionData?: any;
+    submittedFile: { id: string; name: string; size: string; type: string } | null;
+    submissionData?: { files: any[]; comment: string; submittedDate: string };
   };
   classId?: string;
   type?: string;
@@ -26,7 +26,7 @@ interface AssignmentDetailCardProps {
 
 export default function AssignmentDetailCard({ assignment, classId, type }: AssignmentDetailCardProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submissionData, setSubmissionData] = useState<any>(null);
+  const [submissionData, setSubmissionData] = useState<{ files: any[]; comment: string; submittedDate: string } | null>(null);
 
   useEffect(() => {
     // Cek apakah ada data submission yang tersimpan
@@ -182,7 +182,7 @@ export default function AssignmentDetailCard({ assignment, classId, type }: Assi
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-5 w-5 text-green-600" />
                       <p className="text-sm text-gray-700">
-                        <span className="font-medium">Berhasil:</span> Jawaban Anda telah dikirim pada {new Date(submissionData?.submittedDate).toLocaleString('id-ID')}.
+                        <span className="font-medium">Berhasil:</span> Jawaban Anda telah dikirim pada {submissionData?.submittedDate ? new Date(submissionData.submittedDate).toLocaleString('id-ID') : 'Tidak diketahui'}.
                       </p>
                     </div>
                   </div>

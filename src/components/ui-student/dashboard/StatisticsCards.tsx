@@ -1,7 +1,6 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 import { BookOpen, CheckSquare, PieChart, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 

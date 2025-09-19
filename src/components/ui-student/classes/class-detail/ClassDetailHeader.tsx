@@ -21,7 +21,7 @@ interface ClassDetailData {
     name: string;
     subject: string;
   };
-  attendees: Array<any>;
+  attendees: Array<{ id: string; name: string; avatar?: string }>;
 }
 
 interface ClassDetailHeaderProps {

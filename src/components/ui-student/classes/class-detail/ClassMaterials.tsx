@@ -16,7 +16,7 @@ interface ClassMaterialsProps {
   classId?: string;
 }
 
-export function ClassMaterials({ materials, classId }: ClassMaterialsProps) {
+export function ClassMaterials({ materials }: ClassMaterialsProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
 
@@ -47,7 +47,7 @@ export function ClassMaterials({ materials, classId }: ClassMaterialsProps) {
   const presentationMaterials = materials.filter(material => material.type === 'presentation');
   const videoMaterials = materials.filter(material => material.type === 'video');
   const exerciseMaterials = materials.filter(material => material.type === 'exercise');
-  const otherMaterials = materials.filter(material => material.type === 'other');
+  // const otherMaterials = materials.filter(material => material.type === 'other');
 
   const filteredMaterials = materials.filter(material => 
     material.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

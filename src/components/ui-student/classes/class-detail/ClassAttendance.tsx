@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Check, X, Clock, Calendar } from 'lucide-react';
@@ -18,7 +18,6 @@ interface ClassAttendanceProps {
 }
 
 export function ClassAttendance({ studentAttendance, attendanceSessions }: ClassAttendanceProps) {
-  const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
   
   // Return empty state if no attendance data is available
   if (!studentAttendance) {

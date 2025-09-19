@@ -6,7 +6,6 @@ import { ChevronLeft, Upload, FileText, X, CheckCircle, AlertCircle, Edit3, Tras
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
 import { saveSubmissionData, clearSubmissionData } from "@/data/data-student/classes/assignment-data";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
@@ -39,7 +38,7 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
-  const [existingSubmission, setExistingSubmission] = useState<any>(null);
+  const [existingSubmission, setExistingSubmission] = useState<{ files: any[]; comment: string; submittedDate: string } | null>(null);
   const [filesToDelete, setFilesToDelete] = useState<string[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
 

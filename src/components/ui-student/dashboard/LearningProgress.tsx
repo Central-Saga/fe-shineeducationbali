@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { BookOpen, BarChart } from "lucide-react";
+import { BarChart } from "lucide-react";
 
 interface ProgressItem {
   subject: string;

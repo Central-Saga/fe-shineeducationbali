@@ -1,23 +1,20 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getClassDetail } from '@/data/data-student/class-detail-data';
 import Link from 'next/link';
-import { ChevronLeft, Clock, User, BookOpen, FileText, Download, Eye, ExternalLink, CheckCircle } from 'lucide-react';
+import { ChevronLeft, Clock, User, BookOpen, FileText, Download, Eye, CheckCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { studentMaterials } from '@/data/data-student/student-materials-assignments';
+import { studentAssignments } from '@/data/data-student/classes/assignment-data';
 
 interface ClassDetailProps {
   classId: string;
 }
 
 export default function ClassDetail({ classId }: ClassDetailProps) {
-  // Import dummy data dengan named exports
-  // eslint-disable-next-line
-  const { studentMaterials } = require('@/data/data-student/student-materials-assignments');
-  const { studentAssignments } = require('@/data/data-student/classes/assignment-data');
 
   // State untuk tracking submission status
   const [submissionStatus, setSubmissionStatus] = useState<Record<string, boolean>>({});
@@ -28,14 +25,14 @@ export default function ClassDetail({ classId }: ClassDetailProps) {
       item.title.toLowerCase().includes("") ||
       item.description.toLowerCase().includes("")
     );
-  }, [studentAssignments]);
+  }, []);
   
   const filteredMaterials = useMemo(() => {
     return (studentMaterials ?? []).filter((item: { title: string; description: string }) =>
       item.title.toLowerCase().includes("") ||
       item.description.toLowerCase().includes("")
     );
-  }, [studentMaterials]);
+  }, []);
 
   // Fungsi untuk mengecek status submission
   const checkSubmissionStatus = useCallback((assignmentType: string) => {
