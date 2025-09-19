@@ -92,17 +92,17 @@ export function StudentNavbar({
 
           {/* Right Section */}
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5 text-gray-600" />
-              {notifications > 0 && (
-                <Badge 
-                  variant="destructive" 
-                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs"
-                >
-                  {notifications}
-                </Badge>
-              )}
-            </Button>
+             <Button variant="ghost" size="icon" className="relative">
+               <Bell className="h-5 w-5 text-gray-600" />
+               {notifications > 0 && (
+                 <Badge 
+                   variant="destructive" 
+                   className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs font-bold text-white bg-red-500 border-2 border-white shadow-lg"
+                 >
+                   {notifications}
+                 </Badge>
+               )}
+             </Button>
 
             <Button variant="ghost" size="icon">
               <MessageCircle className="h-5 w-5 text-gray-600" />

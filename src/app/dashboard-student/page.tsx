@@ -212,7 +212,7 @@ export default function StudentDashboard() {
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-medium text-gray-900">{classItem.time}</p>
-                        <Badge variant="secondary" className="text-xs">Akan Datang</Badge>
+                        <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800 font-semibold border-2 border-blue-200 shadow-sm">Akan Datang</Badge>
                       </div>
                     </div>
                   ))}
@@ -257,7 +257,13 @@ export default function StudentDashboard() {
                           <p className="text-sm text-gray-600">
                             {assignment.status === 'pending' ? `${daysLeft} hari lagi` : 'Selesai'}
                           </p>
-                          <Badge variant={assignment.status === 'pending' ? 'destructive' : 'secondary'}>
+                          <Badge 
+                            variant={assignment.status === 'pending' ? 'destructive' : 'secondary'}
+                            className={assignment.status === 'pending' 
+                              ? 'bg-red-500 text-white font-semibold border-2 border-red-600 shadow-md' 
+                              : 'bg-green-100 text-green-800 font-semibold border-2 border-green-200'
+                            }
+                          >
                             {assignment.status === 'pending' ? 'Pending' : 'Selesai'}
                           </Badge>
                         </div>
