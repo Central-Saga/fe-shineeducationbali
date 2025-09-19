@@ -23,9 +23,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Loader2, Upload, Save } from "lucide-react";
+import { ArrowLeft, Loader2, Save } from "lucide-react";
 import { teacherService } from "@/lib/services/teacher.service";
-import { uploadImage } from "@/lib/utils/upload";
 import { toast } from "sonner";
 import {
   EducationLevel,
@@ -35,7 +34,6 @@ import {
 } from "@/types/teacher";
 import { FormInputProps } from "@/types/form";
 import { z } from "zod";
-import Image from "next/image";
 import { Header } from "@/components/ui-admin/layout";
 
 const subjects = [
@@ -65,7 +63,6 @@ const formSchema = z.object({
   yearsOfExperience: z.number().min(0, "Pengalaman tidak boleh negatif"),
   certifications: z.array(z.string()),
   status: z.enum(["ACTIVE", "INACTIVE"] as const),
-  profilePhoto: z.string().min(1, "Foto profil harus diupload"),
   schedule: z.record(z.string(), z.array(z.string())),
 });
 
@@ -76,11 +73,10 @@ interface TeacherFormProps {
 
 export default function TeacherForm({ teacherId, isEdit = false }: TeacherFormProps) {
   const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [teacher, setTeacher] = useState<Teacher | null>(null);
   const router = useRouter();
 
-  const form = useForm<TeacherFormData>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: defaultTeacherValues,
   });
@@ -97,7 +93,6 @@ export default function TeacherForm({ teacherId, isEdit = false }: TeacherFormPr
             return;
           }
           setTeacher(data);
-          setImagePreview(data.profilePhoto);
           form.reset({
             name: data.name,
             email: data.email,
@@ -108,7 +103,6 @@ export default function TeacherForm({ teacherId, isEdit = false }: TeacherFormPr
             yearsOfExperience: data.yearsOfExperience,
             certifications: data.certifications,
             status: data.status,
-            profilePhoto: data.profilePhoto,
             schedule: data.schedule,
           });
         } catch (error) {
@@ -124,20 +118,16 @@ export default function TeacherForm({ teacherId, isEdit = false }: TeacherFormPr
     }
   }, [teacherId, isEdit, form, router]);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      const imageUrl = await uploadImage(file);
-      form.setValue("profilePhoto", imageUrl);
-      setImagePreview(imageUrl);
-    } catch (error) {
-      toast.error("Gagal mengupload gambar");
-    }
+  // Generate initials from name
+  const generateInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase())
+      .join('')
+      .substring(0, 2);
   };
 
-  const onSubmit = async (data: TeacherFormData) => {
+  const onSubmit = async (data: any) => {
     try {
       setLoading(true);
       
@@ -194,46 +184,13 @@ export default function TeacherForm({ teacherId, isEdit = false }: TeacherFormPr
           <Card>
             <CardContent className="p-8">
               <div className="space-y-6">
-              {/* Profile Photo */}
+              {/* Profile Preview */}
               <div className="flex justify-center">
-                <FormField
-                  control={form.control}
-                  name="profilePhoto"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        <div className="w-32 h-32 rounded-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-primary relative">
-                          {imagePreview ? (
-                            <Image
-                              src={imagePreview}
-                              alt="Profile preview"
-                              width={128}
-                              height={128}
-                              className="w-full h-full rounded-full object-cover"
-                            />
-                          ) : (
-                            <>
-                              <Upload className="w-8 h-8 text-gray-400" />
-                              <span className="text-sm text-gray-500 mt-2">Upload Foto</span>
-                            </>
-                          )}
-                        </div>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={handleImageUpload}
-                          onBlur={field.onBlur}
-                          name={field.name}
-                          ref={field.ref}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="w-32 h-32 rounded-full bg-[#C40503] flex items-center justify-center">
+                  <span className="text-white text-2xl font-bold">
+                    {form.watch("name") ? generateInitials(form.watch("name")) : "??"}
+                  </span>
+                </div>
               </div>
 
               {/* Basic Information */}

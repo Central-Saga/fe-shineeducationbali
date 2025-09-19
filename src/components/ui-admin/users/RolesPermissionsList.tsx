@@ -32,6 +32,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Header, TableLayout } from "@/components/ui-admin/layout";
 
 // Define types
@@ -53,6 +54,7 @@ interface Permission {
 }
 
 export default function RolesPermissionsList() {
+  const router = useRouter();
   const [roles, setRoles] = useState<Role[]>([]);
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -247,7 +249,8 @@ export default function RolesPermissionsList() {
   };
 
   const handleRoleEdit = (role: Role) => {
-    console.log("Edit role:", role);
+    // Navigate to edit role page using Next.js router
+    router.push(`/dashboard/users/roles/edit/${role.id}`);
   };
 
   const handleRoleDelete = (role: Role) => {
