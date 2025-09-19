@@ -27,7 +27,7 @@ export default function AssignmentDetailPage() {
   if (!classId) {
     return (
       <div className="min-h-screen bg-gray-50 pt-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#C40503]"></div>
           </div>
@@ -36,5 +36,5 @@ export default function AssignmentDetailPage() {
     );
   }
 
-  return <AssignmentDetailCard assignment={assignment} classId={classId} />;
+  return <AssignmentDetailCard assignment={assignment} classId={classId} type={type || "kuis"} />;
 }

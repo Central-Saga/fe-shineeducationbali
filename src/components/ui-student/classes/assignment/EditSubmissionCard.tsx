@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronLeft, Upload, FileText, X, CheckCircle, AlertCircle, Edit3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
+import { saveSubmissionData } from "@/data/data-student/classes/assignment-data";
 
 interface FileUpload {
   id: string;
@@ -37,20 +38,19 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [existingSubmission, setExistingSubmission] = useState<any>(null);
 
-  // Simulate existing submission data
-  const existingSubmission = {
-    files: [
-      {
-        id: 'existing-1',
-        name: 'Jawaban_Kuis_1.pdf',
-        size: '2.1 MB',
-        type: 'application/pdf'
+  useEffect(() => {
+    // Ambil data submission yang tersimpan
+    if (typeof window !== 'undefined' && type) {
+      const savedSubmission = localStorage.getItem(`assignment_submission_${type}`);
+      if (savedSubmission) {
+        const data = JSON.parse(savedSubmission);
+        setExistingSubmission(data);
+        setComment(data.comment || '');
       }
-    ],
-    comment: 'Jawaban untuk soal nomor 1-5 sudah selesai. Mohon diperiksa.',
-    submittedDate: '2025-07-08T10:30:00'
-  };
+    }
+  }, [type]);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
@@ -83,6 +83,26 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Simpan data submission yang diperbarui ke localStorage
+    const filesData = files.map(file => ({
+      id: file.id,
+      name: file.name,
+      size: file.size,
+      type: file.type
+    }));
+    
+    // Gabungkan file lama dengan file baru
+    const allFiles = [...(existingSubmission?.files || []), ...filesData];
+    
+    saveSubmissionData(type, allFiles, comment);
+    
+    // Dispatch custom event untuk update UI
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('assignmentSubmitted', { 
+        detail: { type, files: allFiles } 
+      }));
+    }
     
     setIsUpdated(true);
     setIsSubmitting(false);
@@ -170,37 +190,39 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
                   </div>
                   <div>
                     <span className="text-blue-700 font-medium">Terakhir Diperbarui:</span>
-                    <p className="text-blue-900">{new Date(existingSubmission.submittedDate).toLocaleString('id-ID')}</p>
+                    <p className="text-blue-900">{existingSubmission ? new Date(existingSubmission.submittedDate).toLocaleString('id-ID') : '-'}</p>
                   </div>
                 </div>
               </div>
 
               {/* Current Submission */}
-              <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-gray-900">Jawaban Saat Ini</h4>
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <div className="space-y-3">
-                    {existingSubmission.files.map((file) => (
-                      <div key={file.id} className="flex items-center gap-3 p-3 bg-white rounded-lg border">
-                        <FileText className="h-5 w-5 text-[#C40503]" />
-                        <div className="flex-1">
-                          <p className="font-medium text-gray-900">{file.name}</p>
-                          <p className="text-sm text-gray-600">{file.size}</p>
+              {existingSubmission && (
+                <div className="space-y-4">
+                  <h4 className="text-lg font-semibold text-gray-900">Jawaban Saat Ini</h4>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <div className="space-y-3">
+                      {existingSubmission.files?.map((file: any) => (
+                        <div key={file.id} className="flex items-center gap-3 p-3 bg-white rounded-lg border">
+                          <FileText className="h-5 w-5 text-[#C40503]" />
+                          <div className="flex-1">
+                            <p className="font-medium text-gray-900">{file.name}</p>
+                            <p className="text-sm text-gray-600">{file.size}</p>
+                          </div>
+                          <Badge variant="outline" className="text-green-600 border-green-600">
+                            Terkirim
+                          </Badge>
                         </div>
-                        <Badge variant="outline" className="text-green-600 border-green-600">
-                          Terkirim
-                        </Badge>
-                      </div>
-                    ))}
-                    {existingSubmission.comment && (
-                      <div className="p-3 bg-white rounded-lg border">
-                        <p className="text-sm text-gray-600 mb-1">Komentar:</p>
-                        <p className="text-gray-900">{existingSubmission.comment}</p>
-                      </div>
-                    )}
+                      ))}
+                      {existingSubmission.comment && (
+                        <div className="p-3 bg-white rounded-lg border">
+                          <p className="text-sm text-gray-600 mb-1">Komentar:</p>
+                          <p className="text-gray-900">{existingSubmission.comment}</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* New Files Upload */}
               <div className="space-y-4">

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
+import { saveSubmissionData } from "@/data/data-student/classes/assignment-data";
 
 interface FileUpload {
   id: string;
@@ -69,6 +70,23 @@ export default function SubmitAssignmentCard({ assignment, classId, type }: Subm
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Simpan data submission ke localStorage
+    const filesData = files.map(file => ({
+      id: file.id,
+      name: file.name,
+      size: file.size,
+      type: file.type
+    }));
+    
+    saveSubmissionData(type, filesData, comment);
+    
+    // Dispatch custom event untuk update UI
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('assignmentSubmitted', { 
+        detail: { type, files: filesData } 
+      }));
+    }
     
     setIsSubmitted(true);
     setIsSubmitting(false);

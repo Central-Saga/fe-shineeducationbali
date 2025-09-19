@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ChevronLeft, FileText, Download, Upload, Clock, AlertCircle } from "lucide-react";
+import { ChevronLeft, FileText, Download, Upload, Clock, AlertCircle, CheckCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,16 +18,32 @@ interface AssignmentDetailCardProps {
     deadline: string;
     lastChanged: string;
     submittedFile: any;
+    submissionData?: any;
   };
   classId?: string;
+  type?: string;
 }
 
-export default function AssignmentDetailCard({ assignment, classId }: AssignmentDetailCardProps) {
+export default function AssignmentDetailCard({ assignment, classId, type }: AssignmentDetailCardProps) {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submissionData, setSubmissionData] = useState<any>(null);
+
+  useEffect(() => {
+    // Cek apakah ada data submission yang tersimpan
+    if (typeof window !== 'undefined' && type) {
+      const savedSubmission = localStorage.getItem(`assignment_submission_${type}`);
+      if (savedSubmission) {
+        const data = JSON.parse(savedSubmission);
+        setSubmissionData(data);
+        setIsSubmitted(true);
+      }
+    }
+  }, [type]);
   // Fallback jika assignment undefined
   if (!assignment) {
     return (
       <div className="min-h-screen bg-gray-50 pt-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link
             href="/dashboard-student/classes"
             className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-6"
@@ -55,7 +71,7 @@ export default function AssignmentDetailCard({ assignment, classId }: Assignment
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-10/12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link
           href="/dashboard-student/classes"
           className="inline-flex items-center text-gray-600 hover:text-[#C40503] mb-6"
@@ -68,10 +84,13 @@ export default function AssignmentDetailCard({ assignment, classId }: Assignment
             <div className="flex items-center gap-3 mb-2">
               <CardTitle className="text-2xl font-bold text-gray-900">{assignment.title}</CardTitle>
               <Badge 
-                variant="destructive" 
-                className="bg-red-600 text-white font-semibold px-3 py-1"
+                variant={isSubmitted ? "secondary" : "destructive"}
+                className={isSubmitted 
+                  ? "bg-green-100 text-green-800 font-semibold px-3 py-1 border-2 border-green-200" 
+                  : "bg-red-600 text-white font-semibold px-3 py-1"
+                }
               >
-                Belum Dikumpulkan
+                {isSubmitted ? "Sudah Dikumpulkan" : "Belum Dikumpulkan"}
               </Badge>
             </div>
             <p className="text-gray-700">{assignment.description}</p>
@@ -135,33 +154,45 @@ export default function AssignmentDetailCard({ assignment, classId }: Assignment
                   <Card>
                     <CardContent className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-orange-100 rounded-lg">
-                          <FileText className="h-4 w-4 text-orange-600" />
+                        <div className={`p-2 rounded-lg ${isSubmitted ? 'bg-green-100' : 'bg-orange-100'}`}>
+                          <FileText className={`h-4 w-4 ${isSubmitted ? 'text-green-600' : 'text-orange-600'}`} />
                         </div>
                         <div>
                           <p className="text-sm text-gray-500">File Dikirim</p>
-                          <p className="font-semibold text-red-600">Belum ada</p>
+                          <p className={`font-semibold ${isSubmitted ? 'text-green-600' : 'text-red-600'}`}>
+                            {isSubmitted ? (submissionData?.files?.length || 0) + ' file' : 'Belum ada'}
+                          </p>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
                 </div>
 
-                <div className="p-4 bg-yellow-50 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <AlertCircle className="h-5 w-5 text-yellow-600" />
-                    <p className="text-sm text-gray-700">
-                      <span className="font-medium">Perhatian:</span> Anda belum mengirimkan jawaban untuk tugas ini.
-                    </p>
+                {!isSubmitted ? (
+                  <div className="p-4 bg-yellow-50 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <AlertCircle className="h-5 w-5 text-yellow-600" />
+                      <p className="text-sm text-gray-700">
+                        <span className="font-medium">Perhatian:</span> Anda belum mengirimkan jawaban untuk tugas ini.
+                      </p>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="p-4 bg-green-50 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-600" />
+                      <p className="text-sm text-gray-700">
+                        <span className="font-medium">Berhasil:</span> Jawaban Anda telah dikirim pada {new Date(submissionData?.submittedDate).toLocaleString('id-ID')}.
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons */}
               <div className="flex gap-3 justify-end">
-                {/* Simulate different states - in real app this would come from props or API */}
-                {assignment.status === "Belum dikirimkan" ? (
-                  <Link href={`/dashboard-student/classes/${classId || '1'}/submit-assignment?type=${assignment.title.toLowerCase().includes('kuis') ? 'kuis' : 'uts'}`}>
+                {!isSubmitted ? (
+                  <Link href={`/dashboard-student/classes/${classId || '1'}/submit-assignment?type=${type || 'kuis'}`}>
                     <Button className="bg-[#C40503] hover:bg-[#a30402]">
                       <Upload className="h-4 w-4 mr-2" />
                       Kirim Jawaban
@@ -169,7 +200,7 @@ export default function AssignmentDetailCard({ assignment, classId }: Assignment
                   </Link>
                 ) : (
                   <div className="flex gap-2">
-                    <Link href={`/dashboard-student/classes/${classId || '1'}/edit-submission?type=${assignment.title.toLowerCase().includes('kuis') ? 'kuis' : 'uts'}`}>
+                    <Link href={`/dashboard-student/classes/${classId || '1'}/edit-submission?type=${type || 'kuis'}`}>
                       <Button variant="outline" className="border-[#C40503] text-[#C40503] hover:bg-[#C40503] hover:text-white">
                         <Upload className="h-4 w-4 mr-2" />
                         Edit Jawaban

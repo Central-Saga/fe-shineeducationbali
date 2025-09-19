@@ -107,5 +107,41 @@ export const getAssignmentById = (id: string) => {
 };
 
 export const getAssignmentByType = (type: string) => {
-  return assignmentData[type as keyof typeof assignmentData] || assignmentData.kuis;
+  const baseAssignment = assignmentData[type as keyof typeof assignmentData] || assignmentData.kuis;
+  
+  // Cek apakah ada data submission yang tersimpan di localStorage
+  if (typeof window !== 'undefined') {
+    const savedSubmission = localStorage.getItem(`assignment_submission_${type}`);
+    if (savedSubmission) {
+      const submissionData = JSON.parse(savedSubmission);
+      return {
+        ...baseAssignment,
+        status: "Sudah dikirimkan",
+        submittedFile: submissionData.files[0] || null,
+        lastChanged: submissionData.submittedDate,
+        submissionData: submissionData
+      };
+    }
+  }
+  
+  return baseAssignment;
+};
+
+// Helper function untuk menyimpan submission data
+export const saveSubmissionData = (type: string, files: any[], comment: string) => {
+  if (typeof window !== 'undefined') {
+    const submissionData = {
+      files: files,
+      comment: comment,
+      submittedDate: new Date().toISOString()
+    };
+    localStorage.setItem(`assignment_submission_${type}`, JSON.stringify(submissionData));
+  }
+};
+
+// Helper function untuk menghapus submission data
+export const clearSubmissionData = (type: string) => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem(`assignment_submission_${type}`);
+  }
 };

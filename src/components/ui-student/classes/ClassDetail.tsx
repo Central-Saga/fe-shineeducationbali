@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getClassDetail } from '@/data/data-student/class-detail-data';
 import Link from 'next/link';
-import { ChevronLeft, Clock, User, BookOpen, FileText, Download, Eye, ExternalLink } from 'lucide-react';
+import { ChevronLeft, Clock, User, BookOpen, FileText, Download, Eye, ExternalLink, CheckCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 interface ClassDetailProps {
@@ -19,15 +19,63 @@ export default function ClassDetail({ classId }: ClassDetailProps) {
   const { studentMaterials } = require('@/data/data-student/student-materials-assignments');
   const { studentAssignments } = require('@/data/data-student/classes/assignment-data');
 
-  // Filter tugas & materi berdasarkan search
-  const filteredAssignments = (studentAssignments ?? []).filter((item: { title: string; description: string }) =>
-    item.title.toLowerCase().includes("") ||
-    item.description.toLowerCase().includes("")
-  );
-  const filteredMaterials = (studentMaterials ?? []).filter((item: { title: string; description: string }) =>
-    item.title.toLowerCase().includes("") ||
-    item.description.toLowerCase().includes("")
-  );
+  // State untuk tracking submission status
+  const [submissionStatus, setSubmissionStatus] = useState<Record<string, boolean>>({});
+
+  // Filter tugas & materi berdasarkan search dengan useMemo
+  const filteredAssignments = useMemo(() => {
+    return (studentAssignments ?? []).filter((item: { title: string; description: string }) =>
+      item.title.toLowerCase().includes("") ||
+      item.description.toLowerCase().includes("")
+    );
+  }, [studentAssignments]);
+  
+  const filteredMaterials = useMemo(() => {
+    return (studentMaterials ?? []).filter((item: { title: string; description: string }) =>
+      item.title.toLowerCase().includes("") ||
+      item.description.toLowerCase().includes("")
+    );
+  }, [studentMaterials]);
+
+  // Fungsi untuk mengecek status submission
+  const checkSubmissionStatus = useCallback((assignmentType: string) => {
+    if (typeof window !== 'undefined') {
+      const savedSubmission = localStorage.getItem(`assignment_submission_${assignmentType}`);
+      return !!savedSubmission;
+    }
+    return false;
+  }, []);
+
+  // Update submission status saat component mount
+  useEffect(() => {
+    const status: Record<string, boolean> = {};
+    filteredAssignments.forEach((assignment: { type: string }) => {
+      status[assignment.type] = checkSubmissionStatus(assignment.type);
+    });
+    setSubmissionStatus(status);
+  }, [filteredAssignments, checkSubmissionStatus]);
+
+  // Listener untuk perubahan localStorage
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const status: Record<string, boolean> = {};
+      filteredAssignments.forEach((assignment: { type: string }) => {
+        status[assignment.type] = checkSubmissionStatus(assignment.type);
+      });
+      setSubmissionStatus(status);
+    };
+
+    // Listen untuk perubahan localStorage
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Custom event untuk perubahan dalam tab yang sama
+    window.addEventListener('assignmentSubmitted', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('assignmentSubmitted', handleStorageChange);
+    };
+  }, [filteredAssignments, checkSubmissionStatus]);
 
   const classDetail = getClassDetail(classId);
 
@@ -78,7 +126,7 @@ export default function ClassDetail({ classId }: ClassDetailProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-10/12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
           <Link 
             href="/dashboard-student/classes"
@@ -143,33 +191,49 @@ export default function ClassDetail({ classId }: ClassDetailProps) {
                     <FileText className="h-5 w-5 text-[#C40503]" />
                     Tugas Terbaru
                   </CardTitle>
-                  <Link href="/dashboard-student/assignments">
-                    <Button variant="ghost" size="sm" className="text-[#C40503] hover:text-[#a30402]">
-                      Lihat Semua
-                      <ExternalLink className="h-4 w-4 ml-1" />
-                    </Button>
-                  </Link>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {filteredAssignments.slice(0, 3).map((assignment: { id: string; title: string; description: string; type: string }) => (
-                    <div key={assignment.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                      <div className="p-2 bg-[#C40503]/10 rounded-lg">
-                        <FileText className="h-4 w-4 text-[#C40503]" />
+                  {filteredAssignments.slice(0, 3).map((assignment: { id: string; title: string; description: string; type: string }) => {
+                    const isSubmitted = submissionStatus[assignment.type] || false;
+                    return (
+                      <div key={assignment.id} className={`flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 transition-colors ${
+                        isSubmitted ? 'bg-green-50 border border-green-200' : 'bg-gray-50'
+                      }`}>
+                        <div className={`p-2 rounded-lg ${
+                          isSubmitted ? 'bg-green-100' : 'bg-[#C40503]/10'
+                        }`}>
+                          {isSubmitted ? (
+                            <CheckCircle className="h-4 w-4 text-green-600" />
+                          ) : (
+                            <FileText className="h-4 w-4 text-[#C40503]" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-medium text-gray-900 text-sm truncate">{assignment.title}</h4>
+                            {isSubmitted && (
+                              <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs px-2 py-0.5">
+                                Terkirim
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-xs text-gray-600 truncate">{assignment.description}</p>
+                        </div>
+                        <Link href={`/dashboard-student/classes/${classId}/assignment-detail?type=${assignment.type}`}>
+                          <Button size="sm" className={`${
+                            isSubmitted 
+                              ? 'bg-green-600 hover:bg-green-700' 
+                              : 'bg-[#C40503] hover:bg-[#a30402]'
+                          }`}>
+                            <Eye className="h-4 w-4 mr-1" />
+                            {isSubmitted ? 'Lihat' : 'Detail'}
+                          </Button>
+                        </Link>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-gray-900 text-sm truncate">{assignment.title}</h4>
-                        <p className="text-xs text-gray-600 truncate">{assignment.description}</p>
-                      </div>
-                      <Link href={`/dashboard-student/classes/${classId}/assignment-detail?type=${assignment.type}`}>
-                        <Button size="sm" className="bg-[#C40503] hover:bg-[#a30402]">
-                          <Eye className="h-4 w-4 mr-1" />
-                          Detail
-                        </Button>
-                      </Link>
-                    </div>
-                  ))}
+                    );
+                  })}
                   {filteredAssignments.length === 0 && (
                     <div className="text-center py-8">
                       <FileText className="h-8 w-8 text-gray-400 mx-auto mb-2" />
@@ -187,12 +251,6 @@ export default function ClassDetail({ classId }: ClassDetailProps) {
                     <BookOpen className="h-5 w-5 text-[#DAA625]" />
                     Materi Terbaru
                   </CardTitle>
-                  <Link href="/dashboard-student/materials">
-                    <Button variant="ghost" size="sm" className="text-[#C40503] hover:text-[#a30402]">
-                      Lihat Semua
-                      <ExternalLink className="h-4 w-4 ml-1" />
-                    </Button>
-                  </Link>
                 </div>
               </CardHeader>
               <CardContent>
