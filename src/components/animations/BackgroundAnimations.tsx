@@ -45,7 +45,7 @@ export const FloatingBubbles = () => {
   >([]);
 
   useEffect(() => {
-    const newBubbles = Array.from({ length: 8 }).map((_, i) => ({
+    const newBubbles = Array.from({ length: 8 }).map(() => ({
       size: Math.random() * 100 + 50,
       initialPosition: {
         x: Math.random() * 100,

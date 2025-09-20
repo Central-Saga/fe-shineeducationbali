@@ -15,18 +15,16 @@ import {
   School2,
   BookOpen,
   Users,
-  Building2,
   GanttChartSquare,
   Globe,
   LucideIcon,
-  Plus,
 } from "lucide-react";
 
 type LevelFilter = EducationLevel | "ALL";
 
 export function CertificateTypes() {
-  const router = useRouter();
-  const [selectedType, setSelectedType] = useState<string | null>(null);
+  // const router = useRouter();
+  const [selectedType] = useState<string | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<CourseType>("ENGLISH");
   const [selectedLevel, setSelectedLevel] = useState<LevelFilter>("ALL");
 
@@ -52,7 +50,7 @@ export function CertificateTypes() {
   });
 
   const handleCreateClick = (typeId: string) => {
-    setSelectedType(typeId);
+    console.log("Create clicked for type:", typeId);
   };
 
   return (

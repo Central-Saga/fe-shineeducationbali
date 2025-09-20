@@ -279,7 +279,7 @@ const Navbar = () => {
                                 <Link
                                   key={subItem.name}
                                   href={subItem.href}
-                                  className="flex items-center gap-2 text-gray-600 hover:text-[#C40503] transition-colors duration-300 block py-1"
+                                  className="flex items-center gap-2 text-gray-600 hover:text-[#C40503] transition-colors duration-300 py-1"
                                   onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                   <SubIcon className="h-4 w-4" />
@@ -292,7 +292,7 @@ const Navbar = () => {
                       ) : (
                         <Link
                           href={item.href}
-                          className="flex items-center gap-2 text-gray-600 hover:text-[#C40503] transition-colors duration-300 block py-2"
+                          className="flex items-center gap-2 text-gray-600 hover:text-[#C40503] transition-colors duration-300 py-2"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
                           <Icon className="h-4 w-4" />

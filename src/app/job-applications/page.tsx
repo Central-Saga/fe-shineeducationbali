@@ -680,7 +680,7 @@ export default function JobApplicationsPage() {
                 Bagaimana cara mengetahui status lamaran saya?
               </h3>
               <p className="text-gray-600">
-                Anda dapat menggunakan fitur "Pantau Status" dengan memasukkan ID Aplikasi dan email yang Anda gunakan saat melamar. ID Aplikasi akan dikirimkan ke email Anda setelah berhasil mengirimkan lamaran.
+                Anda dapat menggunakan fitur &quot;Pantau Status&quot; dengan memasukkan ID Aplikasi dan email yang Anda gunakan saat melamar. ID Aplikasi akan dikirimkan ke email Anda setelah berhasil mengirimkan lamaran.
               </p>
             </motion.div>
             

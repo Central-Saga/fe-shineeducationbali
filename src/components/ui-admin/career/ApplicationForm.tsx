@@ -23,12 +23,6 @@ import {
   FileText,
   Plus,
   X,
-  User,
-  Mail,
-  Phone,
-  MapPin,
-  Briefcase,
-  Calendar,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -97,7 +91,7 @@ export default function ApplicationForm({ applicationId, isEdit = false }: Appli
     }
   }, [isEdit, applicationId]);
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: string | number | boolean) => {
     if (field.startsWith('applicant.')) {
       const applicantField = field.split('.')[1];
       setFormData(prev => ({

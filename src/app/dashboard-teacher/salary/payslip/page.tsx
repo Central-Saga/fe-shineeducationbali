@@ -135,14 +135,36 @@ export default function PayslipPage() {
     status: string;
   } | null>(null);
   
-  const handleViewPayslip = (payslip: any) => {
+  const handleViewPayslip = (payslip: {
+    id: string;
+    month: number;
+    year: number;
+    date: Date;
+    paymentDate?: string;
+    netSalary: number;
+    status: string;
+    earnings: {
+      baseSalary: number;
+      teachingAllowance: number;
+      positionAllowance: number;
+      transportAllowance: number;
+      mealAllowance: number;
+      totalEarnings: number;
+    };
+    deductions: {
+      taxDeduction: number;
+      insuranceDeduction: number;
+      otherDeductions: number;
+      totalDeductions: number;
+    };
+  }) => {
     // Convert the payslip data to the expected format
     const convertedPayslip = {
       id: payslip.id,
       month: payslip.month,
       year: payslip.year,
       date: payslip.date,
-      paymentDate: payslip.paymentDate,
+      paymentDate: payslip.paymentDate || '-',
       basicSalary: payslip.earnings.baseSalary,
       allowances: [
         { type: 'Tunjangan Mengajar', amount: payslip.earnings.teachingAllowance },
@@ -152,8 +174,8 @@ export default function PayslipPage() {
       ],
       deductions: [
         { type: 'Pajak Penghasilan', amount: payslip.deductions.taxDeduction },
-        { type: 'BPJS Kesehatan', amount: payslip.deductions.healthInsurance },
-        { type: 'BPJS Ketenagakerjaan', amount: payslip.deductions.employmentInsurance },
+        { type: 'BPJS Kesehatan', amount: payslip.deductions.insuranceDeduction },
+        { type: 'BPJS Ketenagakerjaan', amount: 0 },
         { type: 'Potongan Lainnya', amount: payslip.deductions.otherDeductions }
       ],
       netSalary: payslip.netSalary,

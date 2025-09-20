@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { usePermission } from "@/hooks/use-permission";
-import { Attendance } from "@/types/attendance";
+// import { Attendance } from "@/types/attendance";
 import { attendanceService } from "@/lib/services/attendance.service";
 import { classService } from "@/lib/services/class.service";
 import { DataTable } from "@/components/ui/data-table";
@@ -32,7 +32,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Loading } from "@/components/ui/loading";
-import { Upload, FileText, Download } from "lucide-react";
+import { Upload } from "lucide-react";
 
 interface TeacherAttendanceProps {
   classId: string;
@@ -103,15 +103,15 @@ export function TeacherAttendance({ classId, className }: TeacherAttendanceProps
     loadTeachers();
   }, [classId]);
 
-  const handleViewDocument = (attachment: string) => {
-    // Handle document viewing logic
-    console.log("Viewing document:", attachment);
-  };
+  // const handleViewDocument = (attachment: string) => {
+  //   // Handle document viewing logic
+  //   console.log("Viewing document:", attachment);
+  // };
 
-  const handleDownloadDocument = (attachment: string) => {
-    // Handle document download logic
-    console.log("Downloading document:", attachment);
-  };
+  // const handleDownloadDocument = (attachment: string) => {
+  //   // Handle document download logic
+  //   console.log("Downloading document:", attachment);
+  // };
 
   if (loading) {
     return (

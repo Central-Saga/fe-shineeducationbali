@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+// import { Card } from "@/components/ui/card";
 import { Certificate } from "@/types/certificate";
 import { certificateService } from "@/lib/services/certificate.service";
 import { Download, Loader2, ZoomIn } from "lucide-react";

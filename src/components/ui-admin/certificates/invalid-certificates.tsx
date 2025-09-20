@@ -38,7 +38,7 @@ export function InvalidCertificates() {
     },
   ]);
 
-  const handleVerify = (id: string) => {
+  const handleVerify = (_id: string) => {
     // TODO: Implement verification logic
   };
 

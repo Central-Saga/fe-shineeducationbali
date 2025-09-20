@@ -33,7 +33,7 @@ export default function NewTemplatePage() {
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState<Partial<NewTemplateFormData>>({
+  const [formData] = useState<Partial<NewTemplateFormData>>({
     name: "",
     description: "",
     courseType: undefined,

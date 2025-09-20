@@ -31,7 +31,7 @@ export function CertificatesList() {
       setLoading(true);
       const data = await certificateService.getCertificates();
       setCertificates(data);
-    } catch (error) {
+    } catch {
       toast.error("Gagal memuat data sertifikat");
     } finally {
       setLoading(false);
@@ -45,7 +45,7 @@ export function CertificatesList() {
   const handlePreview = async (certificate: Certificate) => {
     try {
       await pdfGenerator.generatePDF(certificate);
-    } catch (error) {
+    } catch {
       toast.error("Gagal membuka preview sertifikat");
     }
   };
@@ -54,7 +54,7 @@ export function CertificatesList() {
     try {
       await certificateService.downloadCertificate(certificate.id);
       toast.success("Sertifikat berhasil diunduh");
-    } catch (error) {
+    } catch {
       toast.error("Gagal mengunduh sertifikat");
     }
   };

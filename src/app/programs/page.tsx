@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/ui-home/Navbar";
 import Footer from "@/components/ui-home/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { DynamicBackground, FloatingBubbles } from "@/components/animations/BackgroundAnimations";
 
 // Program data
@@ -378,7 +378,7 @@ export default function ProgramsPage() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "Anak saya mengalami peningkatan signifikan dalam kemampuan membaca dan menulis setelah mengikuti program Calistung. Pengajarnya sangat sabar dan metodenya menyenangkan."
+                &quot;Anak saya mengalami peningkatan signifikan dalam kemampuan membaca dan menulis setelah mengikuti program Calistung. Pengajarnya sangat sabar dan metodenya menyenangkan.&quot;
               </p>
               <div className="flex mt-4 text-[#DAA625]">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -420,7 +420,7 @@ export default function ProgramsPage() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "Program Bahasa Inggris di sini sangat interaktif dan menyenangkan. Saya merasa lebih percaya diri berbicara dalam Bahasa Inggris sekarang. Gurunya juga sangat ramah."
+                &quot;Program Bahasa Inggris di sini sangat interaktif dan menyenangkan. Saya merasa lebih percaya diri berbicara dalam Bahasa Inggris sekarang. Gurunya juga sangat ramah.&quot;
               </p>
               <div className="flex mt-4 text-[#DAA625]">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -462,7 +462,7 @@ export default function ProgramsPage() {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "Nilai matematika anak saya naik drastis setelah mengikuti program di sini. Terima kasih Shine Education untuk metode yang luar biasa dan memudahkan anak memahami konsep."
+                &quot;Nilai matematika anak saya naik drastis setelah mengikuti program di sini. Terima kasih Shine Education untuk metode yang luar biasa dan memudahkan anak memahami konsep.&quot;
               </p>
               <div className="flex mt-4 text-[#DAA625]">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

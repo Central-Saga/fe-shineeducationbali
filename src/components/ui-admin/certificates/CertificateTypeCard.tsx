@@ -2,7 +2,7 @@ import { CertificateType } from "@/data/data-admin/certificates-data/certificate
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Eye, FileText, Plus } from "lucide-react";
+import { Eye } from "lucide-react";
 
 interface CertificateTypeCardProps {
   type: CertificateType;
@@ -11,7 +11,7 @@ interface CertificateTypeCardProps {
 
 export function CertificateTypeCard({
   type,
-  onCreateClick,
+  // onCreateClick,
 }: CertificateTypeCardProps) {
   const courseTypeBadgeVariant =
     type.courseType === "ENGLISH"

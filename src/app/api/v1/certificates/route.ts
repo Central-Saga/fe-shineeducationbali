@@ -18,7 +18,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     // Temporary mock implementation
-    const json = await request.json();
+    await request.json();
     
     return NextResponse.json(
       { error: "Certificate creation feature is under development" },

@@ -17,15 +17,15 @@ import { TemplateActions } from "./template-actions";
 export function TemplateGrid() {
   const [templates] = useState(certificateTemplates);
 
-  const handlePreview = (template: CertificateTemplate) => {
+  const handlePreview = (_template: CertificateTemplate) => {
     // TODO: Implement preview functionality
   };
 
-  const handleDuplicate = (template: CertificateTemplate) => {
+  const handleDuplicate = (_template: CertificateTemplate) => {
     // TODO: Implement duplicate functionality
   };
 
-  const handleDelete = (template: CertificateTemplate) => {
+  const handleDelete = (_template: CertificateTemplate) => {
     // TODO: Implement delete functionality
   };
 

@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Navbar from "@/components/ui-home/Navbar";
 import Footer from "@/components/ui-home/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+// import { Card, CardContent } from "@/components/ui/card";
 import { DynamicBackground, FloatingBubbles } from "@/components/animations/BackgroundAnimations";
 import { Badge } from "@/components/ui/badge";
 

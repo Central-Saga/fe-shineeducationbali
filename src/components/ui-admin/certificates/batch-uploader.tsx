@@ -4,15 +4,15 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Cloud, File, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+// import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -26,7 +26,7 @@ export function BatchUploader() {
   const [uploading, setUploading] = useState(false);
   const [template, setTemplate] = useState("");
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+  const onDrop = useCallback(async (_acceptedFiles: File[]) => {
     setUploading(true);
     try {
       // TODO: Implement file upload and processing

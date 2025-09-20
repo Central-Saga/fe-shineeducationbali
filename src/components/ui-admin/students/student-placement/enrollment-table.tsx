@@ -53,8 +53,8 @@ export function EnrollmentTable({
             </Button>
           </div>
         )}
-        <DataTable<Student, any>
-          columns={enrollmentColumns}
+        <DataTable
+          columns={enrollmentColumns as any}
           data={students}
           onRowSelection={setSelectedRows}
         />

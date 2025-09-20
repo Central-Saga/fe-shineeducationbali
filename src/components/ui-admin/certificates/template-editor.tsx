@@ -23,12 +23,12 @@ import { useState } from "react";
 
 interface TemplateEditorProps {
   templateId?: string;
-  onSave: (data: any) => void;
+  onSave: (data: unknown) => void;
   onCancel: () => void;
 }
 
 export function TemplateEditor({
-  templateId,
+  // templateId,
   onSave,
   onCancel,
 }: TemplateEditorProps) {

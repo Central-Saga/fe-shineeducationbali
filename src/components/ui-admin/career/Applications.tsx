@@ -22,15 +22,15 @@ import {
   Plus,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Header } from "@/components/ui-admin/layout";
-import { jobApplicationsData, JobApplication } from "@/data/data-admin/career-data";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { jobApplicationsData } from "@/data/data-admin/career-data";
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -63,49 +63,49 @@ export default function Applications() {
 
   // Statistics
   const totalApplications = jobApplicationsData.length;
-  const pendingApplications = jobApplicationsData.filter(app => app.status === "PENDING").length;
+  // const pendingApplications = jobApplicationsData.filter(app => app.status === "PENDING").length;
   const underReviewApplications = jobApplicationsData.filter(app => app.status === "UNDER_REVIEW").length;
   const shortlistedApplications = jobApplicationsData.filter(app => app.status === "SHORTLISTED").length;
   const rejectedApplications = jobApplicationsData.filter(app => app.status === "REJECTED").length;
 
-  const statsData = [
-    {
-      title: "Total Applications",
-      value: totalApplications,
-      description: "Applications received",
-      icon: FileText,
-      color: "red" as const,
-      bgColor: "bg-red-50",
-      textColor: "text-[#C40503]"
-    },
-    {
-      title: "Under Review",
-      value: underReviewApplications,
-      description: "Currently being reviewed",
-      icon: Clock4,
-      color: "amber" as const,
-      bgColor: "bg-amber-50",
-      textColor: "text-[#DAA625]"
-    },
-    {
-      title: "Shortlisted",
-      value: shortlistedApplications,
-      description: "Selected for interview",
-      icon: CheckCircle2,
-      color: "blue" as const,
-      bgColor: "bg-blue-50",
-      textColor: "text-blue-600"
-    },
-    {
-      title: "Rejected",
-      value: rejectedApplications,
-      description: "Not selected",
-      icon: XCircle,
-      color: "purple" as const,
-      bgColor: "bg-purple-50",
-      textColor: "text-purple-600"
-    }
-  ];
+  // const statsData = [
+  //   {
+  //     title: "Total Applications",
+  //     value: totalApplications,
+  //     description: "Applications received",
+  //     icon: FileText,
+  //     color: "red" as const,
+  //     bgColor: "bg-red-50",
+  //     textColor: "text-[#C40503]"
+  //   },
+  //   {
+  //     title: "Under Review",
+  //     value: underReviewApplications,
+  //     description: "Currently being reviewed",
+  //     icon: Clock4,
+  //     color: "amber" as const,
+  //     bgColor: "bg-amber-50",
+  //     textColor: "text-[#DAA625]"
+  //   },
+  //   {
+  //     title: "Shortlisted",
+  //     value: shortlistedApplications,
+  //     description: "Selected for interview",
+  //     icon: CheckCircle2,
+  //     color: "blue" as const,
+  //     bgColor: "bg-blue-50",
+  //     textColor: "text-blue-600"
+  //   },
+  //   {
+  //     title: "Rejected",
+  //     value: rejectedApplications,
+  //     description: "Not selected",
+  //     icon: XCircle,
+  //     color: "purple" as const,
+  //     bgColor: "bg-purple-50",
+  //     textColor: "text-purple-600"
+  //   }
+  // ];
 
   const getStatusBadge = (status: string) => {
     switch (status) {

@@ -4,36 +4,34 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Mail,
   Phone,
   MapPin,
   Calendar,
   Briefcase,
-  GraduationCap,
   FileText,
   MessageSquare,
   CheckCircle2,
   XCircle,
-  Clock,
   Download,
-  ArrowLeft,
   Edit,
   Trash2,
+  GraduationCap,
 } from "lucide-react";
 import { Header } from "@/components/ui-admin/layout";
-import { jobApplicationsData, JobApplication } from "@/data/data-admin/career-data";
+import { jobApplicationsData } from "@/data/data-admin/career-data";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+// import Link from "next/link";
 
 interface ApplicationDetailProps {
   applicationId: string;
 }
 
 export default function ApplicationDetail({ applicationId }: ApplicationDetailProps) {
-  const router = useRouter();
-  const [status, setStatus] = useState<string>("");
+  // const router = useRouter();
+  const [status] = useState<string>("");
 
   const application = jobApplicationsData.find(app => app.id === parseInt(applicationId));
 
@@ -75,24 +73,24 @@ export default function ApplicationDetail({ applicationId }: ApplicationDetailPr
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "PENDING":
-        return <Clock className="h-4 w-4" />;
-      case "UNDER_REVIEW":
-        return <Clock className="h-4 w-4" />;
-      case "SHORTLISTED":
-        return <CheckCircle2 className="h-4 w-4" />;
-      case "INTERVIEWED":
-        return <Calendar className="h-4 w-4" />;
-      case "ACCEPTED":
-        return <CheckCircle2 className="h-4 w-4" />;
-      case "REJECTED":
-        return <XCircle className="h-4 w-4" />;
-      default:
-        return <Clock className="h-4 w-4" />;
-    }
-  };
+  // const getStatusIcon = (status: string) => {
+  //   switch (status) {
+  //     case "PENDING":
+  //       return <Clock className="h-4 w-4" />;
+  //     case "UNDER_REVIEW":
+  //       return <Clock className="h-4 w-4" />;
+  //     case "SHORTLISTED":
+  //       return <CheckCircle2 className="h-4 w-4" />;
+  //     case "INTERVIEWED":
+  //       return <Calendar className="h-4 w-4" />;
+  //     case "ACCEPTED":
+  //       return <CheckCircle2 className="h-4 w-4" />;
+  //     case "REJECTED":
+  //       return <XCircle className="h-4 w-4" />;
+  //     default:
+  //       return <Clock className="h-4 w-4" />;
+  //   }
+  // };
 
   return (
     <Header
@@ -283,7 +281,7 @@ export default function ApplicationDetail({ applicationId }: ApplicationDetailPr
               <div className="space-y-2">
                 <Button 
                   className="w-full bg-green-600 hover:bg-green-700"
-                  onClick={() => setStatus("SHORTLISTED")}
+                  onClick={() => console.log("Shortlist clicked")}
                 >
                   <CheckCircle2 className="h-4 w-4 mr-2" />
                   Shortlist
@@ -291,7 +289,7 @@ export default function ApplicationDetail({ applicationId }: ApplicationDetailPr
                 <Button 
                   variant="outline" 
                   className="w-full"
-                  onClick={() => setStatus("INTERVIEWED")}
+                  onClick={() => console.log("Schedule Interview clicked")}
                 >
                   <Calendar className="h-4 w-4 mr-2" />
                   Schedule Interview
@@ -299,7 +297,7 @@ export default function ApplicationDetail({ applicationId }: ApplicationDetailPr
                 <Button 
                   variant="outline" 
                   className="w-full text-red-600 hover:text-red-700"
-                  onClick={() => setStatus("REJECTED")}
+                  onClick={() => console.log("Reject clicked")}
                 >
                   <XCircle className="h-4 w-4 mr-2" />
                   Reject

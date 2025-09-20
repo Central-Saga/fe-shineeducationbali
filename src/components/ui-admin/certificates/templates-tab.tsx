@@ -7,16 +7,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Calendar,
   Edit,
-  Image,
   Trash,
-  LayoutTemplate,
   Upload,
 } from "lucide-react";
 import { certificateTemplates } from "@/data/data-admin/certificates-data/certificate-templates";
 import { CertificateTemplate } from "@/types/template";
 
 export function TemplatesTab() {
-  const [templates, setTemplates] =
+  const [templates] =
     useState<CertificateTemplate[]>(certificateTemplates);
 
   return (

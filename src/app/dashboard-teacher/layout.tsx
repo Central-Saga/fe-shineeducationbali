@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 // import { Sheet } from "@/components/ui/sheet";
 import { TeacherSidebar } from "@/components/ui-teacher/layout/TeacherSidebar";
 import { TeacherHeader } from "@/components/ui-teacher/layout/TeacherHeader";

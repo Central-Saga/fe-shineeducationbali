@@ -129,7 +129,7 @@ function StandaloneSelect({
 export function TemplateSelect({
   name = "templateId",
   label = "Template",
-  description,
+  // description,
   value,
   defaultValue,
   onChange,

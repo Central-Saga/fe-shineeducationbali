@@ -6,7 +6,6 @@ import {
   Card, 
   CardContent, 
   CardDescription, 
-  CardFooter, 
   CardHeader, 
   CardTitle 
 } from "@/components/ui/card";
@@ -27,19 +26,17 @@ import {
   Book, 
   Calendar, 
   CalendarCheck, 
-  ChevronRight, 
   Clock, 
   Download, 
   Edit, 
-  GraduationCap, 
   Mail, 
   MessageSquare, 
   Phone, 
-  User,
-  AlertTriangle
+  AlertTriangle,
+  GraduationCap
 } from "lucide-react";
-import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
+// import Link from "next/link";
+// import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 
 // Import student data
@@ -67,14 +64,45 @@ const gradesData = [
 export default function StudentDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const [student, setStudent] = useState<any>(null);
+  const [student, setStudent] = useState<{
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    avatar: string;
+    status: string;
+    joinDate: string;
+    lastActive: string;
+    totalClasses: number;
+    attendanceRate: number;
+    averageGrade: number;
+    courses: string[];
+    class: string;
+    grade: string;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (params.id) {
       const foundStudent = studentsData.find((s) => s.id === params.id);
       if (foundStudent) {
-        setStudent(foundStudent);
+        // Transform the student data to match the expected interface
+        setStudent({
+          id: foundStudent.id,
+          name: foundStudent.name,
+          email: foundStudent.email,
+          phone: foundStudent.phone,
+          avatar: foundStudent.avatar,
+          status: foundStudent.status,
+          joinDate: "2024-01-15", // Default value
+          lastActive: "2025-01-15", // Default value
+          totalClasses: 45, // Default value
+          attendanceRate: foundStudent.attendance,
+          averageGrade: 85, // Default value
+          courses: ["Mathematics", "English", "Coding"], // Default value
+          class: foundStudent.class || "Grade 5A", // Add class property
+          grade: foundStudent.grade || "A" // Add grade property
+        });
       }
       setLoading(false);
     }
@@ -172,7 +200,7 @@ export default function StudentDetailPage() {
                 </div>
                 <div className="flex items-center text-sm text-gray-700">
                   <CalendarCheck className="mr-2 h-4 w-4 text-[#C40503]" />
-                  <span>Attendance: <span className="font-medium">{student.attendance}%</span></span>
+                  <span>Attendance: <span className="font-medium">{student.attendanceRate}%</span></span>
                 </div>
                 <div className="flex items-center text-sm text-gray-700">
                   <Mail className="mr-2 h-4 w-4 text-[#C40503]" />
@@ -284,21 +312,21 @@ export default function StudentDetailPage() {
                   <div>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm font-medium">Attendance Rate</span>
-                      <span className="text-sm font-bold text-[#C40503]">{student.attendance}%</span>
+                      <span className="text-sm font-bold text-[#C40503]">{student.attendanceRate}%</span>
                     </div>
-                    <Progress className="h-2" value={student.attendance} />
+                    <Progress className="h-2" value={student.attendanceRate} />
                   </div>
                   
                   <div className="grid grid-cols-2 gap-2 pt-3">
                     <div className="bg-green-50 p-3 rounded-md text-center">
                       <div className="text-xl font-semibold text-green-700">
-                        {Math.round(student.attendance * 0.9)}
+                        {Math.round(student.attendanceRate * 0.9)}
                       </div>
                       <div className="text-xs text-gray-600">Present Days</div>
                     </div>
                     <div className="bg-red-50 p-3 rounded-md text-center">
                       <div className="text-xl font-semibold text-red-700">
-                        {Math.round(student.attendance * 0.1)}
+                        {Math.round(student.attendanceRate * 0.1)}
                       </div>
                       <div className="text-xs text-gray-600">Absent Days</div>
                     </div>

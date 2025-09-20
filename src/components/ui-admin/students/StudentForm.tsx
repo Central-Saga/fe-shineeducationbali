@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Loader2, Save } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 import { studentService } from "@/lib/services/student.service";
 import { toast } from "sonner";
 import { Student } from "@/types/student";
@@ -84,7 +84,7 @@ interface StudentFormProps {
 
 export default function StudentForm({ studentId, isEdit = false }: StudentFormProps) {
   const [loading, setLoading] = useState(false);
-  const [student, setStudent] = useState<Student | null>(null);
+  const [, setStudent] = useState<Student | null>(null);
   const router = useRouter();
 
   const form = useForm<FormValues>({
@@ -133,7 +133,7 @@ export default function StudentForm({ studentId, isEdit = false }: StudentFormPr
   const onSubmit = async (data: FormValues) => {
     try {
       setLoading(true);
-      const { packages, profilePhoto, ...createData } = data;
+      const { packages: _, profilePhoto: __, ...createData } = data;
       
       if (isEdit && studentId) {
         await studentService.updateStudent(studentId, createData);
