@@ -4,8 +4,9 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Check, X, Clock, Calendar } from 'lucide-react';
-import { StudentAttendance, SessionAttendance } from '@/data/data-student/class-detail-data';
+import { StudentAttendance } from '@/data/data-student/class-detail-data';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Image from "next/image";
 
 interface ClassAttendanceProps {
   studentAttendance?: StudentAttendance;
@@ -100,9 +101,11 @@ export function ClassAttendance({ studentAttendance, attendanceSessions }: Class
         <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
           <div className="flex items-center gap-3 mb-4">
             {studentAttendance.avatar ? (
-              <img 
+              <Image 
                 src={studentAttendance.avatar} 
                 alt={studentAttendance.studentName} 
+                width={48}
+                height={48}
                 className="w-12 h-12 rounded-full"
               />
             ) : (
@@ -160,7 +163,7 @@ export function ClassAttendance({ studentAttendance, attendanceSessions }: Class
                       <p className="text-sm text-gray-600">{formatDate(session.date)}</p>
                       <p className="text-sm text-gray-600">Materi: {session.topic}</p>
                       {sessionAttendance?.notes && (
-                        <p className="text-sm text-gray-500 mt-1 italic">"{sessionAttendance.notes}"</p>
+                        <p className="text-sm text-gray-500 mt-1 italic">&quot;{sessionAttendance.notes}&quot;</p>
                       )}
                     </div>
                     

@@ -110,15 +110,15 @@ export function MaterialManagement({
   const getTypeIcon = (type: Material['type']) => {
     switch (type) {
       case 'document':
-        return <FileText className="h-4 w-4" />;
+        return <FileText className="h-4 w-4" aria-label="Document icon" />;
       case 'video':
-        return <Video className="h-4 w-4" />;
+        return <Video className="h-4 w-4" aria-label="Video icon" />;
       case 'image':
-        return <Image className="h-4 w-4" />;
+        return <Image className="h-4 w-4" aria-label="Image icon" />;
       case 'assignment':
-        return <BookOpen className="h-4 w-4" />;
+        return <BookOpen className="h-4 w-4" aria-label="Assignment icon" />;
       default:
-        return <FileText className="h-4 w-4" />;
+        return <FileText className="h-4 w-4" aria-label="File icon" />;
     }
   };
 
@@ -301,6 +301,7 @@ export function MaterialManagement({
                     className="hidden"
                     id="file"
                     onChange={(e) => setFormData({...formData, file: e.target.files?.[0] || null})}
+                    aria-label="Upload file"
                   />
                 </div>
               </div>

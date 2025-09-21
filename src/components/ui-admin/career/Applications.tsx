@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Search,
   Clock,
@@ -61,12 +62,7 @@ export default function Applications() {
     return matchesSearch && matchesStatus && matchesTab;
   });
 
-  // Statistics
-  const totalApplications = jobApplicationsData.length;
-  // const pendingApplications = jobApplicationsData.filter(app => app.status === "PENDING").length;
-  const underReviewApplications = jobApplicationsData.filter(app => app.status === "UNDER_REVIEW").length;
-  const shortlistedApplications = jobApplicationsData.filter(app => app.status === "SHORTLISTED").length;
-  const rejectedApplications = jobApplicationsData.filter(app => app.status === "REJECTED").length;
+  // Statistics - removed unused variables
 
   // const statsData = [
   //   {
@@ -222,9 +218,11 @@ export default function Applications() {
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-4">
                   <div className="h-12 w-12 rounded-full overflow-hidden">
-                    <img
+                    <Image
                       src={application.applicant.avatar}
                       alt={application.applicant.name}
+                      width={48}
+                      height={48}
                       className="h-full w-full object-cover"
                     />
                   </div>

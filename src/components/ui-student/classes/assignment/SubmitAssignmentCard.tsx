@@ -26,7 +26,7 @@ interface SubmitAssignmentCardProps {
     status: string;
     deadline: string;
     lastChanged: string;
-    submittedFile: any;
+    submittedFile: { id: string; name: string; size: string; type: string } | null;
   };
   classId: string;
   type: string;

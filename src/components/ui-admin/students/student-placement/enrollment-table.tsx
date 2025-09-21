@@ -54,6 +54,7 @@ export function EnrollmentTable({
           </div>
         )}
         <DataTable
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           columns={enrollmentColumns as any}
           data={students}
           onRowSelection={setSelectedRows}

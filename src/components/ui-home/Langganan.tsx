@@ -1,13 +1,12 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   subscriptionPlans,
   facilities,
   educationLevels,
 } from "@/data/ui-home/subscription";
 import { useState, useEffect } from "react";
-import type { FloatingEmoji } from "@/types/animation";
 import Confetti from "./Confetti";
 
 const Langganan = () => {

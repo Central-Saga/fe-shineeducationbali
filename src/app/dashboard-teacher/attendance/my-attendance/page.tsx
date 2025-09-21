@@ -2,50 +2,34 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { isSameDay } from 'date-fns';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { mockTeacherAttendance } from '@/data/data-teacher/attendance/teacher-attendance-data';
 import { CheckInCard } from '@/components/ui-teacher/attendance/check-in-card';
 import { AttendanceCalendar } from '@/components/ui-teacher/attendance/attendance-calendar';
 import { AttendanceDetailCard } from '@/components/ui-teacher/attendance/attendance-detail-card';
 
 export default function MyAttendancePage() {
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
-  const [attendanceData, setAttendanceData] = useState<{
-    id: string;
-    date: Date;
-    checkIn?: string;
-    checkOut?: string;
-    status: string;
-    note?: string;
-  } | null>(null);
+  const [attendanceData, setAttendanceData] = useState<{ present: number; absent: number; late: number } | null>(null);
   const [isCheckInDialogOpen, setIsCheckInDialogOpen] = useState(false);
   const [checkInNote, setCheckInNote] = useState('');
 
   useEffect(() => {
     // Check if there's attendance data for today
     const today = new Date();
-    const todayAttendance = mockTeacherAttendance.find(a => isSameDay(a.date, today));
+    // const todayAttendance = mockTeacherAttendance.find(a => isSameDay(a.date, today));
     
     // If we have data for today, select today to show its details
-    if (todayAttendance) {
+    // if (todayAttendance) {
       setSelectedDay(today);
-      setAttendanceData(todayAttendance);
-    }
+      setAttendanceData({ present: 1, absent: 0, late: 0 }); // Default data
+    // }
   }, []);
 
-  const handleDaySelected = (day: Date, data: {
-    id: string;
-    date: Date;
-    checkIn?: string;
-    checkOut?: string;
-    status: string;
-    note?: string;
-  }) => {
+  const handleDaySelected = (day: Date, data: { present: number; absent: number; late: number }) => {
     setSelectedDay(day);
     setAttendanceData(data);
   };

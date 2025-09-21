@@ -28,7 +28,6 @@ import { teacherService } from "@/lib/services/teacher.service";
 import { toast } from "sonner";
 import {
   EducationLevel,
-  TeacherFormData,
   Teacher,
   defaultTeacherValues,
 } from "@/types/teacher";
@@ -66,6 +65,8 @@ const formSchema = z.object({
   schedule: z.record(z.string(), z.array(z.string())),
 });
 
+type TeacherFormData = z.infer<typeof formSchema>;
+
 interface TeacherFormProps {
   teacherId?: string;
   isEdit?: boolean;
@@ -73,7 +74,7 @@ interface TeacherFormProps {
 
 export default function TeacherForm({ teacherId, isEdit = false }: TeacherFormProps) {
   const [loading, setLoading] = useState(false);
-  const [teacher, setTeacher] = useState<Teacher | null>(null);
+  const [, setTeacher] = useState<Teacher | null>(null);
   const router = useRouter();
 
   const form = useForm({
@@ -127,7 +128,7 @@ export default function TeacherForm({ teacherId, isEdit = false }: TeacherFormPr
       .substring(0, 2);
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: TeacherFormData) => {
     try {
       setLoading(true);
       

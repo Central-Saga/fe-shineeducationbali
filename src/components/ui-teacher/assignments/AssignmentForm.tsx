@@ -24,9 +24,9 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
 interface AssignmentFormProps {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: { title: string; description: string; dueDate: string; classId: string; attachments: File[] }) => void;
   classes?: { id: string; name: string }[];
-  initialData?: any;
+  initialData?: { title: string; description: string; dueDate: string; classId: string; attachments: File[] };
 }
 
 export function AssignmentForm({ onSubmit, classes = [], initialData }: AssignmentFormProps) {
@@ -50,8 +50,8 @@ export function AssignmentForm({ onSubmit, classes = [], initialData }: Assignme
       title,
       description,
       classId,
-      dueDate,
-      file
+      dueDate: dueDate.toISOString(),
+      attachments: file ? [file] : []
     };
 
     onSubmit(formData);

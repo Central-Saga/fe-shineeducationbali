@@ -1,5 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { Student } from "@/types/student";
+import { Student, StudentPackage } from "@/types/student";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
@@ -14,7 +14,7 @@ export const enrollmentColumns = [
   columnHelper.accessor("packages", {
     header: "Paket Kursus",
     cell: (info) => {
-      const packages = info.getValue();
+      const packages: StudentPackage[] = info.getValue();
       return (
         <div className="space-y-1">
           {packages.map((pkg) => (

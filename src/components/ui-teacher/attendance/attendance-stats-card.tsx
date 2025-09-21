@@ -1,8 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { BarChart, BarChart2, Clock, Calendar, CheckCircle } from 'lucide-react';
+import { BarChart, CheckCircle, Clock } from 'lucide-react';
 import { teacherAttendanceSummary } from "@/data/data-teacher/attendance/teacher-attendance-data";
 
 interface AttendanceStatsCardProps {

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -92,7 +93,7 @@ export default function VacancyForm({ jobId, isEdit = false }: VacancyFormProps)
     }
   }, [isEdit, jobId]);
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: string | string[]) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -396,9 +397,11 @@ export default function VacancyForm({ jobId, isEdit = false }: VacancyFormProps)
               <CardContent className="space-y-6">
                 <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
                   {formData.imageUrl ? (
-                    <img
+                    <Image
                       src={formData.imageUrl}
                       alt="Job preview"
+                      width={400}
+                      height={225}
                       className="w-full h-full object-cover rounded-lg"
                     />
                   ) : (

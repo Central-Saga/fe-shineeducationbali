@@ -1,4 +1,4 @@
-import { studentsData } from './students-data';
+// import { studentsData } from './students-data';
 
 // Struktur data untuk memetakan kelas dengan siswa
 export interface ClassStudentMapping {

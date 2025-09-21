@@ -1,11 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Info, Target, Users, Award, CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
+import { Info, CheckCircle } from "lucide-react";
 
 const About = () => {
   const listItems = [

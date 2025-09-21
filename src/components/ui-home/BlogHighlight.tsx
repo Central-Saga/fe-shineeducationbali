@@ -4,11 +4,10 @@ import {
   motion,
   useScroll,
   useTransform,
-  AnimatePresence,
 } from "framer-motion";
 import { blogPosts } from "@/data/ui-home/blog";
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 
 const BlogHighlight = () => {
   const containerRef = useRef<HTMLDivElement>(null);

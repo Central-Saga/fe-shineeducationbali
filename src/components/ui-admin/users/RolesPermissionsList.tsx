@@ -15,15 +15,11 @@ import {
   Edit2,
   Trash2,
   Download,
-  CheckSquare,
-  XSquare,
   User,
   UserCog,
   ShieldCheck,
   Key,
-  Clock,
   MoreHorizontal,
-  UserCheck,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -31,7 +27,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Header, TableLayout } from "@/components/ui-admin/layout";
 
@@ -193,10 +188,6 @@ export default function RolesPermissionsList() {
     permission.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Get roles that have a specific permission
-  const getRolesWithPermission = (permissionId: number) => {
-    return roles.filter(role => role.permissions.includes(permissionId));
-  };
 
   // Get permissions for a specific role
   const getPermissionsForRole = (roleId: string) => {
@@ -226,10 +217,6 @@ export default function RolesPermissionsList() {
   };
 
   // Check if permission belongs to selected role
-  const isPermissionInRole = (permissionId: number, roleId: string) => {
-    const role = roles.find(r => r.id === roleId);
-    return role ? role.permissions.includes(permissionId) : false;
-  };
 
   // Statistics
   const totalRoles = roles.length;

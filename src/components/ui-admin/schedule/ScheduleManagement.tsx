@@ -25,11 +25,9 @@ import { Button } from "@/components/ui/button";
 import { Header, TableLayout } from "@/components/ui-admin/layout";
 
 const ScheduleManagement = () => {
-  const [schedules, setSchedules] = useState<Schedule[]>(scheduleData);
+  const [schedules] = useState<Schedule[]>(scheduleData);
   const [filteredSchedules, setFilteredSchedules] = useState<Schedule[]>(scheduleData);
   const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState("all");
-  const [levelFilter, setLevelFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -49,15 +47,6 @@ const ScheduleManagement = () => {
       );
     }
 
-    // Type filter
-    if (typeFilter !== "all") {
-      filtered = filtered.filter((schedule) => schedule.schedule_type === typeFilter);
-    }
-
-    // Level filter
-    if (levelFilter !== "all") {
-      filtered = filtered.filter((schedule) => schedule.education_level === levelFilter);
-    }
 
     // Status filter
     if (statusFilter !== "all") {
@@ -66,7 +55,7 @@ const ScheduleManagement = () => {
 
     setFilteredSchedules(filtered);
     setCurrentPage(1); // Reset to first page when filters change
-  }, [schedules, searchQuery, typeFilter, levelFilter, statusFilter]);
+  }, [schedules, searchQuery, statusFilter]);
 
   // Pagination calculations
   const totalPages = Math.ceil(filteredSchedules.length / itemsPerPage);
@@ -191,7 +180,7 @@ const ScheduleManagement = () => {
   // Calculate statistics
   const totalSchedules = schedules.length;
   const activeSchedules = schedules.filter(s => s.status === 'ACTIVE').length;
-  const newSchedules = schedules.filter(s => {
+  const newSchedules = schedules.filter(() => {
     // Mock: schedules created in last 30 days
     return Math.random() > 0.7; // Random for demo
   }).length;

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import {
   PlusCircle,
   Search,
@@ -10,7 +11,6 @@ import {
   MapPin,
   Clock,
   Users,
-  Filter,
   Eye,
   Edit,
   Trash2,
@@ -18,7 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { FilterDialog } from "@/components/ui-admin/career/FilterDialog";
 import { Header } from "@/components/ui-admin/layout";
-import { jobVacanciesData, JobVacancy } from "@/data/data-admin/career-data";
+import { jobVacanciesData } from "@/data/data-admin/career-data";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -51,50 +51,8 @@ export default function Vacancies() {
     return matchesSearch && matchesStatus && matchesType;
   });
 
-  // Statistics
-  const totalJobs = jobVacanciesData.length;
-  const activeJobs = jobVacanciesData.filter(job => job.status === "ACTIVE").length;
-  const totalApplicants = jobVacanciesData.reduce((sum, job) => sum + job.applicants, 0);
-  const avgApplicants = Math.round(totalApplicants / totalJobs);
 
-  const statsData = [
-    {
-      title: "Total Jobs",
-      value: totalJobs,
-      description: "Job vacancies posted",
-      icon: Briefcase,
-      color: "red" as const,
-      bgColor: "bg-red-50",
-      textColor: "text-[#C40503]"
-    },
-    {
-      title: "Active Jobs",
-      value: activeJobs,
-      description: `${Math.round((activeJobs / totalJobs) * 100)}% of jobs are active`,
-      icon: Users,
-      color: "amber" as const,
-      bgColor: "bg-amber-50",
-      textColor: "text-[#DAA625]"
-    },
-    {
-      title: "Total Applicants",
-      value: totalApplicants,
-      description: "Applications received",
-      icon: Users,
-      color: "blue" as const,
-      bgColor: "bg-blue-50",
-      textColor: "text-blue-600"
-    },
-    {
-      title: "Avg. per Job",
-      value: avgApplicants,
-      description: "Average applicants per job",
-      icon: Clock,
-      color: "purple" as const,
-      bgColor: "bg-purple-50",
-      textColor: "text-purple-600"
-    }
-  ];
+  // Statistics data removed as it's not being used
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -176,9 +134,11 @@ export default function Vacancies() {
               {/* Card Header with Image */}
               <div className="h-48 overflow-hidden relative">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-                <img
+                <Image
                   src={job.imageUrl}
                   alt={job.title}
+                  width={400}
+                  height={192}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 right-4 z-20 flex gap-2">

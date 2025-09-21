@@ -8,7 +8,6 @@ import {
 } from "@/data/data-admin/certificates-data/certificate-types";
 import { CertificateTypeCard } from "./CertificateTypeCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useRouter } from "next/navigation";
 import { EducationLevel } from "@/types/student";
 import {
   GraduationCap,
@@ -24,7 +23,6 @@ type LevelFilter = EducationLevel | "ALL";
 
 export function CertificateTypes() {
   // const router = useRouter();
-  const [selectedType] = useState<string | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<CourseType>("ENGLISH");
   const [selectedLevel, setSelectedLevel] = useState<LevelFilter>("ALL");
 

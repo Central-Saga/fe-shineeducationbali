@@ -113,7 +113,7 @@ export const getAssignmentByType = (type: string) => {
   if (typeof window !== 'undefined') {
     const savedSubmission = localStorage.getItem(`assignment_submission_${type}`);
     if (savedSubmission) {
-      const submissionData: { files: any[]; comment: string; submittedDate: string } = JSON.parse(savedSubmission);
+      const submissionData: { files: { id: string; name: string; size: string; type: string }[]; comment: string; submittedDate: string } = JSON.parse(savedSubmission);
       return {
         ...baseAssignment,
         status: "Sudah dikirimkan",
@@ -128,7 +128,7 @@ export const getAssignmentByType = (type: string) => {
 };
 
 // Helper function untuk menyimpan submission data
-export const saveSubmissionData = (type: string, files: any[], comment: string) => {
+export const saveSubmissionData = (type: string, files: { id: string; name: string; size: string; type: string }[], comment: string) => {
   if (typeof window !== 'undefined') {
     const submissionData = {
       files: files,

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import { 
   FileText, Download, Search, Presentation, Video, BookOpen, File, 
   ChevronDown, ChevronUp 
@@ -258,9 +259,11 @@ function MaterialItem({ material, isExpanded, onToggle, getFileIcon, formatDate 
             <p className="text-gray-700 mb-4">{material.description}</p>
             {material.thumbnailUrl && (
               <div className="mb-4">
-                <img 
+                <Image 
                   src={material.thumbnailUrl} 
                   alt={material.title} 
+                  width={300}
+                  height={160}
                   className="rounded-md max-h-40 object-cover"
                 />
               </div>

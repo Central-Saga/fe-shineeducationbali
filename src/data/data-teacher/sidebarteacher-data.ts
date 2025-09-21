@@ -1,23 +1,14 @@
 import { 
   BookOpen, 
   Users, 
-  Calendar, 
   FileText, 
-  GraduationCap,
   Home,
-  ClipboardList,
   Award,
   LineChart,
   Settings,
   BookOpenCheck,
   Clock,
-  Wallet,
-  CalendarRange,
-  BarChart4,
-  FileHeart,
-  Receipt,
-  History,
-  Gift
+  Wallet
 } from "lucide-react";
 
 export const sidebarTeacherNavigation = [

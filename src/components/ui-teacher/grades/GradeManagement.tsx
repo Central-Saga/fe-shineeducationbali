@@ -39,10 +39,7 @@ import {
   Trash2,
   Download,
   FileText,
-  BarChart3,
-  TrendingUp,
-  Award,
-  Calculator
+  BarChart3
 } from "lucide-react";
 
 interface GradeCategory {

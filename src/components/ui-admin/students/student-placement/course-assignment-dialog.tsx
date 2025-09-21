@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -50,7 +50,7 @@ export function CourseAssignmentDialog({
   onSuccess,
 }: CourseAssignmentDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [availablePackages, setAvailablePackages] = useState([
+  const [availablePackages] = useState([
     { id: "pkg1", name: "Paket Reguler SD", type: "regular" },
     { id: "pkg2", name: "Paket Premium SD", type: "private" },
     { id: "pkg3", name: "Paket Reguler SMP", type: "regular" },
@@ -61,7 +61,7 @@ export function CourseAssignmentDialog({
     resolver: zodResolver(formSchema),
   });
 
-  const handleAssignment = async (values: z.infer<typeof formSchema>) => {
+  const handleAssignment = async () => {
     try {
       setIsLoading(true);
       // Di sini implementasi logika untuk mendaftarkan siswa ke paket kursus

@@ -90,7 +90,7 @@ export function ClassList() {
   // Calculate statistics
   const totalClasses = classes.length;
   const activeClasses = classes.filter(cls => cls.status === "ACTIVE").length;
-  const newClasses = classes.filter(cls => {
+  const newClasses = classes.filter(() => {
     // Mock: classes created in last 30 days
     return Math.random() > 0.7; // Random for demo
   }).length;

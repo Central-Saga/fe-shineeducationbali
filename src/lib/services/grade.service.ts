@@ -1,125 +1,157 @@
-import {
-  Grade,
-  GradeTemplate,
-  GradeSummary,
-  GradeComponents,
-  GradeFormData,
-} from "@/types/grade";
-import { apiRequest } from "../api";
+// import {
+//   Grade,
+//   GradeTemplate,
+//   GradeSummary,
+//   GradeComponents,
+//   GradeFormData,
+// } from "@/types/grade";
+// import { apiRequest } from "../api";
  
-class GradeService {
-  private apiUrl = "/api/v1/grades";
+// class GradeService {
+//   private apiUrl = "/api/v1/grades";
 
-  // Helper untuk menghitung nilai akhir berdasarkan template
-  private calculateFinalGrade(
-    components: GradeComponents,
-    template: GradeTemplate
-  ): number {
-    let finalGrade = 0;
-    let totalWeight = 0;
+//   // Helper untuk menghitung nilai akhir berdasarkan template
+//   private calculateFinalGrade(
+//     components: GradeComponents,
+//     template: GradeTemplate
+//   ): number {
+//     let finalGrade = 0;
+//     let totalWeight = 0;
 
-    template.components.forEach((comp) => {
-      const value = components[comp.name];
-      if (value !== undefined) {
-        finalGrade += value * comp.weight;
-        totalWeight += comp.weight;
-      }
-    });
+//     Object.entries(components).forEach(([componentName, score]) => {
+//       const templateComponent = template.components.find(
+//         (comp) => comp.name === componentName
+//       );
+//       if (templateComponent && score !== null) {
+//         finalGrade += score * (templateComponent.weight / 100);
+//         totalWeight += templateComponent.weight;
+//       }
+//     });
 
-    return totalWeight > 0
-      ? Math.round((finalGrade / totalWeight) * 10) / 10
-      : 0;
-  }
+//     // Jika tidak semua komponen terisi, normalisasi berdasarkan bobot yang ada
+//     if (totalWeight > 0 && totalWeight < 100) {
+//       finalGrade = (finalGrade * 100) / totalWeight;
+//     }
 
-  // Generator ID Nilai
-  private generateGradeId(): string {
-    const date = new Date();
-    const year = date.getFullYear().toString().slice(-2);
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const random = Math.floor(Math.random() * 1000)
-      .toString()
-      .padStart(3, "0");
-    return `INB${year}${month}${random}`;
-  }
+//     return Math.round(finalGrade * 100) / 100; // Round to 2 decimal places
+//   }
 
-  async getGrades(filters?: {
-    studentId?: string;
-    courseId?: string;
-    teacherId?: string;
-    status?: "DRAFT" | "PUBLISHED";
-  }): Promise<Grade[]> {
-    const queryParams = new URLSearchParams();
-    if (filters) {
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value) queryParams.append(key, value);
-      });
-    }
+//   // Grade Management
+//   async getGrades(filters?: {
+//     courseId?: string;
+//     studentId?: string;
+//     templateId?: string;
+//   }): Promise<Grade[]> {
+//     const queryParams = new URLSearchParams();
+//     if (filters?.courseId) queryParams.append("courseId", filters.courseId);
+//     if (filters?.studentId) queryParams.append("studentId", filters.studentId);
+//     if (filters?.templateId) queryParams.append("templateId", filters.templateId);
 
-    return apiRequest<Grade[]>("GET", `${this.apiUrl}?${queryParams.toString()}`);
-  }
+//     const url = queryParams.toString()
+//       ? `${this.apiUrl}?${queryParams}`
+//       : this.apiUrl;
 
-  async getGradeById(id: string): Promise<Grade> {
-    return apiRequest<Grade>("GET", `${this.apiUrl}/${id}`);
-  }
+//     return apiRequest<Grade[]>("GET", url);
+//   }
 
-  async createGrade(data: GradeFormData): Promise<Grade> {
-    // Fetch grade template
-    const template = await this.getGradeTemplate(data.courseId);
+//   async getGradeById(id: string): Promise<Grade> {
+//     return apiRequest<Grade>("GET", `${this.apiUrl}/${id}`);
+//   }
 
-    // Calculate final grade
-    const finalGrade = this.calculateFinalGrade(data.components, template);
+//   async createGrade(data: GradeFormData): Promise<Grade> {
+//     return apiRequest<Grade>("POST", this.apiUrl, data);
+//   }
 
-    const gradeData = {
-      ...data,
-      id: this.generateGradeId(),
-      finalGrade,
-      status: "DRAFT",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+//   async updateGrade(
+//     id: string,
+//     data: Partial<GradeFormData>
+//   ): Promise<Grade> {
+//     return apiRequest<Grade>("PUT", `${this.apiUrl}/${id}`, data);
+//   }
 
-    return apiRequest<Grade>("POST", this.apiUrl, gradeData);
-  }
+//   async deleteGrade(id: string): Promise<void> {
+//     return apiRequest<void>("DELETE", `${this.apiUrl}/${id}`);
+//   }
 
-  async updateGrade(id: string, data: Partial<GradeFormData>): Promise<Grade> {
-    const currentGrade = await this.getGradeById(id);
-    const template = await this.getGradeTemplate(currentGrade.courseId);
+//   // Bulk grade operations
+//   async bulkCreateGrades(grades: GradeFormData[]): Promise<Grade[]> {
+//     return apiRequest<Grade[]>("POST", `${this.apiUrl}/bulk`, { grades });
+//   }
 
-    // Recalculate final grade if components changed
-    const finalGrade = data.components
-      ? this.calculateFinalGrade(data.components, template)
-      : currentGrade.finalGrade;
+//   async bulkUpdateGrades(
+//     updates: { id: string; data: Partial<GradeFormData> }[]
+//   ): Promise<Grade[]> {
+//     return apiRequest<Grade[]>("PUT", `${this.apiUrl}/bulk`, { updates });
+//   }
 
-    return apiRequest<Grade>("PUT", `${this.apiUrl}/${id}`, {
-      ...data,
-      finalGrade,
-      updatedAt: new Date(),
-    });
-  }
+//   // Grade Templates
+//   async getGradeTemplates(): Promise<GradeTemplate[]> {
+//     return apiRequest<GradeTemplate[]>("GET", `${this.apiUrl}/templates`);
+//   }
 
-  async publishGrade(id: string): Promise<Grade> {
-    const grade = await this.getGradeById(id);
-    const template = await this.getGradeTemplate(grade.courseId);
+//   async createGradeTemplate(template: Omit<GradeTemplate, "id">): Promise<GradeTemplate> {
+//     return apiRequest<GradeTemplate>("POST", `${this.apiUrl}/templates`, template);
+//   }
 
-    // Validasi komponen nilai
-    const missingComponents = template.components
-      .filter((comp) => comp.required && !grade.components[comp.name])
-      .map((comp) => comp.name);
+//   // Grade Reports  
+//   async getGradeReport(
+//     courseId: string,
+//     filters?: { 
+//       startDate?: string; 
+//       endDate?: string;
+//       studentIds?: string[];
+//     }
+//   ): Promise<GradeSummary> {
+//     const queryParams = new URLSearchParams({ courseId });
+//     if (filters?.startDate) queryParams.append("startDate", filters.startDate);
+//     if (filters?.endDate) queryParams.append("endDate", filters.endDate);
+//     if (filters?.studentIds) {
+//       filters.studentIds.forEach(id => queryParams.append("studentIds", id));
+//     }
 
-    if (missingComponents.length > 0) {
-      throw new Error(
-        `Komponen nilai berikut wajib diisi: ${missingComponents.join(", ")}`
-      );
-    }
+//     return apiRequest<GradeSummary>("GET", `${this.apiUrl}/reports?${queryParams}`);
+//   }
 
-    return apiRequest<Grade>("PUT", `${this.apiUrl}/${id}/publish`);
-  }
+//   // Grade Analytics
+//   async getGradeAnalytics(courseId: string): Promise<{
+//     averageGrade: number;
+//     passRate: number;
+//     gradeDistribution: { grade: string; count: number }[];
+//     topPerformers: { studentId: string; studentName: string; grade: number }[];
+//     improvements: { studentId: string; studentName: string; improvement: number }[];
+//   }> {
+//     return apiRequest("GET", `${this.apiUrl}/analytics/${courseId}`);
+//   }
 
-  async getGradeTemplate(courseId: string): Promise<GradeTemplate> {
-    return apiRequest<GradeTemplate>("GET", `/api/v1/courses/${courseId}/grade-template`);
-  }
+//   // Export grades
+//   async exportGrades(
+//     format: "csv" | "xlsx" | "pdf",
+//     filters?: {
+//       courseId?: string;
+//       studentId?: string;
+//       startDate?: string;
+//       endDate?: string;
+//     }
+//   ): Promise<Blob> {
+//     const queryParams = new URLSearchParams({ format });
+//     if (filters?.courseId) queryParams.append("courseId", filters.courseId);
+//     if (filters?.studentId) queryParams.append("studentId", filters.studentId);
+//     if (filters?.startDate) queryParams.append("startDate", filters.startDate);
+//     if (filters?.endDate) queryParams.append("endDate", filters.endDate);
 
-  async getStudentGradeSummary(studentId: string): Promise<GradeSummary[]> {
-    return apiRequest<GradeSummary[]>("GET", `${this.apiUrl}/summary/${studentId}`);
-  }
-}
+//     const response = await fetch(`${this.apiUrl}/export?${queryParams}`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`Failed to export grades: ${response.statusText}`);
+//     }
+
+//     return response.blob();
+//   }
+// }
+
+// export const gradeService = new GradeService();

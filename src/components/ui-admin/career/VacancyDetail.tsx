@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 import {
   MapPin,
   Clock,
@@ -13,14 +14,12 @@ import {
   Calendar,
   Edit,
   Trash2,
-  ArrowLeft,
   Share2,
   Bookmark,
 } from "lucide-react";
 import { Header } from "@/components/ui-admin/layout";
-import { jobVacanciesData, JobVacancy } from "@/data/data-admin/career-data";
+import { jobVacanciesData } from "@/data/data-admin/career-data";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 interface VacancyDetailProps {
   jobId: string;
@@ -45,7 +44,7 @@ export default function VacancyDetail({ jobId }: VacancyDetailProps) {
         <div className="text-center py-12">
           <Briefcase className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-700 mb-2">Job Not Found</h3>
-          <p className="text-gray-500">The job you're looking for doesn't exist or has been removed.</p>
+          <p className="text-gray-500">The job you&apos;re looking for doesn&apos;t exist or has been removed.</p>
         </div>
       </Header>
     );
@@ -92,9 +91,11 @@ export default function VacancyDetail({ jobId }: VacancyDetailProps) {
         <div className="lg:col-span-2 space-y-8">
           {/* Job Image */}
           <div className="h-64 overflow-hidden rounded-xl relative">
-            <img
+            <Image
               src={job.imageUrl}
               alt={job.title}
+              width={800}
+              height={256}
               className="w-full h-full object-cover"
             />
             <div className="absolute top-4 right-4 flex gap-2">

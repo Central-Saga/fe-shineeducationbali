@@ -253,7 +253,7 @@ export default function UsersManagement({
     ...(userType === "all" ? [{
       accessorKey: "role",
       header: () => <div>Role</div>,
-      cell: ({ row }: { row: any }) => {
+      cell: ({ row }: { row: { getValue: (key: string) => string } }) => {
         const role = row.getValue("role") as string;
         return (
           <div className="flex items-center gap-1.5">

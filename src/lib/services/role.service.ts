@@ -1,8 +1,5 @@
 import {
   Role,
-  Permission,
-  RolePermission,
-  UserRole,
   PermissionCode,
 } from "@/types/role";
 import { apiRequest } from "../api";

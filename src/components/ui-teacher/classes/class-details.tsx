@@ -3,7 +3,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import {
   Table,
   TableBody,
@@ -19,9 +18,9 @@ import { useState } from "react";
 import { AttendanceModal } from "./AttendanceModal";
 
 // State interfaces for meeting attendance visibility
-interface MeetingAttendanceState {
-  [meetingId: string]: boolean;
-}
+// interface MeetingAttendanceState {
+//   [meetingId: string]: boolean;
+// }
 
 interface ClassDetailsProps {
   classData: {
@@ -63,7 +62,22 @@ interface ClassDetailsProps {
 export function ClassDetails({ classData }: ClassDetailsProps) {
   // State untuk AttendanceModal
   const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false);
-  const [selectedSession, setSelectedSession] = useState<any>(null);
+  const [selectedSession, setSelectedSession] = useState<{ 
+    id: string; 
+    title: string; 
+    subject: string; 
+    date: string; 
+    timeStart: string; 
+    timeEnd: string; 
+    location: string; 
+    status: string; 
+    studentCount: number; 
+    completionProgress: number; 
+    description: string; 
+    materials: string[]; 
+    assignments: { id: string; title: string; description: string; dueDate: string; status: string }[]; 
+    attendanceRecord: { present: number; absent: number; late: number; excused: number } | null 
+  } | null>(null);
 
   // Mock data untuk sessions yang akan ditampilkan di tab kehadiran
   const mockSessions = [
@@ -84,17 +98,16 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
         {
           id: "1",
           title: "Tugas 1: Latihan Dasar",
+          description: "Latihan dasar untuk memahami konsep",
           dueDate: "2024-01-20",
-          status: "completed" as const,
-          submissionCount: 15,
-          totalStudents: 20
+          status: "completed"
         }
       ],
       attendanceRecord: {
-        total: 20,
         present: 18,
         absent: 2,
-        late: 0
+        late: 0,
+        excused: 0
       }
     },
     {
@@ -114,17 +127,16 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
         {
           id: "2",
           title: "Tugas 2: Praktik Mandiri",
+          description: "Praktik mandiri dengan studi kasus",
           dueDate: "2024-01-27",
-          status: "ongoing" as const,
-          submissionCount: 8,
-          totalStudents: 20
+          status: "ongoing"
         }
       ],
       attendanceRecord: {
-        total: 20,
         present: 19,
         absent: 1,
-        late: 0
+        late: 0,
+        excused: 0
       }
     },
     {
@@ -146,12 +158,32 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
   ];
 
   // Handle attendance modal
-  const handleAttendanceClick = (session: any) => {
+  const handleAttendanceClick = (session: { 
+    id: string; 
+    title: string; 
+    subject: string; 
+    date: string; 
+    timeStart: string; 
+    timeEnd: string; 
+    location: string; 
+    status: string; 
+    studentCount: number; 
+    completionProgress: number; 
+    description: string; 
+    materials: string[]; 
+    assignments: { id: string; title: string; description: string; dueDate: string; status: string }[]; 
+    attendanceRecord: { present: number; absent: number; late: number; excused: number } | null 
+  }) => {
     setSelectedSession(session);
     setIsAttendanceModalOpen(true);
   };
 
-  const handleAttendanceSave = (attendanceData: any) => {
+  const handleAttendanceSave = (attendanceData: { 
+    classId: string;
+    attendanceRecords: Record<string, 'present' | 'absent' | 'late' | 'excused' | 'unrecorded'>;
+    summary: { total: number; present: number; absent: number; late: number; excused: number };
+    students: { attendance: 'present' | 'absent' | 'late' | 'excused' | 'unrecorded'; id: string; name: string; }[];
+  }) => {
     console.log('Attendance saved:', attendanceData);
     // Handle saving attendance data
     setIsAttendanceModalOpen(false);
@@ -462,7 +494,7 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                         <div>
                           <h4 className="font-medium text-blue-900">Manajemen Kehadiran Pertemuan</h4>
                           <p className="text-sm text-blue-700 mt-1">
-                            Kelola kehadiran siswa untuk setiap pertemuan kelas. Klik "Catat Kehadiran" untuk mencatat kehadiran siswa pada pertemuan yang sedang berlangsung.
+                            Kelola kehadiran siswa untuk setiap pertemuan kelas. Klik &quot;Catat Kehadiran&quot; untuk mencatat kehadiran siswa pada pertemuan yang sedang berlangsung.
                           </p>
                         </div>
                       </div>
@@ -530,7 +562,7 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                               <div className="space-y-2">
                                 <div className="flex justify-between text-sm">
                                   <span>Total:</span>
-                                  <span className="font-medium">{session.attendanceRecord.total}</span>
+                                  <span className="font-medium">{session.attendanceRecord.present + session.attendanceRecord.absent + session.attendanceRecord.late + session.attendanceRecord.excused}</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                   <span className="text-green-600">Hadir:</span>
@@ -587,7 +619,12 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
       <AttendanceModal
         isOpen={isAttendanceModalOpen}
         onClose={() => setIsAttendanceModalOpen(false)}
-        classData={selectedSession}
+        classData={selectedSession ? {
+          id: selectedSession.id,
+          name: selectedSession.title,
+          subject: selectedSession.subject,
+          schedule: `${selectedSession.timeStart} - ${selectedSession.timeEnd}`
+        } : { id: '', name: '', subject: '', schedule: '' }}
         studentData={classData.students ? {
           classId: classData.id,
           sessionId: selectedSession?.id || classData.id,

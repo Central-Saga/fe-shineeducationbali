@@ -113,14 +113,24 @@ export default function GradesPage() {
   const calculateClassStats = (className: string) => {
     const classGrades = gradesData.filter(grade => grade.className === className && grade.status === "graded");
     
-    if (classGrades.length === 0) return { average: 0, highest: 0, lowest: 0 };
+    if (classGrades.length === 0) return { 
+      average: 0, 
+      highest: 0, 
+      lowest: 0, 
+      totalStudents: 0, 
+      passed: 0, 
+      failed: 0 
+    };
     
     const scores = classGrades.map(grade => grade.score || 0);
     const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
     const highest = Math.max(...scores);
     const lowest = Math.min(...scores);
+    const totalStudents = classGrades.length;
+    const passed = scores.filter(score => score >= 70).length;
+    const failed = scores.filter(score => score < 70).length;
     
-    return { average, highest, lowest };
+    return { average, highest, lowest, totalStudents, passed, failed };
   };
 
   return (

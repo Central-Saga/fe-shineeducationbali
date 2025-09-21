@@ -5,8 +5,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 
+interface MonthlyAttendanceData {
+  month: string;
+  workDays: number;
+  present: number;
+  late: number;
+  absent: number;
+  leave: number;
+  total: number;
+  percentage: number;
+  totalWorkHours: number;
+  averageHoursPerDay: number;
+  attendanceRate: number;
+}
+
 interface AttendanceHistoryTableProps {
-  data: any[];
+  data: MonthlyAttendanceData[];
   year: string;
   onYearChange: (year: string) => void;
   years: string[];
@@ -69,8 +83,8 @@ export function AttendanceHistoryTable({ data, year, onYearChange, years }: Atte
                       {item.leave}
                     </Badge>
                   </TableCell>
-                  <TableCell className="font-medium">{item.attendanceRate}</TableCell>
-                  <TableCell>{item.totalWorkHours} jam</TableCell>
+                  <TableCell className="font-medium">{item.attendanceRate.toFixed(1)}%</TableCell>
+                  <TableCell>{item.totalWorkHours.toFixed(1)} jam</TableCell>
                 </TableRow>
               ))}
           </TableBody>

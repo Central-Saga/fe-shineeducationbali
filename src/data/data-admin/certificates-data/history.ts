@@ -6,8 +6,8 @@ export interface CertificateHistory {
   performedBy: string;
   reason?: string;
   metadata: {
-    previousState?: any;
-    newState?: any;
+    previousState?: Record<string, unknown>;
+    newState?: Record<string, unknown>;
     ipAddress?: string;
   };
 }

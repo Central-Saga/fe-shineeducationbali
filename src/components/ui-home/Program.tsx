@@ -1,31 +1,13 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { programItems } from "@/data/ui-home/program";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Star, Award, Users } from "lucide-react";
-import type { FloatingEmoji } from "@/types/animation";
+import { BookOpen } from "lucide-react";
 
 const Program = () => {
-  const [showAnimation, setShowAnimation] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const element = document.getElementById("program-section");
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
-        setShowAnimation(isVisible);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check initial state
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <section id="program-section" className="py-16 relative overflow-hidden">

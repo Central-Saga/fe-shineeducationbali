@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -68,7 +68,7 @@ export function CourseDialog({
     },
   });
 
-  const onSubmit = async (data: CourseFormData) => {
+  const onSubmit = async () => {
     try {
       // TODO: Implement course creation/update logic
       onOpenChange(false);

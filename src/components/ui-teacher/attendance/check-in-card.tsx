@@ -30,19 +30,16 @@ export function CheckInCard({ defaultCheckedIn = false, defaultCheckedOut = fals
   }, []);
 
   const handleCheckIn = () => {
-    const now = new Date();
-    const isLate = now.getHours() > 8 || (now.getHours() === 8 && now.getMinutes() > 0);
-    
     setCheckedIn(true);
     
     const checkInTime = format(new Date(), 'HH:mm');
     
     // In a real app, you would send this data to your backend
-    const newAttendance = {
-      date: new Date(),
-      status: isLate ? 'late' : 'present',
-      checkIn: checkInTime
-    };
+    // const newAttendance = {
+    //   date: new Date(),
+    //   status: isLate ? 'late' : 'present',
+    //   checkIn: checkInTime
+    // };
     
     toast({
       title: "Berhasil Check In",

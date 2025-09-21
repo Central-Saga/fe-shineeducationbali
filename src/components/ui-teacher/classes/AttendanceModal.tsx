@@ -1,12 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Check, X, AlertCircle, Clock, Search, Calendar } from 'lucide-react';
+import { Check, X, Clock, Search, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
 import { ClassStudentMapping } from '@/data/data-teacher/class-student-map';
 import { 
   Table, 
@@ -17,14 +15,19 @@ import {
   TableRow 
 } from '@/components/ui/table';
 
-type AttendanceStatus = 'present' | 'absent' | 'late' | 'unrecorded';
+type AttendanceStatus = 'present' | 'absent' | 'late' | 'excused' | 'unrecorded';
 
 interface AttendanceModalProps {
   isOpen: boolean;
   onClose: () => void;
-  classData: any; // Data kelas
+  classData: { id: string; name: string; subject: string; schedule: string };
   studentData: ClassStudentMapping | undefined;
-  onSave: (attendanceData: any) => void;
+  onSave: (attendanceData: { 
+    classId: string;
+    attendanceRecords: Record<string, AttendanceStatus>;
+    summary: { total: number; present: number; absent: number; late: number; excused: number };
+    students: { attendance: AttendanceStatus; id: string; name: string; }[];
+  }) => void;
 }
 
 export function AttendanceModal({ isOpen, onClose, classData, studentData, onSave }: AttendanceModalProps) {
@@ -33,9 +36,21 @@ export function AttendanceModal({ isOpen, onClose, classData, studentData, onSav
     total: 0,
     present: 0,
     absent: 0,
-    late: 0
+    late: 0,
+    excused: 0
   });
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Update summary ketika data kehadiran berubah
+  const updateSummary = React.useCallback((records: Record<string, AttendanceStatus>) => {
+    const total = studentData?.students.length || 0;
+    const present = Object.values(records).filter(status => status === 'present').length;
+    const absent = Object.values(records).filter(status => status === 'absent').length;
+    const late = Object.values(records).filter(status => status === 'late').length;
+    const excused = Object.values(records).filter(status => status === 'excused').length;
+
+    setSummary({ total, present, absent, late, excused });
+  }, [studentData?.students.length]);
 
   // Inisialisasi data kehadiran dari data siswa
   useEffect(() => {
@@ -49,17 +64,7 @@ export function AttendanceModal({ isOpen, onClose, classData, studentData, onSav
       setAttendanceRecords(initialAttendance);
       updateSummary(initialAttendance);
     }
-  }, [studentData]);
-
-  // Update summary ketika data kehadiran berubah
-  const updateSummary = (records: Record<string, AttendanceStatus>) => {
-    const total = studentData?.students.length || 0;
-    const present = Object.values(records).filter(status => status === 'present').length;
-    const absent = Object.values(records).filter(status => status === 'absent').length;
-    const late = Object.values(records).filter(status => status === 'late').length;
-
-    setSummary({ total, present, absent, late });
-  };
+  }, [studentData, updateSummary]);
 
   // Handle perubahan status kehadiran
   const handleAttendanceChange = (studentId: string, status: AttendanceStatus) => {
@@ -77,7 +82,7 @@ export function AttendanceModal({ isOpen, onClose, classData, studentData, onSav
     const updatedStudents = studentData?.students.map(student => ({
       ...student,
       attendance: attendanceRecords[student.id]
-    }));
+    })) || [];
 
     onSave({
       classId: classData.id,
@@ -110,25 +115,16 @@ export function AttendanceModal({ isOpen, onClose, classData, studentData, onSav
         <DialogHeader>
           <DialogTitle className="text-xl font-bold flex flex-wrap items-center gap-2">
             <span>Kehadiran Kelas</span>
-            <span className="text-[#C40001]">{classData.title}</span>
+            <span className="text-[#C40001]">{classData.name}</span>
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
-            {classData.date && new Date(classData.date).toLocaleDateString('id-ID', {
-              weekday: 'long',
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric'
-            })} | {classData.timeStart} - {classData.timeEnd}
+            {classData.subject} - {classData.schedule}
           </DialogDescription>
           <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
             <div className="flex items-center gap-2 text-sm text-blue-700">
               <Calendar className="h-4 w-4" />
-              <span className="font-medium">Tanggal Pertemuan:</span>
-              <span>{classData.date && new Date(classData.date).toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-              })}</span>
+              <span className="font-medium">Jadwal:</span>
+              <span>{classData.schedule}</span>
             </div>
           </div>
         </DialogHeader>

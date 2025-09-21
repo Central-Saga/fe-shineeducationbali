@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Mail,
@@ -22,16 +22,11 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/ui-admin/layout";
 import { jobApplicationsData } from "@/data/data-admin/career-data";
-import { useRouter } from "next/navigation";
-// import Link from "next/link";
-
 interface ApplicationDetailProps {
   applicationId: string;
 }
 
 export default function ApplicationDetail({ applicationId }: ApplicationDetailProps) {
-  // const router = useRouter();
-  const [status] = useState<string>("");
 
   const application = jobApplicationsData.find(app => app.id === parseInt(applicationId));
 
@@ -48,7 +43,7 @@ export default function ApplicationDetail({ applicationId }: ApplicationDetailPr
         <div className="text-center py-12">
           <FileText className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-700 mb-2">Application Not Found</h3>
-          <p className="text-gray-500">The application you're looking for doesn't exist or has been removed.</p>
+          <p className="text-gray-500">The application you&apos;re looking for doesn&apos;t exist or has been removed.</p>
         </div>
       </Header>
     );
@@ -129,9 +124,11 @@ export default function ApplicationDetail({ applicationId }: ApplicationDetailPr
             <CardContent>
               <div className="flex items-start gap-4">
                 <div className="h-16 w-16 rounded-full overflow-hidden">
-                  <img
+                  <Image
                     src={application.applicant.avatar}
                     alt={application.applicant.name}
+                    width={64}
+                    height={64}
                     className="h-full w-full object-cover"
                   />
                 </div>

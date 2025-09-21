@@ -1,4 +1,4 @@
-import { type } from "os";
+// import { type } from "os";
 import { TransactionStatus } from "@/types/payment";
 
 export type TransactionType = "STUDENT_PAYMENT" | "TEACHER_SALARY";

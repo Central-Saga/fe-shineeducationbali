@@ -38,7 +38,7 @@ interface Class {
 
 interface MaterialUploaderProps {
   classes: Class[];
-  onSubmit: (data: any) => void;
+  onSubmit: (data: { title: string; description: string; classId: string; isPublished: boolean; uploadType: string; files: File[]; linkUrl: string }) => void;
 }
 
 export function MaterialUploader({ classes, onSubmit }: MaterialUploaderProps) {
@@ -68,7 +68,7 @@ export function MaterialUploader({ classes, onSubmit }: MaterialUploaderProps) {
       new URL(linkInput);
       setLinks(prev => [...prev, linkInput]);
       setLinkInput("");
-    } catch (error) {
+    } catch {
       alert("Please enter a valid URL");
     }
   };
@@ -109,9 +109,9 @@ export function MaterialUploader({ classes, onSubmit }: MaterialUploaderProps) {
       description,
       classId,
       isPublished,
-      type: uploadType,
+      uploadType,
       files: uploadType === "file" ? files : [],
-      links: uploadType === "link" ? links : []
+      linkUrl: uploadType === "link" ? links.join(", ") : ""
     };
 
     onSubmit(materialData);

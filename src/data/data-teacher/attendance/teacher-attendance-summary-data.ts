@@ -5,8 +5,8 @@ import { id } from 'date-fns/locale';
 
 // Function to generate attendance data for a specific month
 export const generateMockData = (month: Date) => {
-  const year = month.getFullYear();
-  const monthNumber = month.getMonth();
+  // const year = month.getFullYear();
+  // const monthNumber = month.getMonth();
   
   // Generate a consistent set of random data for the month
   const workDays = 20; // Assume 20 work days per month
@@ -25,9 +25,11 @@ export const generateMockData = (month: Date) => {
     late,
     absent,
     leave,
-    totalWorkHours: totalWorkHours.toFixed(1),
-    averageHoursPerDay: (totalWorkHours / (present + late)).toFixed(2),
-    attendanceRate: (((present + late) / workDays) * 100).toFixed(1) + '%',
+    total: workDays,
+    percentage: parseFloat((((present + late) / workDays) * 100).toFixed(1)),
+    totalWorkHours: parseFloat(totalWorkHours.toFixed(1)),
+    averageHoursPerDay: parseFloat((totalWorkHours / (present + late)).toFixed(2)),
+    attendanceRate: parseFloat((((present + late) / workDays) * 100).toFixed(1)),
   };
 };
 

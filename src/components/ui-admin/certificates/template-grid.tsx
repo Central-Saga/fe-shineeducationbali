@@ -11,21 +11,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { certificateTemplates } from "@/data/data-admin/certificates-data/certificate-templates";
-import type { CertificateTemplate } from "@/types/template";
 import { TemplateActions } from "./template-actions";
 
 export function TemplateGrid() {
   const [templates] = useState(certificateTemplates);
 
-  const handlePreview = (_template: CertificateTemplate) => {
+  const handlePreview = () => {
     // TODO: Implement preview functionality
   };
 
-  const handleDuplicate = (_template: CertificateTemplate) => {
+  const handleDuplicate = () => {
     // TODO: Implement duplicate functionality
   };
 
-  const handleDelete = (_template: CertificateTemplate) => {
+  const handleDelete = () => {
     // TODO: Implement delete functionality
   };
 
@@ -45,9 +44,9 @@ export function TemplateGrid() {
               <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <TemplateActions
                   templateId={template.id}
-                  onPreview={() => handlePreview(template)}
-                  onDuplicate={() => handleDuplicate(template)}
-                  onDelete={() => handleDelete(template)}
+                  onPreview={() => handlePreview()}
+                  onDuplicate={() => handleDuplicate()}
+                  onDelete={() => handleDelete()}
                 />
               </div>
             </div>

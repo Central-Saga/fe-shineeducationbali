@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
-  PlusCircle,
   Search,
   Filter,
   UserPlus,
@@ -14,24 +13,14 @@ import {
   Shield,
   GraduationCap,
   Mail,
-  Phone,
-  CalendarClock,
-  MoreHorizontal,
   Edit2,
   Trash2,
   Download,
   EyeIcon,
   ShieldCheck,
-  ShieldAlert,
   Clock,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Table,
@@ -48,8 +37,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Link from "next/link";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // User type definition
 interface User {
@@ -278,7 +266,6 @@ export default function UserList({
 
   // Get today's date
   const today = new Date();
-  const todayStr = today.toISOString().split('T')[0];
   const recentUsers = users.filter(user => {
     const createdDate = new Date(user.createdAt);
     const diffTime = Math.abs(today.getTime() - createdDate.getTime());
@@ -641,7 +628,7 @@ export default function UserList({
               <div className="text-center py-10 bg-white rounded-lg border border-gray-200">
                 <Users className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-700">No users found</h3>
-                <p className="text-sm text-gray-500 mt-2">Try adjusting your search or filter to find what you're looking for</p>
+                <p className="text-sm text-gray-500 mt-2">Try adjusting your search or filter to find what you&apos;re looking for</p>
               </div>
             ) : (
               <div className="rounded-md border overflow-hidden">

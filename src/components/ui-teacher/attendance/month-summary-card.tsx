@@ -8,7 +8,16 @@ import { Button } from "@/components/ui/button";
 
 interface MonthSummaryCardProps {
   currentMonth: Date;
-  monthData: any;
+  monthData: { 
+    present: number; 
+    absent: number; 
+    late: number; 
+    total: number;
+    workDays: number;
+    attendanceRate: number;
+    totalWorkHours: number;
+    averageHoursPerDay: number;
+  };
   previousMonth: () => void;
   nextMonth: () => void;
 }

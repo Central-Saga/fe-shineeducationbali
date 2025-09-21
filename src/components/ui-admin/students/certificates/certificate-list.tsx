@@ -28,19 +28,15 @@ export function CertificateList({
   studentName,
 }: CertificateListProps) {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
-  const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const loadCertificates = async () => {
     try {
-      setLoading(true);
       const data = await certificateService.getStudentCertificates(studentId);
       setCertificates(data);
     } catch (error) {
       console.error("Failed to load certificates:", error);
       toast.error("Gagal memuat data sertifikat");
-    } finally {
-      setLoading(false);
     }
   };
 

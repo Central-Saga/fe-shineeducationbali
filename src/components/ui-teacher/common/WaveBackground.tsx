@@ -9,7 +9,6 @@ interface WaveBackgroundProps {
 export function WaveBackground({
   className = "",
   primaryColor = "#C40503",
-  secondaryColor = "#DAA625",
 }: WaveBackgroundProps) {
   return (
     <div className={`absolute inset-0 overflow-hidden ${className}`}>

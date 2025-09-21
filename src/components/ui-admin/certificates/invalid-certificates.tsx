@@ -38,7 +38,7 @@ export function InvalidCertificates() {
     },
   ]);
 
-  const handleVerify = (_id: string) => {
+  const handleVerify = () => {
     // TODO: Implement verification logic
   };
 
@@ -80,7 +80,7 @@ export function InvalidCertificates() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleVerify(cert.id)}
+                    onClick={() => handleVerify()}
                   >
                     Verifikasi Ulang
                   </Button>

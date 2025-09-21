@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { MessageSquare, Paperclip, Send, Reply, ChevronDown, ChevronUp } from 'lucide-react';
 import { ClassDiscussionMessage } from '@/data/data-student/class-detail-data';
+import Image from "next/image";
 
 interface ClassDiscussionProps {
   discussion: ClassDiscussionMessage[];
@@ -58,9 +59,11 @@ export function ClassDiscussion({ discussion }: ClassDiscussionProps) {
                 <div className="flex gap-3">
                   <div className="flex-shrink-0">
                     {message.userAvatar ? (
-                      <img 
+                      <Image 
                         src={message.userAvatar} 
                         alt={message.userName} 
+                        width={40}
+                        height={40}
                         className="w-10 h-10 rounded-full"
                       />
                     ) : (
@@ -129,9 +132,11 @@ export function ClassDiscussion({ discussion }: ClassDiscussionProps) {
                           <div key={reply.id} className="flex gap-3">
                             <div className="flex-shrink-0">
                               {reply.userAvatar ? (
-                                <img 
+                                <Image 
                                   src={reply.userAvatar} 
                                   alt={reply.userName} 
+                                  width={32}
+                                  height={32}
                                   className="w-8 h-8 rounded-full"
                                 />
                               ) : (

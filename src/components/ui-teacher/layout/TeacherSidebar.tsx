@@ -9,33 +9,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Icons
 import { 
-  BookOpen, 
-  Users, 
-  Calendar, 
-  FileText, 
-  GraduationCap,
-  Home,
   ChevronDown,
-  ChevronRight,
-  ClipboardList,
-  Award,
-  LineChart,
-  Settings,
-  BookOpenCheck
+  ChevronRight
 } from "lucide-react";
 
-// Custom animation styles
-const floatingAnimations = {
-  slow: {
-    animation: 'float 6s ease-in-out infinite',
-  },
-  medium: {
-    animation: 'float 4s ease-in-out infinite',
-  },
-  fast: {
-    animation: 'float 3s ease-in-out infinite',
-  },
-};
 
 // Get teacher navigation data from our data file
 // Define types for our navigation items

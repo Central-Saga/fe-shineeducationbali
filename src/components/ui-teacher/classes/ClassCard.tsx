@@ -14,7 +14,7 @@ interface ClassCardProps {
   onToggle?: () => void;
 }
 
-export function ClassCard({ session, isExpanded = false, onToggle }: ClassCardProps) {
+export function ClassCard({ session, isExpanded = false }: ClassCardProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'upcoming':
@@ -97,8 +97,8 @@ export function ClassCard({ session, isExpanded = false, onToggle }: ClassCardPr
                   {session.materials.map((material, index) => {
                     // Check if material is a string or an object
                     const isString = typeof material === 'string';
-                    const materialId = isString ? index.toString() : (material as any).id || index.toString();
-                    const materialTitle = isString ? material : (material as any).title;
+                    const materialId = isString ? index.toString() : (material as { id: string; title: string }).id || index.toString();
+                    const materialTitle = isString ? material : (material as { id: string; title: string }).title;
                     
                     return (
                       <li key={index} className="mb-1">

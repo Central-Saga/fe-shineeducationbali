@@ -7,13 +7,13 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { sidebarAdminNavigation, MenuItem } from "@/data/data-admin/sidebaradmin-data";
+import { sidebarAdminNavigation } from "@/data/data-admin/sidebaradmin-data";
 
 export function AdminSidebar() {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string[]>([]);
-  const [filteredNavigation, setFilteredNavigation] = useState<MenuItem[]>(sidebarAdminNavigation);
+  // const [filteredNavigation, setFilteredNavigation] = useState<MenuItem[]>(sidebarAdminNavigation);
 
   useEffect(() => {
     // Get user data from localStorage

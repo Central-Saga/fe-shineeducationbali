@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 import {
   Calendar,
   Edit,
@@ -53,9 +54,11 @@ export function TemplatesTab() {
                 {template.description}
               </p>
               <div className="aspect-[4/3] relative mb-4 border rounded-lg overflow-hidden">
-                <img
+                <Image
                   src={template.thumbnail}
                   alt={template.name}
+                  width={300}
+                  height={225}
                   className="object-cover w-full h-full"
                 />
               </div>

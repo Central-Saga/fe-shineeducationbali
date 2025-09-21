@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -12,9 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  PlusCircle,
   Search,
-  MoreHorizontal,
   BookOpen,
   Users,
   GraduationCap,
@@ -28,12 +27,12 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Program } from "@/types/program";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 import { Header } from "@/components/ui-admin/layout";
 
 export default function ProgramList() {
@@ -41,7 +40,6 @@ export default function ProgramList() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [sortBy, setSortBy] = useState("name");
 
   useEffect(() => {
     // Dummy data, replace with API call
@@ -99,19 +97,7 @@ export default function ProgramList() {
     setLoading(false);
   }, []);
 
-  const filtered = programs.filter(
-    (p) =>
-      p.title.toLowerCase().includes(search.toLowerCase()) ||
-      p.description.toLowerCase().includes(search.toLowerCase())
-  );
 
-  const getStatusBadge = (status: string) => {
-    if (status === "ACTIVE")
-      return <Badge className="bg-green-100 text-green-800">Active</Badge>;
-    if (status === "INACTIVE")
-      return <Badge className="bg-gray-100 text-gray-800">Inactive</Badge>;
-    return <Badge>{status}</Badge>;
-  };
 
   // Add handlers
   const handleDetail = (program: Program) => {
@@ -141,29 +127,16 @@ export default function ProgramList() {
         p.title.toLowerCase().includes(search.toLowerCase()) ||
         p.description.toLowerCase().includes(search.toLowerCase())
     )
-  ).sort((a, b) => {
-    switch (sortBy) {
-      case "name":
-        return a.title.localeCompare(b.title);
-      case "status":
-        return a.status.localeCompare(b.status);
-      case "students":
-        return b.student_count - a.student_count;
-      case "teachers":
-        return b.teacher_count - a.teacher_count;
-      default:
-        return 0;
-    }
-  });
+  );
 
   // Calculate statistics
   const totalPrograms = programs.length;
-  const activePrograms = programs.filter(p => p.status === 'ACTIVE').length;
-  const newPrograms = programs.filter(p => {
+  const activePrograms = programs.filter(program => program.status === 'ACTIVE').length;
+  const newPrograms = programs.filter(() => {
     // Mock: programs created in last 30 days
     return Math.random() > 0.7; // Random for demo
   }).length;
-  const pendingPrograms = programs.filter(p => p.status === 'INACTIVE').length;
+  const pendingPrograms = programs.filter(program => program.status === 'INACTIVE').length;
 
   return (
     <Header
@@ -320,9 +293,11 @@ export default function ProgramList() {
                   <div className="relative aspect-[16/9] overflow-hidden">
                     {p.image ? (
                       <>
-                        <img
+                        <Image
                           src={p.image}
                           alt={p.title}
+                          width={400}
+                          height={225}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                         {/* Multiple layer gradient for better text visibility */}

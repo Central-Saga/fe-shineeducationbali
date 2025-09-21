@@ -1,9 +1,15 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface AttendanceDistributionCardProps {
-  monthData: any;
+  monthData: { 
+    present: number; 
+    absent: number; 
+    late: number; 
+    total: number;
+    workDays: number;
+    leave?: number;
+  };
 }
 
 export function AttendanceDistributionCard({ monthData }: AttendanceDistributionCardProps) {
@@ -50,18 +56,20 @@ export function AttendanceDistributionCard({ monthData }: AttendanceDistribution
           </div>
         </div>
         
-        <div className="space-y-2">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
-              <span>Cuti</span>
+        {monthData.leave !== undefined && (
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center">
+                <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                <span>Cuti</span>
+              </div>
+              <span>{monthData.leave} hari</span>
             </div>
-            <span>{monthData.leave} hari</span>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div className="bg-blue-500 h-2.5 rounded-full" style={{ width: `${(monthData.leave / monthData.workDays) * 100}%` }}></div>
+            </div>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2.5">
-            <div className="bg-blue-500 h-2.5 rounded-full" style={{ width: `${(monthData.leave / monthData.workDays) * 100}%` }}></div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

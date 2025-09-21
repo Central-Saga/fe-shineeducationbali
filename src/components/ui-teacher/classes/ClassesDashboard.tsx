@@ -1,17 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { TeacherClassSchedule, teacherClasses, TeacherClassSession } from '@/data/data-teacher/classes-data';
+import { teacherClasses } from '@/data/data-teacher/classes-data';
 import { ClassCard } from '@/components/ui-teacher/classes/ClassCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, Clock, Filter, Search, Plus, X, School, BookOpen, Users, Map } from 'lucide-react';
+import { Calendar, Clock, Filter, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScheduleTab } from '@/components/ui-teacher/classes/ScheduleTab';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 
 export function ClassesDashboard() {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
@@ -21,7 +17,7 @@ export function ClassesDashboard() {
   
   
   // State untuk modal buat kelas baru
-  const [newClassModalOpen, setNewClassModalOpen] = useState(false);
+  // const [newClassModalOpen, setNewClassModalOpen] = useState(false);
   
   // Check URL for tab parameter
   useEffect(() => {

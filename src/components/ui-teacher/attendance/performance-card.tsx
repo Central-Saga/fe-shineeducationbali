@@ -1,10 +1,15 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface PerformanceCardProps {
-  monthData: any;
+  monthData: { 
+    present: number; 
+    absent: number; 
+    late: number; 
+    total: number; 
+    percentage: number;
+    leave?: number;
+  };
 }
 
 export function PerformanceCard({ monthData }: PerformanceCardProps) {
@@ -23,7 +28,7 @@ export function PerformanceCard({ monthData }: PerformanceCardProps) {
         </div>
         <div className="h-12 border-r border-gray-200"></div>
         <div className="text-center">
-          <div className="text-3xl font-bold text-blue-600">{monthData.leave}</div>
+          <div className="text-3xl font-bold text-blue-600">{monthData.leave || 0}</div>
           <div className="text-xs text-gray-500 mt-1">Cuti</div>
         </div>
       </div>

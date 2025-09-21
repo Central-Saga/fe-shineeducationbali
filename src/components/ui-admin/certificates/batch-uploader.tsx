@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Cloud, File, Loader2 } from "lucide-react";
+import { Cloud, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 // import {
 //   Card,
@@ -26,7 +26,7 @@ export function BatchUploader() {
   const [uploading, setUploading] = useState(false);
   const [template, setTemplate] = useState("");
 
-  const onDrop = useCallback(async (_acceptedFiles: File[]) => {
+  const onDrop = useCallback(async () => {
     setUploading(true);
     try {
       // TODO: Implement file upload and processing

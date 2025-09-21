@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Course } from "@/types/course";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -33,24 +32,20 @@ import { MoreHorizontal, Pencil, Trash, Eye, ChevronLeft, ChevronRight, BookOpen
 import { Header } from "@/components/ui-admin/layout";
 
 export function CourseList() {
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  // const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedLevel, setSelectedLevel] = useState("all");
-  const [selectedTeacher, setSelectedTeacher] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [filteredCourses, setFilteredCourses] = useState(coursesData);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  // Get unique teacher list
-  const teachers = useMemo(() => {
-    const uniqueTeachers = Array.from(
-      new Set(coursesData.map((course) => course.teacher))
-    );
-    return uniqueTeachers.sort();
-  }, []);
+  // Get unique teacher list - removed as it's not being used
+  // const teachers = useMemo(() => {
+  //   const uniqueTeachers = Array.from(
+  //     new Set(coursesData.map((course) => course.teacher))
+  //   );
+  //   return uniqueTeachers.sort();
+  // }, []);
 
   useEffect(() => {
     let filtered = coursesData;
@@ -64,21 +59,6 @@ export function CourseList() {
       );
     }
 
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter(
-        (course) => course.category === selectedCategory
-      );
-    }
-
-    if (selectedLevel !== "all") {
-      filtered = filtered.filter((course) => course.level === selectedLevel);
-    }
-
-    if (selectedTeacher !== "all") {
-      filtered = filtered.filter(
-        (course) => course.teacher === selectedTeacher
-      );
-    }
 
     // Status filter
     if (statusFilter !== "all") {
@@ -89,7 +69,7 @@ export function CourseList() {
 
     setFilteredCourses(filtered);
     setCurrentPage(1); // Reset to first page when filters change
-  }, [searchQuery, selectedCategory, selectedLevel, selectedTeacher, statusFilter]);
+  }, [searchQuery, statusFilter]);
 
   // Pagination calculations
   const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
@@ -100,7 +80,7 @@ export function CourseList() {
   // Calculate statistics
   const totalCourses = coursesData.length;
   const activeCourses = coursesData.filter(course => course.status === "ACTIVE").length;
-  const newCourses = coursesData.filter(course => {
+  const newCourses = coursesData.filter(() => {
     // Mock: courses created in last 30 days
     return Math.random() > 0.7; // Random for demo
   }).length;
@@ -114,7 +94,7 @@ export function CourseList() {
         actions: [
           {
             label: "Add New Course",
-            onClick: () => setDialogOpen(true),
+            onClick: () => {},
             icon: <UserPlus className="h-4 w-4" />,
             variant: "default",
           },

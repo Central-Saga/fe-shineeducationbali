@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Header } from "@/components/ui-admin/layout";
-import { ArrowLeft, Save, Loader2, ChevronLeft, ChevronRight, CheckSquare, Square } from "lucide-react";
+import { ArrowLeft, Save, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -50,7 +50,6 @@ const availablePermissions = [
 export default function CreateRole() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [permissionsPerPage] = useState(5);
   const router = useRouter();
 
   const form = useForm<FormValues>({
@@ -219,7 +218,7 @@ export default function CreateRole() {
                         checked={isAllInCategorySelected()}
                         ref={(el) => {
                           if (el && 'indeterminate' in el) {
-                            (el as any).indeterminate = isSomeInCategorySelected() && !isAllInCategorySelected();
+                            (el as HTMLInputElement).indeterminate = isSomeInCategorySelected() && !isAllInCategorySelected();
                           }
                         }}
                         onCheckedChange={handleSelectAllInCategory}

@@ -29,7 +29,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Certificate } from "@/types/certificate";
 import { certificateService } from "@/lib/services/certificate.service";
 
 const formSchema = z.object({

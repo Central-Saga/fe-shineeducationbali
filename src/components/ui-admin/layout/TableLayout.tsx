@@ -18,7 +18,6 @@ import {
   Filter,
   ChevronLeft,
   ChevronRight,
-  Plus,
 } from "lucide-react";
 
 interface TableLayoutProps<T> {

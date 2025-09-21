@@ -27,7 +27,6 @@ import {
   Edit, 
   MessageCircle,
   UserCheck,
-  UserX,
   GraduationCap
 } from "lucide-react";
 

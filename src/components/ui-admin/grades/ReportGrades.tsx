@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 // import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -54,7 +54,7 @@ export function ReportGrades() {
     { value: "UMUM", label: "Umum" },
   ];
 
-  const fetchReportData = async () => {
+  const fetchReportData = useCallback(async () => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
@@ -97,11 +97,11 @@ export function ReportGrades() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedSubject, selectedLevel]);
 
   useEffect(() => {
     fetchReportData();
-  }, [selectedSubject, selectedLevel]);
+  }, [selectedSubject, selectedLevel, fetchReportData]);
 
   const handleExportPDF = async () => {
     try {

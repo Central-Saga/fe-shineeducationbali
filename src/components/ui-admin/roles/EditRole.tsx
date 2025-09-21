@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Header } from "@/components/ui-admin/layout";
-import { ArrowLeft, Save, Loader2, CheckSquare, Square } from "lucide-react";
+import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -252,7 +252,7 @@ export default function EditRole({ roleId }: EditRoleProps) {
                               checked={isAllInCategorySelected(category)}
                               ref={(el) => {
                                 if (el && 'indeterminate' in el) {
-                                  (el as any).indeterminate = isSomeInCategorySelected(category) && !isAllInCategorySelected(category);
+                                  (el as HTMLInputElement).indeterminate = isSomeInCategorySelected(category) && !isAllInCategorySelected(category);
                                 }
                               }}
                               onCheckedChange={(checked) => handleSelectAllInCategory(category, checked as boolean)}

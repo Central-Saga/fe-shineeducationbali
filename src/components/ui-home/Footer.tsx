@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
   MapPin, Phone, Mail, Twitter, Facebook, Instagram, 

@@ -26,10 +26,8 @@ import {
   BarChart3, 
   TrendingUp,
   Users,
-  BookOpen,
   Award,
-  Calendar,
-  Clock
+  Calendar
 } from "lucide-react";
 
 interface ReportData {

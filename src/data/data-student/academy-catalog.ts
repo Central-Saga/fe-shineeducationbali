@@ -1,4 +1,4 @@
-import { Catalog, Program, Course, Subject, Material } from '@/types/material';
+import { Catalog, Material } from '@/types/material';
 
 // Sample materials for reuse
 const sampleMaterials: Material[] = [

@@ -18,7 +18,7 @@ interface AssignmentDetailCardProps {
     deadline: string;
     lastChanged: string;
     submittedFile: { id: string; name: string; size: string; type: string } | null;
-    submissionData?: { files: any[]; comment: string; submittedDate: string };
+    submissionData?: { files: { id: string; name: string; size: string; type: string }[]; comment: string; submittedDate: string };
   };
   classId?: string;
   type?: string;
@@ -26,7 +26,7 @@ interface AssignmentDetailCardProps {
 
 export default function AssignmentDetailCard({ assignment, classId, type }: AssignmentDetailCardProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submissionData, setSubmissionData] = useState<{ files: any[]; comment: string; submittedDate: string } | null>(null);
+  const [submissionData, setSubmissionData] = useState<{ files: { id: string; name: string; size: string; type: string }[]; comment: string; submittedDate: string } | null>(null);
 
   useEffect(() => {
     // Cek apakah ada data submission yang tersimpan

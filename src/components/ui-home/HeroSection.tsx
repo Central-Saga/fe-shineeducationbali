@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
-import { GraduationCap, BookOpen, Star, Sparkles } from "lucide-react";
+import { GraduationCap, BookOpen, Star } from "lucide-react";
 import LearningBackground from "../animations/LearningBackground";
 
 const HeroSection = () => {

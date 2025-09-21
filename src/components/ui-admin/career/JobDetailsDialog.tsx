@@ -9,12 +9,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 import {
   MapPin,
   Clock,
   Users,
   BriefcaseIcon,
-  GraduationCap,
   DollarSign,
 } from "lucide-react";
 
@@ -43,9 +43,11 @@ export function JobDetailsDialog({ job }: JobDetailsDialogProps) {
         <DialogHeader>
           <div className="h-48 overflow-hidden relative -mx-6 -mt-6">
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-            <img
+            <Image
               src={job.imageUrl}
               alt={job.title}
+              width={800}
+              height={192}
               className="w-full h-full object-cover"
             />
             <Badge className="absolute top-4 right-4 z-20 bg-[#C40503]">

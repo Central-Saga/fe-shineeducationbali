@@ -77,7 +77,7 @@ export function useProcessedGradesData() {
 }
 
 // Grade Card component for the dashboard
-export function GradeCard({ className, stats }: { className: string, stats: any }) {
+export function GradeCard({ className, stats }: { className: string, stats: { average: number; totalStudents: number; passed: number; failed: number; highest: number } }) {
   return (
     <div className="p-4 border rounded-lg">
       <h3 className="font-medium text-[#C40503]">{className}</h3>

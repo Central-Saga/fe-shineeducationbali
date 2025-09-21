@@ -69,7 +69,7 @@ export function authMiddleware(request: NextRequest) {
       );
 
       if (matchingPath) {
-        const [path, allowedRoles] = matchingPath;
+        const [, allowedRoles] = matchingPath;
         const hasPermission = allowedRoles.some((role) =>
           pengguna.peran.includes(role)
         );

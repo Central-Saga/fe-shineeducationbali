@@ -5,11 +5,17 @@ import { id } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getStatusColor, getStatusLabel } from '@/data/data-teacher/attendance/teacher-attendance-data';
 
 interface AttendanceDetailCardProps {
   selectedDay: Date | null;
-  attendanceData: any | null;
+  attendanceData: { 
+    present: number; 
+    absent: number; 
+    late: number;
+    checkIn?: string;
+    checkOut?: string;
+    note?: string;
+  } | null;
   className?: string;
 }
 
@@ -30,9 +36,23 @@ export function AttendanceDetailCard({ selectedDay, attendanceData, className = 
         {attendanceData ? (
           <div className="space-y-5 ">
             <div className="flex items-center">
-              <div className="font-semibold w-32">Status:</div>
-              <Badge className={getStatusColor(attendanceData.status)}>
-                {getStatusLabel(attendanceData.status)}
+              <div className="font-semibold w-32">Present:</div>
+              <Badge className="bg-green-100 text-green-800">
+                {attendanceData.present}
+              </Badge>
+            </div>
+            
+            <div className="flex items-center">
+              <div className="font-semibold w-32">Absent:</div>
+              <Badge className="bg-red-100 text-red-800">
+                {attendanceData.absent}
+              </Badge>
+            </div>
+            
+            <div className="flex items-center">
+              <div className="font-semibold w-32">Late:</div>
+              <Badge className="bg-yellow-100 text-yellow-800">
+                {attendanceData.late}
               </Badge>
             </div>
             

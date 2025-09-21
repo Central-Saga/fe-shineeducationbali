@@ -76,7 +76,7 @@ export function TeacherAttendance({ classId, className }: TeacherAttendanceProps
     };
 
     loadAttendance();
-  }, [classId, selectedDate]);
+  }, [classId, selectedDate, className]);
 
   useEffect(() => {
     const loadTeachers = async () => {

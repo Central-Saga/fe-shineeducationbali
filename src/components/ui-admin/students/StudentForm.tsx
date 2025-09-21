@@ -28,7 +28,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, Save } from "lucide-react";
 import { studentService } from "@/lib/services/student.service";
 import { toast } from "sonner";
-import { Student } from "@/types/student";
+import { Student, StudentPackage } from "@/types/student";
 import { Header } from "@/components/ui-admin/layout";
 
 const formSchema = z.object({
@@ -133,13 +133,31 @@ export default function StudentForm({ studentId, isEdit = false }: StudentFormPr
   const onSubmit = async (data: FormValues) => {
     try {
       setLoading(true);
-      const { packages: _, profilePhoto: __, ...createData } = data;
+      const { packages, ...createData } = data;
+      
+      // Convert packages from string[] to StudentPackage[]
+      const studentPackages: StudentPackage[] = packages.map((pkgId, index) => ({
+        id: `pkg-${index}`,
+        name: `Paket ${pkgId}`,
+        type: "regular" as const,
+        courses: [],
+        duration: 6,
+        startDate: new Date().toISOString(),
+        endDate: new Date(Date.now() + 6 * 30 * 24 * 60 * 60 * 1000).toISOString(),
+        status: "active" as const,
+        price: 0,
+      }));
+      
+      const studentData = {
+        ...createData,
+        packages: studentPackages,
+      };
       
       if (isEdit && studentId) {
-        await studentService.updateStudent(studentId, createData);
+        await studentService.updateStudent(studentId, studentData);
         toast.success("Data siswa berhasil diperbarui");
       } else {
-        await studentService.createStudent(createData);
+        await studentService.createStudent(studentData);
         toast.success("Siswa baru berhasil ditambahkan");
       }
       

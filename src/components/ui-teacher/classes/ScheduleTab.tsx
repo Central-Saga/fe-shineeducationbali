@@ -2,13 +2,6 @@
 
 import React, { useState } from 'react';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
-import {
   Table,
   TableBody,
   TableCell,
@@ -19,25 +12,15 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Search, Filter, X, Check, Clock, User, Users } from "lucide-react";
+import { Calendar, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogFooter, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogTrigger,
-  DialogClose
-} from "@/components/ui/dialog";
 
 // Import data
 import { scheduleData } from "@/data/data-teacher/schedule/schedule-data";
 import { scheduleSessions } from "@/data/data-teacher/schedule/schedule-sessions";
 import { AttendanceModal } from './AttendanceModal';
-import { getStudentsByClassId, ClassStudentMapping } from '@/data/data-teacher/class-student-map';
+import { ClassStudentMapping } from '@/data/data-teacher/class-student-map';
 
 // Interface definitions moved to class-student-map.ts
 
@@ -46,33 +29,38 @@ export function ScheduleTab() {
   const [dayFilter, setDayFilter] = useState("all");
   const [classFilter, setClassFilter] = useState("all");
   const [showAttendanceModal, setShowAttendanceModal] = useState(false);
-  const [selectedSchedule, setSelectedSchedule] = useState<any>(null);
-  const [attendanceData, setAttendanceData] = useState<Record<number, string>>({});
-  const [studentAttendanceData, setStudentAttendanceData] = useState<ClassStudentMapping | undefined>(undefined);
+  const [selectedSchedule, setSelectedSchedule] = useState<{ id: string; dayOfWeek: string; startTime: string; endTime: string; className: string; subject: string; location: string } | null>(null);
+  // const [attendanceData, setAttendanceData] = useState<Record<number, string>>({});
+  const [studentAttendanceData] = useState<ClassStudentMapping | undefined>(undefined);
   
   // Removed sample students as we use data from class-student-map.ts
   
   // Function moved to AttendanceModal component
   
   // Function to submit attendance
-  const submitAttendance = (attendanceData: any) => {
+  const submitAttendance = (attendanceData: { 
+    classId: string;
+    attendanceRecords: Record<string, 'present' | 'absent' | 'late' | 'excused' | 'unrecorded'>;
+    summary: { total: number; present: number; absent: number; late: number; excused: number };
+    students: { attendance: 'present' | 'absent' | 'late' | 'excused' | 'unrecorded'; id: string; name: string; }[];
+  }) => {
     console.log("Submitting attendance:", attendanceData);
     // Here you would typically send this data to your API
     setShowAttendanceModal(false);
   };
   
   // Handler untuk memunculkan modal kehadiran
-  const handleAttendanceClick = (schedule: any) => {
-    setSelectedSchedule(schedule);
-    
-    // Get session ID if available from scheduleSessions
-    const sessionId = schedule.sessionId || schedule.id;
-    
-    // Ambil data siswa berdasarkan kelas
-    const students = getStudentsByClassId(sessionId);
-    setStudentAttendanceData(students);
-    setShowAttendanceModal(true);
-  };
+  // const handleAttendanceClick = (schedule: any) => {
+  //   setSelectedSchedule(schedule);
+  //   
+  //   // Get session ID if available from scheduleSessions
+  //   const sessionId = schedule.sessionId || schedule.id;
+  //   
+  //   // Ambil data siswa berdasarkan kelas
+  //   const students = getStudentsByClassId(sessionId);
+  //   setStudentAttendanceData(students);
+  //   setShowAttendanceModal(true);
+  // };
 
   // Get days from schedule data
   const days = [...new Set(scheduleData.map(schedule => schedule.dayOfWeek))];
@@ -344,11 +332,10 @@ export function ScheduleTab() {
           isOpen={showAttendanceModal}
           onClose={() => setShowAttendanceModal(false)}
           classData={{
-            id: selectedSchedule.sessionId || selectedSchedule.id,
-            title: `${selectedSchedule.className} - ${selectedSchedule.subject}`,
-            date: new Date().toISOString(), // Isi dengan tanggal sesuai dengan data schedule yang ada
-            timeStart: selectedSchedule.startTime,
-            timeEnd: selectedSchedule.endTime
+            id: selectedSchedule.id,
+            name: `${selectedSchedule.className} - ${selectedSchedule.subject}`,
+            subject: selectedSchedule.subject,
+            schedule: `${selectedSchedule.startTime} - ${selectedSchedule.endTime}`
           }}
           studentData={studentAttendanceData}
           onSave={submitAttendance}

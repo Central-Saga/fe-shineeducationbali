@@ -6,10 +6,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { 
   Search, ChevronDown, Home, BookOpen, Info, FileText, 
-  Menu, X, Briefcase, UserPlus, LogIn, User 
+  Menu, X, Briefcase, UserPlus, LogIn
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -23,7 +22,6 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {

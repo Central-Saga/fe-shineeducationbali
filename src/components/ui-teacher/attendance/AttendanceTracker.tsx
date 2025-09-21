@@ -47,7 +47,7 @@ interface Class {
 interface AttendanceTrackerProps {
   classes: Class[];
   students?: Student[];
-  onSubmit: (data: any) => void;
+  onSubmit: (data: { classId: string; date: string; attendance: { studentId: string; status: string; notes?: string }[] }) => void;
 }
 
 export function AttendanceTracker({ classes, students = [], onSubmit }: AttendanceTrackerProps) {
@@ -88,10 +88,10 @@ export function AttendanceTracker({ classes, students = [], onSubmit }: Attendan
       
       const attendanceData = {
         classId: selectedClass,
-        date: selectedDate,
-        records: Object.entries(attendance).map(([studentId, status]) => ({
+        date: selectedDate.toISOString(),
+        attendance: Object.entries(attendance).map(([studentId, status]) => ({
           studentId,
-          status
+          status: status || 'absent'
         }))
       };
 

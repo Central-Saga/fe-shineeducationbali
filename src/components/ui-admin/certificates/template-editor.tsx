@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -18,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FileText, Image, Upload } from "lucide-react";
+import { FileText, Upload } from "lucide-react";
 import { useState } from "react";
 
 interface TemplateEditorProps {
@@ -50,13 +51,17 @@ export function TemplateEditor({
               <div className="border rounded-lg p-4 text-center">
                 {backgroundImage ? (
                   <div className="relative aspect-[1.414/1]">
-                    <Image
-                      className="h-4 w-4 absolute top-2 right-2 cursor-pointer"
+                    <button
+                      className="h-4 w-4 absolute top-2 right-2 cursor-pointer bg-red-500 text-white rounded-full flex items-center justify-center text-xs"
                       onClick={() => setBackgroundImage(null)}
-                    />
-                    <img
+                    >
+                      ×
+                    </button>
+                    <Image
                       src={backgroundImage}
                       alt="Background sertifikat"
+                      width={400}
+                      height={283}
                       className="w-full h-full object-cover rounded"
                     />
                   </div>
@@ -90,13 +95,17 @@ export function TemplateEditor({
               <div className="border rounded-lg p-4 text-center">
                 {logo ? (
                   <div className="relative w-32 h-32 mx-auto">
-                    <Image
-                      className="h-4 w-4 absolute top-2 right-2 cursor-pointer"
+                    <button
+                      className="h-4 w-4 absolute top-2 right-2 cursor-pointer bg-red-500 text-white rounded-full flex items-center justify-center text-xs"
                       onClick={() => setLogo(null)}
-                    />
-                    <img
+                    >
+                      ×
+                    </button>
+                    <Image
                       src={logo}
                       alt="Logo"
+                      width={128}
+                      height={128}
                       className="w-full h-full object-contain"
                     />
                   </div>

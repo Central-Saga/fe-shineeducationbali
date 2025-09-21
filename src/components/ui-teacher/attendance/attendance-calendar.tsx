@@ -1,15 +1,13 @@
 "use client";
 
-import { useState } from 'react';
-import { format, isSameDay } from 'date-fns';
-import { id } from 'date-fns/locale';
+import { isSameDay } from 'date-fns';
 import { Calendar as CalendarIcon, CheckCircle2, Clock, XCircle, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { mockTeacherAttendance } from '@/data/data-teacher/attendance/teacher-attendance-data';
 
 interface AttendanceCalendarProps {
-  onSelectDay: (day: Date, attendanceData: any) => void;
+  onSelectDay: (day: Date, attendanceData: { present: number; absent: number; late: number }) => void;
   selectedDay?: Date | null;
   className?: string;
 }
@@ -19,7 +17,11 @@ export function AttendanceCalendar({ onSelectDay, selectedDay, className = '' }:
     if (!day) return;
     
     const dayAttendance = mockTeacherAttendance.find(a => isSameDay(a.date, day));
-    onSelectDay(day, dayAttendance || null);
+    if (dayAttendance) {
+      onSelectDay(day, { present: 0, absent: 0, late: 0 });
+    } else {
+      onSelectDay(day, { present: 0, absent: 0, late: 0 });
+    }
   };
 
   return (

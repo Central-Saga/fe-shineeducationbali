@@ -55,7 +55,7 @@ export default function AssignmentListPage() {
     console.log("Downloading assignment:", id);
   };
 
-  const handleFormSubmit = (data: { title: string; description: string; dueDate: string; points: number }) => {
+  const handleFormSubmit = (data: { title: string; description: string; dueDate: string; classId: string; attachments: File[] }) => {
     console.log("Form submitted:", data);
     setIsDialogOpen(false);
     // Here you would update your data with the new values
@@ -94,7 +94,16 @@ export default function AssignmentListPage() {
             onSubmit={handleFormSubmit}
             initialData={
               selectedAssignment
-                ? formattedAssignments.find(a => a.id === selectedAssignment)
+                ? (() => {
+                    const assignment = formattedAssignments.find(a => a.id === selectedAssignment);
+                    return assignment ? {
+                      title: assignment.title,
+                      description: "", // Add default description
+                      dueDate: assignment.dueDate,
+                      classId: assignment.classId,
+                      attachments: [] // Add default attachments
+                    } : undefined;
+                  })()
                 : undefined
             }
           />

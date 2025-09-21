@@ -27,7 +27,7 @@ interface EditSubmissionCardProps {
     status: string;
     deadline: string;
     lastChanged: string;
-    submittedFile: any;
+    submittedFile: { id: string; name: string; size: string; type: string } | null;
   };
   classId: string;
   type: string;
@@ -38,7 +38,7 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
-  const [existingSubmission, setExistingSubmission] = useState<{ files: any[]; comment: string; submittedDate: string } | null>(null);
+  const [existingSubmission, setExistingSubmission] = useState<{ files: { id: string; name: string; size: string; type: string }[]; comment: string; submittedDate: string } | null>(null);
   const [filesToDelete, setFilesToDelete] = useState<string[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -123,7 +123,7 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
     }));
     
     // Filter file lama yang tidak dihapus, lalu gabungkan dengan file baru
-    const remainingOldFiles = (existingSubmission?.files || []).filter((file: any) => 
+    const remainingOldFiles = (existingSubmission?.files || []).filter((file: { id: string; name: string; size: string; type: string }) => 
       !filesToDelete.includes(file.id)
     );
     const allFiles = [...remainingOldFiles, ...filesData];
@@ -234,7 +234,7 @@ export default function EditSubmissionCard({ assignment, classId, type }: EditSu
                   <h4 className="text-lg font-semibold text-gray-900">Jawaban Saat Ini</h4>
                   <div className="p-4 bg-gray-50 rounded-lg">
                     <div className="space-y-3">
-                      {existingSubmission.files?.map((file: any) => {
+                      {existingSubmission.files?.map((file: { id: string; name: string; size: string; type: string }) => {
                         const isMarkedForDeletion = filesToDelete.includes(file.id);
                         return (
                           <div key={file.id} className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${
