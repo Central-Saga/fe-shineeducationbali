@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Import data
 import { classesData } from "@/data/data-teacher/classes/classes-data";
-import { assignmentsData } from "@/data/data-teacher/assignments/assignments-data";
 import { scheduleData } from "@/data/data-teacher/schedule/schedule-data";
 import { studentsData } from "@/data/data-teacher/students-data";
 
@@ -19,7 +18,6 @@ import {
   BookOpen, 
   Users, 
   Calendar, 
-  FileText, 
   GraduationCap,
   ChevronRight,
   CheckCircle,
@@ -48,11 +46,7 @@ export default function TeacherOverview() {
     (schedule) => schedule.dayOfWeek === todayName
   ).sort((a, b) => a.startTime.localeCompare(b.startTime));
   
-  // Filter upcoming assignments
-  const upcomingAssignments = assignmentsData
-    .filter(assignment => assignment.status === "active")
-    .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
-    .slice(0, 3);
+  // Filter upcoming assignments - removed as assignments are now in class details
 
   useEffect(() => {
     // Only run on client-side
@@ -75,7 +69,7 @@ export default function TeacherOverview() {
 
   // Calculate various stats
   const totalStudents = classesData.reduce((sum, cls) => sum + cls.studentCount, 0);
-  const pendingAssignments = assignmentsData.filter(a => a.status === "active").length;
+  const pendingAssignments = 0; // Assignments are now managed in class details
   const averageProgress = Math.round(
     classesData.reduce((sum, cls) => sum + cls.progress, 0) / classesData.length
   );
@@ -97,9 +91,9 @@ export default function TeacherOverview() {
             Hari ini {new Date().toLocaleDateString('id-ID', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}.
           </p>
           <div className="flex flex-wrap gap-3 ">
-            <Link href="/dashboard-teacher/assignments/new">
+            <Link href="/dashboard-teacher/classes">
               <Button className="bg-white text-[#C40503] hover:bg-white/90 border-0 shadow-sm">
-                <FileText className="mr-3 h-4 w-4" /> Buat Tugas Baru
+                <BookOpen className="mr-3 h-4 w-4" /> Kelola Kelas
               </Button>
             </Link>
             <Link href="/dashboard-teacher/schedule">
@@ -163,16 +157,16 @@ export default function TeacherOverview() {
               Tugas Aktif
             </CardTitle>
             <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center">
-              <FileText className="h-4 w-4 text-[#C40503]" />
+              <BookOpen className="h-4 w-4 text-[#C40503]" />
             </div>
           </CardHeader>
           <CardContent className="">
             <div className="text-2xl font-bold mb-5">{pendingAssignments}</div>
             <Link 
-              href="/dashboard-teacher/assignments" 
+              href="/dashboard-teacher/classes" 
               className="text-xs text-[#C40503] flex items-center hover:underline"
             >
-              Kelola tugas
+              Kelola kelas
               <ChevronRight className="h-3 w-3 ml-2" />
             </Link>
           </CardContent>
@@ -207,9 +201,9 @@ export default function TeacherOverview() {
               value="assignments" 
               className="data-[state=active]:bg-[#DAA625] data-[state=active]:text-white data-[state=active]:shadow-sm px-5 py-2.5 rounded-md transition-all"
             >
-              <FileText className="mr-3 h-4 w-4" />
-              <span className="hidden sm:inline">Tugas Terbaru</span>
-              <span className="sm:hidden">Tugas</span>
+              <BookOpen className="mr-3 h-4 w-4" />
+              <span className="hidden sm:inline">Kelola Kelas</span>
+              <span className="sm:hidden">Kelas</span>
             </TabsTrigger>
             <TabsTrigger 
               value="students" 
@@ -296,76 +290,37 @@ export default function TeacherOverview() {
             <CardHeader className="bg-slate-50 ">
               <div className="flex justify-between items-center">
                 <CardTitle className="text-lg font-semibold flex items-center">
-                  <FileText className="mr-3 h-5 w-5 text-[#DAA625]" /> 
-                  Tugas yang Perlu Dinilai
+                  <BookOpen className="mr-3 h-5 w-5 text-[#DAA625]" /> 
+                  Kelola Kelas
                 </CardTitle>
-                <Badge className="bg-[#DAA625]">{pendingAssignments} Tugas</Badge>
+                <Badge className="bg-[#DAA625]">{classesData.length} Kelas</Badge>
               </div>
               <CardDescription>
-                Daftar tugas aktif yang perlu diperiksa
+                Kelola materi, tugas, dan nilai siswa di setiap kelas
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-4">
-              {upcomingAssignments.map((assignment) => {
-                // Calculate submission status
-                const submissionRate = Math.round((assignment.submittedCount / assignment.totalStudents) * 100);
-                const dueDate = new Date(assignment.dueDate);
-                const isUrgent = new Date() > new Date(dueDate.getTime() - 2 * 24 * 60 * 60 * 1000);
-                
-                return (
-                  <div 
-                    key={assignment.id} 
-                    className="mb-4 p-4 border rounded-lg hover:border-[#DAA625] transition-colors"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-medium">{assignment.title}</h4>
-                        <p className="text-sm text-gray-600">{assignment.class} • {assignment.subject}</p>
-                      </div>
-                      {isUrgent ? (
-                        <Badge variant="outline" className="border-red-200 text-red-600 bg-red-50">
-                          <AlertCircle className="mr-2 h-3 w-3" /> Segera Berakhir
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline" className="border-emerald-200 text-emerald-700 bg-emerald-50">
-                          <CheckCircle className="mr-2 h-3 w-3" /> Aktif
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="mt-3">
-                      <div className="flex justify-between text-xs text-slate-500 mb-1">
-                        <span>Progress Pengumpulan</span>
-                        <span className="font-medium">{submissionRate}%</span>
-                      </div>
-                      <Progress value={submissionRate} className="h-2" />
-                    </div>
-                    <div className="flex justify-between items-center mt-3">
-                      <div className="text-xs text-slate-500 flex items-center">
-                        <Calendar className="h-3 w-3 mr-2" />
-                        Batas waktu: {new Date(assignment.dueDate).toLocaleDateString('id-ID', {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric'
-                        })}
-                      </div>
-                      <Link href={`/dashboard-teacher/assignments/${assignment.id}`}>
-                        <Button size="sm" variant="outline" className="text-xs">
-                          Periksa <ArrowUpRight className="ml-2 h-3 w-3" />
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="text-center py-8">
+                <BookOpen className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">Kelola Kelas Anda</h3>
+                <p className="text-gray-500 mb-4">
+                  Akses detail kelas untuk mengelola materi, tugas, dan nilai siswa
+                </p>
+                <Link href="/dashboard-teacher/classes">
+                  <Button className="bg-[#DAA625] hover:bg-[#C09520]">
+                    Lihat Semua Kelas
+                  </Button>
+                </Link>
+              </div>
             </CardContent>
             <CardFooter className="border-t py-4 px-6">
               <div className="w-full flex justify-between">
                 <Button variant="ghost" className="text-[#DAA625]">
-                  Tugas Selesai
+                  Kelas Aktif
                 </Button>
-                <Link href="/dashboard-teacher/assignments">
+                <Link href="/dashboard-teacher/classes">
                   <Button className="bg-[#DAA625] hover:bg-[#C09520]">
-                    Kelola Semua Tugas
+                    Kelola Kelas
                   </Button>
                 </Link>
               </div>
@@ -434,7 +389,7 @@ export default function TeacherOverview() {
           <div className="space-y-6">
             <div className="flex items-start border-l-2 border-[#C40503] pl-5 py-3 hover:bg-slate-50 rounded-r-md transition-colors">
               <div className="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center mr-5 flex-shrink-0">
-                <FileText className="h-5 w-5 text-[#C40503]" />
+                <BookOpen className="h-5 w-5 text-[#C40503]" />
               </div>
               <div className="space-y-1.5 pt-1">
                 <p className="text-sm font-medium">

@@ -16,6 +16,7 @@ import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { AttendanceModal } from "./AttendanceModal";
+import { ClassDetailTable, ClassDetailData } from "../layout/TabsNavigationTable";
 
 // State interfaces for meeting attendance visibility
 // interface MeetingAttendanceState {
@@ -62,6 +63,83 @@ interface ClassDetailsProps {
 export function ClassDetails({ classData }: ClassDetailsProps) {
   // State untuk AttendanceModal
   const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false);
+
+  // Convert assignments to ClassDetailData format
+  const assignmentsData: ClassDetailData[] = (classData.assignments || []).map(assignment => ({
+    id: assignment.id,
+    title: assignment.title,
+    subject: classData.subject,
+    dueDate: assignment.dueDate,
+    status: assignment.status === "completed" ? "completed" : 
+            assignment.status === "ongoing" ? "in-progress" : "upcoming",
+    type: "assignment" as const,
+    totalStudents: classData.studentCount,
+    submittedCount: Math.floor(Math.random() * classData.studentCount), // Mock data
+  }));
+
+  // Convert materials to ClassDetailData format
+  const materialsData: ClassDetailData[] = (classData.materials || []).map(material => ({
+    id: material.id,
+    title: material.title,
+    subject: classData.subject,
+    dueDate: material.uploadedDate,
+    status: "completed" as const,
+    type: material.type === "PDF" ? "material" as const : "material" as const,
+  }));
+
+  // Convert students to ClassDetailData format
+  const studentsData: ClassDetailData[] = (classData.students || []).map(student => ({
+    id: student.id,
+    title: student.name,
+    subject: classData.subject,
+    dueDate: new Date().toISOString().split('T')[0], // Current date as placeholder
+    status: "completed" as const, // All students are active
+    type: "assignment" as const, // Using assignment type for students
+  }));
+
+  // Combine assignments and materials for the main table
+  const allClassData: ClassDetailData[] = [...assignmentsData, ...materialsData];
+
+  // Handler functions for ClassDetailTable
+  const handleEditItem = (item: ClassDetailData) => {
+    console.log("Edit item:", item);
+    // Implement edit logic
+  };
+
+  const handleDeleteItem = (item: ClassDetailData) => {
+    console.log("Delete item:", item);
+    // Implement delete logic
+  };
+
+  const handleViewItem = (item: ClassDetailData) => {
+    console.log("View item:", item);
+    // Implement view logic
+  };
+
+  const handleExportData = () => {
+    console.log("Export data");
+    // Implement export logic
+  };
+
+  const handleSearchData = (query: string) => {
+    console.log("Search query:", query);
+    // Implement search logic
+  };
+
+  const handleAddAssignment = () => {
+    console.log("Add new assignment");
+    // Implement add assignment logic
+  };
+
+  const handleAddMaterial = () => {
+    console.log("Add new material");
+    // Implement add material logic
+  };
+
+  const handleAddStudent = () => {
+    console.log("Add new student");
+    // Implement add student logic
+  };
   const [selectedSession, setSelectedSession] = useState<{ 
     id: string; 
     title: string; 
@@ -291,182 +369,48 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
             </TabsList>
             
             <TabsContent value="students" className="mt-6">
-              <Card className="shadow-sm">
-                <CardHeader className="bg-[#C40001]/5 border-b">
-                  <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg text-[#C40001] flex items-center gap-2">
-                      <User className="h-5 w-5" />
-                      Daftar Siswa
-                    </CardTitle>
-                    <Button 
-                      variant="outline" 
-                      className="text-[#C40001] border-[#C40001] hover:bg-[#C40001]/5"
-                      onClick={() => window.open('/dashboard-teacher/students', '_blank')}
-                    >
-                      <User className="h-4 w-4 mr-2" />
-                      Lihat Detail Siswa
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>ID</TableHead>
-                        <TableHead>Nama Siswa</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Aksi</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {classData.students?.map((student) => (
-                        <TableRow key={student.id}>
-                          <TableCell className="font-medium">{student.id}</TableCell>
-                          <TableCell>{student.name}</TableCell>
-                          <TableCell>
-                            <Badge className="bg-green-100 text-green-800">
-                              Aktif
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={() => window.open(`/dashboard-teacher/students?studentId=${student.id}`, '_blank')}
-                            >
-                              Detail
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
+              <ClassDetailTable
+                data={studentsData}
+                onEdit={handleEditItem}
+                onDelete={handleDeleteItem}
+                onView={handleViewItem}
+                onExport={handleExportData}
+                onSearch={handleSearchData}
+                onAdd={handleAddStudent}
+                title="Daftar Siswa"
+                description="Kelola data siswa dalam kelas"
+                addButtonText="Tambah Siswa"
+              />
             </TabsContent>
             
             <TabsContent value="assignments" className="mt-6">
-              <Card className="shadow-sm">
-                <CardHeader className="bg-[#C40001]/5 border-b">
-                  <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg text-[#C40001] flex items-center gap-2">
-                      <FileText className="h-5 w-5" />
-                      Tugas
-                    </CardTitle>
-                    <Button 
-                      className="bg-[#C40001] hover:bg-[#A60000] text-white"
-                      onClick={() => window.open('/dashboard-teacher/assignments', '_blank')}
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Buat Tugas Baru
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>ID</TableHead>
-                        <TableHead>Judul</TableHead>
-                        <TableHead>Tenggat Waktu</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Aksi</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {classData.assignments?.map((assignment) => (
-                        <TableRow key={assignment.id}>
-                          <TableCell className="font-medium">{assignment.id}</TableCell>
-                          <TableCell>{assignment.title}</TableCell>
-                          <TableCell>{assignment.dueDate}</TableCell>
-                          <TableCell>
-                            <Badge 
-                              className={
-                                assignment.status === "completed" 
-                                  ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200"
-                                  : assignment.status === "ongoing"
-                                  ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200"
-                                  : "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200"
-                              }
-                            >
-                              {assignment.status === "completed" ? "Selesai" : 
-                               assignment.status === "ongoing" ? "Sedang Berlangsung" : "Akan Datang"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={() => window.open(`/dashboard-teacher/assignments?assignmentId=${assignment.id}`, '_blank')}
-                            >
-                              Detail
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
+              <ClassDetailTable
+                data={assignmentsData}
+                onEdit={handleEditItem}
+                onDelete={handleDeleteItem}
+                onView={handleViewItem}
+                onExport={handleExportData}
+                onSearch={handleSearchData}
+                onAdd={handleAddAssignment}
+                title="Tugas"
+                description="Kelola tugas dan aktivitas pembelajaran"
+                addButtonText="Buat Tugas Baru"
+              />
             </TabsContent>
             
             <TabsContent value="materials" className="mt-6">
-              <Card className="shadow-sm">
-                <CardHeader className="bg-[#C40001]/5 border-b">
-                  <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg text-[#C40001] flex items-center gap-2">
-                      <BookOpen className="h-5 w-5" />
-                      Materi Pembelajaran
-                    </CardTitle>
-                    <Button 
-                      className="bg-[#C40001] hover:bg-[#A60000] text-white"
-                      onClick={() => window.open('/dashboard-teacher/materials', '_blank')}
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Upload Materi
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>ID</TableHead>
-                        <TableHead>Judul</TableHead>
-                        <TableHead>Tipe</TableHead>
-                        <TableHead>Tanggal Upload</TableHead>
-                        <TableHead>Download</TableHead>
-                        <TableHead className="text-right">Aksi</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {classData.materials?.map((material) => (
-                        <TableRow key={material.id}>
-                          <TableCell className="font-medium">{material.id}</TableCell>
-                          <TableCell>{material.title}</TableCell>
-                          <TableCell>
-                            <Badge variant="outline">
-                              {material.type}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>{material.uploadedDate}</TableCell>
-                          <TableCell>0</TableCell>
-                          <TableCell className="text-right">
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={() => window.open(`/dashboard-teacher/materials?materialId=${material.id}`, '_blank')}
-                            >
-                              <Download className="h-4 w-4 mr-1" />
-                              Download
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
+              <ClassDetailTable
+                data={materialsData}
+                onEdit={handleEditItem}
+                onDelete={handleDeleteItem}
+                onView={handleViewItem}
+                onExport={handleExportData}
+                onSearch={handleSearchData}
+                onAdd={handleAddMaterial}
+                title="Materi Pembelajaran"
+                description="Kelola materi dan dokumen pembelajaran"
+                addButtonText="Upload Materi"
+              />
             </TabsContent>
             
             <TabsContent value="attendance" className="mt-6">

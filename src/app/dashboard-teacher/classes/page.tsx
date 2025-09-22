@@ -1,4 +1,4 @@
-import { ClassesDashboard } from "@/components/ui-teacher/classes/ClassesDashboard";
+import { ClassesDashboard } from "@/components/ui-teacher/classes/ClassesManagement";
 
 export default function ClassesPage() {
   return <ClassesDashboard />;

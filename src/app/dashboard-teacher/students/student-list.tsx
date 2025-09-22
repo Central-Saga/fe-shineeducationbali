@@ -5,13 +5,12 @@ import { Button } from "@/components/ui/button";
 import { StudentList } from "@/components/ui-teacher/students/StudentList";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UserPlus } from "lucide-react";
-import { assignmentsData } from "@/data/data-teacher/assignments/assignments-data";
 import { studentsData } from "@/data/data-teacher/students-data";
 
-// Extract unique classes from the assignment data
-const classes = assignmentsData.map((assignment) => ({
-  id: assignment.id,
-  name: assignment.class
+// Extract unique classes from the students data
+const classes = studentsData.map((student) => ({
+  id: student.id,
+  name: student.class
 })).filter((value, index, self) => 
   self.findIndex(v => v.name === value.name) === index
 );

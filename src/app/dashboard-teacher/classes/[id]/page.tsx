@@ -1,6 +1,6 @@
 "use client";
 
-import { ClassDetails } from "@/components/ui-teacher/classes/class-details";
+import { ClassDetails } from "@/components/ui-teacher/classes/ClassesDetails";
 // import { useParams } from "next/navigation";
 import { classDetailsData } from "@/data/data-teacher/classes/class-details-data";
 
