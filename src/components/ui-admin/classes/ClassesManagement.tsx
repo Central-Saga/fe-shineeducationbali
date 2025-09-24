@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Header, TableLayout } from "@/components/ui-admin/layout";
 import { adminClasses, AdminClass } from "@/data/data-admin/classes-data";
+import { programsData, Program } from "@/data/data-admin/program-data/program-data";
 
 // Use the AdminClass interface from data file
 type Class = AdminClass;
@@ -86,6 +87,7 @@ export function ClassList() {
       header: () => <div>Program</div>,
       cell: ({ row }) => {
         const classData = row.original;
+        const program = programsData.find(p => p.id === classData.program_id);
         return (
           <div>
             <div className="font-medium">{classData.program_name}</div>
@@ -93,6 +95,17 @@ export function ClassList() {
               <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full">
                 {classData.level}
               </span>
+              {program && (
+                <>
+                  <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">
+                    {program.category}
+                  </span>
+                  <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full">
+                    {program.level === 'beginner' ? 'Pemula' : 
+                     program.level === 'intermediate' ? 'Menengah' : 'Lanjutan'}
+                  </span>
+                </>
+              )}
             </div>
           </div>
         );

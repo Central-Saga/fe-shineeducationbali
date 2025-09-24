@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { programsData, Program } from "@/data/data-admin/program-data/program-data";
 
 export function AddClasses() {
   const router = useRouter();
@@ -91,201 +92,236 @@ export function AddClasses() {
         </CardHeader>
         <CardContent className="p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="class_name" className="block text-sm font-medium text-gray-700">
-                  Nama Kelas <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="class_name"
-                  name="class_name"
-                  value={formData.class_name}
-                  onChange={handleChange}
-                  placeholder="Masukkan nama kelas"
-                  required
-                />
+            {/* Basic Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Informasi Dasar</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="class_name" className="block text-sm font-medium text-gray-700">
+                    Nama Kelas <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    id="class_name"
+                    name="class_name"
+                    value={formData.class_name}
+                    onChange={handleChange}
+                    placeholder="Masukkan nama kelas"
+                    required
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="program_id" className="block text-sm font-medium text-gray-700">
+                    Pilih Program <span className="text-red-500">*</span>
+                  </label>
+                  <Select 
+                    onValueChange={(value) => {
+                      const selectedProgram = programsData.find((p: Program) => p.id === value);
+                      if (selectedProgram) {
+                        setFormData(prev => ({ 
+                          ...prev, 
+                          program_id: selectedProgram.id,
+                          program_name: selectedProgram.name,
+                          level: selectedProgram.educationLevel
+                        }));
+                      }
+                    }}
+                    value={formData.program_id}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih program" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {programsData.map((program: Program) => (
+                        <SelectItem key={program.id} value={program.id}>
+                          {program.name} - {program.category} ({program.educationLevel})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+
+            {/* Program Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Informasi Program</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Program Terpilih
+                  </label>
+                  <div className="p-3 bg-gray-50 rounded-md border">
+                    {formData.program_name ? (
+                      <div>
+                        <p className="font-medium text-gray-900">{formData.program_name}</p>
+                        <p className="text-sm text-gray-500">ID: {formData.program_id}</p>
+                      </div>
+                    ) : (
+                      <p className="text-gray-500">Pilih program terlebih dahulu</p>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Jenjang Pendidikan
+                  </label>
+                  <div className="p-3 bg-blue-50 rounded-md border border-blue-200">
+                    {formData.level ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-600">✓</span>
+                        <span className="font-medium text-blue-900">{formData.level}</span>
+                        <span className="text-sm text-blue-600">(Otomatis dari program)</span>
+                      </div>
+                    ) : (
+                      <p className="text-blue-600">Pilih program untuk melihat jenjang</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Schedule Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Informasi Jadwal</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="schedule" className="block text-sm font-medium text-gray-700">
+                    Jadwal <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    id="schedule"
+                    name="schedule"
+                    value={formData.schedule}
+                    onChange={handleChange}
+                    placeholder="Contoh: Senin, Rabu, Jumat"
+                    required
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="capacity" className="block text-sm font-medium text-gray-700">
+                    Kapasitas Kelas <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    id="capacity"
+                    name="capacity"
+                    type="number"
+                    value={formData.capacity}
+                    onChange={handleChange}
+                    placeholder="Contoh: 30"
+                    required
+                  />
+                </div>
               </div>
               
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="level" className="block text-sm font-medium text-gray-700">
-                  Jenjang Pendidikan <span className="text-red-500">*</span>
-                </label>
-                <Select 
-                  onValueChange={(value) => handleSelectChange('level', value)}
-                  value={formData.level}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih jenjang" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="SD">SD</SelectItem>
-                    <SelectItem value="SMP">SMP</SelectItem>
-                    <SelectItem value="SMA/SMK">SMA/SMK</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="program_name" className="block text-sm font-medium text-gray-700">
-                  Nama Program <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="program_name"
-                  name="program_name"
-                  value={formData.program_name}
-                  onChange={handleChange}
-                  placeholder="Masukkan nama program"
-                  required
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="time_start" className="block text-sm font-medium text-gray-700">
+                    Waktu Mulai <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    id="time_start"
+                    name="time_start"
+                    value={formData.time_start}
+                    onChange={handleChange}
+                    placeholder="Contoh: 08:00"
+                    required
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="time_end" className="block text-sm font-medium text-gray-700">
+                    Waktu Selesai <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    id="time_end"
+                    name="time_end"
+                    value={formData.time_end}
+                    onChange={handleChange}
+                    placeholder="Contoh: 09:30"
+                    required
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="schedule" className="block text-sm font-medium text-gray-700">
-                  Jadwal <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="schedule"
-                  name="schedule"
-                  value={formData.schedule}
-                  onChange={handleChange}
-                  placeholder="Contoh: Senin, Rabu, Jumat"
-                  required
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="time_start" className="block text-sm font-medium text-gray-700">
-                  Waktu Mulai <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="time_start"
-                  name="time_start"
-                  value={formData.time_start}
-                  onChange={handleChange}
-                  placeholder="Contoh: 08:00"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="time_end" className="block text-sm font-medium text-gray-700">
-                  Waktu Selesai <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="time_end"
-                  name="time_end"
-                  value={formData.time_end}
-                  onChange={handleChange}
-                  placeholder="Contoh: 09:30"
-                  required
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="capacity" className="block text-sm font-medium text-gray-700">
-                  Kapasitas Kelas <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="capacity"
-                  name="capacity"
-                  type="number"
-                  value={formData.capacity}
-                  onChange={handleChange}
-                  placeholder="Contoh: 30"
-                  required
-                />
+            {/* Teacher Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Informasi Pengajar</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="teacher_id" className="block text-sm font-medium text-gray-700">
+                    ID Pengajar <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    id="teacher_id"
+                    name="teacher_id"
+                    value={formData.teacher_id}
+                    onChange={handleChange}
+                    placeholder="Contoh: T001"
+                    required
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label htmlFor="teacher_name" className="block text-sm font-medium text-gray-700">
+                    Nama Pengajar <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    id="teacher_name"
+                    name="teacher_name"
+                    value={formData.teacher_name}
+                    onChange={handleChange}
+                    placeholder="Masukkan nama pengajar"
+                    required
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="current_enrollment" className="block text-sm font-medium text-gray-700">
-                  Jumlah Siswa Terdaftar <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="current_enrollment"
-                  name="current_enrollment"
-                  type="number"
-                  value={formData.current_enrollment}
-                  onChange={handleChange}
-                  placeholder="Contoh: 25"
-                  required
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="program_id" className="block text-sm font-medium text-gray-700">
-                  ID Program <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="program_id"
-                  name="program_id"
-                  value={formData.program_id}
-                  onChange={handleChange}
-                  placeholder="Contoh: prog-sma-001"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="teacher_id" className="block text-sm font-medium text-gray-700">
-                  ID Pengajar <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="teacher_id"
-                  name="teacher_id"
-                  value={formData.teacher_id}
-                  onChange={handleChange}
-                  placeholder="Contoh: T001"
-                  required
-                />
+            {/* Enrollment Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Informasi Pendaftaran</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="current_enrollment" className="block text-sm font-medium text-gray-700">
+                    Jumlah Siswa Terdaftar <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    id="current_enrollment"
+                    name="current_enrollment"
+                    type="number"
+                    value={formData.current_enrollment}
+                    onChange={handleChange}
+                    placeholder="Contoh: 25"
+                    required
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Status Kelas
+                  </label>
+                  <Select
+                    onValueChange={(value) => handleSelectChange('status', value)}
+                    defaultValue="ACTIVE"
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih status kelas" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ACTIVE">Aktif</SelectItem>
+                      <SelectItem value="INACTIVE">Tidak Aktif</SelectItem>
+                      <SelectItem value="COMPLETED">Selesai</SelectItem>
+                      <SelectItem value="DRAFT">Draft</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="teacher_name" className="block text-sm font-medium text-gray-700">
-                  Nama Pengajar <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="teacher_name"
-                  name="teacher_name"
-                  value={formData.teacher_name}
-                  onChange={handleChange}
-                  placeholder="Masukkan nama pengajar"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Status
-              </label>
-              <Select
-                onValueChange={(value) => handleSelectChange('status', value)}
-                defaultValue="ACTIVE"
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih status kelas" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="ACTIVE">Aktif</SelectItem>
-                  <SelectItem value="INACTIVE">Tidak Aktif</SelectItem>
-                  <SelectItem value="COMPLETED">Selesai</SelectItem>
-                  <SelectItem value="DRAFT">Draft</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
 
             <div className="flex justify-end gap-3">
               <Link href="/dashboard/class">

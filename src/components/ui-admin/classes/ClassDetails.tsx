@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { programsData, Program } from "@/data/data-admin/program-data/program-data";
 
 interface ClassDetailsProps {
   classId: string;
@@ -56,6 +57,7 @@ const classDetail = {
 
 export function ClassDetails({ classId }: ClassDetailsProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const [programInfo, setProgramInfo] = useState<Program | null>(null);
 
   useEffect(() => {
     // Fetch class details
@@ -63,6 +65,11 @@ export function ClassDetails({ classId }: ClassDetailsProps) {
       // In a real app, you would fetch data from API
       // For now, simulate a fetch delay
       await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Find program information based on program_id
+      const program = programsData.find(p => p.id === classDetail.program_id);
+      setProgramInfo(program || null);
+      
       setIsLoading(false);
     };
 
@@ -144,6 +151,17 @@ export function ClassDetails({ classId }: ClassDetailsProps) {
                 <div>
                   <p className="text-sm text-gray-500">Program</p>
                   <p className="font-medium">{classDetail.program_name}</p>
+                  {programInfo && (
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">
+                        {programInfo.category}
+                      </span>
+                      <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full">
+                        {programInfo.level === 'beginner' ? 'Pemula' : 
+                         programInfo.level === 'intermediate' ? 'Menengah' : 'Lanjutan'}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -194,6 +212,28 @@ export function ClassDetails({ classId }: ClassDetailsProps) {
                 </p>
               </div>
 
+              {programInfo && (
+                <div className="pt-4 border-t">
+                  <h4 className="font-semibold mb-2">Informasi Program</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Durasi Program:</span>
+                      <span className="font-medium">{programInfo.duration} minggu</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Jenjang Pendidikan:</span>
+                      <span className="font-medium">{programInfo.educationLevel}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Status Program:</span>
+                      <span className={`font-medium ${programInfo.isActive ? 'text-green-600' : 'text-gray-600'}`}>
+                        {programInfo.isActive ? 'Aktif' : 'Tidak Aktif'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="pt-4 border-t">
                 <h4 className="font-semibold mb-2">Opsi Lainnya</h4>
                 <div className="space-y-2">
@@ -205,6 +245,16 @@ export function ClassDetails({ classId }: ClassDetailsProps) {
                     <Calendar className="h-4 w-4 mr-2" />
                     Lihat Jadwal Lengkap
                   </Button>
+                  {programInfo && (
+                    <Button 
+                      className="w-full justify-start" 
+                      variant="outline"
+                      onClick={() => window.open(`/dashboard/program/detail/${programInfo.id}`, '_blank')}
+                    >
+                      <BookOpen className="h-4 w-4 mr-2" />
+                      Lihat Detail Program
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
