@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Import data
-import { classesData } from "@/data/data-teacher/classes/classes-data";
+import { teacherClasses } from "@/data/data-teacher/classes-data";
 import { scheduleData } from "@/data/data-teacher/schedule/schedule-data";
 import { studentsData } from "@/data/data-teacher/students-data";
 
@@ -68,10 +68,11 @@ export default function TeacherOverview() {
   }
 
   // Calculate various stats
-  const totalStudents = classesData.reduce((sum, cls) => sum + cls.studentCount, 0);
+  const allSessions = teacherClasses.flatMap(schedule => schedule.sessions);
+  const totalStudents = allSessions.reduce((sum, session) => sum + session.studentCount, 0);
   const pendingAssignments = 0; // Assignments are now managed in class details
   const averageProgress = Math.round(
-    classesData.reduce((sum, cls) => sum + cls.progress, 0) / classesData.length
+    allSessions.reduce((sum, session) => sum + session.completionProgress, 0) / allSessions.length
   );
   
   // Get high-performing students (just a sample)
@@ -119,7 +120,7 @@ export default function TeacherOverview() {
             </div>
           </CardHeader>
           <CardContent className="">
-            <div className="text-2xl font-bold mb-5">{classesData.length}</div>
+            <div className="text-2xl font-bold mb-5">{allSessions.length}</div>
             <Link 
               href="/dashboard-teacher/classes"
               className="text-xs text-[#C40503] flex items-center hover:underline"
@@ -293,7 +294,7 @@ export default function TeacherOverview() {
                   <BookOpen className="mr-3 h-5 w-5 text-[#DAA625]" /> 
                   Kelola Kelas
                 </CardTitle>
-                <Badge className="bg-[#DAA625]">{classesData.length} Kelas</Badge>
+                <Badge className="bg-[#DAA625]">{allSessions.length} Kelas</Badge>
               </div>
               <CardDescription>
                 Kelola materi, tugas, dan nilai siswa di setiap kelas

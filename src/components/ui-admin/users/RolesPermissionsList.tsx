@@ -90,7 +90,7 @@ export default function RolesPermissionsList() {
       {
         id: "4",
         name: "Student",
-        description: "Access to courses, assignments and personal grades",
+        description: "Access to programs, assignments and personal grades",
         userCount: 350,
         permissions: [2, 4],
         isDefault: true,
@@ -121,16 +121,16 @@ export default function RolesPermissionsList() {
       },
       {
         id: 4,
-        name: "View Courses",
-        code: "course:view",
-        description: "View available courses",
+        name: "View Programs",
+        code: "program:view",
+        description: "View available programs",
         category: "Education",
       },
       {
         id: 5,
-        name: "Manage Courses",
-        code: "course:manage",
-        description: "Create, update, and delete courses",
+        name: "Manage Programs",
+        code: "program:manage",
+        description: "Create, update, and delete programs",
         category: "Education",
       },
       {

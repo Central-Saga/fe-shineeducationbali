@@ -40,7 +40,7 @@ export interface Subject {
   category?: string;
 }
 
-export interface Course {
+export interface Program {
   id: string;
   name: string;
   description: string;
@@ -65,7 +65,7 @@ export interface Program {
   materials: Material[];
   instructor: string;
   instructorAvatar: string;
-  courses: Course[];
+  programs: Program[];
   level: string;
 }
 

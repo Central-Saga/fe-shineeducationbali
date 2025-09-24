@@ -148,10 +148,10 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
     subject: string; 
     level: string;
     programId: string;
+    schedule: string;
     date: string; 
     timeStart: string; 
     timeEnd: string; 
-    location: string; 
     status: string; 
     studentCount: number; 
     completionProgress: number; 
@@ -169,10 +169,10 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
       subject: classData.subject,
       level: classData.level,
       programId: classData.programId || classData.id,
+      schedule: classData.schedule,
       date: "2024-01-15",
       timeStart: "09:00",
       timeEnd: "11:00",
-      location: classData.room || "Online",
       status: "completed" as const,
       studentCount: classData.studentCount,
       completionProgress: 100,
@@ -200,10 +200,10 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
       subject: classData.subject,
       level: classData.level,
       programId: classData.programId || classData.id,
+      schedule: classData.schedule,
       date: "2024-01-22",
       timeStart: "09:00",
       timeEnd: "11:00",
-      location: classData.room || "Online",
       status: "ongoing" as const,
       studentCount: classData.studentCount,
       completionProgress: 60,
@@ -231,10 +231,10 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
       subject: classData.subject,
       level: classData.level,
       programId: classData.programId || classData.id,
+      schedule: classData.schedule,
       date: "2024-01-29",
       timeStart: "09:00",
       timeEnd: "11:00",
-      location: classData.room || "Online",
       status: "upcoming",
       studentCount: classData.studentCount,
       completionProgress: 0,
@@ -252,10 +252,10 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
     subject: string; 
     level: string;
     programId: string;
+    schedule: string;
     date: string; 
     timeStart: string; 
     timeEnd: string; 
-    location: string; 
     status: string; 
     studentCount: number; 
     completionProgress: number; 
@@ -328,7 +328,7 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[#C40001]/10 rounded-lg">
                     <Calendar className="h-5 w-5 text-[#C40001]" />
@@ -336,6 +336,15 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
                   <div>
                     <p className="text-sm text-gray-500">Jadwal</p>
                     <p className="font-medium">{classData.schedule}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-[#C40001]/10 rounded-lg">
+                    <Clock className="h-5 w-5 text-[#C40001]" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Waktu</p>
+                    <p className="font-medium">{classData.time}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -582,7 +591,7 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
           subject: selectedSession.subject,
           level: selectedSession.level,
           programId: selectedSession.programId,
-          schedule: `${selectedSession.timeStart} - ${selectedSession.timeEnd}`
+          schedule: selectedSession.schedule
         } : { id: '', name: '', subject: '', level: '', programId: '', schedule: '' }}
         studentData={classData.students ? {
           classId: classData.id,

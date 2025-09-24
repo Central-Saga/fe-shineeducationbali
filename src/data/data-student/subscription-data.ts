@@ -5,7 +5,7 @@ export interface Subscription {
   billingCycle: 'monthly' | 'quarterly' | 'yearly';
   features: string[];
   isPopular?: boolean;
-  courseAccess: number; // Number of courses accessible
+  programAccess: number; // Number of programs accessible
   liveLessons: number; // Hours of live lessons per month
   certificateIncluded: boolean;
   supportLevel: 'basic' | 'priority' | 'dedicated';
@@ -43,7 +43,7 @@ export const subscriptionPlans: Subscription[] = [
       'Forum Diskusi',
       'Dukungan Email'
     ],
-    courseAccess: 3,
+    programAccess: 3,
     liveLessons: 5,
     certificateIncluded: false,
     supportLevel: 'basic',
@@ -64,7 +64,7 @@ export const subscriptionPlans: Subscription[] = [
       'Konsultasi dengan Guru'
     ],
     isPopular: true,
-    courseAccess: 10,
+    programAccess: 10,
     liveLessons: 15,
     certificateIncluded: true,
     supportLevel: 'priority',
@@ -86,7 +86,7 @@ export const subscriptionPlans: Subscription[] = [
       'Akses ke Materi Eksklusif',
       'Sesi Belajar Kelompok Kecil'
     ],
-    courseAccess: 999, // Unlimited
+    programAccess: 999, // Unlimited
     liveLessons: 999, // Unlimited
     certificateIncluded: true,
     supportLevel: 'dedicated',

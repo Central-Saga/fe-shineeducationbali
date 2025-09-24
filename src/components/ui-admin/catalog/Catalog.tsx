@@ -26,7 +26,7 @@ import {
   Filter,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import type { Program } from "@/types/program";
+import { catalogProgramsData, CatalogProgram } from "@/data/data-admin/catalog-data/catalog-data";
 // import {
 //   DropdownMenu,
 //   DropdownMenuContent,
@@ -36,87 +36,37 @@ import type { Program } from "@/types/program";
 import { Header } from "@/components/ui-admin/layout";
 
 export default function ProgramList() {
-  const [programs, setPrograms] = useState<Program[]>([]);
+  const [programs, setPrograms] = useState<CatalogProgram[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
   useEffect(() => {
-    // Dummy data, replace with API call
-    setPrograms([
-      {
-        id: "1",
-        title: "English Learning Program",
-        description: "Program bahasa Inggris untuk semua jenjang.",
-        level: "UMUM",
-        image: "/picprogram/bahasainggris.png",
-        status: "ACTIVE",
-        courses: [
-          "Basic English",
-          "Intermediate English",
-          "Advanced English",
-        ],
-        start_date: "2025-01-01",
-        end_date: "2025-12-31",
-        created_at: "2024-07-01",
-        updated_at: "2024-07-02",
-        student_count: 120,
-        teacher_count: 5,
-      },
-      {
-        id: "2",
-        title: "Mathematics Excellence Program",
-        description: "Program Matematika untuk SD-SMP.",
-        level: "SD/SMP",
-        image: "/picprogram/matematika.png",
-        status: "ACTIVE",
-        courses: ["Matematika Dasar", "Matematika Lanjutan"],
-        start_date: "2025-01-01",
-        end_date: "2025-12-31",
-        created_at: "2024-07-01",
-        updated_at: "2024-07-02",
-        student_count: 80,
-        teacher_count: 3,
-      },
-      {
-        id: "3",
-        title: "Science Discovery Program",
-        description: "Program sains untuk anak-anak.",
-        level: "SD",
-        image: "/picprogram/science.png",
-        status: "INACTIVE",
-        courses: ["Science Basic"],
-        start_date: "2025-01-01",
-        end_date: "2025-12-31",
-        created_at: "2024-07-01",
-        updated_at: "2024-07-02",
-        student_count: 30,
-        teacher_count: 2,
-      },
-    ]);
+    // Load data from catalog-data.tsx
+    setPrograms(catalogProgramsData);
     setLoading(false);
   }, []);
 
 
 
   // Add handlers
-  const handleDetail = (program: Program) => {
+  const handleDetail = (program: CatalogProgram) => {
     console.log("View details:", program);
     // TODO: Implement detail view
   };
 
-  const handleEdit = (program: Program) => {
+  const handleEdit = (program: CatalogProgram) => {
     console.log("Edit program:", program);
     // TODO: Implement edit functionality
   };
 
-  const handleDelete = (program: Program) => {
+  const handleDelete = (program: CatalogProgram) => {
     console.log("Delete program:", program);
     // TODO: Implement delete functionality
   };
 
   // Filter options by status
-  const filterPrograms = (programs: Program[]) => {
+  const filterPrograms = (programs: CatalogProgram[]) => {
     if (statusFilter === 'all') return programs;
     return programs.filter(p => p.status === statusFilter);
   };
@@ -335,8 +285,8 @@ export default function ProgramList() {
                     {/* Statistics with improved layout */}
                     <div className="grid grid-cols-3 gap-4 mb-4">
                       <div className="text-center">
-                        <p className="text-lg font-semibold text-[#C40503]">{p.courses.length}</p>
-                        <p className="text-xs text-gray-500">Kursus</p>
+                        <p className="text-lg font-semibold text-[#C40503]">{p.programs.length}</p>
+                        <p className="text-xs text-gray-500">Program</p>
                       </div>
                       <div className="text-center border-x border-gray-100">
                         <p className="text-lg font-semibold text-[#DAA625]">{p.student_count}</p>
@@ -365,16 +315,16 @@ export default function ProgramList() {
                         </Badge>
                       </div>
 
-                      {/* Course badges */}
+                      {/* Program badges */}
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {p.courses.slice(0, 3).map((course, i) => (
+                        {p.programs.slice(0, 3).map((program: string, i: number) => (
                           <Badge key={i} variant="secondary" className="bg-amber-50 text-amber-700 hover:bg-amber-100 transition-colors">
-                            {course}
+                            {program}
                           </Badge>
                         ))}
-                        {p.courses.length > 3 && (
+                        {p.programs.length > 3 && (
                           <Badge variant="secondary" className="bg-gray-100 text-gray-600">
-                            +{p.courses.length - 3} lainnya
+                            +{p.programs.length - 3} lainnya
                           </Badge>
                         )}
                       </div>

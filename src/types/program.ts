@@ -5,7 +5,7 @@ export interface Program {
   level: string; // e.g. "SD", "SMP", "SMA", "UMUM"
   image?: string;
   status: "ACTIVE" | "INACTIVE";
-  courses: string[]; // course IDs or names
+  programs: string[]; // program IDs or names
   start_date: string;
   end_date: string;
   created_at: string;

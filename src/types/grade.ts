@@ -54,7 +54,7 @@ export interface StudentDetail {
     phone: string;
     address: string;
   };
-  courses: {
+  programs: {
     current: Array<{
       name: string;
       progress: number;

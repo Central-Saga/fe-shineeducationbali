@@ -11,7 +11,7 @@ export const studentsData = [
       name: "Mr. Robert Johnson",
       phone: "+62812xxxx3456",
     },
-    courses: [
+    programs: [
       {
         id: "CRS001",
         name: "Mathematics Grade 10",
@@ -33,7 +33,7 @@ export const studentsData = [
       name: "Mrs. Jane Smith",
       phone: "+62812xxxx7890",
     },
-    courses: [
+    programs: [
       {
         id: "CRS001",
         name: "Mathematics Grade 10",
@@ -55,7 +55,7 @@ export const studentsData = [
       name: "Mr. David Brown",
       phone: "+62812xxxx1234",
     },
-    courses: [
+    programs: [
       {
         id: "CRS002",
         name: "English Basic",

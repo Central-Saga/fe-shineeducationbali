@@ -20,7 +20,7 @@ export interface StudentPackage {
   id: string;
   name: string;
   type: "regular" | "private";
-  courses: {
+  programs: {
     id: string;
     name: string;
     level?: EducationLevel;

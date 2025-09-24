@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { usePermission } from "@/hooks/use-permission";
 import { Student } from "@/types/student";
-import { CourseAssignmentDialog } from "./course-assignment-dialog";
+import { ProgramAssignmentDialog } from "./program-assignment-dialog";
 
 interface EnrollmentTableProps {
   students: Student[];
@@ -40,9 +40,9 @@ export function EnrollmentTable({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Pendaftaran Paket Kursus</CardTitle>
+        <CardTitle>Pendaftaran Paket Program</CardTitle>
         <CardDescription>
-          Kelola pendaftaran siswa ke paket kursus yang tersedia
+          Kelola pendaftaran siswa ke paket program yang tersedia
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -60,7 +60,7 @@ export function EnrollmentTable({
           onRowSelection={setSelectedRows}
         />
 
-        <CourseAssignmentDialog
+        <ProgramAssignmentDialog
           open={showEnrollmentDialog}
           onOpenChange={setShowEnrollmentDialog}
           selectedStudents={selectedRows}

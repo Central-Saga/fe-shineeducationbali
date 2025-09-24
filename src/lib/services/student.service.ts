@@ -19,7 +19,7 @@ class StudentService {
           id: "pkg1",
           name: "Paket Reguler SMP",
           type: "regular",
-          courses: [
+          programs: [
             {
               id: "c1",
               name: "Matematika",
@@ -77,7 +77,7 @@ class StudentService {
           id: "pkg2",
           name: "Paket Premium SD",
           type: "private",
-          courses: [
+          programs: [
             {
               id: "c4",
               name: "Matematika",

@@ -279,7 +279,7 @@ export function AttendanceReportsManagement() {
     <Header
       header={{
         title: "Attendance Reports Management",
-        description: "Comprehensive attendance reports for students and teachers in teaching courses",
+        description: "Comprehensive attendance reports for students and teachers in teaching programs",
         actions: [
           {
             label: "Export Report",

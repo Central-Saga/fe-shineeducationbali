@@ -66,14 +66,14 @@ export const sidebarAdminNavigation: MenuItem[] = [
     icon: School,
     submenu: [
       {
-        name: "Program Catalog",
-        href: "/dashboard/program",
+        name: "Catalog",
+        href: "/dashboard/catalog",
         description: "Manage learning program catalog",
       },
       {
-        name: "Course List",
-        href: "/dashboard/courses",
-        description: "Manage available courses",
+        name: "Program List",
+        href: "/dashboard/program",
+        description: "Manage available programs",
       },
       {
         name: "Class Management",

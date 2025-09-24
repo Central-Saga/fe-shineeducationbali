@@ -51,7 +51,7 @@ export const certificateCategories: CertificateCategory[] = [
   {
     id: "CAT003",
     name: "Professional Training",
-    description: "Certificate for professional development courses",
+    description: "Certificate for professional development programs",
     defaultTemplate: "3",
     validityPeriod: 24,
     metadata: {

@@ -12,7 +12,7 @@ export default function ClassDetailsPage() {
   const allSessions = teacherClasses.flatMap(schedule => schedule.sessions);
   const classData = allSessions.find(session => session.id === classId);
   
-  // If class not found, show error or redirect
+  // If class not found, show error
   if (!classData) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -31,10 +31,10 @@ export default function ClassDetailsPage() {
     subject: classData.subject,
     level: classData.level,
     programId: classData.programId,
-    schedule: `${classData.timeStart} - ${classData.timeEnd}`,
+    schedule: classData.schedule,
     time: `${classData.timeStart} - ${classData.timeEnd}`,
-    room: classData.location,
-    teacher: "Guru Mata Pelajaran", // Default value
+    room: "Online",
+    teacher: "Guru Mata Pelajaran",
     studentCount: classData.studentCount,
     capacity: classData.capacity,
     progress: classData.completionProgress,
@@ -53,7 +53,7 @@ export default function ClassDetailsPage() {
       { id: "S006", name: "Fitri Handayani", attendance: "88%", grade: "A-" },
       { id: "S007", name: "Gunawan", attendance: "92%", grade: "A" },
       { id: "S008", name: "Hana Putri", attendance: "87%", grade: "B+" }
-    ].slice(0, classData.studentCount), // Limit to actual student count
+    ].slice(0, classData.studentCount),
     assignments: classData.assignments?.map(assignment => ({
       id: assignment.id,
       title: assignment.title,
@@ -64,7 +64,7 @@ export default function ClassDetailsPage() {
       id: typeof material === 'string' ? `M${index + 1}` : material.id || `M${index + 1}`,
       title: typeof material === 'string' ? material : material.title,
       type: typeof material === 'string' ? 'PDF' : material.type || 'PDF',
-      uploadedDate: new Date().toISOString().split('T')[0] // Current date as placeholder
+      uploadedDate: new Date().toISOString().split('T')[0]
     }))
   };
   

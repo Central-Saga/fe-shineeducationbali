@@ -30,7 +30,7 @@ export default function AttendanceSettingsPage() {
     <Header
       header={{
         title: "Attendance Settings",
-        description: "Configure attendance system for teaching courses",
+        description: "Configure attendance system for teaching programs",
         breadcrumbs: [
           { label: "Dashboard", href: "/dashboard" },
           { label: "Attendance", href: "/dashboard/attendance" },

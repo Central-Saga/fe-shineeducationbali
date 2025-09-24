@@ -30,10 +30,10 @@ export default function DashboardPage() {
       trend: "up",
     },
     {
-      name: "Total Courses",
+      name: "Total Programs",
       value: "15",
       icon: GraduationCap,
-      description: "3 new courses",
+      description: "3 new programs",
       trend: "up",
     },
     {
@@ -203,9 +203,9 @@ export default function DashboardPage() {
               <div>
                 <CardTitle className="flex items-center gap-2 text-[#DAA625]">
                   <BookOpen className="h-5 w-5" />
-                  Popular Courses
+                  Popular Programs
                 </CardTitle>
-                <CardDescription className="mt-1">5 courses with most participants</CardDescription>
+                <CardDescription className="mt-1">5 programs with most participants</CardDescription>
               </div>
               <div className="bg-white border border-amber-100 rounded-full px-3 py-1 text-xs font-medium text-[#DAA625] shadow-sm">
                 View Details

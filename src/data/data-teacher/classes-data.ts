@@ -11,18 +11,14 @@ export interface TeacherClassSession {
   subject: string; // Kategori program (contoh: "Matematika", "Bahasa Inggris", "Komputer")
   level: string; // Jenjang pendidikan (SD, SMP, SMA/SMK)
   programId: string; // ID program untuk referensi
-  date: string;
+  schedule: string; // Jadwal hari (contoh: "Senin, Rabu, Jumat")
   timeStart: string;
   timeEnd: string;
-  location: string;
   description: string;
   studentCount: number; // Jumlah siswa yang terdaftar
   capacity: number; // Kapasitas maksimal kelas
-  completionProgress: number; // Progress pembelajaran (untuk keperluan lain)
+  completionProgress: number; // Progress pembelajaran
   materials: (string | ClassMaterial)[];
-  meetingLink?: string;
-  recordingUrl?: string;
-  scheduleId?: string; // ID untuk menghubungkan dengan jadwal
   assignments?: {
     id: string;
     title: string;
@@ -59,10 +55,9 @@ export const teacherClasses: TeacherClassSchedule[] = [
         subject: 'Matematika',
         level: 'SMA/SMK',
         programId: 'prog-sma-001',
-        date: '2025-07-15',
+        schedule: 'Senin, Rabu, Jumat',
         timeStart: '08:00',
         timeEnd: '09:30',
-        location: 'Ruang Belajar 101',
         description: 'Program matematika lanjutan untuk siswa SMA/SMK. Kelas ini akan fokus pada pemahaman konsep kalkulus dan aljabar linear.',
         studentCount: 25,
         capacity: 30,
@@ -72,7 +67,6 @@ export const teacherClasses: TeacherClassSchedule[] = [
           'Presentasi Aljabar Linear',
           'Latihan Soal Matematika SMA'
         ],
-        meetingLink: 'https://zoom.us/j/123456789',
         status: 'upcoming',
         assignments: [
           {
@@ -97,10 +91,9 @@ export const teacherClasses: TeacherClassSchedule[] = [
         subject: 'Komputer',
         level: 'SMA/SMK',
         programId: 'prog-smk-001',
-        date: '2025-07-15',
+        schedule: 'Selasa, Kamis',
         timeStart: '10:00',
         timeEnd: '11:30',
-        location: 'Lab Komputer 1',
         description: 'Program komputer untuk siswa SMK jurusan TI. Siswa akan belajar dasar pemrograman dengan Python dan algoritma.',
         studentCount: 20,
         capacity: 25,
@@ -110,7 +103,6 @@ export const teacherClasses: TeacherClassSchedule[] = [
           'Contoh Kode Program',
           'Latihan Algoritma Dasar'
         ],
-        meetingLink: 'https://zoom.us/j/987654321',
         status: 'upcoming',
         assignments: [
           {
@@ -142,10 +134,9 @@ export const teacherClasses: TeacherClassSchedule[] = [
         subject: 'Bahasa Inggris',
         level: 'SMA/SMK',
         programId: 'prog-sma-002',
-        date: '2025-07-16',
+        schedule: 'Senin, Rabu',
         timeStart: '08:00',
         timeEnd: '09:30',
-        location: 'Ruang Bahasa 2',
         description: 'Program bahasa Inggris lanjutan untuk siswa SMA/SMK. Fokus pada English for Academic Purposes dan Academic Writing.',
         studentCount: 22,
         capacity: 25,
@@ -155,7 +146,6 @@ export const teacherClasses: TeacherClassSchedule[] = [
           'Kumpulan Essay Samples',
           'Panduan Grammar Lanjutan'
         ],
-        meetingLink: 'https://zoom.us/j/111222333',
         status: 'upcoming',
         assignments: [
           {
@@ -187,10 +177,9 @@ export const teacherClasses: TeacherClassSchedule[] = [
         subject: 'Matematika',
         level: 'SMP',
         programId: 'prog-smp-001',
-        date: '2025-07-10',
+        schedule: 'Selasa, Kamis',
         timeStart: '13:00',
         timeEnd: '14:30',
-        location: 'Lab Matematika',
         description: 'Program matematika untuk siswa SMP. Kelas ini telah membahas konsep aljabar dasar dan persamaan linear.',
         studentCount: 18,
         capacity: 20,
@@ -200,7 +189,6 @@ export const teacherClasses: TeacherClassSchedule[] = [
           'Laporan Praktikum Matematika',
           'Latihan Soal Persamaan Linear'
         ],
-        recordingUrl: 'https://shineeducation.com/recordings/matematika-smp-10072025',
         status: 'completed',
         assignments: [
           {
@@ -232,10 +220,9 @@ export const teacherClasses: TeacherClassSchedule[] = [
         subject: 'IPA',
         level: 'SMP',
         programId: 'prog-smp-002',
-        date: '2025-07-11',
+        schedule: 'Senin, Rabu, Jumat',
         timeStart: '09:00',
         timeEnd: '11:00',
-        location: 'Lab IPA',
         description: 'Program IPA untuk siswa SMP. Kelas sedang berlangsung dengan pembahasan tentang fisika dan kimia dasar.',
         studentCount: 20,
         capacity: 25,
@@ -245,7 +232,6 @@ export const teacherClasses: TeacherClassSchedule[] = [
           'Modul Kimia Dasar',
           'Panduan Praktikum IPA'
         ],
-        meetingLink: 'https://zoom.us/j/444555666',
         status: 'ongoing',
         assignments: [
           {

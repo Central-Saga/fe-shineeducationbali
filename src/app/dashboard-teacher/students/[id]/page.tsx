@@ -76,7 +76,7 @@ export default function StudentDetailPage() {
     totalClasses: number;
     attendanceRate: number;
     averageGrade: number;
-    courses: string[];
+    programs: string[];
     class: string;
     grade: string;
   } | null>(null);
@@ -99,7 +99,7 @@ export default function StudentDetailPage() {
           totalClasses: 45, // Default value
           attendanceRate: foundStudent.attendance,
           averageGrade: 85, // Default value
-          courses: ["Mathematics", "English", "Coding"], // Default value
+          programs: ["Mathematics", "English", "Coding"], // Default value
           class: foundStudent.class || "Grade 5A", // Add class property
           grade: foundStudent.grade || "A" // Add grade property
         });

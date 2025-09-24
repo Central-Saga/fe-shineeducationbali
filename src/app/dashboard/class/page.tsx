@@ -1,7 +1,7 @@
 
 "use client";
 
-import { ClassList } from "@/components/ui-admin/classes/ClassList";
+import { ClassList } from "@/components/ui-admin/classes/ClassesManagement";
 // import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
 // import { Search, PlusCircle } from "lucide-react";

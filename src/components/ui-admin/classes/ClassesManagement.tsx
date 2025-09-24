@@ -13,20 +13,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Header, TableLayout } from "@/components/ui-admin/layout";
+import { adminClasses, AdminClass } from "@/data/data-admin/classes-data";
 
-// Dummy type, replace with your actual type
-interface Class {
-  id: string;
-  class_name: string;
-  schedule: string;
-  capacity: number;
-  current_enrollment: number;
-  teacher_name: string;
-  course_name: string;
-  program_name: string;
-  status: "ACTIVE" | "INACTIVE" | "COMPLETED" | "DRAFT";
-  room?: string;
-}
+// Use the AdminClass interface from data file
+type Class = AdminClass;
 
 export function ClassList() {
   const [classes, setClasses] = useState<Class[]>([]);
@@ -37,34 +27,8 @@ export function ClassList() {
   const [statusFilter, setStatusFilter] = useState("all");
 
   useEffect(() => {
-    // Dummy data, replace with API call
-    const dummyClasses: Class[] = [
-      {
-        id: "1",
-        class_name: "English Beginner A1",
-        schedule: "Mon, Wed, Fri - 09:00-11:00",
-        capacity: 20,
-        current_enrollment: 15,
-        teacher_name: "John Smith",
-        course_name: "Basic English",
-        program_name: "English Learning Program",
-        status: "ACTIVE",
-        room: "A1",
-      },
-      {
-        id: "2",
-        class_name: "Mathematics Advanced",
-        schedule: "Tue, Thu - 14:00-16:00",
-        capacity: 15,
-        current_enrollment: 12,
-        teacher_name: "Sarah Johnson",
-        course_name: "Advanced Mathematics",
-        program_name: "Mathematics Excellence Program",
-        status: "ACTIVE",
-        room: "B2",
-      },
-    ];
-    setClasses(dummyClasses);
+    // Use the comprehensive admin classes data
+    setClasses(adminClasses);
     setLoading(false);
   }, []);
 
@@ -90,11 +54,9 @@ export function ClassList() {
   // Calculate statistics
   const totalClasses = classes.length;
   const activeClasses = classes.filter(cls => cls.status === "ACTIVE").length;
-  const newClasses = classes.filter(() => {
-    // Mock: classes created in last 30 days
-    return Math.random() > 0.7; // Random for demo
-  }).length;
-  const pendingClasses = classes.filter(cls => cls.status === "DRAFT").length;
+  const completedClasses = classes.filter(cls => cls.status === "COMPLETED").length;
+  const draftClasses = classes.filter(cls => cls.status === "DRAFT").length;
+  const totalEnrollment = classes.reduce((sum, cls) => sum + cls.current_enrollment, 0);
 
   // Define columns for DataTable
   const columns: ColumnDef<Class>[] = [
@@ -115,16 +77,6 @@ export function ClassList() {
             <Link href={`/dashboard/class/${classData.id}`} className="font-medium text-[#C40503] hover:underline">
               {classData.class_name}
             </Link>
-            {classData.room && (
-              <div className="text-sm text-gray-500">
-                <span className="inline-flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  Ruang {classData.room}
-                </span>
-              </div>
-            )}
           </div>
         );
       },
@@ -138,6 +90,14 @@ export function ClassList() {
           <div>
             <div className="font-medium">{classData.course_name}</div>
             <div className="text-xs text-[#DAA625] font-medium">{classData.program_name}</div>
+            <div className="flex items-center gap-1 mt-1">
+              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">
+                {classData.subject}
+              </span>
+              <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full">
+                {classData.level}
+              </span>
+            </div>
           </div>
         );
       },
@@ -161,11 +121,16 @@ export function ClassList() {
       accessorKey: "schedule",
       header: () => <div>Jadwal</div>,
       cell: ({ row }) => {
-        const schedule = row.getValue("schedule") as string;
+        const classData = row.original;
         return (
-          <div className="text-sm flex items-center gap-1">
-            <Calendar className="h-3.5 w-3.5 text-gray-400 mr-1" />
-            {schedule}
+          <div className="text-sm">
+            <div className="flex items-center gap-1 mb-1">
+              <Calendar className="h-3.5 w-3.5 text-gray-400" />
+              <span className="font-medium">{classData.schedule}</span>
+            </div>
+            <div className="text-xs text-gray-500">
+              {classData.time_start} - {classData.time_end}
+            </div>
           </div>
         );
       },
@@ -336,17 +301,17 @@ export function ClassList() {
             bgColor: "bg-amber-50",
           },
           {
-            title: "New Classes (30d)",
-            value: newClasses,
-            description: `${Math.round((newClasses / totalClasses) * 100)}% growth in 30 days`,
-            icon: <UserPlus className="h-5 w-5 text-blue-600" />,
-            color: "bg-blue-600",
-            bgColor: "bg-blue-50",
+            title: "Completed Classes",
+            value: completedClasses,
+            description: `${Math.round((completedClasses / totalClasses) * 100)}% classes completed`,
+            icon: <UserPlus className="h-5 w-5 text-green-600" />,
+            color: "bg-green-600",
+            bgColor: "bg-green-50",
           },
           {
-            title: "Pending Classes",
-            value: pendingClasses,
-            description: "Classes waiting for approval",
+            title: "Total Enrollment",
+            value: totalEnrollment,
+            description: "Total students enrolled",
             icon: <Clock className="h-5 w-5 text-purple-600" />,
             color: "bg-purple-600",
             bgColor: "bg-purple-50",

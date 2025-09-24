@@ -41,12 +41,8 @@ export function ClassCard({ session, isExpanded = false }: ClassCardProps) {
     }
   };
 
-  const formattedDate = new Date(session.date).toLocaleDateString('id-ID', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
+  // Use schedule instead of date since date field was removed
+  const formattedSchedule = session.schedule;
 
   return (
     <Card className={`overflow-hidden transition-all duration-300 hover:shadow-md ${isExpanded ? 'border-[#C40503]' : ''}`}>
@@ -73,7 +69,7 @@ export function ClassCard({ session, isExpanded = false }: ClassCardProps) {
           <div className="flex flex-col gap-2 mb-3">
             <div className="flex items-center text-sm text-gray-600">
               <Clock className="h-4 w-4 mr-2 text-[#DAA625]" />
-              <span>{formattedDate}, {session.timeStart} - {session.timeEnd}</span>
+              <span>{formattedSchedule}, {session.timeStart} - {session.timeEnd}</span>
             </div>
             
             <div className="flex items-center text-sm text-gray-600">

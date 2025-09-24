@@ -140,7 +140,7 @@ export default function StudentForm({ studentId, isEdit = false }: StudentFormPr
         id: `pkg-${index}`,
         name: `Paket ${pkgId}`,
         type: "regular" as const,
-        courses: [],
+        programs: [],
         duration: 6,
         startDate: new Date().toISOString(),
         endDate: new Date(Date.now() + 6 * 30 * 24 * 60 * 60 * 1000).toISOString(),
