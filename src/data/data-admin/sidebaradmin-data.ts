@@ -71,7 +71,7 @@ export const sidebarAdminNavigation: MenuItem[] = [
         description: "Manage learning program catalog",
       },
       {
-        name: "Program List",
+        name: "Program Management",
         href: "/dashboard/program",
         description: "Manage available programs",
       },
