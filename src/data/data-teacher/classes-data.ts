@@ -7,15 +7,18 @@ export interface ClassMaterial {
 
 export interface TeacherClassSession {
   id: string;
-  title: string;
-  subject: string;
+  title: string; // Nama program (contoh: "Matematika SMA", "Bahasa Inggris SMA")
+  subject: string; // Kategori program (contoh: "Matematika", "Bahasa Inggris", "Komputer")
+  level: string; // Jenjang pendidikan (SD, SMP, SMA/SMK)
+  programId: string; // ID program untuk referensi
   date: string;
   timeStart: string;
   timeEnd: string;
   location: string;
   description: string;
-  studentCount: number;
-  completionProgress: number;
+  studentCount: number; // Jumlah siswa yang terdaftar
+  capacity: number; // Kapasitas maksimal kelas
+  completionProgress: number; // Progress pembelajaran (untuk keperluan lain)
   materials: (string | ClassMaterial)[];
   meetingLink?: string;
   recordingUrl?: string;
@@ -52,26 +55,29 @@ export const teacherClasses: TeacherClassSchedule[] = [
     sessions: [
       {
         id: 'c1',
-        title: 'Aljabar Linear',
+        title: 'Matematika SMA',
         subject: 'Matematika',
+        level: 'SMA/SMK',
+        programId: 'prog-sma-001',
         date: '2025-07-15',
         timeStart: '08:00',
         timeEnd: '09:30',
         location: 'Ruang Belajar 101',
-        description: 'Pengenalan konsep aljabar linear dan aplikasinya. Kelas ini akan fokus pada pemahaman dasar tentang matriks, determinan, dan sistem persamaan linear.',
+        description: 'Program matematika lanjutan untuk siswa SMA/SMK. Kelas ini akan fokus pada pemahaman konsep kalkulus dan aljabar linear.',
         studentCount: 25,
+        capacity: 30,
         completionProgress: 35,
         materials: [
-          'Modul Aljabar Linear',
-          'Presentasi Matriks dan Operasinya',
-          'Latihan Soal Aljabar Linear'
+          'Modul Kalkulus Dasar',
+          'Presentasi Aljabar Linear',
+          'Latihan Soal Matematika SMA'
         ],
         meetingLink: 'https://zoom.us/j/123456789',
         status: 'upcoming',
         assignments: [
           {
             id: 'a1',
-            title: 'Tugas Aljabar Linear Pertemuan 1',
+            title: 'Tugas Kalkulus Pertemuan 1',
             dueDate: '2025-07-18',
             status: 'pending',
             submissionCount: 0,
@@ -87,19 +93,22 @@ export const teacherClasses: TeacherClassSchedule[] = [
       },
       {
         id: 'c2',
-        title: 'Dasar Pemrograman',
-        subject: 'Informatika',
+        title: 'Komputer SMK',
+        subject: 'Komputer',
+        level: 'SMA/SMK',
+        programId: 'prog-smk-001',
         date: '2025-07-15',
         timeStart: '10:00',
         timeEnd: '11:30',
         location: 'Lab Komputer 1',
-        description: 'Pengenalan dasar pemrograman dengan Python. Siswa akan belajar sintaks dasar, struktur data, dan algoritma sederhana.',
+        description: 'Program komputer untuk siswa SMK jurusan TI. Siswa akan belajar dasar pemrograman dengan Python dan algoritma.',
         studentCount: 20,
+        capacity: 25,
         completionProgress: 40,
         materials: [
           'Modul Pengantar Python',
           'Contoh Kode Program',
-          'Latihan Pemrograman Dasar'
+          'Latihan Algoritma Dasar'
         ],
         meetingLink: 'https://zoom.us/j/987654321',
         status: 'upcoming',
@@ -129,26 +138,29 @@ export const teacherClasses: TeacherClassSchedule[] = [
     sessions: [
       {
         id: 'c3',
-        title: 'Sastra Inggris',
+        title: 'Bahasa Inggris SMA',
         subject: 'Bahasa Inggris',
+        level: 'SMA/SMK',
+        programId: 'prog-sma-002',
         date: '2025-07-16',
         timeStart: '08:00',
         timeEnd: '09:30',
         location: 'Ruang Bahasa 2',
-        description: 'Membahas karya-karya sastra klasik bahasa Inggris. Siswa akan menganalisis puisi dan prosa dari berbagai periode.',
+        description: 'Program bahasa Inggris lanjutan untuk siswa SMA/SMK. Fokus pada English for Academic Purposes dan Academic Writing.',
         studentCount: 22,
+        capacity: 25,
         completionProgress: 50,
         materials: [
-          'Kumpulan Puisi Shakespeare',
-          'Analisis Karya Sastra Inggris',
-          'Panduan Menulis Esai Sastra'
+          'Modul Academic Writing',
+          'Kumpulan Essay Samples',
+          'Panduan Grammar Lanjutan'
         ],
         meetingLink: 'https://zoom.us/j/111222333',
         status: 'upcoming',
         assignments: [
           {
             id: 'a3',
-            title: 'Analisis Puisi Shakespeare',
+            title: 'Essay Academic Writing',
             dueDate: '2025-07-20',
             status: 'pending',
             submissionCount: 0,
@@ -171,26 +183,29 @@ export const teacherClasses: TeacherClassSchedule[] = [
     sessions: [
       {
         id: 'c4',
-        title: 'Fisika Dasar',
-        subject: 'Fisika',
+        title: 'Matematika SMP',
+        subject: 'Matematika',
+        level: 'SMP',
+        programId: 'prog-smp-001',
         date: '2025-07-10',
         timeStart: '13:00',
         timeEnd: '14:30',
-        location: 'Lab Fisika',
-        description: 'Kelas ini telah membahas konsep dasar mekanika Newton dan hukum gerak. Siswa telah melakukan eksperimen praktis.',
+        location: 'Lab Matematika',
+        description: 'Program matematika untuk siswa SMP. Kelas ini telah membahas konsep aljabar dasar dan persamaan linear.',
         studentCount: 18,
+        capacity: 20,
         completionProgress: 100,
         materials: [
-          'Modul Mekanika Newton',
-          'Laporan Praktikum Fisika',
-          'Latihan Soal Hukum Gerak'
+          'Modul Aljabar Dasar',
+          'Laporan Praktikum Matematika',
+          'Latihan Soal Persamaan Linear'
         ],
-        recordingUrl: 'https://shineeducation.com/recordings/fisika-dasar-10072025',
+        recordingUrl: 'https://shineeducation.com/recordings/matematika-smp-10072025',
         status: 'completed',
         assignments: [
           {
             id: 'a4',
-            title: 'Laporan Praktikum Mekanika',
+            title: 'Laporan Praktikum Aljabar',
             dueDate: '2025-07-12',
             status: 'completed',
             submissionCount: 18,
@@ -213,26 +228,29 @@ export const teacherClasses: TeacherClassSchedule[] = [
     sessions: [
       {
         id: 'c5',
-        title: 'Kimia Organik',
-        subject: 'Kimia',
+        title: 'IPA SMP',
+        subject: 'IPA',
+        level: 'SMP',
+        programId: 'prog-smp-002',
         date: '2025-07-11',
         timeStart: '09:00',
         timeEnd: '11:00',
-        location: 'Lab Kimia',
-        description: 'Kelas sedang berlangsung saat ini. Pembahasan tentang senyawa hidrokarbon dan reaksi organik.',
+        location: 'Lab IPA',
+        description: 'Program IPA untuk siswa SMP. Kelas sedang berlangsung dengan pembahasan tentang fisika dan kimia dasar.',
         studentCount: 20,
+        capacity: 25,
         completionProgress: 65,
         materials: [
-          'Modul Kimia Organik',
-          'Tabel Periodik Unsur',
-          'Panduan Praktikum Kimia Organik'
+          'Modul Fisika Dasar',
+          'Modul Kimia Dasar',
+          'Panduan Praktikum IPA'
         ],
         meetingLink: 'https://zoom.us/j/444555666',
         status: 'ongoing',
         assignments: [
           {
             id: 'a5',
-            title: 'Kuis Senyawa Hidrokarbon',
+            title: 'Kuis Fisika dan Kimia',
             dueDate: '2025-07-14',
             status: 'ongoing',
             submissionCount: 8,

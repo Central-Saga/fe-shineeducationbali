@@ -55,7 +55,14 @@ export function ClassCard({ session, isExpanded = false }: ClassCardProps) {
           <div className="flex justify-between items-start mb-3">
             <div>
               <h3 className="text-lg font-semibold text-gray-800">{session.title}</h3>
-              <p className="text-sm text-gray-600">{session.subject}</p>
+              <div className="flex items-center gap-2 mt-1">
+                <Badge variant="outline" className="text-blue-600 border-blue-200 text-xs">
+                  {session.subject}
+                </Badge>
+                <Badge variant="outline" className="text-purple-600 border-purple-200 text-xs">
+                  {session.level}
+                </Badge>
+              </div>
             </div>
             <Badge className={getStatusColor(session.status)}>
               {session.status === 'upcoming' ? 'Akan Datang' : 
@@ -71,16 +78,16 @@ export function ClassCard({ session, isExpanded = false }: ClassCardProps) {
             
             <div className="flex items-center text-sm text-gray-600">
               <Users className="h-4 w-4 mr-2 text-[#DAA625]" />
-              <span>{session.studentCount} Siswa</span>
+              <span>{session.studentCount}/{session.capacity} Siswa</span>
             </div>
 
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <BarChart2 className="h-4 w-4 text-[#C40503]" />
-              <span>Progress:</span>
+              <span>Kapasitas:</span>
               <div className="w-full max-w-[150px]">
-                <Progress value={session.completionProgress} className="h-2" />
+                <Progress value={(session.studentCount / session.capacity) * 100} className="h-2" />
               </div>
-              <span className="font-medium">{session.completionProgress}%</span>
+              <span className="font-medium">{Math.round((session.studentCount / session.capacity) * 100)}%</span>
             </div>
           </div>
           

@@ -26,15 +26,17 @@ import { ClassDetailTable, ClassDetailData } from "../layout/TabsNavigationTable
 interface ClassDetailsProps {
   classData: {
     id: string;
-    name: string;
-    subject: string;
-    level?: string;
+    name: string; // Nama program (contoh: "Matematika SMA")
+    subject: string; // Kategori program (contoh: "Matematika")
+    level: string; // Jenjang pendidikan (SD, SMP, SMA/SMK)
+    programId?: string; // ID program untuk referensi
     schedule: string;
     time: string;
     room?: string;
     teacher?: string;
     studentCount: number;
-    progress: number;
+    capacity: number; // Kapasitas maksimal kelas
+    progress: number; // Progress pembelajaran
     status: string;
     description?: string;
     syllabus?: string[];
@@ -144,6 +146,8 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
     id: string; 
     title: string; 
     subject: string; 
+    level: string;
+    programId: string;
     date: string; 
     timeStart: string; 
     timeEnd: string; 
@@ -163,6 +167,8 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
       id: "1",
       title: "Pertemuan 1: Pengenalan Dasar",
       subject: classData.subject,
+      level: classData.level,
+      programId: classData.programId || classData.id,
       date: "2024-01-15",
       timeStart: "09:00",
       timeEnd: "11:00",
@@ -192,6 +198,8 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
       id: "2",
       title: "Pertemuan 2: Praktik Lanjutan",
       subject: classData.subject,
+      level: classData.level,
+      programId: classData.programId || classData.id,
       date: "2024-01-22",
       timeStart: "09:00",
       timeEnd: "11:00",
@@ -221,6 +229,8 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
       id: "3",
       title: "Pertemuan 3: Review dan Evaluasi",
       subject: classData.subject,
+      level: classData.level,
+      programId: classData.programId || classData.id,
       date: "2024-01-29",
       timeStart: "09:00",
       timeEnd: "11:00",
@@ -240,6 +250,8 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
     id: string; 
     title: string; 
     subject: string; 
+    level: string;
+    programId: string;
     date: string; 
     timeStart: string; 
     timeEnd: string; 
@@ -297,44 +309,45 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
               {classData.status === "active" ? "Aktif" : "Tidak Aktif"}
             </Badge>
           </div>
-                  <p className="text-gray-600">{classData.subject} • {classData.level}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    <Badge variant="outline" className="text-blue-600 border-blue-200">
+                      {classData.subject}
+                    </Badge>
+                    <Badge variant="outline" className="text-purple-600 border-purple-200">
+                      {classData.level}
+                    </Badge>
+                  </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-gray-500">Progress Kelas</p>
-                  <p className="text-2xl font-bold text-[#C40001]">{classData.progress}%</p>
+                  <p className="text-sm text-gray-500">Kapasitas Kelas</p>
+                  <p className="text-2xl font-bold text-[#C40001]">{classData.studentCount}/{classData.capacity}</p>
+                  <p className="text-sm text-gray-500">
+                    {Math.round((classData.studentCount / classData.capacity) * 100)}% terisi
+                  </p>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[#C40001]/10 rounded-lg">
                     <Calendar className="h-5 w-5 text-[#C40001]" />
-            </div>
-            <div>
+                  </div>
+                  <div>
                     <p className="text-sm text-gray-500">Jadwal</p>
                     <p className="font-medium">{classData.schedule}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[#C40001]/10 rounded-lg">
-                    <Clock className="h-5 w-5 text-[#C40001]" />
-            </div>
-                <div>
-                    <p className="text-sm text-gray-500">Waktu</p>
-                    <p className="font-medium">{classData.time}</p>
+                    <Users className="h-5 w-5 text-[#C40001]" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Jumlah Siswa</p>
+                    <p className="font-medium">{classData.studentCount}/{classData.capacity} siswa</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#C40001]/10 rounded-lg">
-                    <Users className="h-5 w-5 text-[#C40001]" />
-                </div>
-                <div>
-                    <p className="text-sm text-gray-500">Jumlah Siswa</p>
-                    <p className="font-medium">{classData.studentCount} siswa</p>
               </div>
-            </div>
-          </div>
           
               {classData.description && (
                 <div className="mt-6 p-4 bg-gray-50 rounded-lg">
@@ -567,8 +580,10 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
           id: selectedSession.id,
           name: selectedSession.title,
           subject: selectedSession.subject,
+          level: selectedSession.level,
+          programId: selectedSession.programId,
           schedule: `${selectedSession.timeStart} - ${selectedSession.timeEnd}`
-        } : { id: '', name: '', subject: '', schedule: '' }}
+        } : { id: '', name: '', subject: '', level: '', programId: '', schedule: '' }}
         studentData={classData.students ? {
           classId: classData.id,
           sessionId: selectedSession?.id || classData.id,

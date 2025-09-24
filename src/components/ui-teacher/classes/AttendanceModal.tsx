@@ -20,7 +20,14 @@ type AttendanceStatus = 'present' | 'absent' | 'late' | 'excused' | 'unrecorded'
 interface AttendanceModalProps {
   isOpen: boolean;
   onClose: () => void;
-  classData: { id: string; name: string; subject: string; schedule: string };
+  classData: { 
+    id: string; 
+    name: string; 
+    subject: string; 
+    level?: string; 
+    programId?: string; 
+    schedule: string 
+  };
   studentData: ClassStudentMapping | undefined;
   onSave: (attendanceData: { 
     classId: string;

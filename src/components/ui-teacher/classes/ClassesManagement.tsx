@@ -13,6 +13,7 @@ export function ClassesDashboard() {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState('');
   const [filterSubject, setFilterSubject] = useState('all');
+  const [filterLevel, setFilterLevel] = useState('all');
   const [activeTab, setActiveTab] = useState('all');
   
   
@@ -43,24 +44,29 @@ export function ClassesDashboard() {
   
   // Get unique subject list
   const allSubjects = new Set<string>();
+  const allLevels = new Set<string>();
   teacherClasses.forEach(schedule => {
     schedule.sessions.forEach(session => {
       allSubjects.add(session.subject);
+      allLevels.add(session.level);
     });
   });
   const uniqueSubjects = Array.from(allSubjects);
+  const uniqueLevels = Array.from(allLevels);
   
-  // Filter classes based on search and subject filter
+  // Filter classes based on search, subject, and level filter
   const filteredClasses = teacherClasses.map(schedule => ({
     ...schedule,
     sessions: schedule.sessions.filter(session => {
       const matchesSearch = searchQuery === '' || 
         session.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        session.subject.toLowerCase().includes(searchQuery.toLowerCase());
+        session.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        session.level.toLowerCase().includes(searchQuery.toLowerCase());
       
       const matchesSubject = filterSubject === 'all' || session.subject === filterSubject;
+      const matchesLevel = filterLevel === 'all' || session.level === filterLevel;
       
-      return matchesSearch && matchesSubject;
+      return matchesSearch && matchesSubject && matchesLevel;
     })
   })).filter(schedule => schedule.sessions.length > 0);
   
@@ -96,7 +102,7 @@ export function ClassesDashboard() {
         <div className="relative flex-grow">
           <Search className="h-4 w-4 absolute left-3 top-3 text-gray-400" />
           <Input 
-            placeholder="Cari kelas..." 
+            placeholder="Cari kelas, program, atau jenjang..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -108,13 +114,30 @@ export function ClassesDashboard() {
             <SelectTrigger className="w-full">
               <div className="flex items-center">
                 <Filter className="h-4 w-4 mr-2 text-gray-400" />
-                <SelectValue placeholder="Filter Mata Pelajaran" />
+                <SelectValue placeholder="Filter Kategori Program" />
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Semua Mata Pelajaran</SelectItem>
+              <SelectItem value="all">Semua Kategori</SelectItem>
               {uniqueSubjects.map((subject) => (
                 <SelectItem key={subject} value={subject}>{subject}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        
+        <div className="w-full md:w-64">
+          <Select value={filterLevel} onValueChange={setFilterLevel}>
+            <SelectTrigger className="w-full">
+              <div className="flex items-center">
+                <Filter className="h-4 w-4 mr-2 text-gray-400" />
+                <SelectValue placeholder="Filter Jenjang" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Jenjang</SelectItem>
+              {uniqueLevels.map((level) => (
+                <SelectItem key={level} value={level}>{level}</SelectItem>
               ))}
             </SelectContent>
           </Select>
