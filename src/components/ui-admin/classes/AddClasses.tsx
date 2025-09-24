@@ -14,7 +14,6 @@ export function AddClasses() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     class_name: "",
-    subject: "",
     level: "",
     program_name: "",
     program_id: "",
@@ -25,7 +24,6 @@ export function AddClasses() {
     current_enrollment: 0,
     teacher_name: "",
     teacher_id: "",
-    course_name: "",
     status: "ACTIVE"
   });
 
@@ -108,19 +106,6 @@ export function AddClasses() {
                 />
               </div>
               
-              <div className="space-y-2">
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-                  Mata Pelajaran <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="Masukkan mata pelajaran"
-                  required
-                />
-              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -277,20 +262,6 @@ export function AddClasses() {
                   value={formData.teacher_name}
                   onChange={handleChange}
                   placeholder="Masukkan nama pengajar"
-                  required
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="course_name" className="block text-sm font-medium text-gray-700">
-                  Nama Kursus <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="course_name"
-                  name="course_name"
-                  value={formData.course_name}
-                  onChange={handleChange}
-                  placeholder="Masukkan nama kursus"
                   required
                 />
               </div>

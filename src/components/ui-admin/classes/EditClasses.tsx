@@ -17,7 +17,6 @@ interface EditClassesProps {
 const dummyClassData = {
   id: "1",
   class_name: "Matematika SMA Kelas A",
-  subject: "Matematika",
   level: "SMA/SMK",
   program_name: "Matematika SMA",
   program_id: "prog-sma-001",
@@ -28,7 +27,6 @@ const dummyClassData = {
   current_enrollment: 25,
   teacher_name: "Dr. Ahmad Fauzi",
   teacher_id: "T001",
-  course_name: "Kalkulus dan Aljabar Linear",
   status: "ACTIVE"
 };
 
@@ -39,7 +37,6 @@ export function EditClasses({ classId }: EditClassesProps) {
   const [formData, setFormData] = useState({
     id: "",
     class_name: "",
-    subject: "",
     level: "",
     program_name: "",
     program_id: "",
@@ -50,7 +47,6 @@ export function EditClasses({ classId }: EditClassesProps) {
     current_enrollment: 0,
     teacher_name: "",
     teacher_id: "",
-    course_name: "",
     status: "ACTIVE"
   });
 
@@ -171,19 +167,6 @@ export function EditClasses({ classId }: EditClassesProps) {
                 />
               </div>
               
-              <div className="space-y-2">
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-                  Mata Pelajaran <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="Masukkan mata pelajaran"
-                  required
-                />
-              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -340,20 +323,6 @@ export function EditClasses({ classId }: EditClassesProps) {
                   value={formData.teacher_name}
                   onChange={handleChange}
                   placeholder="Masukkan nama pengajar"
-                  required
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="course_name" className="block text-sm font-medium text-gray-700">
-                  Nama Kursus <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  id="course_name"
-                  name="course_name"
-                  value={formData.course_name}
-                  onChange={handleChange}
-                  placeholder="Masukkan nama kursus"
                   required
                 />
               </div>

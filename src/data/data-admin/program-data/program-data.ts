@@ -4,8 +4,8 @@ export interface Program {
   description: string;
   duration: number; // in weeks
   level: 'beginner' | 'intermediate' | 'advanced';
+  educationLevel: 'SD' | 'SMP' | 'SMA/SMK' | 'UMUM';
   category: string;
-  price: number;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -18,8 +18,8 @@ export const programsData: Program[] = [
     description: "Program pembelajaran bahasa Inggris untuk pemula dengan fokus pada grammar dan vocabulary dasar",
     duration: 12,
     level: "beginner",
+    educationLevel: "UMUM",
     category: "Bahasa",
-    price: 500000,
     isActive: true,
     createdAt: "2024-01-15T00:00:00Z",
     updatedAt: "2024-01-15T00:00:00Z"
@@ -30,8 +30,8 @@ export const programsData: Program[] = [
     description: "Program pembelajaran matematika dasar untuk siswa SD dan SMP",
     duration: 16,
     level: "beginner",
+    educationLevel: "SD",
     category: "Matematika",
-    price: 450000,
     isActive: true,
     createdAt: "2024-01-15T00:00:00Z",
     updatedAt: "2024-01-15T00:00:00Z"
@@ -42,8 +42,8 @@ export const programsData: Program[] = [
     description: "Program pembelajaran dasar membaca, menulis, dan berhitung untuk anak usia dini",
     duration: 20,
     level: "beginner", 
+    educationLevel: "SD",
     category: "Dasar",
-    price: 400000,
     isActive: true,
     createdAt: "2024-01-15T00:00:00Z",
     updatedAt: "2024-01-15T00:00:00Z"
@@ -54,8 +54,32 @@ export const programsData: Program[] = [
     description: "Program pembelajaran programming untuk pemula dengan bahasa Python",
     duration: 24,
     level: "beginner",
+    educationLevel: "SMA/SMK",
     category: "Teknologi",
-    price: 750000,
+    isActive: true,
+    createdAt: "2024-01-15T00:00:00Z",
+    updatedAt: "2024-01-15T00:00:00Z"
+  },
+  {
+    id: "5",
+    name: "Matematika Lanjutan",
+    description: "Program matematika untuk siswa SMP dengan materi aljabar dan geometri",
+    duration: 18,
+    level: "intermediate",
+    educationLevel: "SMP",
+    category: "Matematika",
+    isActive: true,
+    createdAt: "2024-01-15T00:00:00Z",
+    updatedAt: "2024-01-15T00:00:00Z"
+  },
+  {
+    id: "6",
+    name: "Bahasa Inggris Menengah",
+    description: "Program bahasa Inggris untuk level menengah dengan fokus pada conversation",
+    duration: 14,
+    level: "intermediate",
+    educationLevel: "SMA/SMK",
+    category: "Bahasa",
     isActive: true,
     createdAt: "2024-01-15T00:00:00Z",
     updatedAt: "2024-01-15T00:00:00Z"

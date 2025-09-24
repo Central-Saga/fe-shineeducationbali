@@ -36,7 +36,7 @@ export function ClassList() {
     (cls) =>
       (cls.class_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       cls.teacher_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cls.course_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      cls.program_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (statusFilter === "all" || cls.status === statusFilter.toUpperCase())
   );
 
@@ -82,18 +82,14 @@ export function ClassList() {
       },
     },
     {
-      accessorKey: "course_name",
-      header: () => <div>Kursus/Program</div>,
+      accessorKey: "program_name",
+      header: () => <div>Program</div>,
       cell: ({ row }) => {
         const classData = row.original;
         return (
           <div>
-            <div className="font-medium">{classData.course_name}</div>
-            <div className="text-xs text-[#DAA625] font-medium">{classData.program_name}</div>
+            <div className="font-medium">{classData.program_name}</div>
             <div className="flex items-center gap-1 mt-1">
-              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">
-                {classData.subject}
-              </span>
               <span className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full">
                 {classData.level}
               </span>
@@ -261,7 +257,7 @@ export function ClassList() {
         columns={columns}
         searchQuery={searchTerm}
         onSearchChange={setSearchTerm}
-        searchPlaceholder="Search classes by name, teacher..."
+        searchPlaceholder="Search classes by name, teacher, program..."
         filters={[
           {
             key: "status",

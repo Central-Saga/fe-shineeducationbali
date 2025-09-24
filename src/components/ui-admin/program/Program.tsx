@@ -19,6 +19,7 @@ export function ProgramManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [levelFilter, setLevelFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [educationLevelFilter, setEducationLevelFilter] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
@@ -96,6 +97,28 @@ export function ProgramManagement() {
       },
     },
     {
+      accessorKey: "educationLevel",
+      header: () => <div>Jenjang Pendidikan</div>,
+      cell: ({ row }) => {
+        const educationLevel = row.getValue("educationLevel") as string;
+        const getEducationLevelBadgeColor = (level: string) => {
+          switch (level) {
+            case "SD": return "bg-blue-100 text-blue-800 border-blue-200";
+            case "SMP": return "bg-purple-100 text-purple-800 border-purple-200";
+            case "SMA/SMK": return "bg-indigo-100 text-indigo-800 border-indigo-200";
+            case "UMUM": return "bg-gray-100 text-gray-800 border-gray-200";
+            default: return "bg-gray-100 text-gray-800 border-gray-200";
+          }
+        };
+
+        return (
+          <Badge variant="outline" className={getEducationLevelBadgeColor(educationLevel)}>
+            {educationLevel}
+          </Badge>
+        );
+      },
+    },
+    {
       accessorKey: "duration",
       header: () => <div>Durasi</div>,
       cell: ({ row }) => {
@@ -103,18 +126,6 @@ export function ProgramManagement() {
         return (
           <div className="text-sm font-medium text-gray-900">
             {duration} minggu
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "price",
-      header: () => <div>Harga</div>,
-      cell: ({ row }) => {
-        const price = row.getValue("price") as number;
-        return (
-          <div className="text-sm font-semibold text-[#C40503]">
-            Rp {price.toLocaleString('id-ID')}
           </div>
         );
       },
@@ -150,13 +161,13 @@ export function ProgramManagement() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-[160px]">
                 <DropdownMenuItem
-                  onClick={() => console.log("View program:", program.id)}
+                  onClick={() => window.location.href = `/dashboard/program/detail/${program.id}`}
                 >
                   <Eye className="h-4 w-4 mr-2" />
                   Detail
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => console.log("Edit program:", program.id)}
+                  onClick={() => window.location.href = `/dashboard/program/edit/${program.id}`}
                 >
                   <PencilIcon className="h-4 w-4 mr-2" />
                   Edit
@@ -188,8 +199,9 @@ export function ProgramManagement() {
                          program.category.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesLevel = levelFilter === "all" || program.level === levelFilter;
     const matchesCategory = categoryFilter === "all" || program.category === categoryFilter;
+    const matchesEducationLevel = educationLevelFilter === "all" || program.educationLevel === educationLevelFilter;
     
-    return matchesSearch && matchesLevel && matchesCategory;
+    return matchesSearch && matchesLevel && matchesCategory && matchesEducationLevel;
   });
 
   // Pagination calculations
@@ -201,7 +213,7 @@ export function ProgramManagement() {
   // Reset to first page when search or filter changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, levelFilter, categoryFilter]);
+  }, [searchTerm, levelFilter, categoryFilter, educationLevelFilter]);
 
   // Statistics
   const stats = [
@@ -251,6 +263,19 @@ export function ProgramManagement() {
         { value: "beginner", label: "Pemula" },
         { value: "intermediate", label: "Menengah" },
         { value: "advanced", label: "Lanjutan" }
+      ]
+    },
+    {
+      key: "educationLevel",
+      label: "Jenjang Pendidikan",
+      value: educationLevelFilter,
+      onChange: setEducationLevelFilter,
+      options: [
+        { value: "all", label: "Semua Jenjang" },
+        { value: "SD", label: "SD" },
+        { value: "SMP", label: "SMP" },
+        { value: "SMA/SMK", label: "SMA/SMK" },
+        { value: "UMUM", label: "UMUM" }
       ]
     },
     {
