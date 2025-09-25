@@ -1,12 +1,9 @@
 import { 
   BookOpen, 
   Users, 
-  FileText, 
   Home,
-  Award,
   LineChart,
   Settings,
-  BookOpenCheck,
   Clock,
   Wallet
 } from "lucide-react";

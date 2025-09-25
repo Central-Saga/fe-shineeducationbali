@@ -1,11 +1,12 @@
 import { ProgramDetail } from "@/components/ui-admin/program";
 
 interface ProgramDetailPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function ProgramDetailPage({ params }: ProgramDetailPageProps) {
-  return <ProgramDetail programId={params.id} />;
+export default async function ProgramDetailPage({ params }: ProgramDetailPageProps) {
+  const { id } = await params;
+  return <ProgramDetail programId={id} />;
 }

@@ -228,7 +228,7 @@ export default function Home() {
             duration: 4,
             repeat: Infinity,
             ease: "easeInOut",
-            yoyo: true,
+            repeatType: "reverse",
           }}
         >
           <div className="w-full h-[80%] bg-[#C40001]/40 rounded-full" />

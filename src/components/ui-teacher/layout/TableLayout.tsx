@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { 
   MoreHorizontal, 
@@ -31,13 +31,13 @@ export interface TableColumn {
   key: string;
   label: string;
   sortable?: boolean;
-  render?: (value: any, row: any) => React.ReactNode;
+  render?: (value: unknown, row: Record<string, unknown>) => React.ReactNode;
 }
 
 export interface TableAction {
   label: string;
   icon: React.ReactNode;
-  onClick: (row: any) => void;
+  onClick: (row: Record<string, unknown>) => void;
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
 }
 
@@ -45,7 +45,7 @@ export interface TableLayoutProps {
   title: string;
   description?: string;
   columns: TableColumn[];
-  data: any[];
+  data: Record<string, unknown>[];
   actions?: TableAction[];
   searchPlaceholder?: string;
   showSearch?: boolean;
@@ -185,7 +185,7 @@ export function TableLayout({
               ) : (
                 filteredData.map((row, index) => (
                   <TableRow
-                    key={row.id || index}
+                    key={(row.id as string) || index}
                     className="hover:bg-gray-50 transition-colors"
                   >
                     <TableCell className="text-center text-sm text-gray-600">
@@ -195,7 +195,7 @@ export function TableLayout({
                       <TableCell key={column.key} className="text-sm">
                         {column.render
                           ? column.render(row[column.key], row)
-                          : row[column.key]}
+                          : String(row[column.key] || '')}
                       </TableCell>
                     ))}
                     {actions.length > 0 && (
@@ -249,25 +249,25 @@ export function TableLayout({
 
 // Predefined action buttons for common operations
 export const commonActions = {
-  edit: (onClick: (row: any) => void): TableAction => ({
+  edit: (onClick: (row: Record<string, unknown>) => void): TableAction => ({
     label: "Edit",
     icon: <Edit className="h-4 w-4" />,
     onClick,
     variant: "default",
   }),
-  delete: (onClick: (row: any) => void): TableAction => ({
+  delete: (onClick: (row: Record<string, unknown>) => void): TableAction => ({
     label: "Hapus",
     icon: <Trash2 className="h-4 w-4" />,
     onClick,
     variant: "destructive",
   }),
-  view: (onClick: (row: any) => void): TableAction => ({
+  view: (onClick: (row: Record<string, unknown>) => void): TableAction => ({
     label: "Lihat",
     icon: <Eye className="h-4 w-4" />,
     onClick,
     variant: "outline",
   }),
-  download: (onClick: (row: any) => void): TableAction => ({
+  download: (onClick: (row: Record<string, unknown>) => void): TableAction => ({
     label: "Download",
     icon: <Download className="h-4 w-4" />,
     onClick,

@@ -9,7 +9,7 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { programsData, Program } from "@/data/data-admin/program-data/program-data";
-import { adminClasses, AdminClass } from "@/data/data-admin/classes-data";
+import { adminClasses } from "@/data/data-admin/classes-data";
 
 interface EditClassesProps {
   classId: string;

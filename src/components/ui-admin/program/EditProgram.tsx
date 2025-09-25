@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { programsData, Program } from "@/data/data-admin/program-data/program-data";
+import { programsData } from "@/data/data-admin/program-data/program-data";
 
 interface EditProgramProps {
   programId: string;

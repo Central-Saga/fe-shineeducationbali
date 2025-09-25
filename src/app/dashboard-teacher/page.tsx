@@ -21,11 +21,9 @@ import {
   GraduationCap,
   ChevronRight,
   CheckCircle,
-  AlertCircle,
   Bell,
   Clock,
-  LineChart,
-  ArrowUpRight
+  LineChart
 } from "lucide-react";
 
 interface TeacherData {

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { ChevronLeft, PenLine, Clock, MapPin, User, BookOpen, Users, Calendar, Plus, FileText } from "lucide-react";
+import { ChevronLeft, PenLine, Clock, User, BookOpen, Users, Calendar, Plus, FileText } from "lucide-react";
 import {
   Table,
   TableBody,

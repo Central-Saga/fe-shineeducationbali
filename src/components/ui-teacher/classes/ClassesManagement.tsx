@@ -277,18 +277,24 @@ export function ClassesDashboard() {
                 {Array.from({ length: 31 }).map((_, i) => {
                   const day = i + 1;
                   const hasClass = allSessions.some(session => {
-                    const sessionDate = new Date(session.date);
-                    return sessionDate.getDate() === day && sessionDate.getMonth() === currentDate.getMonth();
+                    // Use schedule to determine if there's a class on this day
+                    const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+                    const dayName = dayNames[new Date(currentDate.getFullYear(), currentDate.getMonth(), day).getDay()];
+                    return session.schedule.includes(dayName);
                   });
                   
                   const hasUpcomingClass = upcomingSessions.some(session => {
-                    const sessionDate = new Date(session.date);
-                    return sessionDate.getDate() === day && sessionDate.getMonth() === currentDate.getMonth();
+                    // Use schedule to determine if there's an upcoming class on this day
+                    const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+                    const dayName = dayNames[new Date(currentDate.getFullYear(), currentDate.getMonth(), day).getDay()];
+                    return session.schedule.includes(dayName);
                   });
                   
                   const hasOngoingClass = ongoingSessions.some(session => {
-                    const sessionDate = new Date(session.date);
-                    return sessionDate.getDate() === day && sessionDate.getMonth() === currentDate.getMonth();
+                    // Use schedule to determine if there's an ongoing class on this day
+                    const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+                    const dayName = dayNames[new Date(currentDate.getFullYear(), currentDate.getMonth(), day).getDay()];
+                    return session.schedule.includes(dayName);
                   });
                   
                   return (

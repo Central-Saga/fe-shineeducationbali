@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
-import { Plus, Users, BookOpen, TrendingUp, Clock, Eye, Edit, Trash2, MoreHorizontal, PencilIcon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Users, BookOpen, TrendingUp, Clock, Eye, Trash2, MoreHorizontal, PencilIcon } from "lucide-react";
 import { programsData, Program } from "@/data/data-admin/program-data/program-data";
 import { Header, TableLayout } from "@/components/ui-admin/layout";
 import { Badge } from "@/components/ui/badge";

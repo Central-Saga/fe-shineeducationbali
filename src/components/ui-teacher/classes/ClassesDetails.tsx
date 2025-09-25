@@ -3,15 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { ArrowLeft, FileText, Plus, User, Calendar, Clock, BookOpen, Users, Download } from "lucide-react";
+import { ArrowLeft, FileText, Plus, User, Calendar, Clock, BookOpen, Users } from "lucide-react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
@@ -100,7 +92,7 @@ export function ClassDetails({ classData }: ClassDetailsProps) {
   }));
 
   // Combine assignments and materials for the main table
-  const allClassData: ClassDetailData[] = [...assignmentsData, ...materialsData];
+  // const allClassData: ClassDetailData[] = [...assignmentsData, ...materialsData];
 
   // Handler functions for ClassDetailTable
   const handleEditItem = (item: ClassDetailData) => {

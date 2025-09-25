@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Header, TableLayout } from "@/components/ui-admin/layout";
 import { adminClasses, AdminClass } from "@/data/data-admin/classes-data";
-import { programsData, Program } from "@/data/data-admin/program-data/program-data";
+import { programsData } from "@/data/data-admin/program-data/program-data";
 
 // Use the AdminClass interface from data file
 type Class = AdminClass;
@@ -56,7 +56,7 @@ export function ClassList() {
   const totalClasses = classes.length;
   const activeClasses = classes.filter(cls => cls.status === "ACTIVE").length;
   const completedClasses = classes.filter(cls => cls.status === "COMPLETED").length;
-  const draftClasses = classes.filter(cls => cls.status === "DRAFT").length;
+  // const draftClasses = classes.filter(cls => cls.status === "DRAFT").length;
   const totalEnrollment = classes.reduce((sum, cls) => sum + cls.current_enrollment, 0);
 
   // Define columns for DataTable

@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   Calendar, 
-  Clock, 
   Users, 
   BookOpen,
   FileText,
@@ -52,8 +51,9 @@ export function ClassDetailTable({
   title = "Detail Kelas",
   description = "Kelola tugas, materi, dan aktivitas kelas",
   addButtonText = "Tambah Data",
-  addButtonLink,
 }: ClassDetailTableProps) {
+  // Remove unused description parameter warning
+  void description;
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "completed":
@@ -125,16 +125,16 @@ export function ClassDetailTable({
       key: "id",
       label: "ID",
       render: (value) => (
-        <span className="font-mono text-sm text-gray-600">{value}</span>
+        <span className="font-mono text-sm text-gray-600">{String(value)}</span>
       ),
     },
     {
       key: "title",
       label: "Nama Siswa",
-      render: (value, row) => (
+      render: (value) => (
         <div className="flex items-center gap-2">
           <Users className="h-4 w-4 text-[#C40001]" />
-          <span className="font-medium">{value}</span>
+          <span className="font-medium">{String(value)}</span>
         </div>
       ),
     },
@@ -142,13 +142,13 @@ export function ClassDetailTable({
       key: "subject",
       label: "Mata Pelajaran",
       render: (value) => (
-        <span className="text-sm text-gray-600">{value}</span>
+        <span className="text-sm text-gray-600">{value as string}</span>
       ),
     },
     {
       key: "status",
       label: "Status",
-      render: (value) => (
+      render: () => (
         <Badge className="bg-green-100 text-green-800 border-green-200">
           Aktif
         </Badge>
@@ -159,7 +159,7 @@ export function ClassDetailTable({
       key: "id",
       label: "ID",
       render: (value) => (
-        <span className="font-mono text-sm text-gray-600">{value}</span>
+        <span className="font-mono text-sm text-gray-600">{String(value)}</span>
       ),
     },
     {
@@ -167,8 +167,8 @@ export function ClassDetailTable({
       label: "Judul",
       render: (value, row) => (
         <div className="flex items-center gap-2">
-          {getTypeIcon(row.type)}
-          <span className="font-medium">{value}</span>
+          {getTypeIcon(row.type as string)}
+          <span className="font-medium">{String(value)}</span>
         </div>
       ),
     },
@@ -176,7 +176,7 @@ export function ClassDetailTable({
       key: "subject",
       label: "Mata Pelajaran",
       render: (value) => (
-        <span className="text-sm text-gray-600">{value}</span>
+        <span className="text-sm text-gray-600">{value as string}</span>
       ),
     },
     {
@@ -184,7 +184,7 @@ export function ClassDetailTable({
       label: "Jenis",
       render: (value) => (
         <Badge variant="outline" className="text-xs">
-          {getTypeLabel(value)}
+          {getTypeLabel(String(value))}
         </Badge>
       ),
     },
@@ -194,26 +194,26 @@ export function ClassDetailTable({
       render: (value) => (
         <div className="flex items-center gap-1 text-sm">
           <Calendar className="h-3 w-3 text-gray-400" />
-          {formatDate(value)}
+          {formatDate(value as string)}
         </div>
       ),
     },
     {
       key: "status",
       label: "Status",
-      render: (value) => getStatusBadge(value),
+      render: (value) => getStatusBadge(value as string),
     },
     {
       key: "progress",
       label: "Progress",
       render: (value, row) => {
         if (row.type === "assignment" && row.totalStudents && row.submittedCount !== undefined) {
-          const progress = Math.round((row.submittedCount / row.totalStudents) * 100);
+          const progress = Math.round((Number(row.submittedCount) / Number(row.totalStudents)) * 100);
           return (
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1 text-xs text-gray-600">
                 <Users className="h-3 w-3" />
-                {row.submittedCount}/{row.totalStudents}
+                {String(row.submittedCount)}/{String(row.totalStudents)}
               </div>
               <div className="w-16 bg-gray-200 rounded-full h-2">
                 <div 
@@ -233,15 +233,15 @@ export function ClassDetailTable({
   const actions = [];
   
   if (onView) {
-    actions.push(commonActions.view(onView));
+    actions.push(commonActions.view((row) => onView(row as unknown as ClassDetailData)));
   }
   
   if (onEdit) {
-    actions.push(commonActions.edit(onEdit));
+    actions.push(commonActions.edit((row) => onEdit(row as unknown as ClassDetailData)));
   }
   
   if (onDelete) {
-    actions.push(commonActions.delete(onDelete));
+    actions.push(commonActions.delete((row) => onDelete(row as unknown as ClassDetailData)));
   }
 
   return (
@@ -274,7 +274,7 @@ export function ClassDetailTable({
           title=""
           description=""
           columns={columns}
-          data={data}
+          data={data as unknown as Record<string, unknown>[]}
           actions={actions}
           searchPlaceholder="Cari berdasarkan judul atau mata pelajaran..."
           showSearch={true}
