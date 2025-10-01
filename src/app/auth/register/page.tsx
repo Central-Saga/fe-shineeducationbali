@@ -265,9 +265,10 @@ export default function RegisterPage() {
       } else {
         setError(response.message || "Registrasi gagal");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Register error:", error);
-      setError(error.message || "Terjadi kesalahan saat mendaftar. Silakan coba lagi.");
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan saat mendaftar. Silakan coba lagi.";
+      setError(errorMessage);
     }
   };
   return (

@@ -172,9 +172,10 @@ export default function LoginPage() {
       } else {
         setError(response.message || "Login gagal");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Login error:", error);
-      setError(error.message || "Terjadi kesalahan saat login. Silakan coba lagi.");
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan saat login. Silakan coba lagi.";
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

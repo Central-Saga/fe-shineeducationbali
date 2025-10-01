@@ -61,9 +61,10 @@ export const authService = {
       );
       console.log('Login response received:', response);
       return response;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Login error details:', error);
-      throw new Error(error.message || 'Terjadi kesalahan saat login');
+      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat login';
+      throw new Error(errorMessage);
     }
   },
 
@@ -76,9 +77,10 @@ export const authService = {
         userData
       );
       return response;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Register error:', error);
-      throw new Error(error.message || 'Terjadi kesalahan saat mendaftar');
+      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat mendaftar';
+      throw new Error(errorMessage);
     }
   },
 
@@ -97,9 +99,10 @@ export const authService = {
         '/api/profile'
       );
       return response;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Get profile error:', error);
-      throw new Error(error.message || 'Terjadi kesalahan saat mengambil profil');
+      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat mengambil profil';
+      throw new Error(errorMessage);
     }
   }
 };
