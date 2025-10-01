@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Mail, Lock, LogIn, UserPlus } from "lucide-react";
+import { authService, LoginRequest } from "@/lib/services/auth.service";
 import "@/styles/particles.css";
 
 interface Star {
@@ -34,12 +35,20 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stars, setStars] = useState<Star[]>([]);
   const [educationIcons, setEducationIcons] = useState<EducationIcon[]>([]);
 
   useEffect(() => {
+    // Check for success message from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const message = urlParams.get('message');
+    if (message) {
+      setSuccessMessage(decodeURIComponent(message));
+    }
+
     // Generate education icons using available SVGs
     const icons = ["/file.svg", "/globe.svg", "/window.svg", "/vercel.svg"];
     const newIcons: EducationIcon[] = Array(12)
@@ -93,99 +102,79 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Data pengguna sementara untuk testing
-      const mockUsers = [
-        {
-          email: "superadmin@example.com",
-          password: "password123",
-          role: ["Super Admin"],
-          permissions: ["read", "write", "delete"],
-          nama: "Super Admin",
-        },
-        {
-          email: "admin@example.com",
-          password: "password123",
-          role: ["Admin"],
-          permissions: ["read", "write"],
-          nama: "Admin",
-        },
-        {
-          email: "teacher@example.com",
-          password: "password123",
-          role: ["Teacher"],
-          permissions: ["read", "write"],
-          nama: "Teacher",
-        },
-        {
-          email: "student@example.com",
-          password: "password123",
-          role: ["Student"],
-          permissions: ["read"],
-          nama: "Student",
-        },
-      ];
-
-      const user = mockUsers.find(
-        (user) => user.email === email && user.password === password
-      );
-
-      if (!user) {
-        setError("Email atau password salah");
+      // Validasi input
+      if (!email || !password) {
+        setError("Email dan password harus diisi");
         setIsLoading(false);
         return;
       }
 
-      // Set cookie untuk autentikasi dengan expire time
-      const expireTime = new Date();
-      expireTime.setHours(expireTime.getHours() + 24); // Cookie berlaku 24 jam
+      // Kirim request ke API backend
+      const loginData: LoginRequest = {
+        email: email.trim(),
+        password: password,
+      };
 
-      // Simpan token
-      document.cookie = `access_token=token_${Date.now()}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
+      console.log("Mengirim request login ke API:", loginData);
+      const response = await authService.login(loginData);
 
-      // Simpan data pengguna dengan struktur yang seragam
-      const userData = JSON.stringify({
-        nama: user.nama,
-        email: user.email,
-        role: user.role,
-        permissions: user.permissions,
-      });
+      // Handle response backend yang sebenarnya
+      if (response.user && response.token) {
+        const { user, token } = response;
 
-      // Simpan di localStorage untuk penggunaan client-side
-      localStorage.setItem("pengguna", userData);
+        // Set cookie untuk autentikasi dengan expire time
+        const expireTime = new Date();
+        expireTime.setHours(expireTime.getHours() + 24); // Cookie berlaku 24 jam
 
-      // Simpan juga di cookie untuk middleware
-      document.cookie = `data_pengguna=${userData}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
+        // Simpan token
+        document.cookie = `access_token=${token}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
 
-      // Debug log
-      console.log("Data pengguna tersimpan:", {
-        cookies: document.cookie,
-        localStorage: localStorage.getItem("pengguna"),
-      });
+        // Simpan data pengguna dengan struktur yang seragam
+        const userData = JSON.stringify({
+          nama: user.name,
+          email: user.email,
+          role: user.role,
+          status: user.status,
+        });
 
-      // Simulasi delay server
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+        // Simpan di localStorage untuk penggunaan client-side
+        localStorage.setItem("pengguna", userData);
 
-      // Redirect berdasarkan role
-      const userRole = user.role[0]; // Ambil role pertama
-      console.log("Redirecting user with role:", userRole);
+        // Simpan juga di cookie untuk middleware
+        document.cookie = `data_pengguna=${userData}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
 
-      switch (userRole) {
-        case "Student":
-          await router.push("/dashboard-student");
-          break;
-        case "Teacher":
-          await router.push("/dashboard-teacher");
-          break;
-        case "Super Admin":
-        case "Admin":
-          await router.push("/dashboard");
-          break;
-        default:
-          throw new Error("Role tidak valid");
+        // Debug log
+        console.log("Login berhasil:", {
+          user: user,
+          cookies: document.cookie,
+          localStorage: localStorage.getItem("pengguna"),
+        });
+
+        // Redirect berdasarkan role
+        console.log("Redirecting user with role:", user.role);
+
+        switch (user.role) {
+          case "Student":
+            await router.push("/dashboard-student");
+            break;
+          case "Teacher":
+            await router.push("/dashboard-teacher");
+            break;
+          case "Super Admin":
+          case "Admin":
+            await router.push("/dashboard");
+            break;
+          default:
+            console.warn("Role tidak dikenali:", user.role);
+            // Default redirect ke dashboard admin
+            await router.push("/dashboard");
+        }
+      } else {
+        setError(response.message || "Login gagal");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
-      setError("Terjadi kesalahan saat login. Silakan coba lagi.");
+      setError(error.message || "Terjadi kesalahan saat login. Silakan coba lagi.");
     } finally {
       setIsLoading(false);
     }
@@ -359,15 +348,22 @@ export default function LoginPage() {
                     />
                   </motion.div>
                 </div>
+                {successMessage && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-green-50/80 backdrop-blur-sm text-green-700 text-sm p-3 rounded-md text-center"
+                  >
+                    {successMessage}
+                  </motion.div>
+                )}
                 {error && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-red-50/80 backdrop-blur-sm text-[#C40503] text-sm p-3 rounded-md text-center"
                   >
-                    {error === "Email atau password salah"
-                      ? "Email atau password salah"
-                      : "Terjadi kesalahan. Silakan coba lagi."}
+                    {error}
                   </motion.div>
                 )}
                 <motion.div

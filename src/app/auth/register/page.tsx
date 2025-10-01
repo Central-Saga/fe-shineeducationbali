@@ -30,6 +30,7 @@ import {
   LogIn,
   UserPlus 
 } from "lucide-react";
+import { authService, RegisterRequest } from "@/lib/services/auth.service";
 
 interface FloatingEmoji {
   id: number;
@@ -210,23 +211,63 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
+    // Validasi password
     if (formData.password !== formData.konfirmasiPassword) {
       setError("Password dan konfirmasi password tidak cocok");
       return;
     }
 
-    const registrationData = {
-      ...formData,
-      role: "student",
-    };
+    // Validasi input wajib
+    const requiredFields = ['namaLengkap', 'email', 'password', 'noTelepon', 'alamat', 'tanggalLahir'];
+    const missingFields = requiredFields.filter(field => !formData[field as keyof FormData]);
+    
+    if (missingFields.length > 0) {
+      setError("Semua field wajib harus diisi");
+      return;
+    }
+
+    // Validasi email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Format email tidak valid");
+      return;
+    }
+
+    // Validasi password minimal 6 karakter
+    if (formData.password.length < 6) {
+      setError("Password minimal 6 karakter");
+      return;
+    }
 
     try {
-      // TODO: Send registration data to API
-      console.log("Register attempt:", registrationData);
-      router.push("/auth/login");
-    } catch {
-      setError("Terjadi kesalahan saat mendaftar. Silakan coba lagi.");
+      const registrationData: RegisterRequest = {
+        namaLengkap: formData.namaLengkap.trim(),
+        email: formData.email.trim(),
+        password: formData.password,
+        noTelepon: formData.noTelepon.trim(),
+        alamat: formData.alamat.trim(),
+        sekolahAsal: formData.sekolahAsal.trim(),
+        namaOrangTua: formData.namaOrangTua.trim(),
+        noOrangTua: formData.noOrangTua.trim(),
+        tanggalLahir: formData.tanggalLahir,
+        role: "student",
+      };
+
+      console.log("Mengirim request register ke API:", registrationData);
+      const response = await authService.register(registrationData);
+
+      if (response.success) {
+        console.log("Registrasi berhasil:", response.message);
+        // Redirect ke halaman login dengan pesan sukses
+        router.push("/auth/login?message=Registrasi berhasil! Silakan login dengan akun Anda.");
+      } else {
+        setError(response.message || "Registrasi gagal");
+      }
+    } catch (error: any) {
+      console.error("Register error:", error);
+      setError(error.message || "Terjadi kesalahan saat mendaftar. Silakan coba lagi.");
     }
   };
   return (
