@@ -1,5 +1,5 @@
 import { apiRequest } from '../api';
-import { normalizeApiResponse, extractApiData, isApiResponseSuccess, getApiErrorMessage } from '../api-utils';
+import { normalizeApiResponse } from '../api-utils';
 
 export interface Role {
   id: number;
@@ -84,7 +84,7 @@ export const roleService = {
       const endpoint = `/api/roles${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
       console.log('Fetching roles from:', endpoint);
       
-      const response = await apiRequest<any>('GET', endpoint);
+      const response = await apiRequest<unknown>('GET', endpoint);
       console.log('Raw roles response:', response);
       
       // Normalize the response to ensure consistent format

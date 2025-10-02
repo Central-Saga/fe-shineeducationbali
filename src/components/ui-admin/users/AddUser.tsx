@@ -90,7 +90,7 @@ export default function AddUser() {
     };
 
     fetchRoles();
-  }, []);
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

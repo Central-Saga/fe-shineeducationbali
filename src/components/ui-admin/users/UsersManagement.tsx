@@ -25,7 +25,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { mockDetailedUsers } from "@/data/data-admin/users-data";
 import { Header, TableLayout, StatsGrid } from "@/components/ui-admin/layout";
 import { userService, User as ApiUser } from "@/lib/services/user.service";
 import { isAuthenticated } from "@/lib/auth";
@@ -135,7 +134,7 @@ export default function UsersManagement({
     };
 
     fetchUsers();
-  }, [userType, search, roleFilter, statusFilter, currentPage, itemsPerPage]);
+  }, [userType, search, roleFilter, statusFilter, currentPage, itemsPerPage, router]);
 
   // Filter users based on search, role, and status
   const filteredUsers = users.filter(user => {

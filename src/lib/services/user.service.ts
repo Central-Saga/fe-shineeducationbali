@@ -1,5 +1,5 @@
 import { apiRequest } from '../api';
-import { normalizeApiResponse, extractApiData, isApiResponseSuccess, getApiErrorMessage } from '../api-utils';
+import { normalizeApiResponse } from '../api-utils';
 
 export interface User {
   id: number;
@@ -77,7 +77,7 @@ export const userService = {
       const endpoint = `/api/users${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
       console.log('Fetching users from:', endpoint);
       
-      const response = await apiRequest<any>('GET', endpoint);
+      const response = await apiRequest<unknown>('GET', endpoint);
       console.log('Raw users response:', response);
       
       // Normalize the response to ensure consistent format
@@ -158,7 +158,7 @@ export const userService = {
       const endpoint = `/api/users?${queryParams.toString()}`;
       console.log('Fetching users by role from:', endpoint);
       
-      const response = await apiRequest<any>('GET', endpoint);
+      const response = await apiRequest<unknown>('GET', endpoint);
       console.log('Raw users by role response:', response);
       
       // Normalize the response to ensure consistent format

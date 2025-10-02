@@ -6,11 +6,11 @@ export interface ApiResponse<T> {
   data?: T;
 }
 
-export interface PaginatedResponse<T> {
+export interface PaginatedResponse {
   success: boolean;
   message: string;
   data?: {
-    [key: string]: any;
+    [key: string]: unknown;
     total?: number;
     current_page?: number;
     last_page?: number;
@@ -22,7 +22,7 @@ export interface PaginatedResponse<T> {
  * Normalize API response to ensure consistent format
  */
 export function normalizeApiResponse<T>(
-  response: any,
+  response: unknown,
   dataKey?: string
 ): ApiResponse<T> {
   console.log('normalizeApiResponse input:', { response, dataKey, isArray: Array.isArray(response) });
@@ -53,20 +53,20 @@ export function normalizeApiResponse<T>(
   }
 
   // If response has data key (e.g., { data: [...], total: 10 })
-  if (response && typeof response === 'object' && dataKey && dataKey in response) {
+  if (response && typeof response === 'object' && dataKey && dataKey in (response as Record<string, unknown>)) {
     return {
       success: true,
       message: 'Data retrieved successfully',
-      data: response[dataKey] as T
+      data: (response as Record<string, unknown>)[dataKey] as T
     };
   }
 
   // If response has 'data' key without dataKey parameter (common Laravel API format)
-  if (response && typeof response === 'object' && 'data' in response && !dataKey) {
+  if (response && typeof response === 'object' && 'data' in (response as Record<string, unknown>) && !dataKey) {
     return {
       success: true,
       message: 'Data retrieved successfully',
-      data: response.data as T
+      data: (response as Record<string, unknown>).data as T
     };
   }
 
@@ -91,14 +91,14 @@ export function normalizeApiResponse<T>(
  * Extract data from API response with flexible parsing
  */
 export function extractApiData<T>(
-  response: any,
+  response: unknown,
   dataKey?: string
 ): T | null {
   if (!response) return null;
 
   // If response has success property and data
-  if (response.success && response.data) {
-    return response.data as T;
+  if ((response as Record<string, unknown>).success && (response as Record<string, unknown>).data) {
+    return (response as Record<string, unknown>).data as T;
   }
 
   // If response is direct array
@@ -107,12 +107,12 @@ export function extractApiData<T>(
   }
 
   // If response has data key
-  if (dataKey && response[dataKey]) {
-    return response[dataKey] as T;
+  if (dataKey && (response as Record<string, unknown>)[dataKey]) {
+    return (response as Record<string, unknown>)[dataKey] as T;
   }
 
   // If response is direct object
-  if (typeof response === 'object' && !response.success) {
+  if (typeof response === 'object' && !(response as Record<string, unknown>).success) {
     return response as T;
   }
 
@@ -122,20 +122,23 @@ export function extractApiData<T>(
 /**
  * Check if API response is successful
  */
-export function isApiResponseSuccess(response: any): boolean {
-  return response && typeof response === 'object' && response.success === true;
+export function isApiResponseSuccess(response: unknown): boolean {
+  if (!response || typeof response !== 'object') return false;
+  const responseObj = response as Record<string, unknown>;
+  return responseObj.success === true;
 }
 
 /**
  * Get error message from API response
  */
-export function getApiErrorMessage(response: any): string {
+export function getApiErrorMessage(response: unknown): string {
   if (!response) return 'No response received';
   
   if (typeof response === 'string') return response;
   
   if (response && typeof response === 'object') {
-    return response.message || response.error || 'Unknown error occurred';
+    const responseObj = response as Record<string, unknown>;
+    return (responseObj.message as string) || (responseObj.error as string) || 'Unknown error occurred';
   }
   
   return 'Invalid response format';

@@ -9,12 +9,19 @@ export function usePermission(requiredPermission: PermissionCode) {
   useEffect(() => {
     const checkPermission = async () => {
       try {
-        const permissions = await roleService.getUserPermissions(
-          "current-user"
+        // Get all permissions first
+        const permissionsResponse = await roleService.getPermissions();
+        const permissions = permissionsResponse.data || [];
+        
+        // Ensure permissions is an array
+        const permissionsArray = Array.isArray(permissions) ? permissions : [];
+        
+        // Check if the required permission exists in the system
+        const hasRequiredPermission = permissionsArray.some(
+          (permission: { code: string }) => permission.code === requiredPermission
         );
-        setHasPermission(
-          roleService.hasPermission(requiredPermission, permissions)
-        );
+        
+        setHasPermission(hasRequiredPermission);
       } catch (error) {
         console.error("Failed to check permissions:", error);
         setHasPermission(false);

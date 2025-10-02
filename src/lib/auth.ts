@@ -32,7 +32,7 @@ export const clearAuth = (): void => {
   document.cookie = 'data_pengguna=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
 };
 
-export const getUserData = (): any | null => {
+export const getUserData = (): Record<string, unknown> | null => {
   if (typeof window === 'undefined') return null;
   
   try {

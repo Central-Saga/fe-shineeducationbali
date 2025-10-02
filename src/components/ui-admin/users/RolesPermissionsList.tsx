@@ -108,7 +108,7 @@ export default function RolesPermissionsList() {
         if (permissionsResponse.success && permissionsResponse.data) {
           const permissionsData = Array.isArray(permissionsResponse.data) 
             ? permissionsResponse.data 
-            : permissionsResponse.data.permissions || [];
+            : [];
           // Transform API data to match component interface
           const transformedPermissions: Permission[] = permissionsData.map((permission: ApiPermission) => ({
             id: permission.id,
