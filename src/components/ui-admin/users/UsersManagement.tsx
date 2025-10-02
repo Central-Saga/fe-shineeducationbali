@@ -74,7 +74,17 @@ export default function UsersManagement({
             per_page: itemsPerPage,
           });
         } else {
-          response = await userService.getUsersByRole(userType, {
+          // Map userType to proper role name
+          const roleMapping: Record<string, string> = {
+            'admin': 'Admin',
+            'teacher': 'Teacher', 
+            'student': 'Student'
+          };
+          
+          const roleName = roleMapping[userType] || userType;
+          console.log(`Fetching users for role: ${roleName}`);
+          
+          response = await userService.getUsersByRole(roleName, {
             search: search,
             status: statusFilter !== "all" ? statusFilter : undefined,
             page: currentPage,
@@ -94,7 +104,24 @@ export default function UsersManagement({
           }
           
           console.log('UsersManagement - Parsed users data:', usersData);
-          setUsers(usersData);
+          console.log('UsersManagement - UserType:', userType);
+          console.log('UsersManagement - Users with Student role:', usersData.filter(u => u.role === 'Student'));
+          
+          // Additional filtering on frontend to ensure only correct role is shown
+          if (userType !== "all") {
+            const roleMapping: Record<string, string> = {
+              'admin': 'Admin',
+              'teacher': 'Teacher', 
+              'student': 'Student'
+            };
+            
+            const expectedRole = roleMapping[userType];
+            const filteredByRole = usersData.filter(user => user.role === expectedRole);
+            console.log(`UsersManagement - Filtered by role ${expectedRole}:`, filteredByRole);
+            setUsers(filteredByRole);
+          } else {
+            setUsers(usersData);
+          }
         } else {
           console.error('UsersManagement - Failed to fetch users:', response);
         }
@@ -114,26 +141,62 @@ export default function UsersManagement({
   const filteredUsers = users.filter(user => {
     let match = true;
     
-    // Filter by search
-    if (search) {
-      match = match && (
-        user.name.toLowerCase().includes(search.toLowerCase()) ||
-        user.email.toLowerCase().includes(search.toLowerCase()) ||
-        user.id.toString().includes(search.toLowerCase())
-      );
-    }
-    
-    // Filter by role
-    if (roleFilter !== "all") {
-      match = match && user.role === roleFilter;
-    }
-    
-    // Filter by status
-    if (statusFilter !== "all") {
-      match = match && user.status === statusFilter;
+    // For specific userType (student, teacher, admin), ensure role matches exactly
+    if (userType !== "all") {
+      const roleMapping: Record<string, string> = {
+        'admin': 'Admin',
+        'teacher': 'Teacher', 
+        'student': 'Student'
+      };
+      
+      const expectedRole = roleMapping[userType];
+      // Double-check role matching
+      match = match && user.role === expectedRole;
+      
+      // Apply search and status filters
+      if (search) {
+        match = match && (
+          user.name.toLowerCase().includes(search.toLowerCase()) ||
+          user.email.toLowerCase().includes(search.toLowerCase()) ||
+          user.id.toString().includes(search.toLowerCase())
+        );
+      }
+      
+      if (statusFilter !== "all") {
+        match = match && user.status === statusFilter;
+      }
+    } else {
+      // For "all" userType, apply all filters
+      if (search) {
+        match = match && (
+          user.name.toLowerCase().includes(search.toLowerCase()) ||
+          user.email.toLowerCase().includes(search.toLowerCase()) ||
+          user.id.toString().includes(search.toLowerCase())
+        );
+      }
+      
+      if (roleFilter !== "all") {
+        match = match && user.role === roleFilter;
+      }
+      
+      if (statusFilter !== "all") {
+        match = match && user.status === statusFilter;
+      }
     }
     
     return match;
+  });
+
+  // Debug logging for filtered users
+  console.log('UsersManagement - Filtered users:', filteredUsers);
+  console.log('UsersManagement - Total users:', users.length);
+  console.log('UsersManagement - Filtered count:', filteredUsers.length);
+  console.log('UsersManagement - UserType:', userType);
+  console.log('UsersManagement - Users by role:', {
+    Student: users.filter(u => u.role === 'Student').length,
+    Teacher: users.filter(u => u.role === 'Teacher').length,
+    Admin: users.filter(u => u.role === 'Admin').length,
+    'Super Admin': users.filter(u => u.role === 'Super Admin').length
   });
 
   // Get unique roles for filter

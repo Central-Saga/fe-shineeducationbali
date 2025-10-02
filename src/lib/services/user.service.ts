@@ -156,8 +156,16 @@ export const userService = {
       if (params?.status) queryParams.append('status', params.status);
 
       const endpoint = `/api/users?${queryParams.toString()}`;
-      const response = await apiRequest<UsersListResponse>('GET', endpoint);
-      return response;
+      console.log('Fetching users by role from:', endpoint);
+      
+      const response = await apiRequest<any>('GET', endpoint);
+      console.log('Raw users by role response:', response);
+      
+      // Normalize the response to ensure consistent format
+      const normalizedResponse = normalizeApiResponse<User[]>(response);
+      console.log('Normalized users by role response:', normalizedResponse);
+      
+      return normalizedResponse;
     } catch (error: unknown) {
       console.error('Get users by role error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat mengambil data users';
