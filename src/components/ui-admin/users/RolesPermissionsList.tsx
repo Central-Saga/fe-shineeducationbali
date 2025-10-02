@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { Header, TableLayout } from "@/components/ui-admin/layout";
+import { roleService, Role as ApiRole, Permission as ApiPermission } from "@/lib/services/role.service";
 
 // Define types
 interface Role {
@@ -36,7 +37,7 @@ interface Role {
   name: string;
   description: string;
   userCount: number;
-  permissions: number[];
+  permissions: string[];
   isDefault: boolean;
 }
 
@@ -61,119 +62,75 @@ export default function RolesPermissionsList() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
   useEffect(() => {
-    // Mock data - would be replaced with API call
-    const mockRoles: Role[] = [
-      {
-        id: "1",
-        name: "Super Admin",
-        description: "Complete access to all system functions and settings",
-        userCount: 2,
-        permissions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        isDefault: false,
-      },
-      {
-        id: "2",
-        name: "Admin",
-        description: "Administrative access with some limitations",
-        userCount: 5,
-        permissions: [1, 2, 3, 4, 5, 8],
-        isDefault: false,
-      },
-      {
-        id: "3",
-        name: "Teacher",
-        description: "Access to teaching materials and student management",
-        userCount: 25,
-        permissions: [2, 4, 6, 9],
-        isDefault: false,
-      },
-      {
-        id: "4",
-        name: "Student",
-        description: "Access to programs, assignments and personal grades",
-        userCount: 350,
-        permissions: [2, 4],
-        isDefault: true,
-      },
-    ];
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch roles and permissions in parallel
+        const [rolesResponse, permissionsResponse] = await Promise.all([
+          roleService.getRoles({
+            search: searchQuery,
+            page: currentPage,
+            per_page: itemsPerPage,
+          }),
+          roleService.getPermissions({
+            search: searchQuery,
+          })
+        ]);
 
-    const mockPermissions: Permission[] = [
-      {
-        id: 1,
-        name: "User Management",
-        code: "user:manage",
-        description: "Create, update, and delete user accounts",
-        category: "User Administration",
-      },
-      {
-        id: 2,
-        name: "View Profile",
-        code: "profile:view",
-        description: "View user profiles",
-        category: "User Administration",
-      },
-      {
-        id: 3,
-        name: "Edit Settings",
-        code: "settings:edit",
-        description: "Edit system settings",
-        category: "System Administration",
-      },
-      {
-        id: 4,
-        name: "View Programs",
-        code: "program:view",
-        description: "View available programs",
-        category: "Education",
-      },
-      {
-        id: 5,
-        name: "Manage Programs",
-        code: "program:manage",
-        description: "Create, update, and delete programs",
-        category: "Education",
-      },
-      {
-        id: 6,
-        name: "Grade Management",
-        code: "grade:manage",
-        description: "Assign and manage student grades",
-        category: "Education",
-      },
-      {
-        id: 7,
-        name: "Financial Management",
-        code: "finance:manage",
-        description: "Manage financial transactions and reports",
-        category: "Finance",
-      },
-      {
-        id: 8,
-        name: "Report Generation",
-        code: "report:generate",
-        description: "Generate and download system reports",
-        category: "Reporting",
-      },
-      {
-        id: 9,
-        name: "Attendance Management",
-        code: "attendance:manage",
-        description: "Manage student attendance",
-        category: "Education",
-      },
-      {
-        id: 10,
-        name: "Role Management",
-        code: "role:manage",
-        description: "Create, update, and delete user roles",
-        category: "User Administration",
-      },
-    ];
+        if (rolesResponse.success && rolesResponse.data) {
+          let rolesData: ApiRole[] = [];
+          
+          if (Array.isArray(rolesResponse.data)) {
+            rolesData = rolesResponse.data;
+          } else if (rolesResponse.data && 'id' in rolesResponse.data) {
+            rolesData = [rolesResponse.data];
+          }
+          
+          console.log('RolesPermissionsList - Parsed roles data:', rolesData);
+          
+          // Transform API data to match component interface
+          const transformedRoles: Role[] = rolesData.map((role: ApiRole) => ({
+            id: role.id.toString(),
+            name: role.name,
+            description: role.description || '',
+            userCount: role.user_count || 0,
+            permissions: role.permissions || [],
+            isDefault: role.is_default || false,
+          }));
+          
+          console.log('RolesPermissionsList - Transformed roles:', transformedRoles);
+          setRoles(transformedRoles);
+        } else {
+          console.error('RolesPermissionsList - Failed to fetch roles:', rolesResponse);
+        }
 
-    setRoles(mockRoles);
-    setPermissions(mockPermissions);
-    setLoading(false);
-  }, []);
+        if (permissionsResponse.success && permissionsResponse.data) {
+          const permissionsData = Array.isArray(permissionsResponse.data) 
+            ? permissionsResponse.data 
+            : permissionsResponse.data.permissions || [];
+          // Transform API data to match component interface
+          const transformedPermissions: Permission[] = permissionsData.map((permission: ApiPermission) => ({
+            id: permission.id,
+            name: permission.name,
+            code: permission.code,
+            description: permission.description,
+            category: permission.category,
+          }));
+          setPermissions(transformedPermissions);
+        }
+      } catch (error: unknown) {
+        console.error('Error fetching data:', error);
+        // Fallback to empty arrays on error
+        setRoles([]);
+        setPermissions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [searchQuery, currentPage, itemsPerPage]);
 
   // Filter roles based on search
   const filteredRoles = roles.filter((role) =>
@@ -208,7 +165,8 @@ export default function RolesPermissionsList() {
   const handleRoleSelect = (roleId: string) => {
     setSelectedRole(roleId);
     const rolePermissions = getPermissionsForRole(roleId);
-    setSelectedPermissions(rolePermissions);
+    // Convert string permissions to numbers for selectedPermissions state
+    setSelectedPermissions(rolePermissions.map((_, index) => index + 1));
   };
 
   // Check if permission is selected
@@ -240,8 +198,21 @@ export default function RolesPermissionsList() {
     router.push(`/dashboard/users/roles/edit/${role.id}`);
   };
 
-  const handleRoleDelete = (role: Role) => {
-    console.log("Delete role:", role);
+  const handleRoleDelete = async (role: Role) => {
+    if (window.confirm(`Are you sure you want to delete role "${role.name}"?`)) {
+      try {
+        const response = await roleService.deleteRole(parseInt(role.id));
+        if (response.success) {
+          // Remove role from local state
+          setRoles(prevRoles => prevRoles.filter(r => r.id !== role.id));
+          console.log("Role deleted successfully");
+        } else {
+          console.error("Failed to delete role:", response.message);
+        }
+      } catch (error: unknown) {
+        console.error("Error deleting role:", error);
+      }
+    }
   };
 
   // Get role badge styling

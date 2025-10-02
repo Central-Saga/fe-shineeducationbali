@@ -126,8 +126,9 @@ export default function LoginPage() {
         const expireTime = new Date();
         expireTime.setHours(expireTime.getHours() + 24); // Cookie berlaku 24 jam
 
-        // Simpan token
+        // Simpan token di cookie dan localStorage
         document.cookie = `access_token=${token}; path=/; expires=${expireTime.toUTCString()}; secure; samesite=strict`;
+        localStorage.setItem('auth_token', token);
 
         // Simpan data pengguna dengan struktur yang seragam
         const userData = JSON.stringify({

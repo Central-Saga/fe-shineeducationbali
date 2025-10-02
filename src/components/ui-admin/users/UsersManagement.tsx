@@ -25,8 +25,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { mockDetailedUsers, User } from "@/data/data-admin/users-data";
+import { mockDetailedUsers } from "@/data/data-admin/users-data";
 import { Header, TableLayout, StatsGrid } from "@/components/ui-admin/layout";
+import { userService, User as ApiUser } from "@/lib/services/user.service";
+import { isAuthenticated } from "@/lib/auth";
 
 interface UsersManagementProps {
   title: string;
@@ -42,7 +44,7 @@ export default function UsersManagement({
   showRoleFilter = true,
 }: UsersManagementProps) {
   const router = useRouter();
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<ApiUser[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [roleFilter, setRoleFilter] = useState<string>("all");
@@ -51,31 +53,62 @@ export default function UsersManagement({
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    // Filter users based on userType
-    let filteredUsers: User[] = [];
-    switch (userType) {
-      case "admin":
-        filteredUsers = mockDetailedUsers.filter(user => 
-          user.role === "Admin" || user.role === "Super Admin"
-        );
-        break;
-      case "teacher":
-        filteredUsers = mockDetailedUsers.filter(user => 
-          user.role === "Teacher"
-        );
-        break;
-      case "student":
-        filteredUsers = mockDetailedUsers.filter(user => 
-          user.role === "Student"
-        );
-        break;
-      default:
-        filteredUsers = mockDetailedUsers;
+    // Check authentication
+    if (!isAuthenticated()) {
+      console.warn('User not authenticated, redirecting to login');
+      router.push('/auth/login');
+      return;
     }
 
-    setUsers(filteredUsers);
-    setLoading(false);
-  }, [userType]);
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        let response;
+        
+        if (userType === "all") {
+          response = await userService.getUsers({
+            search: search,
+            role: roleFilter !== "all" ? roleFilter : undefined,
+            status: statusFilter !== "all" ? statusFilter : undefined,
+            page: currentPage,
+            per_page: itemsPerPage,
+          });
+        } else {
+          response = await userService.getUsersByRole(userType, {
+            search: search,
+            status: statusFilter !== "all" ? statusFilter : undefined,
+            page: currentPage,
+            per_page: itemsPerPage,
+          });
+        }
+
+        if (response.success && response.data) {
+          let usersData: ApiUser[] = [];
+          
+          if (Array.isArray(response.data)) {
+            usersData = response.data;
+          } else if (response.data && 'users' in response.data) {
+            usersData = response.data.users;
+          } else if (response.data && 'id' in response.data) {
+            usersData = [response.data];
+          }
+          
+          console.log('UsersManagement - Parsed users data:', usersData);
+          setUsers(usersData);
+        } else {
+          console.error('UsersManagement - Failed to fetch users:', response);
+        }
+      } catch (error: unknown) {
+        console.error('Error fetching users:', error);
+        // Fallback to empty array on error
+        setUsers([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, [userType, search, roleFilter, statusFilter, currentPage, itemsPerPage]);
 
   // Filter users based on search, role, and status
   const filteredUsers = users.filter(user => {
@@ -86,7 +119,7 @@ export default function UsersManagement({
       match = match && (
         user.name.toLowerCase().includes(search.toLowerCase()) ||
         user.email.toLowerCase().includes(search.toLowerCase()) ||
-        user.id.toLowerCase().includes(search.toLowerCase())
+        user.id.toString().includes(search.toLowerCase())
       );
     }
     
@@ -109,9 +142,9 @@ export default function UsersManagement({
   // Statistics based on user data
   const stats = {
     total: users.length,
-    active: users.filter(user => user.status === "active").length,
-    inactive: users.filter(user => user.status === "inactive").length,
-    pending: users.filter(user => user.status === "pending").length,
+    active: users.filter(user => user.status === "Aktif").length,
+    inactive: users.filter(user => user.status === "Tidak Aktif").length,
+    pending: users.filter(user => user.status === "Pending").length,
     admins: users.filter(user => user.role === "Admin" || user.role === "Super Admin").length,
     teachers: users.filter(user => user.role === "Teacher").length,
     students: users.filter(user => user.role === "Student").length,
@@ -126,9 +159,9 @@ export default function UsersManagement({
   // Get today's date
   const today = new Date();
   const recentUsers = users.filter(user => {
-    if (!user.createdAt) return false;
+    if (!user.created_at) return false;
     
-    const createdDate = new Date(user.createdAt);
+    const createdDate = new Date(user.created_at);
     const diffTime = Math.abs(today.getTime() - createdDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= 30; // Users created in the last 30 days
@@ -147,7 +180,7 @@ export default function UsersManagement({
     }
   };
 
-  const handleEdit = (user: User) => {
+  const handleEdit = (user: ApiUser) => {
     if (userType === "teacher") {
       router.push(`/dashboard/users/teachers/edit/${user.id}`);
     } else if (userType === "student") {
@@ -159,8 +192,21 @@ export default function UsersManagement({
     }
   };
 
-  const handleDelete = (user: User) => {
-    console.log("Delete user:", user);
+  const handleDelete = async (user: ApiUser) => {
+    if (window.confirm(`Are you sure you want to delete user "${user.name}"?`)) {
+      try {
+        const response = await userService.deleteUser(user.id);
+        if (response.success) {
+          // Remove user from local state
+          setUsers(prevUsers => prevUsers.filter(u => u.id !== user.id));
+          console.log("User deleted successfully");
+        } else {
+          console.error("Failed to delete user:", response.message);
+        }
+      } catch (error: unknown) {
+        console.error("Error deleting user:", error);
+      }
+    }
   };
 
   // Format date to readable format
@@ -174,14 +220,14 @@ export default function UsersManagement({
   // Determine status badge styling
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "active":
-        return <Badge className="bg-green-100 text-green-800 border-green-200 hover:bg-green-200 hover:text-green-900 transition-colors font-medium">{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
-      case "inactive":
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200 hover:text-gray-900 transition-colors font-medium">{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
-      case "pending":
-        return <Badge className="bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200 hover:text-amber-900 transition-colors font-medium">{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
+      case "Aktif":
+        return <Badge className="bg-green-100 text-green-800 border-green-200 hover:bg-green-200 hover:text-green-900 transition-colors font-medium">Aktif</Badge>;
+      case "Tidak Aktif":
+        return <Badge className="bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200 hover:text-gray-900 transition-colors font-medium">Tidak Aktif</Badge>;
+      case "Pending":
+        return <Badge className="bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200 hover:text-amber-900 transition-colors font-medium">Pending</Badge>;
       default:
-        return <Badge className="hover:bg-gray-200 transition-colors">{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
+        return <Badge className="hover:bg-gray-200 transition-colors">{status}</Badge>;
     }
   };
 
@@ -218,7 +264,7 @@ export default function UsersManagement({
   };
 
   // Define columns for DataTable
-  const columns: ColumnDef<User>[] = [
+  const columns: ColumnDef<ApiUser>[] = [
     {
       id: "no",
       header: () => <div>No</div>,
@@ -272,10 +318,10 @@ export default function UsersManagement({
       },
     },
     {
-      accessorKey: "lastActive",
+      accessorKey: "last_active",
       header: () => <div>Last Active</div>,
       cell: ({ row }) => {
-        const lastActive = row.getValue("lastActive") as string;
+        const lastActive = row.getValue("last_active") as string;
         return (
           <div className="flex items-center gap-1.5 text-sm text-gray-600">
             <Clock className="h-3.5 w-3.5 text-gray-500" />
@@ -290,10 +336,10 @@ export default function UsersManagement({
       },
     },
     {
-      accessorKey: "createdAt",
+      accessorKey: "created_at",
       header: () => <div>Created</div>,
       cell: ({ row }) => {
-        const createdAt = row.getValue("createdAt") as string;
+        const createdAt = row.getValue("created_at") as string;
         return formatDate(createdAt);
       },
     },
@@ -470,9 +516,9 @@ export default function UsersManagement({
             onChange: setStatusFilter,
             options: [
               { value: "all", label: "All Status" },
-              { value: "active", label: "Active" },
-              { value: "inactive", label: "Inactive" },
-              { value: "pending", label: "Pending" },
+              { value: "Aktif", label: "Aktif" },
+              { value: "Tidak Aktif", label: "Tidak Aktif" },
+              { value: "Pending", label: "Pending" },
             ],
           },
         ]}

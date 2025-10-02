@@ -6,7 +6,7 @@ import { Menu } from "lucide-react";
 import { AdminSidebar } from "@/components/ui-admin/layout/AdminSidebar";
 import { AdminHeader } from "@/components/ui-admin/layout/AdminHeader";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 
 export default function DashboardLayout({
   children,
@@ -86,6 +86,10 @@ export default function DashboardLayout({
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="p-0 w-72">
+          <SheetHeader className="sr-only">
+            <SheetTitle>Navigation Menu</SheetTitle>
+            <SheetDescription>Main navigation menu for the dashboard</SheetDescription>
+          </SheetHeader>
           <AdminSidebar />
         </SheetContent>
       </Sheet>

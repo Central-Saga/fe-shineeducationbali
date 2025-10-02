@@ -4,7 +4,7 @@ export interface User {
   name: string;
   email: string;
   role: string;
-  status: "active" | "inactive" | "pending" | "Aktif" | "Nonaktif";
+  status: "Aktif" | "Tidak Aktif" | "Pending";
   avatar?: string;
   phone?: string;
   lastActive?: string;

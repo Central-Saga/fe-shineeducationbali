@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { userService, User as ApiUser } from "@/lib/services/user.service";
 import {
   Search,
   Filter,
@@ -45,7 +46,7 @@ interface User {
   name: string;
   email: string;
   role: string;
-  status: "active" | "inactive" | "pending";
+  status: "Aktif" | "Tidak Aktif" | "Pending";
   avatar?: string;
   phone?: string;
   lastActive?: string;
@@ -76,148 +77,69 @@ export default function UserList({
   const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
-    // In a real app, you would fetch users from an API based on userType
-    // Here we'll use dummy data
-    const dummyUsers: User[] = [
-      {
-        id: "USR001",
-        name: "John Smith",
-        email: "john.smith@shineeducation.com",
-        role: "Super Admin",
-        status: "active",
-        avatar: "/images/avatars/admin1.png",
-        phone: "+62812345678",
-        lastActive: "2025-07-05T09:30:00",
-        createdAt: "2023-01-10",
-        permissions: ["view_all", "edit_all", "delete", "manage_users"],
-        department: "Management",
-        position: "IT Director",
-      },
-      {
-        id: "USR002",
-        name: "Sarah Johnson",
-        email: "sarah.johnson@shineeducation.com",
-        role: "Admin",
-        status: "active",
-        avatar: "/images/avatars/admin2.png",
-        phone: "+62823456789",
-        lastActive: "2025-07-04T15:45:00",
-        createdAt: "2023-02-15",
-        permissions: ["view_all", "edit_limited", "manage_students"],
-        department: "Administration",
-        position: "Office Manager",
-      },
-      {
-        id: "USR003",
-        name: "Michael Brown",
-        email: "michael.brown@shineeducation.com",
-        role: "Teacher",
-        status: "active",
-        avatar: "/images/avatars/teacher1.png",
-        phone: "+62834567890",
-        lastActive: "2025-07-05T08:15:00",
-        createdAt: "2023-03-20",
-        permissions: ["view_classes", "edit_grades", "manage_attendance"],
-        department: "Education",
-        position: "Senior Teacher",
-      },
-      {
-        id: "USR004",
-        name: "Emily Wilson",
-        email: "emily.wilson@shineeducation.com",
-        role: "Teacher",
-        status: "inactive",
-        avatar: "/images/avatars/teacher2.png",
-        phone: "+62845678901",
-        lastActive: "2025-07-01T10:30:00",
-        createdAt: "2023-04-05",
-        permissions: ["view_classes", "edit_grades"],
-        department: "Education",
-        position: "Junior Teacher",
-      },
-      {
-        id: "USR005",
-        name: "David Lee",
-        email: "david.lee@shineeducation.com",
-        role: "Student",
-        status: "active",
-        avatar: "/images/avatars/student1.png",
-        phone: "+62856789012",
-        lastActive: "2025-07-05T11:20:00",
-        createdAt: "2023-05-12",
-        permissions: ["view_programs"],
-        department: "Student",
-        position: "Student",
-      },
-      {
-        id: "USR006",
-        name: "Jennifer Lopez",
-        email: "jennifer.lopez@shineeducation.com",
-        role: "Student",
-        status: "pending",
-        avatar: "/images/avatars/student2.png",
-        phone: "+62867890123",
-        lastActive: "2025-07-03T14:10:00",
-        createdAt: "2023-06-18",
-        permissions: ["view_programs"],
-        department: "Student",
-        position: "Student",
-      },
-      {
-        id: "USR007",
-        name: "Robert Davis",
-        email: "robert.davis@shineeducation.com",
-        role: "Admin",
-        status: "active",
-        avatar: "/images/avatars/admin3.png",
-        phone: "+62878901234",
-        lastActive: "2025-07-05T07:45:00",
-        createdAt: "2023-07-22",
-        permissions: ["view_all", "edit_limited"],
-        department: "Finance",
-        position: "Financial Manager",
-      },
-      {
-        id: "USR008",
-        name: "Linda Miller",
-        email: "linda.miller@shineeducation.com",
-        role: "Teacher",
-        status: "active",
-        avatar: "/images/avatars/teacher3.png",
-        phone: "+62889012345",
-        lastActive: "2025-07-04T13:25:00",
-        createdAt: "2023-08-30",
-        permissions: ["view_classes", "edit_grades", "manage_attendance"],
-        department: "Education",
-        position: "Teacher",
-      },
-    ];
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        let response;
+        
+        if (userType === "all") {
+          response = await userService.getUsers({
+            search: search,
+            role: roleFilter !== "all" ? roleFilter : undefined,
+            status: statusFilter !== "all" ? statusFilter : undefined,
+          });
+        } else {
+          response = await userService.getUsersByRole(userType, {
+            search: search,
+            status: statusFilter !== "all" ? statusFilter : undefined,
+          });
+        }
 
-    // Filter users based on userType
-    let filteredUsers: User[] = [];
-    switch (userType) {
-      case "admin":
-        filteredUsers = dummyUsers.filter(user => 
-          user.role === "Admin" || user.role === "Super Admin"
-        );
-        break;
-      case "teacher":
-        filteredUsers = dummyUsers.filter(user => 
-          user.role === "Teacher"
-        );
-        break;
-      case "student":
-        filteredUsers = dummyUsers.filter(user => 
-          user.role === "Student"
-        );
-        break;
-      default:
-        filteredUsers = dummyUsers;
-    }
+        if (response.success && response.data) {
+          let usersData: ApiUser[] = [];
+          
+          if (Array.isArray(response.data)) {
+            usersData = response.data;
+          } else if (response.data && 'users' in response.data) {
+            usersData = response.data.users;
+          } else if (response.data && 'id' in response.data) {
+            usersData = [response.data];
+          }
+          
+          console.log('UserList - Parsed users data:', usersData);
+          
+          // Transform API data to match component interface
+          const transformedUsers: User[] = usersData.map((user: ApiUser) => ({
+            id: user.id.toString(),
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            status: user.status as "Aktif" | "Tidak Aktif" | "Pending",
+            avatar: user.avatar,
+            phone: user.phone,
+            lastActive: user.last_active,
+            createdAt: user.created_at,
+            permissions: user.permissions,
+            department: user.department,
+            position: user.position,
+          }));
+          
+          console.log('UserList - Transformed users:', transformedUsers);
+          setUsers(transformedUsers);
+        } else {
+          console.error('UserList - Failed to fetch users:', response);
+        }
+      } catch (error: unknown) {
+        console.error('Error fetching users:', error);
+        // Fallback to empty array on error
+        setUsers([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    setUsers(filteredUsers);
-    setLoading(false);
-  }, [userType]);
+    fetchUsers();
+  }, [userType, search, roleFilter, statusFilter]);
 
   // Filter users based on search, role, and status
   const filteredUsers = users.filter(user => {
@@ -256,9 +178,9 @@ export default function UserList({
   // Statistics based on user data
   const stats = {
     total: users.length,
-    active: users.filter(user => user.status === "active").length,
-    inactive: users.filter(user => user.status === "inactive").length,
-    pending: users.filter(user => user.status === "pending").length,
+    active: users.filter(user => user.status === "Aktif").length,
+    inactive: users.filter(user => user.status === "Tidak Aktif").length,
+    pending: users.filter(user => user.status === "Pending").length,
     admins: users.filter(user => user.role === "Admin" || user.role === "Super Admin").length,
     teachers: users.filter(user => user.role === "Teacher").length,
     students: users.filter(user => user.role === "Student").length,
@@ -276,17 +198,30 @@ export default function UserList({
   // Handle action buttons
   const handleView = (user: User) => {
     console.log("View user details:", user);
-    // Implement view functionality
+    // Implement view functionality - could navigate to user detail page
   };
 
   const handleEdit = (user: User) => {
     console.log("Edit user:", user);
-    // Implement edit functionality
+    // Navigate to edit user page
+    window.location.href = `/dashboard/users/edit/${user.id}`;
   };
 
-  const handleDelete = (user: User) => {
-    console.log("Delete user:", user);
-    // Implement delete functionality
+  const handleDelete = async (user: User) => {
+    if (window.confirm(`Are you sure you want to delete user "${user.name}"?`)) {
+      try {
+        const response = await userService.deleteUser(parseInt(user.id));
+        if (response.success) {
+          // Remove user from local state
+          setUsers(prevUsers => prevUsers.filter(u => u.id !== user.id));
+          console.log("User deleted successfully");
+        } else {
+          console.error("Failed to delete user:", response.message);
+        }
+      } catch (error: unknown) {
+        console.error("Error deleting user:", error);
+      }
+    }
   };
 
   // Format date to readable format
@@ -298,11 +233,11 @@ export default function UserList({
   // Determine status badge styling
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "active":
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Active</Badge>;
-      case "inactive":
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">Inactive</Badge>;
-      case "pending":
+      case "Aktif":
+        return <Badge className="bg-green-100 text-green-800 border-green-200">Aktif</Badge>;
+      case "Tidak Aktif":
+        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">Tidak Aktif</Badge>;
+      case "Pending":
         return <Badge className="bg-amber-100 text-amber-800 border-amber-200">Pending</Badge>;
       default:
         return <Badge>{status}</Badge>;
@@ -522,7 +457,10 @@ export default function UserList({
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button className="bg-[#C40503] hover:bg-[#A60000]">
+              <Button 
+                className="bg-[#C40503] hover:bg-[#A60000]"
+                onClick={() => window.location.href = '/dashboard/users/add'}
+              >
                 <UserPlus className="h-4 w-4 mr-2" />
                 Add New User
               </Button>
@@ -571,9 +509,9 @@ export default function UserList({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="inactive">Inactive</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="Aktif">Aktif</SelectItem>
+                    <SelectItem value="Tidak Aktif">Tidak Aktif</SelectItem>
+                    <SelectItem value="Pending">Pending</SelectItem>
                   </SelectContent>
                 </Select>
                 
